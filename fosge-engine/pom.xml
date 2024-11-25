@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>br.fosge</groupId>
+        <artifactId>fosge-a-parent</artifactId>
+        <version>1.0.0</version>
+        <relativePath>../fosge-a-parent</relativePath>
+    </parent>
+
+    <artifactId>fosge-engine</artifactId>
+    <packaging>jar</packaging>
+
+    <version>0.1.0</version>
+
+    <properties>
+        <dependency.runtime.lwjgl>3.3.4</dependency.runtime.lwjgl>
+        <dependency.runtime.joml>1.10.7</dependency.runtime.joml>
+        <dependency.runtime.joml-p>1.10.0</dependency.runtime.joml-p>
+        <dependency.runtime.aspectj>1.9.22.1</dependency.runtime.aspectj>
+    </properties>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.lwjgl</groupId>
+                <artifactId>lwjgl-bom</artifactId>
+                <version>${dependency.runtime.lwjgl}</version>
+                <scope>import</scope>
+                <type>pom</type>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+    <dependencies>
+        <dependency><groupId>org.lwjgl</groupId><artifactId>lwjgl</artifactId></dependency>
+        <dependency><groupId>org.lwjgl</groupId><artifactId>lwjgl-assimp</artifactId></dependency>
+        <dependency><groupId>org.lwjgl</groupId><artifactId>lwjgl-glfw</artifactId></dependency>
+        <dependency><groupId>org.lwjgl</groupId><artifactId>lwjgl-openal</artifactId></dependency>
+        <dependency><groupId>org.lwjgl</groupId><artifactId>lwjgl-opengl</artifactId></dependency>
+        <dependency><groupId>org.lwjgl</groupId><artifactId>lwjgl-stb</artifactId></dependency>
+        <dependency><groupId>org.lwjgl</groupId><artifactId>lwjgl-jemalloc</artifactId></dependency>
+        <dependency><groupId>org.lwjgl</groupId><artifactId>lwjgl</artifactId><classifier>natives-${profile.platform}</classifier></dependency>
+        <dependency><groupId>org.lwjgl</groupId><artifactId>lwjgl-assimp</artifactId><classifier>natives-${profile.platform}</classifier></dependency>
+        <dependency><groupId>org.lwjgl</groupId><artifactId>lwjgl-glfw</artifactId><classifier>natives-${profile.platform}</classifier></dependency>
+        <dependency><groupId>org.lwjgl</groupId><artifactId>lwjgl-openal</artifactId><classifier>natives-${profile.platform}</classifier></dependency>
+        <dependency><groupId>org.lwjgl</groupId><artifactId>lwjgl-opengl</artifactId><classifier>natives-${profile.platform}</classifier></dependency>
+        <dependency><groupId>org.lwjgl</groupId><artifactId>lwjgl-stb</artifactId><classifier>natives-${profile.platform}</classifier></dependency>
+        <dependency><groupId>org.lwjgl</groupId><artifactId>lwjgl-jemalloc</artifactId><classifier>natives-${profile.platform}</classifier></dependency>
+
+        <dependency><groupId>org.joml</groupId><artifactId>joml</artifactId><version>${dependency.runtime.joml}</version></dependency>
+        <dependency><groupId>org.joml</groupId><artifactId>joml-primitives</artifactId><version>${dependency.runtime.joml-p}</version></dependency>
+
+        <dependency>
+            <groupId>org.aspectj</groupId>
+            <artifactId>aspectjrt</artifactId>
+            <version>${dependency.runtime.aspectj}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.aspectj</groupId>
+            <artifactId>aspectjweaver</artifactId>
+            <version>${dependency.runtime.aspectj}</version>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>dev.aspectj</groupId>
+                <artifactId>aspectj-maven-plugin</artifactId>
+                <version>1.13.1</version>
+                <dependencies>
+                    <dependency>
+                        <groupId>org.aspectj</groupId>
+                        <artifactId>aspectjtools</artifactId>
+                        <version>${dependency.runtime.aspectj}</version>
+                    </dependency>
+                </dependencies>
+                <configuration>
+                    <complianceLevel>${maven.compiler.target}</complianceLevel>
+                    <showWeaveInfo>true</showWeaveInfo>
+                    <verbose>true</verbose>
+                    <encoding>${maven.resources.encoding}</encoding>
+                </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>compile</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+</project>

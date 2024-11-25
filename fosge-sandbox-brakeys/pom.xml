@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>br.fosge</groupId>
+        <artifactId>fosge-a-parent</artifactId>
+        <version>1.0.0</version>
+        <relativePath>../fosge-a-parent</relativePath>
+    </parent>
+
+    <artifactId>fosge-sandbox-brakeys</artifactId>
+    <packaging>jar</packaging>
+    <version>1.0-SNAPSHOT</version>
+
+    <properties>
+        <project.mainClass>br.fosge.Launcher</project.mainClass>
+    </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>br.fosge</groupId>
+            <artifactId>fosge-engine</artifactId>
+            <version>0.1.0</version>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <!-- ############################################################## -->
+            <!-- create the uber jar with all dependencies for current platform -->
+            <!-- ############################################################## -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-shade-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>shade</goal>
+                        </goals>
+                        <configuration>
+                            <shadedArtifactAttached>true</shadedArtifactAttached>
+                            <shadedClassifierName>no-deps-${profile.platform}</shadedClassifierName>
+                            <filters>
+                                <filter>
+                                    <!-- exclude files that sign a jar -->
+                                    <artifact>*:*</artifact>
+                                    <excludes>
+                                        <exclude>META-INF/*.SF</exclude>
+                                        <exclude>META-INF/*.RSA</exclude>
+                                        <exclude>META-INF/*.DSA</exclude>
+                                    </excludes>
+                                </filter>
+                            </filters>
+                            <transformers>
+                                <!-- exclude any other manifest files -->
+                                <transformer
+                                        implementation="org.apache.maven.plugins.shade.resource.DontIncludeResourceTransformer">
+                                    <resource>MANIFEST.MF</resource>
+                                </transformer>
+                                <!-- include the LWJGL manifest file in the uber jar -->
+                                <transformer
+                                        implementation="org.apache.maven.plugins.shade.resource.IncludeResourceTransformer">
+                                    <resource>META-INF/MANIFEST.MF</resource>
+                                    <file>${project.build.directory}/tmp/META-INF/MANIFEST.MF</file>
+                                </transformer>
+                                <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+                                    <mainClass>${project.mainClass}</mainClass>
+                                </transformer>
+                            </transformers>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+
+</project>

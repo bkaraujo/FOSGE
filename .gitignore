@@ -1,6 +1,6 @@
 .idea/
 *.iml
-
+**/target/
 .vscode/
 
 dependency-reduced-pom.xml

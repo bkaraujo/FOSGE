@@ -78,14 +78,11 @@ public final class GLShader implements Shader {
                     case FRAGMENT -> GL_FRAGMENT_SHADER;
                 });
 
-                Logger.trace("[Shader %d] loading %s script\n%s", program, source.stage(), source.script());
                 opengl.glShaderSource(stage, source.script());
-
-                Logger.debug("[Shader %d] compiling stage %s", program, source.stage());
                 opengl.glCompileShader(stage);
                 if (opengl.glGetShaderi(stage, GL_COMPILE_STATUS) == GL_FALSE) {
                     opengl.glDeleteShader(stage);
-                    Logger.debug("Failed to compile shader %s", source.stage());
+                    Logger.warn("Failed to compile shader %s", source.stage());
                     return false;
                 }
 
@@ -96,22 +93,20 @@ public final class GLShader implements Shader {
             // ##################################################
             // Link program
             // ##################################################
-            Logger.trace("[Shader %d] linking program", program);
             opengl.glLinkProgram(program);
             if (opengl.glGetProgrami(program, GL_LINK_STATUS) == GL_FALSE) {
                 stages.forEach(stage -> opengl.glDetachShader(program, stage));
-                Logger.debug("Failed to link shader program");
+                Logger.warn("Failed to link shader program");
                 return false;
             }
 
             // ##################################################
             // Validate program
             // ##################################################
-            Logger.trace("[Shader %d] validating program", program);
             opengl.glValidateProgram(program);
             if (opengl.glGetProgrami(program, GL_VALIDATE_STATUS) == GL_FALSE) {
                 stages.forEach(stage -> opengl.glDetachShader(program, stage));
-                Logger.debug("Failed to validate shader program");
+                Logger.warn("Failed to validate shader program");
                 return false;
             }
         } finally {

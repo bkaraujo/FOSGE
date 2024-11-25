@@ -9,7 +9,6 @@ import br.fosge.runtime.platform.audio.ALBuffer;
 import br.fosge.runtime.platform.audio.ALSource;
 import org.lwjgl.openal.ALCCapabilities;
 import org.lwjgl.openal.ALCapabilities;
-import org.lwjgl.stb.STBVorbis;
 import org.lwjgl.system.MemoryStack;
 import org.lwjgl.system.MemoryUtil;
 import org.lwjgl.system.libc.LibCStdlib;
@@ -24,6 +23,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static br.fosge.runtime.platform.Bindings.openal;
+import static br.fosge.runtime.platform.Bindings.stbv;
+import static br.fosge.runtime.platform.Platform.filesystem;
 import static br.fosge.runtime.platform.binding.OpenAL.*;
 import static org.lwjgl.openal.AL.createCapabilities;
 import static org.lwjgl.openal.ALC.createCapabilities;
@@ -100,7 +101,7 @@ public final  class PlatformAudio implements Lifecycle {
                 final var pChannels = stack.mallocInt(1);
                 final var pSamples = stack.mallocInt(1);
 
-                pcm = STBVorbis.stb_vorbis_decode_filename(absolute.toString(), pChannels, pSamples);
+                pcm = stbv.stb_vorbis_decode_filename(absolute.toString(), pChannels, pSamples);
                 if (pcm == null) {
                     Logger.warn("Failed to read %s", absolute);
                     bufferDestroy(buffer);
@@ -139,7 +140,7 @@ public final  class PlatformAudio implements Lifecycle {
             final var stream = AudioSystem.getAudioInputStream(absolute.toFile());
             final var format = stream.getFormat();
 
-            Logger.trace(
+            Logger.debug(
                     "Loading\nFile       : %s\nChannels   : %s\nSample Size: %s\nFrame Rate : %s\nEncoding   : %s\nBytes      : %s",
                     absolute,
                     format.getChannels(),
@@ -169,7 +170,7 @@ public final  class PlatformAudio implements Lifecycle {
                 return null;
             }
 
-            final var bytes = Platform.filesystem.readAllBytes(stream);
+            final var bytes = filesystem.readAllBytes(stream);
             if (bytes == null) {
                 bufferDestroy(buffer);
                 Logger.warn("Failed to read %s", absolute);

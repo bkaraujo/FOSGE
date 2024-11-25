@@ -76,14 +76,10 @@ public final class GLGeometry implements Geometry {
 
         drawMode = spec.mode();
         indexType = spec.indexType();
-        Logger.trace("[Geometry %d] Draw mode %s", VAO, drawMode);
-        Logger.trace("[Geometry %d] Index datatype %s", VAO, indexType);
 
         int offset = 0;
         for (int i = 0; i < spec.layouts().length; i++) {
             final var layout = spec.layouts()[i];
-            Logger.trace("[Geometry %d] setting up %s attribute \"%s\"", VAO, layout.type(), layout.name());
-
             opengl.glEnableVertexArrayAttrib(VAO, i);
             opengl.glVertexArrayAttribFormat(VAO, i, layout.type().length, parse(layout.type().type), false, offset);
             opengl.glVertexArrayAttribBinding(VAO, i, 0);

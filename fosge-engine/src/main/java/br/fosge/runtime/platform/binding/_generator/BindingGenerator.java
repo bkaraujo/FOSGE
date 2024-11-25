@@ -14,7 +14,8 @@ public final class BindingGenerator {
 
     public static void main(String ... args) throws Throwable {
 //        generate("openal", new String[]{"ALC_", "AL_"}, new String[]{"al"});
-        generate("opengl", new String[]{"GL_"}, new String[]{"gl"});
+//        generate("opengl", new String[]{"GL_"}, new String[]{"gl"});
+        generate("stb", new String[]{"STBI_", "STBIR_", "STBIW_", "VORBIS_"}, new String[]{"stb"});
     }
 
     private static void generate(String folder, String[] attrPrefixSkip, String[] methodPrefixSkip) throws Exception {
@@ -64,6 +65,7 @@ public final class BindingGenerator {
                 .append("import org.lwjgl.system.*;\n")
                 .append("import org.lwjgl.glfw.*;\n")
                 .append("import org.lwjgl.*;\n\n")
+                .append("import org.lwjgl.stb.*;\n\n")
                 .append("import org.lwjgl.openal.*;\n\n");
 
         if (withImpl) {
@@ -178,6 +180,7 @@ public final class BindingGenerator {
             builder.append("org.lwjgl.");
             if (method.name.startsWith("al")) { builder.append("openal."); }
             if (method.name.startsWith("gl")) { builder.append("opengl."); }
+            if (method.name.startsWith("stb")) { builder.append("stb."); }
             builder.append(fileName);
             builder.append(".");
             builder.append(method.name);

@@ -47,6 +47,9 @@ public class BindingAspect {
 
         final var args = pjp.getArgs();
         if (args != null && args.length > 0) {
+            if (methodName.startsWith("glfw")) {
+
+            }
             // ===============================================================
             // Parameter validations
             // ===============================================================
@@ -76,6 +79,10 @@ public class BindingAspect {
             name.append(")");
             Logger.trace("%s ## %.2f millis", name, (System.nanoTime() - start) * 1e-6);
         }
+    }
+
+    private void validateGLFW() {
+
     }
 
 }

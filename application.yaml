@@ -51,3 +51,7 @@ application:
                       value: 0.5, 0.5, 0.0, 1.0, 1.0, 0.5, -0.5, 0.0, 1.0, 0.0, -0.5, -0.5, 0.0, 0.0, 0.0, -0.5, 0.5, 0.0, 0.0, 1.0
                     - name: texture.asset
                       value: assets/texture/container.jpg
+                - type: AudioSourceComponent
+                  properties:
+                    - name: path
+                      value: assets/audio/clip/jump.wav

@@ -4,6 +4,7 @@ import br.fosge.Logger;
 import br.fosge.Meta;
 import br.fosge.annotation.Lifecycle;
 import br.fosge.runtime.OnFrame;
+import br.fosge.runtime.scene.component.AudioSourceComponent;
 import br.fosge.runtime.scene.component.MeshComponent;
 import br.fosge.runtime.scene.component.TransformComponent;
 
@@ -28,8 +29,16 @@ public final class Actor implements Lifecycle, OnFrame {
         for (final var component : desired.components()) {
             switch (component.type()) {
                 default: { Logger.fatal("Unknown component type: %s", component.type()); } break;
+
                 case "MeshComponent": {
                     final var instance = MeshComponent.create(actor, component.properties());
+                    if (instance != null) {
+                        actor.components.add(instance);
+                    }
+                } break;
+
+                case "AudioSourceComponent": {
+                    final var instance = AudioSourceComponent.create(actor, component.properties());
                     if (instance != null) {
                         actor.components.add(instance);
                     }

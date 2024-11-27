@@ -11,7 +11,7 @@ import br.fosge.runtime.scene.component.TransformComponent;
 public class PlayerController extends BehaviourComponent {
     private AudioSourceComponent audioSource;
     private TransformComponent transform;
-    public float speed = 1f;
+    public float speed;
 
     @Override
     public void onAwake() {

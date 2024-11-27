@@ -16,7 +16,7 @@ public final class PlatformFilesystem {
     }
 
     public Path resolve(String path) {
-        final var absolute = Runtime.ROOTFS.resolve(path);
+        final var absolute = Runtime.ROOTFS.resolve(path.trim());
         if (!absolute.toFile().exists()) {
             Logger.warn("Path does not exists %s", absolute);
             return null;
@@ -27,7 +27,7 @@ public final class PlatformFilesystem {
 
     public List<Path> list(String path, String name) {
         try {
-            final var rootfs = resolve(path);
+            final var rootfs = resolve(path.trim());
             try (final var files = Files.list(rootfs)){
                 return files
                         .filter(entry -> entry.toFile().getName().startsWith(name))

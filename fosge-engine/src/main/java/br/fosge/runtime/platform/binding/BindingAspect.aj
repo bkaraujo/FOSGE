@@ -65,7 +65,7 @@ public class BindingAspect {
             for (Object arg : args) {
                 name
                         .append(arg != null ? arg : "null")
-                        .append(",");
+                        .append(", ");
             }
         }
 

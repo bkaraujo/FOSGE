@@ -12,6 +12,7 @@
     <modules>
         <module>../fosge-a-parent</module>
         <module>../fosge-engine</module>
+        <module>../fosge-sandbox-brakeys</module>
     </modules>
 
 </project>

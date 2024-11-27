@@ -1,6 +1,5 @@
 package br.fosge.runtime.scene.component;
 
-import br.fosge.runtime.scene.Actor;
 import br.fosge.runtime.scene.Component;
 import org.joml.Matrix4f;
 import org.joml.Matrix4fc;
@@ -11,8 +10,9 @@ public final class TransformComponent extends Component {
     public final Vector3f rotation = new Vector3f();
     public final Vector3f scale = new Vector3f(1, 1, 1);
 
-    public TransformComponent(Actor actor) {
-        super(actor);
+    private TransformComponent() {}
+    public static TransformComponent create() {
+        return new TransformComponent();
     }
 
     public Matrix4fc matrix() {

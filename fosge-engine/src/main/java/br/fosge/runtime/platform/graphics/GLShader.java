@@ -43,12 +43,6 @@ public final class GLShader implements Shader {
     }
 
     @Override
-    public void unbind() {
-        opengl.glUseProgram(GL_NONE);
-        PlatformState.graphicsShader = GL_NONE;
-    }
-
-    @Override
     public boolean configure(Specification specification) {
         if (Runtime.CHECKS && program == GL_NONE) {
             Logger.warn("Shader not initialized");

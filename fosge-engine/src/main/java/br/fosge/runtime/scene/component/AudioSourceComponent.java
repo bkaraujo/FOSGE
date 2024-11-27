@@ -3,26 +3,24 @@ package br.fosge.runtime.scene.component;
 import br.fosge.Logger;
 import br.fosge.audio.AudioSource;
 import br.fosge.runtime.Resources;
-import br.fosge.runtime.configuration.api.Tuple;
 import br.fosge.runtime.platform.Platform;
-import br.fosge.runtime.scene.Actor;
 import br.fosge.runtime.scene.Component;
 
 public final class AudioSourceComponent extends Component {
-    public AudioSourceComponent(Actor actor) { super(actor); }
-
     public final AudioSource source = Platform.audio.sourceCreate();
+    private AudioSourceComponent(){}
 
-    public static AudioSourceComponent create(final Actor actor, Tuple... properties) {
-        final var component = new AudioSourceComponent(actor);
+    public static AudioSourceComponent create(br.fosge.runtime.configuration.api.Component component) {
+        final var instance = new AudioSourceComponent();
 
-        final var buffer = Resources.audio(find("path", properties));
+        final var buffer = Resources.audio(find("path", component.properties()));
         if (buffer != null) {
-            component.source.buffer(buffer);
-            return component;
+            instance.source.buffer(buffer);
+            return instance;
         }
 
-        Logger.error("Failed to load: %s", find("path", properties));
+        Logger.error("Failed to load: %s", find("path", component.properties()));
         return null;
     }
+
 }

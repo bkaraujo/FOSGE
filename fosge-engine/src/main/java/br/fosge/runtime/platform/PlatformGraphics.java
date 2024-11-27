@@ -163,7 +163,7 @@ public final class PlatformGraphics implements Lifecycle {
     public boolean terminate() {
         for (final var texture : tex2Ds) {
             Logger.warn("Deleting dangling texture: %s", texture.path());
-
+            texture.terminate();
         }
 
         if (debugCallback != null) {

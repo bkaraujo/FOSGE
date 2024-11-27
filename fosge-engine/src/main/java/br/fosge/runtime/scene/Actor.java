@@ -5,6 +5,7 @@ import br.fosge.Meta;
 import br.fosge.annotation.Lifecycle;
 import br.fosge.runtime.OnFrame;
 import br.fosge.runtime.scene.component.AudioSourceComponent;
+import br.fosge.runtime.scene.component.BehaviourComponent;
 import br.fosge.runtime.scene.component.MeshComponent;
 import br.fosge.runtime.scene.component.TransformComponent;
 
@@ -24,25 +25,19 @@ public final class Actor implements Lifecycle, OnFrame {
 
     public static Actor create(Layer layer, br.fosge.runtime.configuration.api.Actor desired) {
         final var actor = new Actor(layer, desired.name());
-        actor.components.add(new TransformComponent(actor));
+        actor.components.add(TransformComponent.create());
 
         for (final var component : desired.components()) {
-            switch (component.type()) {
-                default: { Logger.fatal("Unknown component type: %s", component.type()); } break;
+            final var instance = switch (component.type()) {
+                default -> { Logger.fatal("Unknown component type: %s", component.type()); yield null; }
+                case "MeshComponent" -> MeshComponent.create(component);
+                case "AudioSourceComponent" -> AudioSourceComponent.create(component);
+                case "BehaviourComponent" -> BehaviourComponent.create(component);
+            };
 
-                case "MeshComponent": {
-                    final var instance = MeshComponent.create(actor, component.properties());
-                    if (instance != null) {
-                        actor.components.add(instance);
-                    }
-                } break;
-
-                case "AudioSourceComponent": {
-                    final var instance = AudioSourceComponent.create(actor, component.properties());
-                    if (instance != null) {
-                        actor.components.add(instance);
-                    }
-                } break;
+            if (instance != null) {
+                Meta.set(instance, "actor", actor);
+                actor.components.add(instance);
             }
         }
 

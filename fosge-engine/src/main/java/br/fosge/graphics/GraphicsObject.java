@@ -6,6 +6,5 @@ public interface GraphicsObject extends Lifecycle {
     int handle();
 
     default void bind() {}
-    default void unbind() {}
 
 }

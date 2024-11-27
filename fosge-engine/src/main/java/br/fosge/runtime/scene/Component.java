@@ -5,11 +5,7 @@ import br.fosge.runtime.OnFrame;
 import br.fosge.runtime.configuration.api.Tuple;
 
 public abstract class Component implements Lifecycle, OnFrame {
-    public final Actor actor;
-
-    public Component(final Actor actor) {
-        this.actor = actor;
-    }
+    public final Actor actor = null;
 
     protected static String find(String name, Tuple... tuples) {
         for (final Tuple tuple : tuples) {

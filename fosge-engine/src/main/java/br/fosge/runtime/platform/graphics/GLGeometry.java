@@ -189,17 +189,6 @@ public final class GLGeometry implements Geometry {
     }
 
     @Override
-    public void unbind() {
-        if (PlatformState.graphicsVAO != VAO) {
-            Logger.warn("Trying to unbind VAO %d when VAO %d is bound", VAO, PlatformState.graphicsVAO);
-            return;
-        }
-
-        opengl.glBindVertexArray(GL_NONE);
-        PlatformState.graphicsVAO = GL_NONE;
-    }
-
-    @Override
     public boolean terminate() {
         if (VAO != GL_NONE) {
             opengl.glDeleteVertexArrays(VAO);

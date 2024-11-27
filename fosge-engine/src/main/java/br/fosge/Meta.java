@@ -1,5 +1,8 @@
 package br.fosge;
 
+import br.fosge.runtime.scene.Actor;
+import br.fosge.runtime.scene.Component;
+
 import java.util.List;
 
 public abstract class Meta {
@@ -51,5 +54,15 @@ public abstract class Meta {
 
     public static void exit(int code) {
         System.exit(code);
+    }
+
+    public static void set(Object object, String field, Object value) {
+        try {
+            final var target = object.getClass().getField(field);
+            target.setAccessible(true);
+            target.set(object, value);
+        } catch (Throwable throwable) {
+            Logger.fatal("Failed to set %s: %s", field, throwable);
+        }
     }
 }

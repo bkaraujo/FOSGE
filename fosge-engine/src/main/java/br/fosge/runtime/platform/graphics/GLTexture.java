@@ -67,14 +67,4 @@ abstract class GLTexture implements Texture {
         PlatformState.graphicsTexture = handle;
         PlatformState.graphicsTextureUnit = unit;
     }
-
-    @Override
-    public final void unbind() {
-        if (handle == GL_NONE) {
-            Logger.warn("Texture not initialized");
-            return;
-        }
-
-        Logger.warn("Unnecessary texture unbind");
-    }
 }

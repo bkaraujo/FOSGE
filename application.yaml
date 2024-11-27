@@ -55,3 +55,7 @@ application:
                   properties:
                     - name: path
                       value: assets/audio/clip/jump.wav
+                - type: BehaviourComponent
+                  properties:
+                    - name: target
+                      value: br.brakeys.PlayerController

@@ -12,7 +12,7 @@ import org.joml.Matrix4fc;
 import org.joml.Vector3f;
 
 public final class Camera2D implements Camera {
-    public final TransformComponent transform = new TransformComponent(null);
+    public final TransformComponent transform = TransformComponent.create();
     private final Matrix4f projectionMatrix = new Matrix4f();
     private final Matrix4f viewMatrix = new Matrix4f();
     private final Matrix4f viewProjectionMatrix = new Matrix4f();

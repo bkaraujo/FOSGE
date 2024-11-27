@@ -22,8 +22,6 @@
         <dependency.runtime.joml-p>1.10.0</dependency.runtime.joml-p>
         <dependency.runtime.aspectj>1.9.22.1</dependency.runtime.aspectj>
         <dependency.runtime.jackson>2.18.1</dependency.runtime.jackson>
-
-        <project.mainClass>br.fosge.Launcher</project.mainClass>
     </properties>
 
     <dependencyManagement>
@@ -63,31 +61,6 @@
         <dependency><groupId>com.fasterxml.jackson.dataformat</groupId><artifactId>jackson-dataformat-yaml</artifactId><version>${dependency.runtime.jackson}</version></dependency>
         <dependency><groupId>com.fasterxml.jackson.datatype</groupId><artifactId>jackson-datatype-jsr310</artifactId><version>${dependency.runtime.jackson}</version></dependency>
     </dependencies>
-
-    <profiles>
-        <profile>
-            <id>brakeys</id>
-            <build>
-                <plugins>
-                    <plugin>
-                        <groupId>org.codehaus.mojo</groupId>
-                        <artifactId>exec-maven-plugin</artifactId>
-                        <executions>
-                            <execution>
-                                <phase>verify</phase>
-                                <goals>
-                                    <goal>java</goal>
-                                </goals>
-                            </execution>
-                        </executions>
-                        <configuration>
-                            <mainClass>${project.mainClass}</mainClass>
-                        </configuration>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile>
-    </profiles>
 
     <build>
         <plugins>

@@ -23,6 +23,7 @@
         <maven.plugin.jar>3.4.2</maven.plugin.jar>
         <maven.plugin.shade>3.6.0</maven.plugin.shade>
         <maven.plugin.site>3.21.0</maven.plugin.site>
+        <maven.plugin.exec>3.5.0</maven.plugin.exec>
 
         <maven.compiler.target>22</maven.compiler.target>
         <maven.compiler.source>22</maven.compiler.source>
@@ -120,6 +121,7 @@
                 <plugin><groupId>org.apache.maven.plugins</groupId><artifactId>maven-shade-plugin</artifactId><version>${maven.plugin.shade}</version></plugin>
                 <plugin><groupId>org.graalvm.buildtools</groupId><artifactId>native-maven-plugin</artifactId><version>${maven.plugin.native}</version></plugin>
                 <plugin><groupId>org.apache.maven.plugins</groupId><artifactId>maven-site-plugin</artifactId><version>${maven.plugin.site}</version></plugin>
+                <plugin><groupId>org.codehaus.mojo</groupId><artifactId>exec-maven-plugin</artifactId><version>${maven.plugin.exec}</version></plugin>
             </plugins>
         </pluginManagement>
 

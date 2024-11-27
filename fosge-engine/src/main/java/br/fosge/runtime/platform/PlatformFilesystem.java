@@ -16,7 +16,7 @@ public final class PlatformFilesystem {
     }
 
     public Path resolve(String path) {
-        final var absolute = Runtime.ROOTFS.resolve(Runtime.projectDir).resolve(path);
+        final var absolute = Runtime.ROOTFS.resolve(path);
         if (!absolute.toFile().exists()) {
             Logger.warn("Path does not exists %s", absolute);
             return null;

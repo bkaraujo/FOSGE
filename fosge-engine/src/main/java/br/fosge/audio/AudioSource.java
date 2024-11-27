@@ -12,6 +12,7 @@ public interface AudioSource {
     void pause();
     void stop();
 
+    float gain();
     void gain(float gain);
     void position(Vector3fc position);
 }

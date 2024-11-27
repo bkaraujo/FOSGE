@@ -1,8 +1,6 @@
 package br.fosge.runtime;
 
-import br.fosge.annotation.Lifecycle;
-
-public interface Layer extends Lifecycle {
+public interface OnFrame {
 
     default void onAwake() {}
     default void onSimulate(double step) {}

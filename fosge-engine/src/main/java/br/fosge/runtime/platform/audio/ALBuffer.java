@@ -1,5 +1,6 @@
 package br.fosge.runtime.platform.audio;
 
+import br.fosge.Meta;
 import br.fosge.audio.AudioBuffer;
 
 import java.nio.file.Path;
@@ -25,6 +26,17 @@ public final class ALBuffer implements AudioBuffer {
     @Override
     public void path(Path desired) {
         path = desired;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) return false;
+        if (!Meta.assignable(obj, AudioBuffer.class)) return false;
+
+        final var other = Meta.cast(obj, AudioBuffer.class);
+        if (other.path() == null) return false;
+
+        return path.equals(other.path());
     }
 
     @Override

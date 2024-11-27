@@ -47,7 +47,9 @@ public abstract class Meta {
                         .skip(1)
                         .toList()
                 );
-
     }
 
+    public static void exit(int code) {
+        System.exit(code);
+    }
 }

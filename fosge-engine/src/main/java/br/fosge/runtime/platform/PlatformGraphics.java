@@ -2,10 +2,7 @@ package br.fosge.runtime.platform;
 
 import br.fosge.Logger;
 import br.fosge.MessageBus;
-import br.fosge.Meta;
-import br.fosge.annotation.Configurable;
 import br.fosge.annotation.Lifecycle;
-import br.fosge.annotation.Specification;
 import br.fosge.graphics.Geometry;
 import br.fosge.graphics.Shader;
 import br.fosge.graphics.Texture;
@@ -13,7 +10,11 @@ import br.fosge.graphics.Texture2D;
 import br.fosge.message.MessageListener;
 import br.fosge.message.Result;
 import br.fosge.runtime.Runtime;
-import br.fosge.runtime.platform.graphics.*;
+import br.fosge.runtime.configuration.ConfigurationFile;
+import br.fosge.runtime.platform.graphics.GLGeometry;
+import br.fosge.runtime.platform.graphics.GLParser;
+import br.fosge.runtime.platform.graphics.GLShader;
+import br.fosge.runtime.platform.graphics.GLTexture2D;
 import br.fosge.runtime.platform.window.WindowResizedEvent;
 import org.lwjgl.opengl.GL;
 import org.lwjgl.opengl.GLCapabilities;
@@ -28,7 +29,7 @@ import static br.fosge.runtime.platform.Bindings.opengl;
 import static br.fosge.runtime.platform.binding.OpenGL.*;
 import static org.lwjgl.system.MemoryUtil.NULL;
 
-public final class PlatformGraphics implements Lifecycle, Configurable {
+public final class PlatformGraphics implements Lifecycle {
     PlatformGraphics() { /* Private constructor */ }
 
     private GLCapabilities capabilities;
@@ -85,6 +86,11 @@ public final class PlatformGraphics implements Lifecycle, Configurable {
         }
 
         MessageBus.subscribe(this);
+
+        final var spec = ConfigurationFile.get().application().graphics();
+        Logger.trace("VSYNC: %s", spec.vsync());
+        glfw.glfwSwapInterval(spec.vsync() ? 1 : 0);
+
         return true;
     }
 
@@ -92,20 +98,6 @@ public final class PlatformGraphics implements Lifecycle, Configurable {
     public Result handle(WindowResizedEvent event) {
         opengl.glViewport(0, 0, event.width, event.height);
         return Result.AVAILABLE;
-    }
-
-    @Override
-    public boolean configure(Specification specification) {
-        if (Runtime.CHECKS && !Meta.assignable(specification, GraphicsSpec.class)) {
-            Logger.error("Expected %s, got %s", Meta.fqn(GraphicsSpec.class), Meta.fqn(specification));
-            return false;
-        }
-
-        final var spec = Meta.cast(specification, GraphicsSpec.class);
-        Logger.trace("VSYNC: %s", spec.vsync());
-        glfw.glfwSwapInterval(spec.vsync() ? 1 : 0);
-
-        return true;
     }
 
     public Shader shader() {

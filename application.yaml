@@ -1,0 +1,54 @@
+engine:
+  debug: true
+  logger:
+    level: TRACE
+
+application:
+  name: Brakeys
+  version:
+    major: 0
+    minor: 1
+    revision: 0
+  window:
+    title: Brakeys
+    resolution: nHD
+  graphics:
+    vsync: true
+  scenes:
+    - name: FirstScene
+      clearColor:
+        red: 0.17
+        green: 0.32
+        blue: 0.17
+        alpha: 1.0
+      layers:
+        - name: world
+          actors:
+            - name: xxx
+              components:
+                - type: xxx
+                  properties:
+                    - name: xx
+                      value: zzz
+                    - name: aaa
+                      value: zzz
+        - name: world
+          actors:
+            - name: xxx
+    - name: OtherScene
+      clearColor:
+        red: 0.17
+        green: 0.32
+        blue: 0.17
+        alpha: 1.0
+      layers:
+        - name: world
+          actors:
+            - name: xxx
+              components:
+                - type: xxx
+                  properties:
+                    - name: xx
+                      value: zzz
+                    - name: aaa
+                      value: zzz

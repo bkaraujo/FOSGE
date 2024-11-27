@@ -16,7 +16,6 @@
     <version>1.0-SNAPSHOT</version>
 
     <properties>
-        <project.mainClass>br.fosge.Launcher</project.mainClass>
     </properties>
 
     <dependencies>

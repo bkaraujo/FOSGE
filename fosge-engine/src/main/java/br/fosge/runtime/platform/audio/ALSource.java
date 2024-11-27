@@ -10,6 +10,7 @@ import static br.fosge.runtime.platform.binding.OpenAL.*;
 public final class ALSource implements AudioSource {
     private final int handle;
     private AudioBuffer buffer;
+    private float gain;
 
     public ALSource(int handle) {
         this.handle = handle;
@@ -26,13 +27,20 @@ public final class ALSource implements AudioSource {
     }
 
     @Override
-    public void buffer(AudioBuffer buffer) {
-        openal.alSourcei(handle, AL_BUFFER, buffer.handle());
+    public void buffer(AudioBuffer desired) {
+        buffer = desired;
+        openal.alSourcei(handle, AL_BUFFER, desired.handle());
     }
 
     @Override
-    public void gain(float gain) {
-        openal.alSourcef(handle, AL_GAIN, gain);
+    public float gain() {
+        return gain;
+    }
+
+    @Override
+    public void gain(float desired) {
+        gain = desired;
+        openal.alSourcef(handle, AL_GAIN, desired);
     }
 
     @Override

@@ -2,15 +2,12 @@ package br.fosge.runtime.platform;
 
 import br.fosge.Logger;
 import br.fosge.MessageBus;
-import br.fosge.Meta;
-import br.fosge.annotation.Configurable;
 import br.fosge.annotation.Lifecycle;
-import br.fosge.annotation.Specification;
 import br.fosge.input.Keyboard;
 import br.fosge.input.Mouse;
 import br.fosge.message.MessageListener;
 import br.fosge.message.Result;
-import br.fosge.runtime.Runtime;
+import br.fosge.runtime.configuration.ConfigurationFile;
 import br.fosge.runtime.platform.input.*;
 import br.fosge.runtime.platform.window.*;
 import org.lwjgl.glfw.Callbacks;
@@ -19,7 +16,7 @@ import org.lwjgl.system.MemoryUtil;
 import static br.fosge.runtime.platform.Bindings.glfw;
 import static br.fosge.runtime.platform.binding.glfw.GLFWConstants.*;
 
-public final class PlatformWindow implements Lifecycle, Configurable {
+public final class PlatformWindow implements Lifecycle {
     PlatformWindow() { /* Private constructor */ }
 
     @Override
@@ -33,17 +30,7 @@ public final class PlatformWindow implements Lifecycle, Configurable {
 //        glfwWindowHint(GLFW_OPENGL_DEBUG_CONTEXT, GLFW_TRUE);
         glfw.glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
-        return true;
-    }
-
-    @Override
-    public boolean configure(Specification specification) {
-        if (Runtime.CHECKS && !Meta.assignable(specification, WindowSpec.class)) {
-            Logger.error("Expected %s, got %s", Meta.fqn(WindowSpec.class), Meta.fqn(specification));
-            return false;
-        }
-
-        final var spec = Meta.cast(specification, WindowSpec.class);
+        final var spec = ConfigurationFile.get().application().window();
 
         // Create the window
         PlatformState.window = glfw.glfwCreateWindow(spec.resolution().width, spec.resolution().height, spec.title(), MemoryUtil.NULL, MemoryUtil.NULL);

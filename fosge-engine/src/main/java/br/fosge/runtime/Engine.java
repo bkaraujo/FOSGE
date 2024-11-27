@@ -10,20 +10,17 @@ import br.fosge.runtime.platform.PlatformState;
 import br.fosge.runtime.platform.window.WindowClosedEvent;
 import br.fosge.runtime.platform.window.WindowMinimizedEvent;
 import br.fosge.runtime.platform.window.WindowRestoredEvent;
+import br.fosge.scene.Scene;
 import org.lwjgl.glfw.GLFWErrorCallback;
 
 import static br.fosge.runtime.platform.Bindings.glfw;
 import static br.fosge.runtime.platform.Platform.*;
 
 public final class Engine implements Lifecycle {
-    private final ApplicationSpec application;
     private GLFWErrorCallback glfwErrorCallback;
     private boolean running;
     private boolean suspended;
-
-    public Engine(ApplicationSpec desired) {
-        this.application = desired;
-    }
+    private Scene scene;
 
     @Override
     public boolean initialize() {
@@ -35,12 +32,12 @@ public final class Engine implements Lifecycle {
             return false;
         }
 
-        if (!window.initialize() || !window.configure(application.platformSpec().window())) {
+        if (!window.initialize()) {
             Logger.error("Failed to initialize platform window");
             return false;
         }
 
-        if (!graphics.initialize() || !graphics.configure(application.platformSpec().graphics())) {
+        if (!graphics.initialize()) {
             Logger.error("Failed to initialize platform graphics");
             return false;
         }
@@ -52,11 +49,6 @@ public final class Engine implements Lifecycle {
 
         if (!network.initialize()) {
             Logger.error("Failed to initialize platform network");
-            return false;
-        }
-
-        if (!application.initialize()) {
-            Logger.error("Failed to initialize application");
             return false;
         }
 
@@ -86,19 +78,19 @@ public final class Engine implements Lifecycle {
                 final var delta = Time.seconds() - lastTime;
 
                 graphics.clear();
-                application.onAwake();
+                scene.onAwake();
 
                 lastTime += delta;
                 accumulator += delta;
                 while (accumulator >= STEP) {
                     accumulator -= STEP;
-                    application.onSimulate(STEP);
+                    scene.onSimulate(STEP);
                     RuntimeState.simulationPerSecond++;
                 }
 
-                application.onUpdate(delta);
-                application.onRest();
-                application.onGui();
+                scene.onUpdate(delta);
+                scene.onRest();
+                scene.onGui();
 
                 graphics.update();
                 network.update();
@@ -144,11 +136,6 @@ public final class Engine implements Lifecycle {
 
     @Override
     public boolean terminate() {
-        if (!application.terminate()) {
-            Logger.error("Failed to terminate application");
-            return false;
-        }
-
         if (!graphics.terminate()) {
             Logger.error("Failed to terminate platform graphics");
             return false;

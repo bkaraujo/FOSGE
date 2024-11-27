@@ -7,13 +7,14 @@ import br.fosge.Version;
 import br.fosge.annotation.Lifecycle;
 import br.fosge.annotation.Specification;
 import br.fosge.runtime.platform.PlatformSpec;
+import br.fosge.scene.Layer;
 
-public record ApplicationSpec(
+public record Application(
         String title,
         Version version,
         PlatformSpec platformSpec,
-        Layer ... layers
-) implements Specification, Lifecycle {
+        Layer... layers
+) implements Specification, Lifecycle, OnFrame {
 
     @Override
     public boolean initialize() {

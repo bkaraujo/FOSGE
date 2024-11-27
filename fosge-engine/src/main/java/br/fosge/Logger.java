@@ -22,11 +22,17 @@ public abstract class Logger implements Facade {
         forwarders.put(LogLevel.WARN, new WarnForwarder());
         forwarders.put(LogLevel.ERROR, new ErrorForwarder());
         forwarders.put(LogLevel.FATAL, new FatalForwarder());
+
+        level(LogLevel.INFO);
     }
 
     private static LogLevel level;
     public static LogLevel level() { return level; }
     public static void level(LogLevel desired) {
+        if (desired == null) {
+            System.err.println("Invalid log level: " + desired);
+            Meta.exit(99);
+        }
         level = desired;
         forwarder = forwarders.get(desired);
     }

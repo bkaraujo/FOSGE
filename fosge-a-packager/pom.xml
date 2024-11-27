@@ -12,8 +12,6 @@
     <modules>
         <module>../fosge-a-parent</module>
         <module>../fosge-engine</module>
-        <module>../fosge-sandbox-brakeys</module>
-        <module>../fosge-sandbox-plumber</module>
     </modules>
 
 </project>

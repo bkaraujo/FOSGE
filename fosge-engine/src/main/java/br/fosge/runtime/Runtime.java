@@ -1,5 +1,6 @@
 package br.fosge.runtime;
 
+import br.fosge.Logger;
 import br.fosge.runtime.configuration.ConfigurationFile;
 
 import java.nio.file.Path;
@@ -11,16 +12,15 @@ public abstract class Runtime {
     public static final Path ROOTFS;
 
     static {
-        final var userDir = System.getProperty("user.dir");
-        System.out.println(userDir);
-        if (userDir.contains("fosge-a-packager")) {
-            ROOTFS = Path.of(userDir).getParent();
+        final var userDir = Path.of(System.getProperty("user.dir"));
+        if (userDir.toString().contains("fosge-a-packager")) {
+            ROOTFS = userDir.getParent();
         } else {
-            ROOTFS = Path.of(userDir);
+            ROOTFS = userDir;
         }
 
         CHECKS = ConfigurationFile.get().engine().debug();
-
+        Logger.level(ConfigurationFile.get().engine().logLevel());
     }
 
 }

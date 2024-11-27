@@ -48,6 +48,14 @@ public abstract class ConfigurationFile {
                                         read(Double.class,  scene, "clearColor.blue").floatValue(),
                                         read(Double.class, scene, "clearColor.alpha").floatValue()
                                 ),
+                                new Camera(
+                                        read(Double.class, scene, "camera.left").floatValue(),
+                                        read(Double.class, scene, "camera.right").floatValue(),
+                                        read(Double.class, scene, "camera.bottom").floatValue(),
+                                        read(Double.class, scene, "camera.top").floatValue(),
+                                        read(Double.class, scene, "camera.near").floatValue(),
+                                        read(Double.class, scene, "camera.far").floatValue()
+                                ),
                                 list(scene, "layers").stream().map(entry -> (Map<String, Object>) entry).map(layer -> new Layer(
                                         read(String.class, layer, "name"),
                                         list(layer, "actors").stream().map(entry -> (Map<String, Object>) entry).map(actor -> new Actor(

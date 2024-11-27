@@ -3,8 +3,8 @@ package br.fosge.runtime.scene;
 import br.fosge.Logger;
 import br.fosge.Meta;
 import br.fosge.annotation.Specification;
-import br.fosge.renderer.Transform;
 import br.fosge.runtime.Runtime;
+import br.fosge.runtime.scene.component.TransformComponent;
 import br.fosge.scene.Camera;
 import br.fosge.scene.Camera2DSpec;
 import org.joml.Matrix4f;
@@ -12,7 +12,7 @@ import org.joml.Matrix4fc;
 import org.joml.Vector3f;
 
 public final class Camera2D implements Camera {
-    public final Transform transform = Transform.origin();
+    public final TransformComponent transform = new TransformComponent(null);
     private final Matrix4f projectionMatrix = new Matrix4f();
     private final Matrix4f viewMatrix = new Matrix4f();
     private final Matrix4f viewProjectionMatrix = new Matrix4f();
@@ -50,13 +50,13 @@ public final class Camera2D implements Camera {
 
     @Override
     public Matrix4fc viewProjectionMatrix() {
-        if (position.equals(transform.position()) && rotation.equals(transform.rotation())) {
+        if (position.equals(transform.position) && rotation.equals(transform.rotation)) {
             return viewProjectionMatrix;
         }
 
         Logger.trace("recalculating viewProjectionMatrix");
-        position.set(transform.position());
-        rotation.set(transform.rotation());
+        position.set(transform.position);
+        rotation.set(transform.rotation);
         return viewProjectionMatrix
                 .set(projectionMatrix)
                 .mul(viewMatrix

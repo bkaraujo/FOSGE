@@ -7,7 +7,7 @@ import br.fosge.Version;
 import br.fosge.annotation.Lifecycle;
 import br.fosge.annotation.Specification;
 import br.fosge.runtime.platform.PlatformSpec;
-import br.fosge.scene.Layer;
+import br.fosge.runtime.scene.Layer;
 
 public record Application(
         String title,

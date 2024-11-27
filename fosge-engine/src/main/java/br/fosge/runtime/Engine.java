@@ -6,11 +6,12 @@ import br.fosge.Time;
 import br.fosge.annotation.Lifecycle;
 import br.fosge.message.MessageListener;
 import br.fosge.message.Result;
+import br.fosge.runtime.configuration.ConfigurationFile;
 import br.fosge.runtime.platform.PlatformState;
 import br.fosge.runtime.platform.window.WindowClosedEvent;
 import br.fosge.runtime.platform.window.WindowMinimizedEvent;
 import br.fosge.runtime.platform.window.WindowRestoredEvent;
-import br.fosge.scene.Scene;
+import br.fosge.runtime.scene.Scene;
 import org.lwjgl.glfw.GLFWErrorCallback;
 
 import static br.fosge.runtime.platform.Bindings.glfw;
@@ -54,6 +55,11 @@ public final class Engine implements Lifecycle {
 
         MessageBus.subscribe(this);
         MessageBus.subscribe(new InputListener());
+        scene = Scene.create(ConfigurationFile.get().application().scenes()[0].name());
+        if (!scene.initialize()) {
+            Logger.error("Failed to initialize scene %s", scene.name);
+            return false;
+        }
 
         return true;
     }

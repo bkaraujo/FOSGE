@@ -1,11 +1,12 @@
 package br.fosge;
 
-import br.fosge.annotation.Facade;
-import br.fosge.logger.LogChannel;
-import br.fosge.logger.LogForwarder;
-import br.fosge.logger.LogLevel;
-import br.fosge.runtime.logger.channel.ConsoleChannel;
-import br.fosge.runtime.logger.forwarder.*;
+import br.fosge.engine.annotation.Facade;
+import br.fosge.engine.logger.LogChannel;
+import br.fosge.engine.logger.LogForwarder;
+import br.fosge.engine.logger.LogLevel;
+import br.fosge.engine.runtime.logger.channel.ConsoleChannel;
+import br.fosge.engine.runtime.logger.forwarder.*;
+import br.fosge.tools.Meta;
 
 import java.util.HashMap;
 import java.util.Map;

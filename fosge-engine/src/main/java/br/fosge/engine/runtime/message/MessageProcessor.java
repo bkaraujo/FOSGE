@@ -1,0 +1,24 @@
+package br.fosge.engine.runtime.message;
+
+import br.fosge.Logger;
+import br.fosge.engine.message.Message;
+import br.fosge.engine.message.Result;
+import br.fosge.tools.Meta;
+
+import java.lang.reflect.Method;
+
+public record MessageProcessor (
+        Object container,
+        Method method
+) {
+
+    public Result process(Message message) {
+        try {
+            return (Result) method.invoke(container, message);
+        } catch (Throwable throwable) {
+            Logger.fatal("Failed to process %s: %s", Meta.fqn(message), throwable.toString());
+            return Result.AVAILABLE;
+        }
+    }
+
+}

@@ -31,13 +31,14 @@ application:
       layers:
         - name: "world"
           actors:
-            - name: "environment"
-              components:
-                - type: "AudioSourceComponent"
-                  properties:
-                    - { name: "path", value: "assets/audio/music/overworld.ogg" }
-                    - { name: "loop", value: "true" }
-                    - { name: "gain", value: "0.3" }
+#            - name: "environment"
+#              components:
+#                - type: "AudioSourceComponent"
+#                  properties:
+#                    - { name: "path", value: "assets/audio/music/overworld.ogg" }
+#                    - { name: "loop", value: "true" }
+#                    - { name: "gain", value: "0.3" }
+
             - name: "Left"
               components:
                 - type: "MeshComponent"
@@ -51,7 +52,7 @@ application:
                     - name: "geometry.elements"
                       value: "0, 1, 3, 1, 2, 3"
                     - name: "geometry.vertices"
-                      value: " 0.5,  0.5, 0.0, 1.0, 1.0,\ 
+                      value: " 0.5,  0.5, 0.0, 1.0, 1.0,\
                                0.5, -0.5, 0.0, 1.0, 0.0,\
                               -0.5, -0.5, 0.0, 0.0, 0.0,\
                               -0.5,  0.5, 0.0, 0.0, 1.0"

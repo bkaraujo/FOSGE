@@ -22,6 +22,7 @@
         <dependency.runtime.joml-p>1.10.0</dependency.runtime.joml-p>
         <dependency.runtime.aspectj>1.9.22.1</dependency.runtime.aspectj>
         <dependency.runtime.jackson>2.18.1</dependency.runtime.jackson>
+        <dependency.runtime.ulid>5.2.3</dependency.runtime.ulid>
     </properties>
 
     <dependencyManagement>
@@ -60,6 +61,8 @@
 
         <dependency><groupId>com.fasterxml.jackson.dataformat</groupId><artifactId>jackson-dataformat-yaml</artifactId><version>${dependency.runtime.jackson}</version></dependency>
         <dependency><groupId>com.fasterxml.jackson.datatype</groupId><artifactId>jackson-datatype-jsr310</artifactId><version>${dependency.runtime.jackson}</version></dependency>
+
+        <dependency><groupId>com.github.f4b6a3</groupId><artifactId>ulid-creator</artifactId><version>${dependency.runtime.ulid}</version></dependency>
     </dependencies>
 
     <build>

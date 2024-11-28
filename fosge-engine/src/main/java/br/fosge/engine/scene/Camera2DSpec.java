@@ -1,0 +1,18 @@
+package br.fosge.engine.scene;
+
+import br.fosge.engine.annotation.Specification;
+
+public record Camera2DSpec (
+    float left,
+    float right,
+    float bottom,
+    float top,
+    float near,
+    float far
+) implements Specification {
+
+    public Camera2DSpec(float box, float z) {
+        this(-box, box, -box, box, -z, z);
+    }
+
+}

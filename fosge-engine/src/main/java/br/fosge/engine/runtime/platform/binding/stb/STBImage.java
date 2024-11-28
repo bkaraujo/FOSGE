@@ -1,0 +1,7 @@
+package br.fosge.engine.runtime.platform.binding.stb;
+
+import br.fosge.engine.runtime.platform.binding.stb.impl.STBImageImpl;
+
+public class STBImage extends STBImageImpl implements br.fosge.engine.runtime.platform.binding.stb.api.STBImage {
+
+}

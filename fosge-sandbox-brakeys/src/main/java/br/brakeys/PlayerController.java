@@ -1,12 +1,12 @@
 package br.brakeys;
 
-import br.fosge.MessageBus;
-import br.fosge.input.Keyboard;
-import br.fosge.runtime.Input;
-import br.fosge.runtime.platform.window.WindowClosedEvent;
-import br.fosge.runtime.scene.component.AudioSourceComponent;
-import br.fosge.runtime.scene.component.BehaviourComponent;
-import br.fosge.runtime.scene.component.TransformComponent;
+import br.fosge.engine.MessageBus;
+import br.fosge.engine.input.Keyboard;
+import br.fosge.engine.runtime.Input;
+import br.fosge.engine.runtime.platform.window.WindowClosedEvent;
+import br.fosge.engine.runtime.scene.component.AudioSourceComponent;
+import br.fosge.engine.runtime.scene.component.BehaviourComponent;
+import br.fosge.engine.runtime.scene.component.TransformComponent;
 
 public class PlayerController extends BehaviourComponent {
     private AudioSourceComponent audioSource;

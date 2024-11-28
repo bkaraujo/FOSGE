@@ -1,7 +1,8 @@
 package br.fosge;
 
-import br.fosge.runtime.Engine;
-import br.fosge.runtime.Runtime;
+import br.fosge.engine.runtime.Engine;
+import br.fosge.engine.runtime.Runtime;
+import br.fosge.tools.Meta;
 import org.lwjgl.Version;
 import org.lwjgl.system.Configuration;
 

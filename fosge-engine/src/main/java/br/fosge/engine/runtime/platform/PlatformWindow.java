@@ -3,18 +3,18 @@ package br.fosge.engine.runtime.platform;
 import br.fosge.Logger;
 import br.fosge.engine.MessageBus;
 import br.fosge.engine.annotation.Lifecycle;
+import br.fosge.engine.configuration.ConfigurationFile;
 import br.fosge.engine.input.Keyboard;
 import br.fosge.engine.input.Mouse;
 import br.fosge.engine.message.MessageListener;
 import br.fosge.engine.message.Result;
-import br.fosge.engine.runtime.configuration.ConfigurationFile;
-import br.fosge.engine.runtime.platform.input.*;
-import br.fosge.engine.runtime.platform.window.*;
+import br.fosge.engine.platform.input.*;
+import br.fosge.engine.platform.window.*;
 import org.lwjgl.glfw.Callbacks;
 import org.lwjgl.system.MemoryUtil;
 
 import static br.fosge.engine.runtime.platform.Bindings.glfw;
-import static br.fosge.engine.runtime.platform.binding.glfw.GLFWConstants.*;
+import static br.fosge.engine.runtime.platform.glfw.GLFWConstants.*;
 
 public final class PlatformWindow implements Lifecycle {
     PlatformWindow() { /* Private constructor */ }

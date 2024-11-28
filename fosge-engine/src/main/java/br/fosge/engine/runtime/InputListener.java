@@ -2,7 +2,7 @@ package br.fosge.engine.runtime;
 
 import br.fosge.engine.message.MessageListener;
 import br.fosge.engine.message.Result;
-import br.fosge.engine.runtime.platform.input.*;
+import br.fosge.engine.platform.input.*;
 
 public final class InputListener {
 

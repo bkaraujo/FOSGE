@@ -7,8 +7,8 @@ import br.fosge.engine.audio.AudioSource;
 import br.fosge.engine.diagnostics.Diagnostics;
 import br.fosge.engine.runtime.Memory;
 import br.fosge.engine.runtime.Runtime;
-import br.fosge.engine.runtime.platform.audio.ALBuffer;
-import br.fosge.engine.runtime.platform.audio.ALSource;
+import br.fosge.engine.runtime.platform.openal.ALBuffer;
+import br.fosge.engine.runtime.platform.openal.ALSource;
 import org.lwjgl.openal.ALCCapabilities;
 import org.lwjgl.openal.ALCapabilities;
 import org.lwjgl.system.MemoryStack;
@@ -25,8 +25,8 @@ import java.util.List;
 
 import static br.fosge.engine.runtime.platform.Bindings.openal;
 import static br.fosge.engine.runtime.platform.Bindings.stbv;
+import static br.fosge.engine.runtime.platform.OpenAL.*;
 import static br.fosge.engine.runtime.platform.Platform.filesystem;
-import static br.fosge.engine.runtime.platform.binding.OpenAL.*;
 import static org.lwjgl.openal.AL.createCapabilities;
 import static org.lwjgl.openal.ALC.createCapabilities;
 

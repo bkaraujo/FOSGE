@@ -1,6 +1,6 @@
 package br.fosge.engine.input;
 
-import static br.fosge.engine.runtime.platform.binding.glfw.GLFWConstants.*;
+import static br.fosge.engine.runtime.platform.glfw.GLFWConstants.*;
 
 public enum Mouse {
     BUTTON_UNKNOWN,

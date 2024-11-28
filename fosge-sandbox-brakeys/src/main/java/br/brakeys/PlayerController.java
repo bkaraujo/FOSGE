@@ -2,8 +2,8 @@ package br.brakeys;
 
 import br.fosge.engine.MessageBus;
 import br.fosge.engine.input.Keyboard;
+import br.fosge.engine.platform.window.WindowClosedEvent;
 import br.fosge.engine.runtime.Input;
-import br.fosge.engine.runtime.platform.window.WindowClosedEvent;
 import br.fosge.engine.runtime.scene.component.AudioSourceComponent;
 import br.fosge.engine.runtime.scene.component.BehaviourComponent;
 import br.fosge.engine.runtime.scene.component.TransformComponent;

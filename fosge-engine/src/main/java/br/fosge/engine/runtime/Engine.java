@@ -4,13 +4,13 @@ import br.fosge.Logger;
 import br.fosge.Time;
 import br.fosge.engine.MessageBus;
 import br.fosge.engine.annotation.Lifecycle;
+import br.fosge.engine.configuration.ConfigurationFile;
 import br.fosge.engine.message.MessageListener;
 import br.fosge.engine.message.Result;
-import br.fosge.engine.runtime.configuration.ConfigurationFile;
+import br.fosge.engine.platform.window.WindowClosedEvent;
+import br.fosge.engine.platform.window.WindowMinimizedEvent;
+import br.fosge.engine.platform.window.WindowRestoredEvent;
 import br.fosge.engine.runtime.platform.PlatformState;
-import br.fosge.engine.runtime.platform.window.WindowClosedEvent;
-import br.fosge.engine.runtime.platform.window.WindowMinimizedEvent;
-import br.fosge.engine.runtime.platform.window.WindowRestoredEvent;
 import br.fosge.engine.runtime.scene.Scene;
 import org.lwjgl.glfw.GLFWErrorCallback;
 
@@ -55,7 +55,18 @@ public final class Engine implements Lifecycle {
 
         MessageBus.subscribe(this);
         MessageBus.subscribe(new InputListener());
-        scene = Scene.create(ConfigurationFile.get().application().scenes()[0].name());
+        final var scenes = ConfigurationFile.get().application().scenes();
+        if (scenes == null || scenes.length == 0) {
+            Logger.error("No application scenes found");
+            return false;
+        }
+
+        scene = Scene.create(scenes[0].name());
+        if (scene == null) {
+            Logger.error("Failed to create scene instance");
+            return false;
+        }
+
         if (!scene.initialize()) {
             Logger.error("Failed to initialize scene %s", scene.name);
             return false;

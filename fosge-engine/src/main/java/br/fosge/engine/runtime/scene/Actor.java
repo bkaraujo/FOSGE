@@ -28,7 +28,7 @@ public final class Actor implements Lifecycle, OnFrame {
         this.name = name;
     }
 
-    public static Actor create(Layer layer, br.fosge.engine.runtime.configuration.api.Actor desired) {
+    public static Actor create(Layer layer, br.fosge.engine.configuration.api.Actor desired) {
         final var actor = new Actor(layer, Identity.generate(), desired.name());
         actor.components.add(TransformComponent.create());
 

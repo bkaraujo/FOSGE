@@ -1,11 +1,10 @@
 package br.fosge.engine.runtime;
 
 import br.fosge.Logger;
+import br.fosge.engine.configuration.ConfigurationFile;
 import br.fosge.engine.diagnostics.ReportThread;
-import br.fosge.engine.runtime.configuration.ConfigurationFile;
 
 import java.nio.file.Path;
-import java.util.concurrent.Executors;
 
 public abstract class Runtime {
     private Runtime() { /* Private constructor */ }

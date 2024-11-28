@@ -1,6 +1,7 @@
 package br.fosge.engine.runtime.scene.component;
 
 import br.fosge.Logger;
+import br.fosge.engine.ecs.Component;
 import br.fosge.engine.graphics.*;
 import br.fosge.engine.graphics.geometry.BufferLayout;
 import br.fosge.engine.graphics.geometry.BufferType;
@@ -8,7 +9,6 @@ import br.fosge.engine.graphics.geometry.GeometrySpec;
 import br.fosge.engine.graphics.shader.ShaderSpec;
 import br.fosge.engine.runtime.Graphics;
 import br.fosge.engine.runtime.Resources;
-import br.fosge.engine.ecs.Component;
 
 import java.util.ArrayList;
 
@@ -20,7 +20,7 @@ public final class MeshComponent extends Component {
 
     private MeshComponent() {}
 
-    public static MeshComponent create(br.fosge.engine.runtime.configuration.api.Component component) {
+    public static MeshComponent create(br.fosge.engine.configuration.api.Component component) {
         final var instance = new MeshComponent();
         instance.shader = Graphics.shader();
         if (!instance.shader.initialize() || !instance.shader.configure(

@@ -5,7 +5,7 @@ import br.fosge.tools.Meta;
 
 public abstract class BehaviourComponent extends Component {
 
-    public static BehaviourComponent create(br.fosge.engine.runtime.configuration.api.Component component) {
+    public static BehaviourComponent create(br.fosge.engine.configuration.api.Component component) {
         final var instance = Meta.instance(BehaviourComponent.class, find("target", component.properties()));
         for (final var property : component.properties()) {
             if (!property.name().contains(".")) continue;

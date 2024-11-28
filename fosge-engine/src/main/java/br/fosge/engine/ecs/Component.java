@@ -1,8 +1,8 @@
 package br.fosge.engine.ecs;
 
 import br.fosge.engine.annotation.Lifecycle;
+import br.fosge.engine.configuration.api.Tuple;
 import br.fosge.engine.runtime.OnFrame;
-import br.fosge.engine.runtime.configuration.api.Tuple;
 import br.fosge.engine.runtime.scene.Actor;
 
 public abstract class Component implements Lifecycle, OnFrame {

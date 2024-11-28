@@ -22,7 +22,7 @@ public final class Layer implements Lifecycle, OnFrame {
         this.name = name;
     }
 
-    public static Layer create(Scene scene, br.fosge.engine.runtime.configuration.api.Layer desired) {
+    public static Layer create(Scene scene, br.fosge.engine.configuration.api.Layer desired) {
         final var layer = new Layer(scene, Identity.generate(), desired.name());
         for (final var actor : desired.actors()) {
             layer.actors.add(Actor.create(layer, actor));

@@ -2,8 +2,8 @@ package br.fosge.engine.runtime.platform;
 
 import br.fosge.engine.annotation.Specification;
 import br.fosge.engine.graphics.Resolution;
-import br.fosge.engine.runtime.platform.graphics.GraphicsSpec;
-import br.fosge.engine.runtime.platform.window.WindowSpec;
+import br.fosge.engine.platform.graphics.GraphicsSpec;
+import br.fosge.engine.platform.window.WindowSpec;
 
 public record PlatformSpec (
         String windowTitle,

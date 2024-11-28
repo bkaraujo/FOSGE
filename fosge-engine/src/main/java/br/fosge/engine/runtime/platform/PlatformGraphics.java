@@ -3,19 +3,19 @@ package br.fosge.engine.runtime.platform;
 import br.fosge.Logger;
 import br.fosge.engine.MessageBus;
 import br.fosge.engine.annotation.Lifecycle;
+import br.fosge.engine.configuration.ConfigurationFile;
 import br.fosge.engine.graphics.Geometry;
 import br.fosge.engine.graphics.Shader;
 import br.fosge.engine.graphics.Texture;
 import br.fosge.engine.graphics.Texture2D;
 import br.fosge.engine.message.MessageListener;
 import br.fosge.engine.message.Result;
+import br.fosge.engine.platform.window.WindowResizedEvent;
 import br.fosge.engine.runtime.Runtime;
-import br.fosge.engine.runtime.configuration.ConfigurationFile;
-import br.fosge.engine.runtime.platform.graphics.GLGeometry;
-import br.fosge.engine.runtime.platform.graphics.GLParser;
-import br.fosge.engine.runtime.platform.graphics.GLShader;
-import br.fosge.engine.runtime.platform.graphics.GLTexture2D;
-import br.fosge.engine.runtime.platform.window.WindowResizedEvent;
+import br.fosge.engine.runtime.platform.opengl.GLGeometry;
+import br.fosge.engine.runtime.platform.opengl.GLParser;
+import br.fosge.engine.runtime.platform.opengl.GLShader;
+import br.fosge.engine.runtime.platform.opengl.GLTexture2D;
 import org.lwjgl.opengl.GL;
 import org.lwjgl.opengl.GLCapabilities;
 import org.lwjgl.opengl.GLDebugMessageCallback;
@@ -26,7 +26,7 @@ import java.util.List;
 
 import static br.fosge.engine.runtime.platform.Bindings.glfw;
 import static br.fosge.engine.runtime.platform.Bindings.opengl;
-import static br.fosge.engine.runtime.platform.binding.OpenGL.*;
+import static br.fosge.engine.runtime.platform.OpenGL.*;
 import static org.lwjgl.system.MemoryUtil.NULL;
 
 public final class PlatformGraphics implements Lifecycle {

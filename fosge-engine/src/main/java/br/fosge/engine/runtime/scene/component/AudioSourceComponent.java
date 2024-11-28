@@ -2,9 +2,9 @@ package br.fosge.engine.runtime.scene.component;
 
 import br.fosge.Logger;
 import br.fosge.engine.audio.AudioSource;
+import br.fosge.engine.ecs.Component;
 import br.fosge.engine.runtime.Resources;
 import br.fosge.engine.runtime.platform.Platform;
-import br.fosge.engine.ecs.Component;
 
 public final class AudioSourceComponent extends Component {
     public final AudioSource source = Platform.audio.sourceCreate();
@@ -13,7 +13,7 @@ public final class AudioSourceComponent extends Component {
 
     private AudioSourceComponent(){}
 
-    public static AudioSourceComponent create(br.fosge.engine.runtime.configuration.api.Component component) {
+    public static AudioSourceComponent create(br.fosge.engine.configuration.api.Component component) {
         final var instance = new AudioSourceComponent();
 
         instance.loop = Boolean.parseBoolean(find("loop", component.properties()));

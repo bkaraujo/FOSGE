@@ -4,6 +4,7 @@ import br.fosge.Logger;
 import br.fosge.annotation.Lifecycle;
 import br.fosge.audio.AudioBuffer;
 import br.fosge.audio.AudioSource;
+import br.fosge.runtime.Memory;
 import br.fosge.runtime.Runtime;
 import br.fosge.runtime.platform.audio.ALBuffer;
 import br.fosge.runtime.platform.audio.ALSource;
@@ -15,7 +16,6 @@ import org.lwjgl.system.libc.LibCStdlib;
 
 import javax.sound.sampled.AudioSystem;
 import java.nio.ByteBuffer;
-import java.nio.ByteOrder;
 import java.nio.IntBuffer;
 import java.nio.ShortBuffer;
 import java.nio.file.Path;
@@ -133,7 +133,6 @@ public final  class PlatformAudio implements Lifecycle {
     }
 
     private AudioBuffer bufferSourceWave(Path absolute) {
-        ByteBuffer pcm = null;
         final var buffer = bufferCreate();
 
         try {
@@ -177,21 +176,17 @@ public final  class PlatformAudio implements Lifecycle {
                 return null;
             }
 
-            pcm = ByteBuffer
-                    .allocateDirect(bytes.length)
-                    .order(ByteOrder.nativeOrder())
-                    .put(ByteBuffer
-                            .wrap(bytes)
-                            .order(format.isBigEndian() ? ByteOrder.BIG_ENDIAN : ByteOrder.LITTLE_ENDIAN)
-                    )
-                    .rewind();
-
-            openal.alBufferData(
-                    buffer.handle(),
-                    channels,
-                    pcm,
-                    (int) format.getSampleRate()
-            );
+            final var pcm = Memory.bytes(bytes.length);
+            try {
+                openal.alBufferData(
+                        buffer.handle(),
+                        channels,
+                        pcm.put(bytes).rewind(),
+                        (int) format.getSampleRate()
+                );
+            } finally {
+                Memory.free(pcm);
+            }
 
             buffer.path(absolute);
 
@@ -200,10 +195,6 @@ public final  class PlatformAudio implements Lifecycle {
             Logger.warn("Failed to read %s", absolute);
             bufferDestroy(buffer);
             return null;
-        } finally {
-            if (pcm != null) {
-                LibCStdlib.free(pcm);
-            }
         }
     }
 

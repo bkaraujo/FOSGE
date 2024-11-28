@@ -31,6 +31,10 @@ public class BindingAspect {
                 "glProgramUniformMatrix4fv"
         ));
 
+        skip.addAll(Arrays.asList(
+                "alGetSourcei"
+        ));
+
     }
 
     @Around("execution(* br.fosge.runtime.platform.binding.*.impl..*.*(..))")
@@ -77,12 +81,8 @@ public class BindingAspect {
             return pjp.proceed();
         } finally {
             name.append(")");
-            Logger.trace("%s ## %.2f millis", name, (System.nanoTime() - start) * 1e-6);
+            Logger.trace("%s ## %.4f millis", name, (System.nanoTime() - start) * 1e-6);
         }
-    }
-
-    private void validateGLFW() {
-
     }
 
 }

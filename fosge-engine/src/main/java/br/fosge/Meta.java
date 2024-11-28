@@ -1,8 +1,5 @@
 package br.fosge;
 
-import br.fosge.runtime.scene.Actor;
-import br.fosge.runtime.scene.Component;
-
 import java.util.List;
 
 public abstract class Meta {

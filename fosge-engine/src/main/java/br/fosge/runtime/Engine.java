@@ -107,6 +107,7 @@ public final class Engine implements Lifecycle {
                 timer += elapsed;
                 Logger.debug("FPS: %d, SPS: %d", RuntimeState.framePerSecond, RuntimeState.simulationPerSecond);
                 RuntimeState.framePerSecond = RuntimeState.simulationPerSecond = 0;
+                System.gc();
             }
 
             System.arraycopy(CoreState.currKey, 0, CoreState.prevKey, 0, CoreState.currKey.length);
@@ -167,6 +168,8 @@ public final class Engine implements Lifecycle {
         if (glfwErrorCallback != null) {
             glfwErrorCallback.free();
         }
+
+        Memory.free();
 
         return true;
     }

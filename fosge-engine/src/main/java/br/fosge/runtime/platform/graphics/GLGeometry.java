@@ -7,10 +7,9 @@ import br.fosge.graphics.DataType;
 import br.fosge.graphics.DrawMode;
 import br.fosge.graphics.Geometry;
 import br.fosge.graphics.geometry.GeometrySpec;
+import br.fosge.runtime.Memory;
 import br.fosge.runtime.Runtime;
 import br.fosge.runtime.platform.PlatformState;
-import org.lwjgl.BufferUtils;
-import org.lwjgl.system.libc.LibCStdlib;
 
 import java.nio.ByteBuffer;
 
@@ -130,25 +129,25 @@ public final class GLGeometry implements Geometry {
 
     @Override
     public void elements(byte... values) {
-        final var buffer = BufferUtils.createByteBuffer(values.length);
+        final var buffer = Memory.bytes(values.length);
 
         try {
             buffer.put(values).rewind();
             ebo_length = upload(EBO, values.length, ebo_length, buffer);
         } finally {
-            LibCStdlib.free(buffer);
+            Memory.free(buffer);
         }
     }
 
     @Override
     public void elements(short ... values) {
-        final var buffer = BufferUtils.createByteBuffer(values.length * Short.BYTES);
+        final var buffer = Memory.bytes(values.length * Short.BYTES);
 
         try {
             buffer.asShortBuffer().put(values).rewind();
             ebo_length = upload(EBO, values.length, ebo_length, buffer);
         } finally {
-            LibCStdlib.free(buffer);
+            Memory.free(buffer);
         }
 
         opengl.glNamedBufferData(EBO, values, GL_STATIC_DRAW);
@@ -156,25 +155,25 @@ public final class GLGeometry implements Geometry {
 
     @Override
     public void elements(int ... values) {
-        final var buffer = BufferUtils.createByteBuffer(values.length * Integer.BYTES);
+        final var buffer = Memory.bytes(values.length * Integer.BYTES);
 
         try {
             buffer.asIntBuffer().put(values).rewind();
             ebo_length = upload(EBO, values.length, ebo_length, buffer);
         } finally {
-            LibCStdlib.free(buffer);
+            Memory.free(buffer);
         }
     }
 
     @Override
     public void vertices(float ... values) {
-        final var buffer = BufferUtils.createByteBuffer(values.length * Float.BYTES);
+        final var buffer = Memory.bytes(values.length * Float.BYTES);
 
         try {
             buffer.asFloatBuffer().put(values).rewind();
             vbo_length = upload(VBO, values.length, vbo_length, buffer);
         } finally {
-            LibCStdlib.free(buffer);
+            Memory.free(buffer);
         }
     }
 

@@ -54,6 +54,11 @@ public final class ALSource implements AudioSource {
     }
 
     @Override
+    public boolean playing() {
+        return openal.alGetSourcei(handle, AL_SOURCE_STATE) == AL_PLAYING;
+    }
+
+    @Override
     public void pause() {
         openal.alSourcePause(handle);
     }

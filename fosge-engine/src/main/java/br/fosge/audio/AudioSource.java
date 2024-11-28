@@ -8,6 +8,8 @@ public interface AudioSource {
     AudioBuffer buffer();
     void buffer(AudioBuffer buffer);
 
+
+    boolean playing();
     void play();
     void pause();
     void stop();

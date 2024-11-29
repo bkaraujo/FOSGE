@@ -31,17 +31,20 @@ application:
       layers:
         - name: "world"
           actors:
-#            - name: "environment"
-#              components:
-#                - type: "AudioSourceComponent"
-#                  properties:
-#                    - { name: "path", value: "assets/audio/music/overworld.ogg" }
-#                    - { name: "loop", value: "true" }
-#                    - { name: "gain", value: "0.3" }
+            - name: "environment"
+              components:
+                - type: "AUDIO_SOURCE_COMPONENT"
+                  properties:
+                    - { name: "path", value: "assets/audio/music/overworld.ogg" }
+                    - { name: "loop", value: "true" }
+                    - { name: "gain", value: "0.3" }
+                - type: "BEHAVIOUR_COMPONENT"
+                  properties:
+                    - { name: "target", value: "br.brakeys.EnvironmentBehaviour" }
 
             - name: "Left"
               components:
-                - type: "MeshComponent"
+                - type: "MESH_COMPONENT"
                   properties:
                     - { name: "shader.source", value: "assets/shader/basic" }
                     - { name: "geometry.mode", value: "TRIANGLE" }
@@ -56,12 +59,12 @@ application:
                                0.5, -0.5, 0.0, 1.0, 0.0,\
                               -0.5, -0.5, 0.0, 0.0, 0.0,\
                               -0.5,  0.5, 0.0, 0.0, 1.0"
-                - type: "AudioSourceComponent"
+                - type: "AUDIO_SOURCE_COMPONENT"
                   properties:
                     - { name: "path", value: "assets/audio/clip/jump.wav" }
                     - { name: "loop", value: "false" }
-                    - { name: "gain", value: "1.0" }
-                - type: "BehaviourComponent"
+                    - { name: "gain", value: "0.5" }
+                - type: "BEHAVIOUR_COMPONENT"
                   properties:
                     - { name: "target", value: "br.brakeys.PlayerController" }
                     - { name: "target.speed", value: "1.0" }

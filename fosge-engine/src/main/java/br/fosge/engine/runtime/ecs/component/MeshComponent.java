@@ -1,8 +1,9 @@
-package br.fosge.engine.runtime.scene.component;
+package br.fosge.engine.runtime.ecs.component;
 
 import br.fosge.Logger;
 import br.fosge.engine.configuration.Tuple;
 import br.fosge.engine.ecs.Component;
+import br.fosge.engine.ecs.ComponentType;
 import br.fosge.engine.graphics.*;
 import br.fosge.engine.graphics.geometry.BufferLayout;
 import br.fosge.engine.graphics.geometry.BufferType;
@@ -14,6 +15,7 @@ import br.fosge.engine.runtime.Resources;
 import java.util.ArrayList;
 
 public final class MeshComponent extends Component {
+    public static final ComponentType type = ComponentType.MESH_COMPONENT;
 
     public Shader shader;
     public Geometry geometry;

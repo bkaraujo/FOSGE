@@ -4,9 +4,10 @@ import br.fosge.engine.MessageBus;
 import br.fosge.engine.input.Keyboard;
 import br.fosge.engine.platform.window.WindowClosedEvent;
 import br.fosge.engine.runtime.Input;
-import br.fosge.engine.runtime.scene.component.AudioSourceComponent;
-import br.fosge.engine.runtime.scene.component.BehaviourComponent;
-import br.fosge.engine.runtime.scene.component.TransformComponent;
+import br.fosge.engine.runtime.ecs.ECS;
+import br.fosge.engine.runtime.ecs.component.AudioSourceComponent;
+import br.fosge.engine.runtime.ecs.component.BehaviourComponent;
+import br.fosge.engine.runtime.ecs.component.TransformComponent;
 
 public class PlayerController extends BehaviourComponent {
     private AudioSourceComponent audioSource;
@@ -16,11 +17,11 @@ public class PlayerController extends BehaviourComponent {
     @Override
     public void onAwake() {
         if (transform == null) {
-            transform = actor.get(TransformComponent.class);
+            transform = ECS.get(owner, TransformComponent.class);
         }
 
         if (audioSource == null) {
-            audioSource = actor.get(AudioSourceComponent.class);
+            audioSource = ECS.get(owner, AudioSourceComponent.class);
             audioSource.source.gain(.3f);
         }
     }

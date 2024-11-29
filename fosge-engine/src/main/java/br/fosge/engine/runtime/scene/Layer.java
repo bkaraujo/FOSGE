@@ -4,9 +4,10 @@ import br.fosge.Logger;
 import br.fosge.engine.annotation.Lifecycle;
 import br.fosge.engine.runtime.Graphics;
 import br.fosge.engine.runtime.application.OnFrame;
+import br.fosge.engine.runtime.ecs.ECS;
+import br.fosge.engine.runtime.ecs.component.MeshComponent;
+import br.fosge.engine.runtime.ecs.component.TransformComponent;
 import br.fosge.engine.runtime.object.Identity;
-import br.fosge.engine.runtime.scene.component.MeshComponent;
-import br.fosge.engine.runtime.scene.component.TransformComponent;
 import br.fosge.tools.Meta;
 import com.github.f4b6a3.ulid.Ulid;
 
@@ -74,7 +75,7 @@ public final class Layer implements Lifecycle, OnFrame {
         }
 
         for(final var actor : actors) {
-            for (final var component : actor.components){
+            for (final var component : ECS.list(actor.identity)){
                 if (Meta.assignable(component, MeshComponent.class)) {
                     final var mesh = Meta.cast(component, MeshComponent.class);
                     final var transform = actor.get(TransformComponent.class);
@@ -105,7 +106,7 @@ public final class Layer implements Lifecycle, OnFrame {
     public boolean terminate() {
         Logger.debug("Terminating layer: %s", name);
         for(final var actor : actors) {
-            if (!actor.initialize()) {
+            if (!actor.terminate()) {
                 Logger.error("Failed to terminate actor %s", actor.name);
                 return false;
             }

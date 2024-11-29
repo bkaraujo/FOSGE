@@ -120,7 +120,7 @@ public final class Scene implements Lifecycle, OnFrame {
     public boolean terminate() {
         Logger.debug("Terminating scene: %s", name);
         for(final var layer : layers.reversed()) {
-            if (!layer.initialize()) {
+            if (!layer.terminate()) {
                 Logger.error("Failed to terminate layer %s", layer.name);
                 return false;
             }

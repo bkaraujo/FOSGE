@@ -1,10 +1,12 @@
-package br.fosge.engine.runtime.scene.component;
+package br.fosge.engine.runtime.ecs.component;
 
 import br.fosge.engine.configuration.Tuple;
 import br.fosge.engine.ecs.Component;
+import br.fosge.engine.ecs.ComponentType;
 import br.fosge.tools.Meta;
 
 public abstract class BehaviourComponent extends Component {
+    public static final ComponentType type = ComponentType.BEHAVIOUR_COMPONENT;
 
     public static BehaviourComponent create(Tuple... properties) {
         final var instance = Meta.instance(BehaviourComponent.class, find("target", properties));

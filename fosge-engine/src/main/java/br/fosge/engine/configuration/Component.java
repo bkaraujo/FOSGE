@@ -1,7 +1,9 @@
 package br.fosge.engine.configuration;
 
+import br.fosge.engine.ecs.ComponentType;
+
 public record Component(
-        String type,
+        ComponentType type,
         Tuple ... properties
 ) {
 }

@@ -3,7 +3,7 @@ package br.fosge.engine.runtime.scene;
 import br.fosge.Logger;
 import br.fosge.engine.annotation.Specification;
 import br.fosge.engine.runtime.Configuration;
-import br.fosge.engine.runtime.scene.component.TransformComponent;
+import br.fosge.engine.runtime.ecs.component.TransformComponent;
 import br.fosge.tools.Meta;
 import org.joml.Matrix4f;
 import org.joml.Matrix4fc;

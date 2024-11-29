@@ -3,6 +3,7 @@ package br.fosge.engine.runtime.application;
 import br.fosge.Logger;
 import br.fosge.Version;
 import br.fosge.engine.configuration.*;
+import br.fosge.engine.ecs.ComponentType;
 import br.fosge.engine.graphics.Resolution;
 import br.fosge.engine.logger.LogLevel;
 import br.fosge.tools.Meta;
@@ -61,7 +62,7 @@ public abstract class ApplicationYaml {
                                         list(layer, "actors").stream().map(entry -> (Map<String, Object>) entry).map(actor -> new Actor(
                                                 read(String.class, actor, "name"),
                                                 list(actor, "components").stream().map(entry -> (Map<String, Object>) entry).map(component -> new Component(
-                                                        read(String.class, component, "type"),
+                                                        ComponentType.valueOf(read(String.class, component, "type")),
                                                         list(component, "properties").stream().map(entry -> (Map<String, Object>) entry).map(property -> new Tuple(
                                                                 read(String.class, property, "name"),
                                                                 read(String.class, property, "value")

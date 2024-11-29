@@ -3,10 +3,10 @@ package br.fosge.engine.ecs;
 import br.fosge.engine.annotation.Lifecycle;
 import br.fosge.engine.configuration.Tuple;
 import br.fosge.engine.runtime.application.OnFrame;
-import br.fosge.engine.runtime.scene.Actor;
+import com.github.f4b6a3.ulid.Ulid;
 
 public abstract class Component implements Lifecycle, OnFrame {
-    public final Actor actor = null;
+    public final Ulid owner = Ulid.MAX;
 
     protected static String find(String name, Tuple... tuples) {
         for (final Tuple tuple : tuples) {

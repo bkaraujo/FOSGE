@@ -7,6 +7,7 @@ import br.fosge.engine.audio.AudioSource;
 import br.fosge.engine.diagnostics.Diagnostics;
 import br.fosge.engine.runtime.Configuration;
 import br.fosge.engine.runtime.Memory;
+import br.fosge.engine.runtime.Threads;
 import br.fosge.engine.runtime.platform.binding.openal.objects.ALBuffer;
 import br.fosge.engine.runtime.platform.binding.openal.objects.ALSource;
 import org.lwjgl.openal.ALCCapabilities;
@@ -20,8 +21,8 @@ import java.nio.ByteBuffer;
 import java.nio.IntBuffer;
 import java.nio.ShortBuffer;
 import java.nio.file.Path;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Queue;
+import java.util.concurrent.ConcurrentLinkedQueue;
 
 import static br.fosge.engine.runtime.Platform.filesystem;
 import static br.fosge.engine.runtime.platform.Bindings.openal;
@@ -39,8 +40,8 @@ public final  class PlatformAudio implements Lifecycle {
     private ALCapabilities contextCapabilities;
 
     private int sources_mono_limit;
-    private final List<AudioBuffer> buffers = new ArrayList<>();
-    private final List<AudioSource> sources = new ArrayList<>();
+    private final Queue<AudioBuffer> buffers = new ConcurrentLinkedQueue<>();
+    private final Queue<AudioSource> sources = new ConcurrentLinkedQueue<>();
 
     @Override
     public boolean initialize() {
@@ -200,7 +201,7 @@ public final  class PlatformAudio implements Lifecycle {
     }
 
     public void bufferDestroy(AudioBuffer buffer) {
-        Logger.trace("Releasing audio buffer %d", buffer.handle());
+        Logger.debug("Releasing buffer: %s", buffer.path());
         openal.alDeleteBuffers(buffer.handle());
         Diagnostics.audioBuffer--;
         buffers.remove(buffer);
@@ -225,9 +226,25 @@ public final  class PlatformAudio implements Lifecycle {
     }
 
     public void sourceDestroy(AudioSource source) {
+        Logger.debug("Realising source: %s", source.handle());
         openal.alDeleteSources(source.handle());
         Diagnostics.audioMonoSource--;
         sources.remove(source);
+
+        final var buffer = source.buffer();
+        Threads.physical.submit(() -> {
+            var found = false;
+            for (final var entry : buffers) {
+                if (entry.equals(buffer)) {
+                    found = true;
+                    break;
+                }
+            }
+
+            if (!found) return;
+            bufferDestroy(buffer);
+        });
+
     }
 
     @Override

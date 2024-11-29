@@ -1,23 +1,29 @@
 package br.fosge;
 
+import br.fosge.engine.runtime.Configuration;
 import br.fosge.engine.runtime.Engine;
-import br.fosge.engine.runtime.Runtime;
 import br.fosge.tools.Meta;
 import org.lwjgl.Version;
-import org.lwjgl.system.Configuration;
 
 public class Launcher {
 
     public static void main(String ... args) {
-        Configuration.DEBUG.set(Runtime.CHECKS);
-        Configuration.DEBUG_STACK.set(Runtime.CHECKS);
-        Configuration.DEBUG_STREAM.set(Runtime.CHECKS);
-        Configuration.DEBUG_LOADER.set(Runtime.CHECKS);
-        Configuration.DEBUG_MEMORY_ALLOCATOR.set(Runtime.CHECKS);
-        Configuration.DISABLE_FUNCTION_CHECKS.set(!Runtime.CHECKS);
-        Configuration.DEBUG_MEMORY_ALLOCATOR_INTERNAL.set(Runtime.CHECKS);
-        Configuration.DEBUG_FUNCTIONS.set(Runtime.CHECKS);
-        Configuration.DISABLE_CHECKS.set(!Runtime.CHECKS);
+        if (args.length != 1) {
+            System.out.println("Usage: java -jar <application>.jar [rootfs]");
+            System.exit(-1);
+        }
+
+        System.setProperty("br.fosge.rootfs", args[0]);
+//        org.lwjgl.system.Configuration.DEBUG.set(Configuration.CHECKS);
+//        org.lwjgl.system.Configuration.DEBUG_FUNCTIONS.set(Configuration.CHECKS);
+        org.lwjgl.system.Configuration.DEBUG_STACK.set(Configuration.CHECKS);
+        org.lwjgl.system.Configuration.DEBUG_STREAM.set(Configuration.CHECKS);
+        org.lwjgl.system.Configuration.DEBUG_LOADER.set(Configuration.CHECKS);
+        org.lwjgl.system.Configuration.DISABLE_FUNCTION_CHECKS.set(!Configuration.CHECKS);
+        org.lwjgl.system.Configuration.DEBUG_MEMORY_ALLOCATOR.set(Configuration.CHECKS);
+//        org.lwjgl.system.Configuration.DEBUG_MEMORY_ALLOCATOR_INTERNAL.set(Configuration.CHECKS);
+        org.lwjgl.system.Configuration.DEBUG_MEMORY_ALLOCATOR_FAST.set(Configuration.CHECKS);
+        org.lwjgl.system.Configuration.DISABLE_CHECKS.set(!Configuration.CHECKS);
 
         Logger.debug("LWJGL: %s", Version.getVersion());
 

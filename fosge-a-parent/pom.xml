@@ -126,7 +126,6 @@
         </pluginManagement>
 
         <plugins>
-
             <!-- ############################################################## -->
             <!-- Maven compiler configurations                                  -->
             <!-- ############################################################## -->
@@ -149,7 +148,9 @@
                     <encoding>${maven.resources.encoding}</encoding>
                 </configuration>
             </plugin>
-
+            <!-- ############################################################## -->
+            <!-- Maven resources configurations                                 -->
+            <!-- ############################################################## -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-site-plugin</artifactId>

@@ -2,8 +2,12 @@ package br.fosge.engine.runtime.scene;
 
 import br.fosge.Logger;
 import br.fosge.engine.annotation.Lifecycle;
-import br.fosge.engine.runtime.OnFrame;
+import br.fosge.engine.runtime.Graphics;
+import br.fosge.engine.runtime.application.OnFrame;
 import br.fosge.engine.runtime.object.Identity;
+import br.fosge.engine.runtime.scene.component.MeshComponent;
+import br.fosge.engine.runtime.scene.component.TransformComponent;
+import br.fosge.tools.Meta;
 import com.github.f4b6a3.ulid.Ulid;
 
 import java.util.ArrayList;
@@ -22,10 +26,15 @@ public final class Layer implements Lifecycle, OnFrame {
         this.name = name;
     }
 
-    public static Layer create(Scene scene, br.fosge.engine.configuration.api.Layer desired) {
+    public static Layer create(Scene scene, br.fosge.engine.configuration.Layer desired) {
         final var layer = new Layer(scene, Identity.generate(), desired.name());
         for (final var actor : desired.actors()) {
-            layer.actors.add(Actor.create(layer, actor));
+            final var instance = Actor.create(layer, actor);
+            if (instance == null) {
+                Logger.error("Failed to create actor");
+                continue;
+            }
+            layer.actors.add(instance);
         }
 
         return layer;
@@ -62,6 +71,19 @@ public final class Layer implements Lifecycle, OnFrame {
     public void onUpdate(double delta) {
         for(final var actor : actors) {
             actor.onUpdate(delta);
+        }
+
+        for(final var actor : actors) {
+            for (final var component : actor.components){
+                if (Meta.assignable(component, MeshComponent.class)) {
+                    final var mesh = Meta.cast(component, MeshComponent.class);
+                    final var transform = actor.get(TransformComponent.class);
+
+                    mesh.shader.uniform("un_model", transform.matrix());
+                    mesh.shader.uniform("un_viewProjection", actor.layer.scene.camera.viewProjectionMatrix());
+                    Graphics.draw(mesh.shader, mesh.geometry, mesh.texture);
+                }
+            }
         }
     }
 

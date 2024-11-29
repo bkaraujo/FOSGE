@@ -1,7 +1,6 @@
 package br.fosge.engine.runtime.platform;
 
 import br.fosge.Logger;
-import br.fosge.engine.runtime.Runtime;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -10,15 +9,14 @@ import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 
-public final class PlatformFilesystem {
-    PlatformFilesystem() {
+import static br.fosge.engine.runtime.Resources.ROOTFS;
 
-    }
+public final class PlatformFilesystem {
 
     public Path resolve(String path) {
-        final var absolute = Runtime.ROOTFS.resolve(path.trim());
+        final var absolute = ROOTFS.resolve(path.trim());
         if (!absolute.toFile().exists()) {
-            Logger.warn("Path does not exists %s", absolute);
+            Logger.error("Path does not exists %s", absolute);
             return null;
         }
 
@@ -28,6 +26,11 @@ public final class PlatformFilesystem {
     public List<Path> list(String path, String name) {
         try {
             final var rootfs = resolve(path.trim());
+            if (rootfs == null) {
+                Logger.error("Failed to list files at ROOTFS/%s", path);
+                return new ArrayList<>();
+            }
+
             try (final var files = Files.list(rootfs)){
                 return files
                         .filter(entry -> entry.toFile().getName().startsWith(name))

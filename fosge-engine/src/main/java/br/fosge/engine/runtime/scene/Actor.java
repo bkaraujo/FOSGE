@@ -3,7 +3,7 @@ package br.fosge.engine.runtime.scene;
 import br.fosge.Logger;
 import br.fosge.engine.annotation.Lifecycle;
 import br.fosge.engine.ecs.Component;
-import br.fosge.engine.runtime.OnFrame;
+import br.fosge.engine.runtime.application.OnFrame;
 import br.fosge.engine.runtime.object.Identity;
 import br.fosge.engine.runtime.scene.component.AudioSourceComponent;
 import br.fosge.engine.runtime.scene.component.BehaviourComponent;
@@ -28,22 +28,25 @@ public final class Actor implements Lifecycle, OnFrame {
         this.name = name;
     }
 
-    public static Actor create(Layer layer, br.fosge.engine.configuration.api.Actor desired) {
+    public static Actor create(Layer layer, br.fosge.engine.configuration.Actor desired) {
         final var actor = new Actor(layer, Identity.generate(), desired.name());
         actor.components.add(TransformComponent.create());
 
         for (final var component : desired.components()) {
             final var instance = switch (component.type()) {
                 default -> { Logger.fatal("Unknown component type: %s", component.type()); yield null; }
-                case "MeshComponent" -> MeshComponent.create(component);
-                case "AudioSourceComponent" -> AudioSourceComponent.create(component);
-                case "BehaviourComponent" -> BehaviourComponent.create(component);
+                case "MeshComponent" -> MeshComponent.create(component.properties());
+                case "AudioSourceComponent" -> AudioSourceComponent.create(component.properties());
+                case "BehaviourComponent" -> BehaviourComponent.create(component.properties());
             };
 
-            if (instance != null) {
-                Meta.set(instance, "actor", actor);
-                actor.components.add(instance);
+            if (instance == null) {
+                Logger.fatal("Unknown component type: %s", component.type());
+                return null;
             }
+
+            Meta.set(instance, "actor", actor);
+            actor.components.add(instance);
         }
 
         return actor;

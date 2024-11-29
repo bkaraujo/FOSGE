@@ -3,7 +3,6 @@ package br.fosge.engine.runtime;
 import br.fosge.engine.annotation.Facade;
 import br.fosge.engine.audio.AudioBuffer;
 import br.fosge.engine.audio.AudioSource;
-import br.fosge.engine.runtime.platform.Platform;
 
 public abstract class Audio implements Facade {
     private Audio() { /* Private constructor */ }

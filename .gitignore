@@ -1,6 +1,25 @@
+### IntelliJ IDEA ###
 .idea/
+*.iws
 *.iml
-**/target/
+*.ipr
+
+### VS Code ###
 .vscode/
-**/*.log
+
+### Mac OS ###
+.DS_Store
+
+### CUSTOM ###
+**/target/
+.mvn/
 dependency-reduced-pom.xml
+**/*.log
+
+### Gradle ###
+.run/
+.gradle/
+gradle/
+**/*/gradlew
+**/*/gradlew.bat
+build/

@@ -5,10 +5,10 @@ import br.fosge.engine.annotation.Lifecycle;
 import br.fosge.engine.audio.AudioBuffer;
 import br.fosge.engine.audio.AudioSource;
 import br.fosge.engine.diagnostics.Diagnostics;
+import br.fosge.engine.runtime.Configuration;
 import br.fosge.engine.runtime.Memory;
-import br.fosge.engine.runtime.Runtime;
-import br.fosge.engine.runtime.platform.openal.ALBuffer;
-import br.fosge.engine.runtime.platform.openal.ALSource;
+import br.fosge.engine.runtime.platform.binding.openal.objects.ALBuffer;
+import br.fosge.engine.runtime.platform.binding.openal.objects.ALSource;
 import org.lwjgl.openal.ALCCapabilities;
 import org.lwjgl.openal.ALCapabilities;
 import org.lwjgl.system.MemoryStack;
@@ -23,15 +23,14 @@ import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 
+import static br.fosge.engine.runtime.Platform.filesystem;
 import static br.fosge.engine.runtime.platform.Bindings.openal;
 import static br.fosge.engine.runtime.platform.Bindings.stbv;
-import static br.fosge.engine.runtime.platform.OpenAL.*;
-import static br.fosge.engine.runtime.platform.Platform.filesystem;
+import static br.fosge.engine.runtime.platform.binding.OpenAL.*;
 import static org.lwjgl.openal.AL.createCapabilities;
 import static org.lwjgl.openal.ALC.createCapabilities;
 
 public final  class PlatformAudio implements Lifecycle {
-    PlatformAudio() {}
 
     private long device;
     private ALCCapabilities deviceCapabilities;
@@ -78,7 +77,7 @@ public final  class PlatformAudio implements Lifecycle {
     }
 
     public AudioBuffer bufferCreate(Path absolute) {
-        if (Runtime.CHECKS) {
+        if (Configuration.CHECKS) {
             for (final var buffer : buffers) {
                 if (buffer.path().equals(absolute)) {
                     Logger.warn("Buffer already contains %s", absolute);
@@ -208,7 +207,7 @@ public final  class PlatformAudio implements Lifecycle {
     }
 
     public AudioSource sourceCreate() {
-        if (Runtime.CHECKS) {
+        if (Configuration.CHECKS) {
             if (sources.size() >= sources_mono_limit * 0.8f) {
                 Logger.warn("80% mono sources utilization [curr %d, limit %d]", sources.size(), sources_mono_limit);
             }

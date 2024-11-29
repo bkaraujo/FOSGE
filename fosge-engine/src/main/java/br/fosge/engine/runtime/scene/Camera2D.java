@@ -2,10 +2,8 @@ package br.fosge.engine.runtime.scene;
 
 import br.fosge.Logger;
 import br.fosge.engine.annotation.Specification;
-import br.fosge.engine.runtime.Runtime;
+import br.fosge.engine.runtime.Configuration;
 import br.fosge.engine.runtime.scene.component.TransformComponent;
-import br.fosge.engine.scene.Camera;
-import br.fosge.engine.scene.Camera2DSpec;
 import br.fosge.tools.Meta;
 import org.joml.Matrix4f;
 import org.joml.Matrix4fc;
@@ -27,7 +25,7 @@ public final class Camera2D implements Camera {
 
     @Override
     public boolean configure(Specification specification) {
-        if (Runtime.CHECKS && !Meta.assignable(specification, Camera2DSpec.class)) {
+        if (Configuration.CHECKS && !Meta.assignable(specification, Camera2DSpec.class)) {
             Logger.error("Expecting %s got %s", Meta.fqn(Camera2DSpec.class), Meta.fqn(specification));
             return false;
         }

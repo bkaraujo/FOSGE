@@ -3,19 +3,19 @@ package br.fosge.engine.runtime.platform;
 import br.fosge.Logger;
 import br.fosge.engine.MessageBus;
 import br.fosge.engine.annotation.Lifecycle;
-import br.fosge.engine.configuration.ConfigurationFile;
 import br.fosge.engine.graphics.Geometry;
 import br.fosge.engine.graphics.Shader;
 import br.fosge.engine.graphics.Texture;
 import br.fosge.engine.graphics.Texture2D;
 import br.fosge.engine.message.MessageListener;
-import br.fosge.engine.message.Result;
+import br.fosge.engine.message.MessagePipeline;
 import br.fosge.engine.platform.window.WindowResizedEvent;
-import br.fosge.engine.runtime.Runtime;
-import br.fosge.engine.runtime.platform.opengl.GLGeometry;
-import br.fosge.engine.runtime.platform.opengl.GLParser;
-import br.fosge.engine.runtime.platform.opengl.GLShader;
-import br.fosge.engine.runtime.platform.opengl.GLTexture2D;
+import br.fosge.engine.runtime.Configuration;
+import br.fosge.engine.runtime.application.ApplicationYaml;
+import br.fosge.engine.runtime.platform.binding.opengl.objects.GLGeometry;
+import br.fosge.engine.runtime.platform.binding.opengl.objects.GLParser;
+import br.fosge.engine.runtime.platform.binding.opengl.objects.GLShader;
+import br.fosge.engine.runtime.platform.binding.opengl.objects.GLTexture2D;
 import org.lwjgl.opengl.GL;
 import org.lwjgl.opengl.GLCapabilities;
 import org.lwjgl.opengl.GLDebugMessageCallback;
@@ -26,11 +26,10 @@ import java.util.List;
 
 import static br.fosge.engine.runtime.platform.Bindings.glfw;
 import static br.fosge.engine.runtime.platform.Bindings.opengl;
-import static br.fosge.engine.runtime.platform.OpenGL.*;
+import static br.fosge.engine.runtime.platform.binding.OpenGL.*;
 import static org.lwjgl.system.MemoryUtil.NULL;
 
 public final class PlatformGraphics implements Lifecycle {
-    PlatformGraphics() { /* Private constructor */ }
 
     private GLCapabilities capabilities;
     private GLDebugMessageCallback debugCallback;
@@ -44,7 +43,7 @@ public final class PlatformGraphics implements Lifecycle {
 
         Logger.debug("OpenGL: %s", opengl.glGetString(GL_VERSION));
 
-        if (Runtime.CHECKS) {
+        if (Configuration.CHECKS) {
             opengl.glEnable(GL_DEBUG_OUTPUT);
             opengl.glEnable(GL_DEBUG_OUTPUT_SYNCHRONOUS);
 
@@ -87,7 +86,7 @@ public final class PlatformGraphics implements Lifecycle {
 
         MessageBus.subscribe(this);
 
-        final var spec = ConfigurationFile.get().application().graphics();
+        final var spec = ApplicationYaml.get().application().graphics();
         Logger.trace("VSYNC: %s", spec.vsync());
         glfw.glfwSwapInterval(spec.vsync() ? 1 : 0);
 
@@ -95,9 +94,9 @@ public final class PlatformGraphics implements Lifecycle {
     }
 
     @MessageListener
-    public Result handle(WindowResizedEvent event) {
+    public MessagePipeline handle(WindowResizedEvent event) {
         opengl.glViewport(0, 0, event.width, event.height);
-        return Result.AVAILABLE;
+        return MessagePipeline.CONTINUE;
     }
 
     public Shader shader() {

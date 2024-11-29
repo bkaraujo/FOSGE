@@ -4,18 +4,19 @@ import br.fosge.Logger;
 import br.fosge.Time;
 import br.fosge.engine.MessageBus;
 import br.fosge.engine.annotation.Lifecycle;
-import br.fosge.engine.configuration.ConfigurationFile;
 import br.fosge.engine.message.MessageListener;
-import br.fosge.engine.message.Result;
+import br.fosge.engine.message.MessagePipeline;
 import br.fosge.engine.platform.window.WindowClosedEvent;
 import br.fosge.engine.platform.window.WindowMinimizedEvent;
 import br.fosge.engine.platform.window.WindowRestoredEvent;
+import br.fosge.engine.runtime.application.ApplicationYaml;
+import br.fosge.engine.runtime.platform.InputListener;
 import br.fosge.engine.runtime.platform.PlatformState;
 import br.fosge.engine.runtime.scene.Scene;
 import org.lwjgl.glfw.GLFWErrorCallback;
 
+import static br.fosge.engine.runtime.Platform.*;
 import static br.fosge.engine.runtime.platform.Bindings.glfw;
-import static br.fosge.engine.runtime.platform.Platform.*;
 
 public final class Engine implements Lifecycle {
     private GLFWErrorCallback glfwErrorCallback;
@@ -55,7 +56,7 @@ public final class Engine implements Lifecycle {
 
         MessageBus.subscribe(this);
         MessageBus.subscribe(new InputListener());
-        final var scenes = ConfigurationFile.get().application().scenes();
+        final var scenes = ApplicationYaml.get().application().scenes();
         if (scenes == null || scenes.length == 0) {
             Logger.error("No application scenes found");
             return false;
@@ -86,7 +87,7 @@ public final class Engine implements Lifecycle {
         long timer = Time.millis();
         double lastTime = Time.seconds();
         double accumulator = 0f;
-        final var baseTitle = ConfigurationFile.get().application().window().title();
+        final var baseTitle = ApplicationYaml.get().application().window().title();
 
         while (running) {
             RuntimeState.frame++;
@@ -121,8 +122,8 @@ public final class Engine implements Lifecycle {
                 RuntimeState.framePerSecond = RuntimeState.simulationPerSecond = 0;
             }
 
-            System.arraycopy(CoreState.currKey, 0, CoreState.prevKey, 0, CoreState.currKey.length);
-            System.arraycopy(CoreState.currMouse, 0, CoreState.prevMouse, 0, CoreState.currMouse.length);
+            System.arraycopy(RuntimeState.currKey, 0, RuntimeState.prevKey, 0, RuntimeState.currKey.length);
+            System.arraycopy(RuntimeState.currMouse, 0, RuntimeState.prevMouse, 0, RuntimeState.currMouse.length);
 
             window.update();
         }
@@ -132,24 +133,24 @@ public final class Engine implements Lifecycle {
     }
 
     @MessageListener
-    public Result handle(WindowClosedEvent event) {
+    public MessagePipeline handle(WindowClosedEvent event) {
         running = false;
         Logger.trace("Engine.running = false");
-        return Result.AVAILABLE;
+        return MessagePipeline.CONTINUE;
     }
 
     @MessageListener
-    public Result handle(WindowMinimizedEvent event) {
+    public MessagePipeline handle(WindowMinimizedEvent event) {
         suspended = true;
         Logger.trace("Engine.suspended = true");
-        return Result.AVAILABLE;
+        return MessagePipeline.CONTINUE;
     }
 
     @MessageListener
-    public Result handle(WindowRestoredEvent event) {
+    public MessagePipeline handle(WindowRestoredEvent event) {
         suspended = false;
         Logger.trace("Engine.suspended = false");
-        return Result.AVAILABLE;
+        return MessagePipeline.CONTINUE;
     }
 
     @Override

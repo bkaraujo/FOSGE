@@ -2,11 +2,9 @@ package br.fosge.engine.runtime.scene;
 
 import br.fosge.Logger;
 import br.fosge.engine.annotation.Lifecycle;
-import br.fosge.engine.configuration.ConfigurationFile;
-import br.fosge.engine.runtime.OnFrame;
+import br.fosge.engine.runtime.application.ApplicationYaml;
+import br.fosge.engine.runtime.application.OnFrame;
 import br.fosge.engine.runtime.object.Identity;
-import br.fosge.engine.scene.Camera;
-import br.fosge.engine.scene.Camera2DSpec;
 import com.github.f4b6a3.ulid.Ulid;
 import org.joml.Vector4f;
 
@@ -29,8 +27,8 @@ public final class Scene implements Lifecycle, OnFrame {
     }
 
     public static Scene create(String name) {
-        br.fosge.engine.configuration.api.Scene desired = null;
-        for (final var record : ConfigurationFile.get().application().scenes()) {
+        br.fosge.engine.configuration.Scene desired = null;
+        for (final var record : ApplicationYaml.get().application().scenes()) {
             if (record.name().contentEquals(name)) {
                 desired = record;
                 break;

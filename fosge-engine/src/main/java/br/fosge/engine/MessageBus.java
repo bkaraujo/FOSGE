@@ -4,8 +4,8 @@ import br.fosge.Logger;
 import br.fosge.engine.annotation.Facade;
 import br.fosge.engine.message.Message;
 import br.fosge.engine.message.MessageListener;
-import br.fosge.engine.message.Result;
-import br.fosge.engine.runtime.Runtime;
+import br.fosge.engine.message.MessagePipeline;
+import br.fosge.engine.runtime.Configuration;
 import br.fosge.engine.runtime.message.MessageProcessor;
 import br.fosge.tools.Meta;
 
@@ -22,7 +22,7 @@ public abstract class MessageBus implements Facade {
 
     public static int subscribe(Object container) {
         int subscribed = 0;
-        if (Runtime.CHECKS && container == null) {
+        if (Configuration.CHECKS && container == null) {
             Logger.warn("Object container is null");
             return subscribed;
         }
@@ -33,13 +33,13 @@ public abstract class MessageBus implements Facade {
 
             final var parameters = method.getParameters();
 
-            if (Runtime.CHECKS) {
-                if (method.getReturnType() != Result.class) {
+            if (Configuration.CHECKS) {
+                if (method.getReturnType() != MessagePipeline.class) {
                     Logger.warn(
                             "Method '%s.%s' must return %s",
                             Meta.fqn(container),
                             method.getName(),
-                            Meta.fqn(Result.class)
+                            Meta.fqn(MessagePipeline.class)
                     );
                     continue;
                 }
@@ -100,7 +100,7 @@ public abstract class MessageBus implements Facade {
     public static <T extends Message> void submit(T message) {
         for (final var entry : hierarchy.getOrDefault(message.getClass(), new ArrayList<>())) {
             for (final var processor : processors.getOrDefault(entry, new ArrayList<>())) {
-                if (processor.process(message) == Result.CONSUMED) {
+                if (processor.process(message) == MessagePipeline.ABORT) {
                     break;
                 }
             }

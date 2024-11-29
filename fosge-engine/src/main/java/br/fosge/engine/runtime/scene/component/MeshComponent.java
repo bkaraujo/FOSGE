@@ -1,6 +1,7 @@
 package br.fosge.engine.runtime.scene.component;
 
 import br.fosge.Logger;
+import br.fosge.engine.configuration.Tuple;
 import br.fosge.engine.ecs.Component;
 import br.fosge.engine.graphics.*;
 import br.fosge.engine.graphics.geometry.BufferLayout;
@@ -20,28 +21,28 @@ public final class MeshComponent extends Component {
 
     private MeshComponent() {}
 
-    public static MeshComponent create(br.fosge.engine.configuration.api.Component component) {
+    public static MeshComponent create(Tuple ... properties) {
         final var instance = new MeshComponent();
         instance.shader = Graphics.shader();
         if (!instance.shader.initialize() || !instance.shader.configure(
                 new ShaderSpec(
-                        Resources.shaderSource(find("shader.source", component.properties()))
+                        Resources.shaderSource(find("shader.source", properties))
                 )
         )) {
-            Logger.warn("Failed to configure shader source");
+            Logger.error("Failed to configure shader source");
             instance.terminate();
             return null;
         }
 
-        instance.texture = Resources.texture2d(find("texture.asset", component.properties()));
+        instance.texture = Resources.texture2d(find("texture.asset", properties));
         if (instance.texture == null) {
-            Logger.warn("Failed to configure texture");
+            Logger.error("Failed to configure texture");
             instance.terminate();
             return null;
         }
 
         final var layouts = new ArrayList<BufferLayout>();
-        for (final var tuple : component.properties()) {
+        for (final var tuple : properties) {
             if (tuple.name().startsWith("geometry.layout")) {
                 layouts.add(new BufferLayout(
                         tuple.name().substring(tuple.name().lastIndexOf('.') + 1),
@@ -53,8 +54,8 @@ public final class MeshComponent extends Component {
         instance.geometry = Graphics.geometry();
         if (!instance.geometry.initialize() || !instance.geometry.configure(
                 new GeometrySpec(
-                        DrawMode.valueOf(find("geometry.mode", component.properties())),
-                        DataType.valueOf(find("geometry.type", component.properties())),
+                        DrawMode.valueOf(find("geometry.mode", properties)),
+                        DataType.valueOf(find("geometry.type", properties)),
                         layouts.toArray(new BufferLayout[0])
                 )
         )) {
@@ -63,19 +64,10 @@ public final class MeshComponent extends Component {
             return null;
         }
 
-        instance.geometry.elements(toInts("geometry.elements", component.properties()));
-        instance.geometry.vertices(toFloats("geometry.vertices", component.properties()));
+        instance.geometry.elements(toInts("geometry.elements", properties));
+        instance.geometry.vertices(toFloats("geometry.vertices", properties));
 
         return instance;
-    }
-
-    @Override
-    public void onUpdate(double delta) {
-        final var transform = actor.get(TransformComponent.class);
-
-        shader.uniform("un_model", transform.matrix());
-        shader.uniform("un_viewProjection", actor.layer.scene.camera.viewProjectionMatrix());
-        Graphics.draw(shader, geometry, texture);
     }
 
     @Override

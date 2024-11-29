@@ -1,13 +1,14 @@
 package br.fosge.engine.runtime.scene.component;
 
+import br.fosge.engine.configuration.Tuple;
 import br.fosge.engine.ecs.Component;
 import br.fosge.tools.Meta;
 
 public abstract class BehaviourComponent extends Component {
 
-    public static BehaviourComponent create(br.fosge.engine.configuration.api.Component component) {
-        final var instance = Meta.instance(BehaviourComponent.class, find("target", component.properties()));
-        for (final var property : component.properties()) {
+    public static BehaviourComponent create(Tuple... properties) {
+        final var instance = Meta.instance(BehaviourComponent.class, find("target", properties));
+        for (final var property : properties) {
             if (!property.name().contains(".")) continue;
             final var tokens = property.name().split("\\.");
             try {

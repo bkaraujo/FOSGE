@@ -3,7 +3,6 @@ package br.fosge.engine.runtime.platform;
 import br.fosge.engine.annotation.Lifecycle;
 
 public final class PlatformNetwork implements Lifecycle {
-    PlatformNetwork() { /* Private constructor */ }
 
     @Override
     public boolean initialize() {

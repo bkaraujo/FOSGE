@@ -13,7 +13,7 @@
 
     <artifactId>fosge-sandbox-brakeys</artifactId>
     <packaging>jar</packaging>
-    <version>1.0-SNAPSHOT</version>
+    <version>1.0.0</version>
 
     <properties>
         <project.mainClass>br.fosge.Launcher</project.mainClass>
@@ -96,6 +96,7 @@
                         </executions>
                         <configuration>
                             <mainClass>${project.mainClass}</mainClass>
+                            <arguments>X:\java\FOSGE\fosge-sandbox-brakeys</arguments>
                         </configuration>
                     </plugin>
                 </plugins>

@@ -9,17 +9,15 @@ import br.fosge.engine.graphics.shader.ShaderSource;
 import br.fosge.engine.graphics.shader.ShaderStage;
 
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.ArrayList;
 
-import static br.fosge.engine.runtime.platform.Platform.*;
+import static br.fosge.engine.runtime.Platform.*;
 
 public abstract class Resources implements Facade {
     private Resources() { /* Private constructor */ }
 
-
-    public static void free(AudioBuffer buffer) {
-        audio.bufferDestroy(buffer);
-    }
+    public static final Path ROOTFS = Path.of(System.getProperty("br.fosge.rootfs"));
 
     public static AudioBuffer audio(String path) {
         final var absolute = filesystem.resolve(path);
@@ -30,8 +28,8 @@ public abstract class Resources implements Facade {
         return audio.bufferCreate(absolute);
     }
 
-    public static void free(Texture texture) {
-        graphics.textureDestroy(texture);
+    public static void free(AudioBuffer buffer) {
+        audio.bufferDestroy(buffer);
     }
 
     public static Texture2D texture2d(String path) {
@@ -47,12 +45,14 @@ public abstract class Resources implements Facade {
         return graphics.texture2d(absolute, mips);
     }
 
+    public static void free(Texture texture) {
+        graphics.textureDestroy(texture);
+    }
+
     public static ShaderSource[] shaderSource(String path) {
         final var sources = new ArrayList<ShaderSource>();
-
         final var rootfs = path.substring(0, path.lastIndexOf('/'));
         final var fileName = path.substring(path.lastIndexOf('/') + 1);
-
         for (final var file : filesystem.list(rootfs, fileName)) {
             final var extension = file.toString().substring(file.toString().lastIndexOf('.') + 1);
             try {

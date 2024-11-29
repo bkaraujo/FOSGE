@@ -20,14 +20,14 @@ public abstract class Memory {
     public static ByteBuffer bytes(int size) {
         Diagnostics.offHeap += size;
         final var buffer = MemoryUtil.memAlloc(size);
-        if (Runtime.CHECKS) {
+        if (Configuration.CHECKS) {
             buffers.offer(buffer);
         }
         return buffer;
     }
 
     public static void free(ByteBuffer buffer) {
-        if (Runtime.CHECKS) {
+        if (Configuration.CHECKS) {
             if (buffer == null) {
                 Logger.error("Trying to free a null buffer");
                 return;

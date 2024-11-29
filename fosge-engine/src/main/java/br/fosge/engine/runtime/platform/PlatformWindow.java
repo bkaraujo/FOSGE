@@ -3,21 +3,20 @@ package br.fosge.engine.runtime.platform;
 import br.fosge.Logger;
 import br.fosge.engine.MessageBus;
 import br.fosge.engine.annotation.Lifecycle;
-import br.fosge.engine.configuration.ConfigurationFile;
 import br.fosge.engine.input.Keyboard;
 import br.fosge.engine.input.Mouse;
 import br.fosge.engine.message.MessageListener;
-import br.fosge.engine.message.Result;
+import br.fosge.engine.message.MessagePipeline;
 import br.fosge.engine.platform.input.*;
 import br.fosge.engine.platform.window.*;
+import br.fosge.engine.runtime.application.ApplicationYaml;
 import org.lwjgl.glfw.Callbacks;
 import org.lwjgl.system.MemoryUtil;
 
 import static br.fosge.engine.runtime.platform.Bindings.glfw;
-import static br.fosge.engine.runtime.platform.glfw.GLFWConstants.*;
+import static br.fosge.engine.runtime.platform.binding.glfw.GLFWConstants.*;
 
 public final class PlatformWindow implements Lifecycle {
-    PlatformWindow() { /* Private constructor */ }
 
     @Override
     public boolean initialize() {
@@ -30,7 +29,7 @@ public final class PlatformWindow implements Lifecycle {
 //        glfwWindowHint(GLFW_OPENGL_DEBUG_CONTEXT, GLFW_TRUE);
         glfw.glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
-        final var spec = ConfigurationFile.get().application().window();
+        final var spec = ApplicationYaml.get().application().window();
 
         // Create the window
         PlatformState.window = glfw.glfwCreateWindow(spec.resolution().width, spec.resolution().height, spec.title(), MemoryUtil.NULL, MemoryUtil.NULL);
@@ -79,9 +78,9 @@ public final class PlatformWindow implements Lifecycle {
     }
 
     @MessageListener
-    public Result handle(WindowResizedEvent event) {
+    public MessagePipeline handle(WindowResizedEvent event) {
         PlatformState.windowAspectRatio = (float) event.width / event.height;
-        return Result.AVAILABLE;
+        return MessagePipeline.CONTINUE;
     }
 
     @Override

@@ -5,7 +5,7 @@ import br.fosge.engine.graphics.Geometry;
 import br.fosge.engine.graphics.Shader;
 import br.fosge.engine.graphics.Texture;
 
-import static br.fosge.engine.runtime.platform.Platform.graphics;
+import static br.fosge.engine.runtime.Platform.graphics;
 
 public abstract class Graphics implements Facade {
     private Graphics() { /* Private constructor */ }

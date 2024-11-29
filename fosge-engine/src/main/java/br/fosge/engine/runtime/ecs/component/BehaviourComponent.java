@@ -3,9 +3,10 @@ package br.fosge.engine.runtime.ecs.component;
 import br.fosge.engine.configuration.Tuple;
 import br.fosge.engine.ecs.Component;
 import br.fosge.engine.ecs.ComponentType;
+import br.fosge.engine.runtime.application.OnFrame;
 import br.fosge.tools.Meta;
 
-public abstract class BehaviourComponent extends Component {
+public abstract class BehaviourComponent extends Component implements OnFrame {
     public static final ComponentType type = ComponentType.BEHAVIOUR_COMPONENT;
 
     public static BehaviourComponent create(Tuple... properties) {

@@ -4,16 +4,21 @@ import br.fosge.Logger;
 import br.fosge.Time;
 import br.fosge.engine.MessageBus;
 import br.fosge.engine.annotation.Lifecycle;
+import br.fosge.engine.ecs.System;
 import br.fosge.engine.message.MessageListener;
 import br.fosge.engine.message.MessagePipeline;
 import br.fosge.engine.platform.window.WindowClosedEvent;
 import br.fosge.engine.platform.window.WindowMinimizedEvent;
 import br.fosge.engine.platform.window.WindowRestoredEvent;
 import br.fosge.engine.runtime.application.ApplicationYaml;
+import br.fosge.engine.runtime.ecs.system.AudioSystem;
 import br.fosge.engine.runtime.platform.InputListener;
 import br.fosge.engine.runtime.platform.PlatformState;
 import br.fosge.engine.runtime.scene.Scene;
 import org.lwjgl.glfw.GLFWErrorCallback;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import static br.fosge.engine.runtime.Platform.*;
 import static br.fosge.engine.runtime.platform.Bindings.glfw;
@@ -23,10 +28,11 @@ public final class Engine implements Lifecycle {
     private boolean running;
     private boolean suspended;
     private Scene scene;
+    private final List<System> systems = new ArrayList<>();
 
     @Override
     public boolean initialize() {
-        glfwErrorCallback = GLFWErrorCallback.createPrint(System.err);
+        glfwErrorCallback = GLFWErrorCallback.createPrint(java.lang.System.err);
         glfwErrorCallback.set();
 
         if (!glfw.glfwInit()) {
@@ -73,6 +79,8 @@ public final class Engine implements Lifecycle {
             return false;
         }
 
+        systems.add(new AudioSystem());
+
         return true;
     }
 
@@ -97,19 +105,20 @@ public final class Engine implements Lifecycle {
                 final var delta = Time.seconds() - lastTime;
 
                 graphics.clear();
+                systems.forEach(System::onAwake);
                 scene.onAwake();
 
                 lastTime += delta;
                 accumulator += delta;
                 while (accumulator >= STEP) {
                     accumulator -= STEP;
-                    scene.onSimulate(STEP);
+                    systems.forEach(s -> s.onSimulate(STEP));
                     RuntimeState.simulationPerSecond++;
                 }
 
-                scene.onUpdate(delta);
-                scene.onRest();
-                scene.onGui();
+                systems.forEach(s -> s.onUpdate(delta));
+                systems.forEach(System::onRest);
+                systems.forEach(System::onGui);
 
                 graphics.update();
                 network.update();
@@ -122,8 +131,8 @@ public final class Engine implements Lifecycle {
                 RuntimeState.framePerSecond = RuntimeState.simulationPerSecond = 0;
             }
 
-            System.arraycopy(RuntimeState.currKey, 0, RuntimeState.prevKey, 0, RuntimeState.currKey.length);
-            System.arraycopy(RuntimeState.currMouse, 0, RuntimeState.prevMouse, 0, RuntimeState.currMouse.length);
+            java.lang.System.arraycopy(RuntimeState.currKey, 0, RuntimeState.prevKey, 0, RuntimeState.currKey.length);
+            java.lang.System.arraycopy(RuntimeState.currMouse, 0, RuntimeState.prevMouse, 0, RuntimeState.currMouse.length);
 
             window.update();
         }

@@ -35,13 +35,6 @@ public final class AudioSourceComponent extends Component {
     }
 
     @Override
-    public void onUpdate(double delta) {
-        if (loop && !source.playing()) {
-            source.play();
-        }
-    }
-
-    @Override
     public boolean terminate() {
         if (source.playing()) { source.stop(); }
         Platform.audio.sourceDestroy(source);

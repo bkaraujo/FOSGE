@@ -60,41 +60,6 @@ public final class Actor implements Lifecycle, OnFrame {
     }
 
     @Override
-    public void onAwake() {
-        for(final var component : ECS.list(identity)) {
-            component.onAwake();
-        }
-    }
-
-    @Override
-    public void onSimulate(double step) {
-        for(final var component : ECS.list(identity)) {
-            component.onSimulate(step);
-        }
-    }
-
-    @Override
-    public void onUpdate(double delta) {
-        for(final var component : ECS.list(identity)) {
-            component.onUpdate(delta);
-        }
-    }
-
-    @Override
-    public void onGui() {
-        for(final var component : ECS.list(identity)) {
-            component.onGui();
-        }
-    }
-
-    @Override
-    public void onRest() {
-        for(final var component : ECS.list(identity)) {
-            component.onRest();
-        }
-    }
-
-    @Override
     public boolean terminate() {
         Logger.debug("Terminating actor: %s", name);
         ECS.destroy(identity);

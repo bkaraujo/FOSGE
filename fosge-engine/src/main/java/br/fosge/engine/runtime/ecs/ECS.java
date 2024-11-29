@@ -14,6 +14,7 @@ import br.fosge.tools.Meta;
 import com.github.f4b6a3.ulid.Ulid;
 import com.github.f4b6a3.ulid.UlidCreator;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Queue;
@@ -144,6 +145,17 @@ public abstract class ECS {
                 break;
             }
         }
+    }
+
+    public static <T> List<T> list(Class<T> type) {
+        for (final var entry : ComponentType.values()) {
+            if (Meta.assignable(type, entry.klass)) {
+                return (List<T>) ofComponents.get(entry).stream().toList();
+
+            }
+        }
+
+        return new ArrayList<>();
     }
 
 }

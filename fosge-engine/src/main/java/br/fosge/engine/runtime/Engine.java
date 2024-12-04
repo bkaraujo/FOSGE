@@ -145,21 +145,21 @@ public final class Engine implements Lifecycle {
     public MessagePipeline handle(WindowClosedEvent event) {
         running = false;
         Logger.trace("Engine.running = false");
-        return MessagePipeline.CONTINUE;
+        return MessagePipeline.CONSUMED;
     }
 
     @MessageListener
     public MessagePipeline handle(WindowMinimizedEvent event) {
         suspended = true;
         Logger.trace("Engine.suspended = true");
-        return MessagePipeline.CONTINUE;
+        return MessagePipeline.CONSUMED;
     }
 
     @MessageListener
     public MessagePipeline handle(WindowRestoredEvent event) {
         suspended = false;
         Logger.trace("Engine.suspended = false");
-        return MessagePipeline.CONTINUE;
+        return MessagePipeline.CONSUMED;
     }
 
     @Override

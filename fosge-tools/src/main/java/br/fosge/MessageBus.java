@@ -96,7 +96,7 @@ public abstract class MessageBus implements Facade {
     public static <T extends Message> void submit(T message) {
         for (final var entry : hierarchy.getOrDefault(message.getClass(), new ArrayList<>())) {
             for (final var processor : processors.getOrDefault(entry, new ArrayList<>())) {
-                if (processor.process(message) == MessagePipeline.ABORT) {
+                if (processor.process(message) == MessagePipeline.AVAILABLE) {
                     break;
                 }
             }

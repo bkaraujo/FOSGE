@@ -15,7 +15,7 @@ public record MessageProcessor (
             return (MessagePipeline) method.invoke(container, message);
         } catch (Throwable throwable) {
             Logger.fatal("Failed to process %s: %s", Meta.fqn(message), throwable.toString());
-            return MessagePipeline.CONTINUE;
+            return MessagePipeline.CONSUMED;
         }
     }
 

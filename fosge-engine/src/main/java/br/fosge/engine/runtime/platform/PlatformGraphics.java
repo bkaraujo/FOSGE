@@ -96,7 +96,7 @@ public final class PlatformGraphics implements Lifecycle {
     @MessageListener
     public MessagePipeline handle(WindowResizedEvent event) {
         opengl.glViewport(0, 0, event.width, event.height);
-        return MessagePipeline.CONTINUE;
+        return MessagePipeline.CONSUMED;
     }
 
     public Shader shader() {

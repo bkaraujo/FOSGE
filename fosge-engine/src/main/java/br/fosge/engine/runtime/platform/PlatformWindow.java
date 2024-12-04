@@ -80,7 +80,7 @@ public final class PlatformWindow implements Lifecycle {
     @MessageListener
     public MessagePipeline handle(WindowResizedEvent event) {
         PlatformState.windowAspectRatio = (float) event.width / event.height;
-        return MessagePipeline.CONTINUE;
+        return MessagePipeline.CONSUMED;
     }
 
     @Override

@@ -1,7 +1,7 @@
 package br.fosge.editor.ui;
 
-import br.fosge.editor.ui.dialog.ProjectBrowseDialog;
-import br.fosge.editor.ui.forms.EditorForm;
+import br.fosge.editor.dialog.ProjectBrowseDialog;
+import br.fosge.editor.forms.EditorForm;
 
 public abstract class Forms {
     private Forms() { /* Private constructor */ }

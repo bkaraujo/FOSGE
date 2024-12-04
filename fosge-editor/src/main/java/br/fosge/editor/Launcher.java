@@ -3,8 +3,8 @@ package br.fosge.editor;
 import br.fosge.Logger;
 import br.fosge.MessageBus;
 import br.fosge.editor.ui.Forms;
+import br.fosge.editor.ui.SwingTools;
 import br.fosge.editor.ui.UIState;
-import br.fosge.editor.ui.Components;
 import br.fosge.editor.ui.event.UIBeepEvent;
 import br.fosge.logger.LogLevel;
 import br.fosge.message.MessageListener;
@@ -42,7 +42,7 @@ public class Launcher {
                 Logger.error("Failed to initialize Form");
             }
 
-            Components.centralize(form);
+            SwingTools.centralize(form);
             form.setVisible(true);
         });
     }

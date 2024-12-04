@@ -1,9 +1,9 @@
 package br.fosge.engine.runtime;
 
 import br.fosge.Logger;
+import br.fosge.MessageBus;
 import br.fosge.Time;
 import br.fosge.annotation.Lifecycle;
-import br.fosge.MessageBus;
 import br.fosge.engine.ecs.System;
 import br.fosge.engine.platform.window.WindowClosedEvent;
 import br.fosge.engine.platform.window.WindowMinimizedEvent;

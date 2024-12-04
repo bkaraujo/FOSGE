@@ -1,8 +1,8 @@
 package br.fosge.engine.runtime.platform;
 
 import br.fosge.Logger;
-import br.fosge.annotation.Lifecycle;
 import br.fosge.MessageBus;
+import br.fosge.annotation.Lifecycle;
 import br.fosge.engine.graphics.Geometry;
 import br.fosge.engine.graphics.Shader;
 import br.fosge.engine.graphics.Texture;

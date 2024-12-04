@@ -1,4 +1,4 @@
-package br.fosge.editor.ui.forms;
+package br.fosge.editor.forms;
 
 import br.fosge.Logger;
 import br.fosge.annotation.Lifecycle;

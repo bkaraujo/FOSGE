@@ -1,6 +1,6 @@
 package br.fosge.engine.runtime.platform;
 
-import br.fosge.engine.annotation.Lifecycle;
+import br.fosge.annotation.Lifecycle;
 
 public final class PlatformNetwork implements Lifecycle {
 

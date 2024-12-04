@@ -1,7 +1,7 @@
 package br.fosge.engine.runtime.platform;
 
-import br.fosge.engine.annotation.Specification;
-import br.fosge.engine.graphics.Resolution;
+import br.fosge.annotation.Specification;
+import br.fosge.graphics.Resolution;
 import br.fosge.engine.platform.graphics.GraphicsSpec;
 import br.fosge.engine.platform.window.WindowSpec;
 

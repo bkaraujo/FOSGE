@@ -1,6 +1,6 @@
 package br.fosge.engine.graphics.geometry;
 
-import br.fosge.engine.annotation.Specification;
+import br.fosge.annotation.Specification;
 import br.fosge.engine.graphics.DataType;
 import br.fosge.engine.graphics.DrawMode;
 

@@ -1,6 +1,6 @@
 package br.fosge.engine.graphics;
 
-import br.fosge.engine.annotation.Configurable;
+import br.fosge.annotation.Configurable;
 import org.joml.*;
 
 public interface Shader extends GraphicsObject, Configurable {

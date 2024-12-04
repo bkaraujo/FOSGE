@@ -4,8 +4,8 @@ import br.fosge.Logger;
 import br.fosge.Version;
 import br.fosge.engine.configuration.*;
 import br.fosge.engine.ecs.ComponentType;
-import br.fosge.engine.graphics.Resolution;
-import br.fosge.engine.logger.LogLevel;
+import br.fosge.graphics.Resolution;
+import br.fosge.logger.LogLevel;
 import br.fosge.tools.Meta;
 import br.fosge.tools.Yaml;
 

@@ -18,11 +18,6 @@
 
     <properties>
         <dependency.runtime.lwjgl>3.3.4</dependency.runtime.lwjgl>
-        <dependency.runtime.joml>1.10.7</dependency.runtime.joml>
-        <dependency.runtime.joml-p>1.10.0</dependency.runtime.joml-p>
-        <dependency.runtime.aspectj>1.9.22.1</dependency.runtime.aspectj>
-        <dependency.runtime.jackson>2.18.1</dependency.runtime.jackson>
-        <dependency.runtime.ulid>5.2.3</dependency.runtime.ulid>
     </properties>
 
     <dependencyManagement>
@@ -53,45 +48,6 @@
         <dependency><groupId>org.lwjgl</groupId><artifactId>lwjgl-stb</artifactId><classifier>natives-${profile.platform}</classifier></dependency>
         <dependency><groupId>org.lwjgl</groupId><artifactId>lwjgl-jemalloc</artifactId><classifier>natives-${profile.platform}</classifier></dependency>
 
-        <dependency><groupId>org.joml</groupId><artifactId>joml</artifactId><version>${dependency.runtime.joml}</version></dependency>
-        <dependency><groupId>org.joml</groupId><artifactId>joml-primitives</artifactId><version>${dependency.runtime.joml-p}</version></dependency>
-
-        <dependency><groupId>org.aspectj</groupId><artifactId>aspectjrt</artifactId><version>${dependency.runtime.aspectj}</version></dependency>
-        <dependency><groupId>org.aspectj</groupId><artifactId>aspectjweaver</artifactId><version>${dependency.runtime.aspectj}</version></dependency>
-
-        <dependency><groupId>com.fasterxml.jackson.dataformat</groupId><artifactId>jackson-dataformat-yaml</artifactId><version>${dependency.runtime.jackson}</version></dependency>
-        <dependency><groupId>com.fasterxml.jackson.datatype</groupId><artifactId>jackson-datatype-jsr310</artifactId><version>${dependency.runtime.jackson}</version></dependency>
-
-        <dependency><groupId>com.github.f4b6a3</groupId><artifactId>ulid-creator</artifactId><version>${dependency.runtime.ulid}</version></dependency>
+        <dependency><groupId>br.fosge</groupId><artifactId>fosge-tools</artifactId><version>1.0.0</version></dependency>
     </dependencies>
-
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>dev.aspectj</groupId>
-                <artifactId>aspectj-maven-plugin</artifactId>
-                <version>1.13.1</version>
-                <dependencies>
-                    <dependency>
-                        <groupId>org.aspectj</groupId>
-                        <artifactId>aspectjtools</artifactId>
-                        <version>${dependency.runtime.aspectj}</version>
-                    </dependency>
-                </dependencies>
-                <configuration>
-                    <complianceLevel>${maven.compiler.target}</complianceLevel>
-                    <showWeaveInfo>true</showWeaveInfo>
-                    <verbose>true</verbose>
-                    <encoding>${maven.resources.encoding}</encoding>
-                </configuration>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>compile</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-        </plugins>
-    </build>
 </project>

@@ -1,7 +1,7 @@
 package br.fosge.engine.runtime.scene;
 
 import br.fosge.Logger;
-import br.fosge.engine.annotation.Lifecycle;
+import br.fosge.annotation.Lifecycle;
 import br.fosge.engine.runtime.Graphics;
 import br.fosge.engine.runtime.application.OnFrame;
 import br.fosge.engine.runtime.ecs.ECS;

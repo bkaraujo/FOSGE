@@ -1,6 +1,6 @@
 package br.fosge.engine.runtime.scene;
 
-import br.fosge.engine.annotation.Specification;
+import br.fosge.annotation.Specification;
 
 public record Camera2DSpec (
     float left,

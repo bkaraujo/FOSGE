@@ -2,11 +2,9 @@ package br.fosge.engine.runtime;
 
 import br.fosge.Logger;
 import br.fosge.Time;
-import br.fosge.engine.MessageBus;
-import br.fosge.engine.annotation.Lifecycle;
+import br.fosge.annotation.Lifecycle;
+import br.fosge.MessageBus;
 import br.fosge.engine.ecs.System;
-import br.fosge.engine.message.MessageListener;
-import br.fosge.engine.message.MessagePipeline;
 import br.fosge.engine.platform.window.WindowClosedEvent;
 import br.fosge.engine.platform.window.WindowMinimizedEvent;
 import br.fosge.engine.platform.window.WindowRestoredEvent;
@@ -15,6 +13,8 @@ import br.fosge.engine.runtime.ecs.system.AudioSystem;
 import br.fosge.engine.runtime.platform.InputListener;
 import br.fosge.engine.runtime.platform.PlatformState;
 import br.fosge.engine.runtime.scene.Scene;
+import br.fosge.message.MessageListener;
+import br.fosge.message.MessagePipeline;
 import org.lwjgl.glfw.GLFWErrorCallback;
 
 import java.util.ArrayList;

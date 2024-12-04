@@ -1,6 +1,6 @@
 package br.fosge.engine.ecs;
 
-import br.fosge.engine.annotation.Lifecycle;
+import br.fosge.annotation.Lifecycle;
 import br.fosge.engine.configuration.Tuple;
 import com.github.f4b6a3.ulid.Ulid;
 

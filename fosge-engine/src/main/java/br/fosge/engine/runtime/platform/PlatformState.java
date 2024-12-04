@@ -1,7 +1,7 @@
 package br.fosge.engine.runtime.platform;
 
 import br.fosge.Version;
-import br.fosge.engine.annotation.State;
+import br.fosge.annotation.State;
 import org.joml.Vector2i;
 
 public abstract class PlatformState implements State {

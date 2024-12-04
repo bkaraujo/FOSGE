@@ -1,7 +1,7 @@
 package br.fosge.engine.runtime.platform.binding.opengl.objects;
 
 import br.fosge.Logger;
-import br.fosge.engine.annotation.Specification;
+import br.fosge.annotation.Specification;
 import br.fosge.engine.diagnostics.Diagnostics;
 import br.fosge.engine.graphics.DataType;
 import br.fosge.engine.graphics.DrawMode;

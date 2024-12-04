@@ -13,4 +13,36 @@
 
     <artifactId>fosge-editor</artifactId>
 
+    <properties>
+        <project.mainClass>br.fosge.editor.Launcher</project.mainClass>
+    </properties>
+
+    <dependencies>
+        <dependency><groupId>br.fosge</groupId><artifactId>fosge-tools</artifactId><version>1.0.0</version></dependency>
+    </dependencies>
+
+    <profiles>
+        <profile>
+            <id>editor</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.codehaus.mojo</groupId>
+                        <artifactId>exec-maven-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <phase>verify</phase>
+                                <goals>
+                                    <goal>java</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                        <configuration>
+                            <mainClass>${project.mainClass}</mainClass>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
 </project>

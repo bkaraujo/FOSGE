@@ -1,7 +1,7 @@
 package br.fosge.engine.runtime.platform;
 
 import br.fosge.Logger;
-import br.fosge.engine.annotation.Lifecycle;
+import br.fosge.annotation.Lifecycle;
 import br.fosge.engine.audio.AudioBuffer;
 import br.fosge.engine.audio.AudioSource;
 import br.fosge.engine.diagnostics.Diagnostics;

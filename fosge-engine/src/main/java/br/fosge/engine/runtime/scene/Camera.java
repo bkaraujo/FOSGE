@@ -1,7 +1,7 @@
 package br.fosge.engine.runtime.scene;
 
-import br.fosge.engine.annotation.Configurable;
-import br.fosge.engine.annotation.Lifecycle;
+import br.fosge.annotation.Configurable;
+import br.fosge.annotation.Lifecycle;
 import org.joml.Matrix4fc;
 
 public interface Camera extends Lifecycle, Configurable {

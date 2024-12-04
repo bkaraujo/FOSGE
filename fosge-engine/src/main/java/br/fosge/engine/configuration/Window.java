@@ -1,6 +1,6 @@
 package br.fosge.engine.configuration;
 
-import br.fosge.engine.graphics.Resolution;
+import br.fosge.graphics.Resolution;
 
 public record Window(
         String title,

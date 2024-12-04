@@ -1,9 +1,9 @@
 package br.fosge.engine.runtime.platform;
 
-import br.fosge.engine.message.MessageListener;
-import br.fosge.engine.message.MessagePipeline;
 import br.fosge.engine.platform.input.*;
 import br.fosge.engine.runtime.RuntimeState;
+import br.fosge.message.MessageListener;
+import br.fosge.message.MessagePipeline;
 
 public final class InputListener {
 

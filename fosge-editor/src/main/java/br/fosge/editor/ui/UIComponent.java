@@ -38,8 +38,6 @@ public abstract class UIComponent {
         return menu;
     }
 
-
-
     public static JLabel label(String title) {
         return label(title, (br.fosge.graphics.Rectangle) null);
     }

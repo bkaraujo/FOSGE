@@ -8,4 +8,5 @@ public abstract class UIState implements State {
     private UIState(){/* Private constructor */}
 
     public static Component lastFocus;
+
 }

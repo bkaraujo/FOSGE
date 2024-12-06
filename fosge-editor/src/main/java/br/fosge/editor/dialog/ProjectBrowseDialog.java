@@ -1,7 +1,7 @@
 package br.fosge.editor.dialog;
 
 import br.fosge.Logger;
-import br.fosge.annotation.Lifecycle;
+import br.fosge.editor.ui.FFrame;
 import br.fosge.editor.ui.SwingTools;
 import br.fosge.editor.ui.UIComponent;
 import br.fosge.editor.ui.UIContainer;
@@ -13,7 +13,7 @@ import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
-public class ProjectBrowseDialog extends JFrame implements Lifecycle {
+public class ProjectBrowseDialog extends FFrame {
 
     @Override
     public boolean initialize() {
@@ -54,8 +54,8 @@ public class ProjectBrowseDialog extends JFrame implements Lifecycle {
             SwingTools.onMouseHover(lblCreateProject, Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
             pnlActionType.add(lblCreateProject);
 
-            pnlCards.add(new ProjectOpenBrowseDialog(), Meta.fqn(ProjectOpenBrowseDialog.class));
-            pnlCards.add(new ProjectCreateBrowseDialog(), Meta.fqn(ProjectCreateBrowseDialog.class));
+            pnlCards.add(new ProjectOpenBrowseDialog(this), Meta.fqn(ProjectOpenBrowseDialog.class));
+            pnlCards.add(new ProjectCreateBrowseDialog(this), Meta.fqn(ProjectCreateBrowseDialog.class));
 
             add(pnlActionType, BorderLayout.NORTH);
             add(pnlCards, BorderLayout.CENTER);

@@ -1,76 +1,122 @@
 package br.fosge.editor.dialog;
 
-import br.fosge.editor.ui.SwingTools;
-import br.fosge.editor.ui.UIComponent;
-import br.fosge.editor.ui.UIContainer;
-import br.fosge.editor.ui.UIControl;
+import br.fosge.Logger;
+import br.fosge.Triplet;
+import br.fosge.editor.command.CreateProjectCommand;
+import br.fosge.editor.command.OpenWindowCommand;
+import br.fosge.editor.ui.*;
+import br.fosge.editor.ui.component.DocumentAdapter;
 import br.fosge.editor.ui.component.JImagePanel;
 import br.fosge.editor.ui.component.RadioButtonSpec;
 import br.fosge.graphics.Rectangle;
 
 import javax.swing.*;
+import javax.swing.border.Border;
+import javax.swing.event.DocumentEvent;
+import javax.swing.text.JTextComponent;
 import java.awt.*;
 import java.awt.event.ActionListener;
+import java.nio.file.Path;
+import java.util.ArrayList;
+import java.util.List;
 
-public class ProjectCreateBrowseDialog extends JPanel {
+public class ProjectCreateBrowseDialog extends FPanel {
 
-    public ProjectCreateBrowseDialog() {
+    private final JFrame window;
+    private JTextField txtName;
+    private JTextField txtDirectory;
+    private ButtonGroup groupProjectType;
+
+    private Border txtNameBorder;
+    private Border txtDirectoryBorder;
+
+    public ProjectCreateBrowseDialog(JFrame window) {
+        this.window = window;
         setLayout(new BorderLayout());
         SwingTools.emptyBorder(this, new Rectangle(10, 10));
 
         add(newCreateProjectControls(), BorderLayout.CENTER);
         add(newCreateProjectActions(), BorderLayout.SOUTH);
+        reset();
     }
-
 
     private JPanel newCreateProjectControls() {
         final var panel = UIContainer.border();
-//        panel.setBorder(BorderFactory.createLineBorder(Color.green, 3, true));
         // ###################################
         // Project Data
         // ###################################
         final var constraints = new GridBagConstraints();
-        constraints.gridx = 0;
-        constraints.gridy = 0;
-        constraints.gridwidth = 1;
-        constraints.gridheight = 1;
-        //constraints.insets = (constraints.gridx == 0) ? WEST_INSETS : EAST_INSETS;
-        constraints.weighty = 1.0;
 
         final var pnlProjectData = UIContainer.girdBag();
         SwingTools.emptyBorder(pnlProjectData, new br.fosge.graphics.Rectangle(10, 0));
         panel.add(pnlProjectData, BorderLayout.NORTH);
 
-        constraints.weightx = (constraints.gridx == 0) ? 0.1 : 1.0;
-        constraints.anchor = (constraints.gridx == 0) ? GridBagConstraints.WEST : GridBagConstraints.EAST;
-        constraints.fill = (constraints.gridy == 0) ? GridBagConstraints.BOTH : GridBagConstraints.HORIZONTAL;
-        pnlProjectData.add(UIComponent.label("     Name: "), constraints);
+        UIContainer.gridBagXYWH(constraints, 0, 0, 1, 1);
+        UIContainer.gridBagWXWY(constraints, (constraints.gridx == 0) ? 0.1 : 1.0, 1.0);
+        UIContainer.gridBagAF(constraints,
+                (constraints.gridx == 0) ? GridBagConstraints.WEST : GridBagConstraints.EAST,
+                (constraints.gridy == 0) ? GridBagConstraints.BOTH : GridBagConstraints.HORIZONTAL
+        );
+        pnlProjectData.add(UIComponent.label("Name: "), constraints);
 
-        constraints.gridx = 1;
-        constraints.gridwidth = 2;
-        constraints.weightx = (constraints.gridx == 0) ? 0.1 : 1.0;
-        constraints.anchor = (constraints.gridx == 0) ? GridBagConstraints.WEST : GridBagConstraints.EAST;
-        constraints.fill = (constraints.gridy == 0) ? GridBagConstraints.BOTH : GridBagConstraints.HORIZONTAL;
-        pnlProjectData.add(UIControl.textField(20), constraints);
+        UIContainer.gridBagXYWH(constraints, 1, 0, 2, 1);
+        UIContainer.gridBagWXWY(constraints, (constraints.gridx == 0) ? 0.1 : 1.0, 1.0);
+        UIContainer.gridBagAF(constraints,
+                (constraints.gridx == 0) ? GridBagConstraints.WEST : GridBagConstraints.EAST,
+                (constraints.gridy == 0) ? GridBagConstraints.BOTH : GridBagConstraints.HORIZONTAL
+        );
+        txtName = UIControl.textField(20, new DocumentAdapter() {
+            private final JTextComponent component = txtName;
+            private Border border;
 
-        constraints.gridy++;
-        constraints.gridx = 0;
-        constraints.gridwidth = 1;
-        constraints.weightx = (constraints.gridx == 0) ? 0.1 : 1.0;
-        constraints.anchor = (constraints.gridx == 0) ? GridBagConstraints.WEST : GridBagConstraints.EAST;
-        constraints.fill = (constraints.gridy == 0) ? GridBagConstraints.BOTH : GridBagConstraints.HORIZONTAL;
+            @Override
+            public void changedUpdate(DocumentEvent e) {
+                if (border == null) { border = component.getBorder(); }
+
+                if (!component.getText().trim().isEmpty()) {
+                    if (component.getBorder() != border) {
+                        component.setBorder(border);
+                    }
+                }
+            }
+        });
+        txtNameBorder = txtName.getBorder();
+        pnlProjectData.add(txtName, constraints);
+
+        UIContainer.gridBagXYWH(constraints, 0, 1, 1, 1);
+        UIContainer.gridBagWXWY(constraints, (constraints.gridx == 0) ? 0.1 : 1.0, 1.0);
+        UIContainer.gridBagAF(constraints,
+                (constraints.gridx == 0) ? GridBagConstraints.WEST : GridBagConstraints.EAST,
+                (constraints.gridy == 0) ? GridBagConstraints.BOTH : GridBagConstraints.HORIZONTAL
+        );
         pnlProjectData.add(UIComponent.label("Directory: "), constraints);
 
-        constraints.gridx = 1;
-        constraints.weightx = (constraints.gridx == 0) ? 0.1 : 1.0;
-        constraints.anchor = (constraints.gridx == 0) ? GridBagConstraints.WEST : GridBagConstraints.EAST;
-        constraints.fill = (constraints.gridy == 0) ? GridBagConstraints.BOTH : GridBagConstraints.HORIZONTAL;
-        final var txtDirectory = UIControl.textField();
+        UIContainer.gridBagXYWH(constraints, 1, 1, 1, 1);
+        UIContainer.gridBagWXWY(constraints, (constraints.gridx == 0) ? 0.1 : 1.0, 1.0);
+        UIContainer.gridBagAF(constraints,
+                (constraints.gridx == 0) ? GridBagConstraints.WEST : GridBagConstraints.EAST,
+                (constraints.gridy == 0) ? GridBagConstraints.BOTH : GridBagConstraints.HORIZONTAL
+        );
+        txtDirectory = UIControl.textField(new DocumentAdapter() {
+            private final JTextComponent component = txtDirectory;
+            private Border border;
+
+            @Override
+            public void changedUpdate(DocumentEvent e) {
+                if (border == null) { border = component.getBorder(); }
+                if (!component.getText().trim().isEmpty()) {
+                    if (component.getBorder() != border) {
+                        component.setBorder(border);
+                    }
+                }
+            }
+        });
         txtDirectory.setEditable(false);
+        txtDirectoryBorder = txtDirectory.getBorder();
         pnlProjectData.add(txtDirectory, constraints);
 
-        constraints.gridx = 2;
-        constraints.weightx = (constraints.gridx == 0) ? 0.1 : 1.0;
+        UIContainer.gridBagXYWH(constraints, 2, 1, 1, 1);
+        UIContainer.gridBagWXWY(constraints, (constraints.gridx == 0) ? 0.1 : 1.0, 1.0);
         constraints.anchor = (constraints.gridx == 0) ? GridBagConstraints.WEST : GridBagConstraints.EAST;
         constraints.fill = (constraints.gridy == 0) ? GridBagConstraints.BOTH : GridBagConstraints.HORIZONTAL;
         pnlProjectData.add(UIControl.button("...", (ActionListener) _ -> {
@@ -83,16 +129,16 @@ public class ProjectCreateBrowseDialog extends JPanel {
         panel.add(pnlProjectType, BorderLayout.CENTER);
 
         final var pnlProjectTypes = UIContainer.box(BoxLayout.Y_AXIS);
-//        pnlProjectTypes.setBackground(Color.PINK);
         SwingTools.emptyBorder(pnlProjectTypes, new br.fosge.graphics.Rectangle(0, 60, 40, 40));
-        final var group = new ButtonGroup();
+        groupProjectType = new ButtonGroup();
 
         UIControl
                 .radioButton(
-                        new RadioButtonSpec(group, "Empty"),
-                        new RadioButtonSpec(group, "1st Person"),
-                        new RadioButtonSpec(group, "3rd Person"))
+                        new RadioButtonSpec(groupProjectType, "Empty"),
+                        new RadioButtonSpec(groupProjectType, "1st Person"),
+                        new RadioButtonSpec(groupProjectType, "3rd Person"))
                 .forEach(pnlProjectTypes::add);
+
         pnlProjectType.add(pnlProjectTypes);
         // ###################################
         // Project Image
@@ -106,11 +152,86 @@ public class ProjectCreateBrowseDialog extends JPanel {
         return panel;
     }
 
+    public void reset() {
+        txtName.setText("");
+        txtName.setBorder(txtNameBorder);
+
+        txtDirectory.setText("");
+        txtDirectory.setBorder(txtDirectoryBorder);
+
+        UIControl.clear(groupProjectType);
+    }
+
+    @Override
+    public List<Triplet<?>> values() {
+        final var values = new ArrayList<Triplet<?>>();
+
+        values.add(new Triplet<>("name", String.class, txtName.getText()));
+        values.add(new Triplet<>("path", String.class, txtDirectory.getText()));
+        final var radioButton = UIControl.radioButton(groupProjectType);
+        if (radioButton != null) { values.add(new Triplet<>("type", String.class, radioButton.getName())); }
+
+        return values;
+    }
+
     private JPanel newCreateProjectActions() {
         final var panel = UIContainer.flow(5, 40);
-        panel.add(UIControl.button("Create"));
+        panel.add(UIControl.button("Create", (ActionListener) _ -> {
+            boolean valid = true;
+            txtName.setBorder(txtNameBorder);
+            txtDirectory.setBorder(txtDirectoryBorder);
+
+            final var projectName = txtName.getText();
+            if (projectName == null || projectName.isEmpty()) {
+                Logger.warn("Project Name not defined");
+                if (txtName.getBorder() == txtNameBorder) {
+                    txtName.setBorder(UIControl.errorBorder());
+                }
+
+                valid = false;
+            }
+
+            final var projectDirectory = txtDirectory.getText();
+            if (projectDirectory == null || projectDirectory.isEmpty()) {
+                Logger.warn("Project Directory not defined");
+                if (txtDirectory.getBorder() == txtDirectoryBorder) {
+                    txtDirectory.setBorder(UIControl.errorBorder());
+                }
+
+                valid = false;
+            }
+
+            final var radioButton = UIControl.radioButton(groupProjectType);
+            if (radioButton == null) {
+                Logger.warn("No Project Type Selected");
+                valid = false;
+            }
+
+            if (!valid) {
+                return;
+            }
+
+            if (!new CreateProjectCommand().execute(values())) {
+                reset();
+            }
+
+            if (!new OpenWindowCommand().execute(List.of(
+                    new Triplet<>("frame", JFrame.class, Forms.editor()),
+                    new Triplet<>("path", Path.class, Path.of(txtDirectory.getText(), txtName.getText()))
+            ))) {
+                JOptionPane.showMessageDialog(
+                        null,
+                        "Failed to open project window",
+                        "FOSGE :: error",
+                        JOptionPane.ERROR_MESSAGE
+                );
+            }
+
+            window.dispose();
+        }));
+
         panel.add(Box.createHorizontalStrut(80));
-        panel.add(UIControl.button("Cancel"));
+        panel.add(UIControl.button("Cancel", (ActionListener) _ -> reset()));
 
         return panel;
     }

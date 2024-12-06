@@ -355,16 +355,16 @@ public interface GL13 {
     /** Double version of {@link #glMultiTexCoord1f MultiTexCoord1f}.@param texture the coordinate set to be modified@param s the s component of the current texture coordinates@see <a href="https://docs.gl/gl3/glMultiTexCoord">Reference Page</a> - <em>This function is deprecated and unavailable in the Core profile</em>*/
     void glMultiTexCoord1d(int texture, double s);
 
-    /** Pointer version of {@link #glMultiTexCoord1f MultiTexCoord1f}.@param texture the coordinate set to be modified@param v the texture coordinate buffer@see <a href="https://docs.gl/gl3/glMultiTexCoord">Reference Page</a> - <em>This function is deprecated and unavailable in the Core profile</em>*/
+    /** Pointer version of {@link #glMultiTexCoord1f MultiTexCoord1f}.@param texture the coordinate set to be modified@param _2 the texture coordinate buffer@see <a href="https://docs.gl/gl3/glMultiTexCoord">Reference Page</a> - <em>This function is deprecated and unavailable in the Core profile</em>*/
     void glMultiTexCoord1fv(int texture, FloatBuffer v);
 
-    /** Pointer version of {@link #glMultiTexCoord1s MultiTexCoord1s}.@param texture the coordinate set to be modified@param v the texture coordinate buffer@see <a href="https://docs.gl/gl3/glMultiTexCoord">Reference Page</a> - <em>This function is deprecated and unavailable in the Core profile</em>*/
+    /** Pointer version of {@link #glMultiTexCoord1s MultiTexCoord1s}.@param texture the coordinate set to be modified@param _2 the texture coordinate buffer@see <a href="https://docs.gl/gl3/glMultiTexCoord">Reference Page</a> - <em>This function is deprecated and unavailable in the Core profile</em>*/
     void glMultiTexCoord1sv(int texture, ShortBuffer v);
 
-    /** Pointer version of {@link #glMultiTexCoord1i MultiTexCoord1i}.@param texture the coordinate set to be modified@param v the texture coordinate buffer@see <a href="https://docs.gl/gl3/glMultiTexCoord">Reference Page</a> - <em>This function is deprecated and unavailable in the Core profile</em>*/
+    /** Pointer version of {@link #glMultiTexCoord1i MultiTexCoord1i}.@param texture the coordinate set to be modified@param _2 the texture coordinate buffer@see <a href="https://docs.gl/gl3/glMultiTexCoord">Reference Page</a> - <em>This function is deprecated and unavailable in the Core profile</em>*/
     void glMultiTexCoord1iv(int texture, IntBuffer v);
 
-    /** Pointer version of {@link #glMultiTexCoord1d MultiTexCoord1d}.@param texture the coordinate set to be modified@param v the texture coordinate buffer@see <a href="https://docs.gl/gl3/glMultiTexCoord">Reference Page</a> - <em>This function is deprecated and unavailable in the Core profile</em>*/
+    /** Pointer version of {@link #glMultiTexCoord1d MultiTexCoord1d}.@param texture the coordinate set to be modified@param _2 the texture coordinate buffer@see <a href="https://docs.gl/gl3/glMultiTexCoord">Reference Page</a> - <em>This function is deprecated and unavailable in the Core profile</em>*/
     void glMultiTexCoord1dv(int texture, DoubleBuffer v);
 
     /** Sets the current two-dimensional texture coordinate for the specified texture coordinate set. {@code r} is implicitly set to 0 and {@code q} to 1.@param texture the coordinate set to be modified@param s the s component of the current texture coordinates@param t the t component of the current texture coordinates@see <a href="https://docs.gl/gl3/glMultiTexCoord">Reference Page</a> - <em>This function is deprecated and unavailable in the Core profile</em>*/
@@ -379,16 +379,16 @@ public interface GL13 {
     /** Double version of {@link #glMultiTexCoord2f MultiTexCoord2f}.@param texture the coordinate set to be modified@param s the s component of the current texture coordinates@param t the t component of the current texture coordinates@see <a href="https://docs.gl/gl3/glMultiTexCoord">Reference Page</a> - <em>This function is deprecated and unavailable in the Core profile</em>*/
     void glMultiTexCoord2d(int texture, double s, double t);
 
-    /** Pointer version of {@link #glMultiTexCoord2f MultiTexCoord2f}.@param texture the coordinate set to be modified@param v the texture coordinate buffer@see <a href="https://docs.gl/gl3/glMultiTexCoord">Reference Page</a> - <em>This function is deprecated and unavailable in the Core profile</em>*/
+    /** Pointer version of {@link #glMultiTexCoord2f MultiTexCoord2f}.@param texture the coordinate set to be modified@param _2 the texture coordinate buffer@see <a href="https://docs.gl/gl3/glMultiTexCoord">Reference Page</a> - <em>This function is deprecated and unavailable in the Core profile</em>*/
     void glMultiTexCoord2fv(int texture, FloatBuffer v);
 
-    /** Pointer version of {@link #glMultiTexCoord2s MultiTexCoord2s}.@param texture the coordinate set to be modified@param v the texture coordinate buffer@see <a href="https://docs.gl/gl3/glMultiTexCoord">Reference Page</a> - <em>This function is deprecated and unavailable in the Core profile</em>*/
+    /** Pointer version of {@link #glMultiTexCoord2s MultiTexCoord2s}.@param texture the coordinate set to be modified@param _2 the texture coordinate buffer@see <a href="https://docs.gl/gl3/glMultiTexCoord">Reference Page</a> - <em>This function is deprecated and unavailable in the Core profile</em>*/
     void glMultiTexCoord2sv(int texture, ShortBuffer v);
 
-    /** Pointer version of {@link #glMultiTexCoord2i MultiTexCoord2i}.@param texture the coordinate set to be modified@param v the texture coordinate buffer@see <a href="https://docs.gl/gl3/glMultiTexCoord">Reference Page</a> - <em>This function is deprecated and unavailable in the Core profile</em>*/
+    /** Pointer version of {@link #glMultiTexCoord2i MultiTexCoord2i}.@param texture the coordinate set to be modified@param _2 the texture coordinate buffer@see <a href="https://docs.gl/gl3/glMultiTexCoord">Reference Page</a> - <em>This function is deprecated and unavailable in the Core profile</em>*/
     void glMultiTexCoord2iv(int texture, IntBuffer v);
 
-    /** Pointer version of {@link #glMultiTexCoord2d MultiTexCoord2d}.@param texture the coordinate set to be modified@param v the texture coordinate buffer@see <a href="https://docs.gl/gl3/glMultiTexCoord">Reference Page</a> - <em>This function is deprecated and unavailable in the Core profile</em>*/
+    /** Pointer version of {@link #glMultiTexCoord2d MultiTexCoord2d}.@param texture the coordinate set to be modified@param _2 the texture coordinate buffer@see <a href="https://docs.gl/gl3/glMultiTexCoord">Reference Page</a> - <em>This function is deprecated and unavailable in the Core profile</em>*/
     void glMultiTexCoord2dv(int texture, DoubleBuffer v);
 
     /** Sets the current three-dimensional texture coordinate for the specified texture coordinate set. {@code q} is implicitly set to 1.@param texture the coordinate set to be modified@param s the s component of the current texture coordinates@param t the t component of the current texture coordinates@param r the r component of the current texture coordinates@see <a href="https://docs.gl/gl3/glMultiTexCoord">Reference Page</a> - <em>This function is deprecated and unavailable in the Core profile</em>*/
@@ -403,16 +403,16 @@ public interface GL13 {
     /** Double version of {@link #glMultiTexCoord3f MultiTexCoord3f}.@param texture the coordinate set to be modified@param s the s component of the current texture coordinates@param t the t component of the current texture coordinates@param r the r component of the current texture coordinates@see <a href="https://docs.gl/gl3/glMultiTexCoord">Reference Page</a> - <em>This function is deprecated and unavailable in the Core profile</em>*/
     void glMultiTexCoord3d(int texture, double s, double t, double r);
 
-    /** Pointer version of {@link #glMultiTexCoord3f MultiTexCoord3f}.@param texture the coordinate set to be modified@param v the texture coordinate buffer@see <a href="https://docs.gl/gl3/glMultiTexCoord">Reference Page</a> - <em>This function is deprecated and unavailable in the Core profile</em>*/
+    /** Pointer version of {@link #glMultiTexCoord3f MultiTexCoord3f}.@param texture the coordinate set to be modified@param _2 the texture coordinate buffer@see <a href="https://docs.gl/gl3/glMultiTexCoord">Reference Page</a> - <em>This function is deprecated and unavailable in the Core profile</em>*/
     void glMultiTexCoord3fv(int texture, FloatBuffer v);
 
-    /** Pointer version of {@link #glMultiTexCoord3s MultiTexCoord3s}.@param texture the coordinate set to be modified@param v the texture coordinate buffer@see <a href="https://docs.gl/gl3/glMultiTexCoord">Reference Page</a> - <em>This function is deprecated and unavailable in the Core profile</em>*/
+    /** Pointer version of {@link #glMultiTexCoord3s MultiTexCoord3s}.@param texture the coordinate set to be modified@param _2 the texture coordinate buffer@see <a href="https://docs.gl/gl3/glMultiTexCoord">Reference Page</a> - <em>This function is deprecated and unavailable in the Core profile</em>*/
     void glMultiTexCoord3sv(int texture, ShortBuffer v);
 
-    /** Pointer version of {@link #glMultiTexCoord3i MultiTexCoord3i}.@param texture the coordinate set to be modified@param v the texture coordinate buffer@see <a href="https://docs.gl/gl3/glMultiTexCoord">Reference Page</a> - <em>This function is deprecated and unavailable in the Core profile</em>*/
+    /** Pointer version of {@link #glMultiTexCoord3i MultiTexCoord3i}.@param texture the coordinate set to be modified@param _2 the texture coordinate buffer@see <a href="https://docs.gl/gl3/glMultiTexCoord">Reference Page</a> - <em>This function is deprecated and unavailable in the Core profile</em>*/
     void glMultiTexCoord3iv(int texture, IntBuffer v);
 
-    /** Pointer version of {@link #glMultiTexCoord3d MultiTexCoord3d}.@param texture the coordinate set to be modified@param v the texture coordinate buffer@see <a href="https://docs.gl/gl3/glMultiTexCoord">Reference Page</a> - <em>This function is deprecated and unavailable in the Core profile</em>*/
+    /** Pointer version of {@link #glMultiTexCoord3d MultiTexCoord3d}.@param texture the coordinate set to be modified@param _2 the texture coordinate buffer@see <a href="https://docs.gl/gl3/glMultiTexCoord">Reference Page</a> - <em>This function is deprecated and unavailable in the Core profile</em>*/
     void glMultiTexCoord3dv(int texture, DoubleBuffer v);
 
     /** Sets the current four-dimensional texture coordinate for the specified texture coordinate set.@param texture the coordinate set to be modified@param s the s component of the current texture coordinates@param t the t component of the current texture coordinates@param r the r component of the current texture coordinates@param q the q component of the current texture coordinates@see <a href="https://docs.gl/gl3/glMultiTexCoord">Reference Page</a> - <em>This function is deprecated and unavailable in the Core profile</em>*/
@@ -427,16 +427,16 @@ public interface GL13 {
     /** Double version of {@link #glMultiTexCoord4f MultiTexCoord4f}.@param texture the coordinate set to be modified@param s the s component of the current texture coordinates@param t the t component of the current texture coordinates@param r the r component of the current texture coordinates@param q the q component of the current texture coordinates@see <a href="https://docs.gl/gl3/glMultiTexCoord">Reference Page</a> - <em>This function is deprecated and unavailable in the Core profile</em>*/
     void glMultiTexCoord4d(int texture, double s, double t, double r, double q);
 
-    /** Pointer version of {@link #glMultiTexCoord4f MultiTexCoord4f}.@param texture the coordinate set to be modified@param v the texture coordinate buffer@see <a href="https://docs.gl/gl3/glMultiTexCoord">Reference Page</a> - <em>This function is deprecated and unavailable in the Core profile</em>*/
+    /** Pointer version of {@link #glMultiTexCoord4f MultiTexCoord4f}.@param texture the coordinate set to be modified@param _2 the texture coordinate buffer@see <a href="https://docs.gl/gl3/glMultiTexCoord">Reference Page</a> - <em>This function is deprecated and unavailable in the Core profile</em>*/
     void glMultiTexCoord4fv(int texture, FloatBuffer v);
 
-    /** Pointer version of {@link #glMultiTexCoord4s MultiTexCoord4s}.@param texture the coordinate set to be modified@param v the texture coordinate buffer@see <a href="https://docs.gl/gl3/glMultiTexCoord">Reference Page</a> - <em>This function is deprecated and unavailable in the Core profile</em>*/
+    /** Pointer version of {@link #glMultiTexCoord4s MultiTexCoord4s}.@param texture the coordinate set to be modified@param _2 the texture coordinate buffer@see <a href="https://docs.gl/gl3/glMultiTexCoord">Reference Page</a> - <em>This function is deprecated and unavailable in the Core profile</em>*/
     void glMultiTexCoord4sv(int texture, ShortBuffer v);
 
-    /** Pointer version of {@link #glMultiTexCoord4i MultiTexCoord4i}.@param texture the coordinate set to be modified@param v the texture coordinate buffer@see <a href="https://docs.gl/gl3/glMultiTexCoord">Reference Page</a> - <em>This function is deprecated and unavailable in the Core profile</em>*/
+    /** Pointer version of {@link #glMultiTexCoord4i MultiTexCoord4i}.@param texture the coordinate set to be modified@param _2 the texture coordinate buffer@see <a href="https://docs.gl/gl3/glMultiTexCoord">Reference Page</a> - <em>This function is deprecated and unavailable in the Core profile</em>*/
     void glMultiTexCoord4iv(int texture, IntBuffer v);
 
-    /** Pointer version of {@link #glMultiTexCoord4d MultiTexCoord4d}.@param texture the coordinate set to be modified@param v the texture coordinate buffer@see <a href="https://docs.gl/gl3/glMultiTexCoord">Reference Page</a> - <em>This function is deprecated and unavailable in the Core profile</em>*/
+    /** Pointer version of {@link #glMultiTexCoord4d MultiTexCoord4d}.@param texture the coordinate set to be modified@param _2 the texture coordinate buffer@see <a href="https://docs.gl/gl3/glMultiTexCoord">Reference Page</a> - <em>This function is deprecated and unavailable in the Core profile</em>*/
     void glMultiTexCoord4dv(int texture, DoubleBuffer v);
 
     /** Sets the current matrix to a 4 &times; 4 matrix in row-major order. <p>The matrix is stored as 16 consecutive values, i.e. as:</p> <table class=striped> <tr><td>a1</td><td>a2</td><td>a3</td><td>a4</td></tr> <tr><td>a5</td><td>a6</td><td>a7</td><td>a8</td></tr> <tr><td>a9</td><td>a10</td><td>a11</td><td>a12</td></tr> <tr><td>a13</td><td>a14</td><td>a15</td><td>a16</td></tr> </table>@param m the matrix data@see <a href="https://docs.gl/gl3/glLoadTransposeMatrixf">Reference Page</a> - <em>This function is deprecated and unavailable in the Core profile</em>*/

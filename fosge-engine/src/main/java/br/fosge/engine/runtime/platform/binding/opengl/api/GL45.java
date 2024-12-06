@@ -36,7 +36,7 @@ public interface GL45 {
     /** Accepted by the {@code pname} parameter of GetBooleanv, GetDoublev, GetFloatv, GetIntegerv, and GetInteger64v.*/
     int GL_MAX_COMBINED_CLIP_AND_CULL_DISTANCES = 33530;
 
-    /** Accepted by the {@code pname} parameter of GetTextureParameter{if}v and GetTextureParameterI{i ui}v.*/
+    /** Accepted by the {@code pname} parameter of GetTextureParameter{if}_2 and GetTextureParameterI{i ui}_2.*/
     int GL_TEXTURE_TARGET = 4102;
 
     /** Accepted by the {@code pname} parameter of GetQueryObjectiv.*/

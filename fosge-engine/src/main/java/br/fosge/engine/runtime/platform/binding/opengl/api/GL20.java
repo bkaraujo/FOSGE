@@ -135,22 +135,22 @@ public interface GL20 {
     /** Accepted by the {@code cap} parameter of Disable, Enable, and IsEnabled, and by the {@code pname} parameter of GetBooleanv, GetIntegerv, GetFloatv, and GetDoublev.*/
     int GL_VERTEX_PROGRAM_TWO_SIDE = 34371;
 
-    /** Accepted by the {@code pname} parameter of GetVertexAttrib{dfi}v.*/
+    /** Accepted by the {@code pname} parameter of GetVertexAttrib{dfi}_2.*/
     int GL_VERTEX_ATTRIB_ARRAY_ENABLED = 34338;
 
-    /** Accepted by the {@code pname} parameter of GetVertexAttrib{dfi}v.*/
+    /** Accepted by the {@code pname} parameter of GetVertexAttrib{dfi}_2.*/
     int GL_VERTEX_ATTRIB_ARRAY_SIZE = 34339;
 
-    /** Accepted by the {@code pname} parameter of GetVertexAttrib{dfi}v.*/
+    /** Accepted by the {@code pname} parameter of GetVertexAttrib{dfi}_2.*/
     int GL_VERTEX_ATTRIB_ARRAY_STRIDE = 34340;
 
-    /** Accepted by the {@code pname} parameter of GetVertexAttrib{dfi}v.*/
+    /** Accepted by the {@code pname} parameter of GetVertexAttrib{dfi}_2.*/
     int GL_VERTEX_ATTRIB_ARRAY_TYPE = 34341;
 
-    /** Accepted by the {@code pname} parameter of GetVertexAttrib{dfi}v.*/
+    /** Accepted by the {@code pname} parameter of GetVertexAttrib{dfi}_2.*/
     int GL_VERTEX_ATTRIB_ARRAY_NORMALIZED = 34922;
 
-    /** Accepted by the {@code pname} parameter of GetVertexAttrib{dfi}v.*/
+    /** Accepted by the {@code pname} parameter of GetVertexAttrib{dfi}_2.*/
     int GL_CURRENT_VERTEX_ATTRIB = 34342;
 
     /** Accepted by the {@code pname} parameter of GetVertexAttribPointerv.*/
@@ -222,13 +222,13 @@ public interface GL20 {
     /** When the {@code target} parameter of TexEnvf, TexEnvfv, TexEnvi, TexEnviv, GetTexEnvfv, or GetTexEnviv is POINT_SPRITE, then the value of {@code pname} may be.*/
     int GL_COORD_REPLACE = 34914;
 
-    /** Accepted by the {@code pname} parameter of PointParameter{if}v.*/
+    /** Accepted by the {@code pname} parameter of PointParameter{if}_2.*/
     int GL_POINT_SPRITE_COORD_ORIGIN = 36000;
 
-    /** Accepted by the {@code param} parameter of PointParameter{if}v.*/
+    /** Accepted by the {@code param} parameter of PointParameter{if}_2.*/
     int GL_LOWER_LEFT = 36001;
 
-    /** Accepted by the {@code param} parameter of PointParameter{if}v.*/
+    /** Accepted by the {@code param} parameter of PointParameter{if}_2.*/
     int GL_UPPER_LEFT = 36002;
 
     /** Accepted by the {@code pname} parameter of GetBooleanv, GetIntegerv, GetFloatv, and GetDoublev.*/
@@ -468,73 +468,73 @@ public interface GL20 {
     /** Normalized unsigned byte version of {@link #glVertexAttrib4f VertexAttrib4f}.@param index the index of the generic vertex attribute to be modified@param x the vertex attribute x component@param y the vertex attribute y component@param z the vertex attribute z component@param w the vertex attribute w component@see <a href="https://docs.gl/gl4/glVertexAttrib">Reference Page</a>*/
     void glVertexAttrib4Nub(int index, byte x, byte y, byte z, byte w);
 
-    /** Pointer version of {@link #glVertexAttrib1f VertexAttrib1f}.@param index the index of the generic vertex attribute to be modified@param v the vertex attribute buffer@see <a href="https://docs.gl/gl4/glVertexAttrib">Reference Page</a>*/
+    /** Pointer version of {@link #glVertexAttrib1f VertexAttrib1f}.@param index the index of the generic vertex attribute to be modified@param _2 the vertex attribute buffer@see <a href="https://docs.gl/gl4/glVertexAttrib">Reference Page</a>*/
     void glVertexAttrib1fv(int index, FloatBuffer v);
 
-    /** Pointer version of {@link #glVertexAttrib1s VertexAttrib1s}.@param index the index of the generic vertex attribute to be modified@param v the vertex attribute buffer@see <a href="https://docs.gl/gl4/glVertexAttrib">Reference Page</a>*/
+    /** Pointer version of {@link #glVertexAttrib1s VertexAttrib1s}.@param index the index of the generic vertex attribute to be modified@param _2 the vertex attribute buffer@see <a href="https://docs.gl/gl4/glVertexAttrib">Reference Page</a>*/
     void glVertexAttrib1sv(int index, ShortBuffer v);
 
-    /** Pointer version of {@link #glVertexAttrib1d VertexAttrib1d}.@param index the index of the generic vertex attribute to be modified@param v the vertex attribute buffer@see <a href="https://docs.gl/gl4/glVertexAttrib">Reference Page</a>*/
+    /** Pointer version of {@link #glVertexAttrib1d VertexAttrib1d}.@param index the index of the generic vertex attribute to be modified@param _2 the vertex attribute buffer@see <a href="https://docs.gl/gl4/glVertexAttrib">Reference Page</a>*/
     void glVertexAttrib1dv(int index, DoubleBuffer v);
 
-    /** Pointer version of {@link #glVertexAttrib2f VertexAttrib2f}.@param index the index of the generic vertex attribute to be modified@param v the vertex attribute buffer@see <a href="https://docs.gl/gl4/glVertexAttrib">Reference Page</a>*/
+    /** Pointer version of {@link #glVertexAttrib2f VertexAttrib2f}.@param index the index of the generic vertex attribute to be modified@param _2 the vertex attribute buffer@see <a href="https://docs.gl/gl4/glVertexAttrib">Reference Page</a>*/
     void glVertexAttrib2fv(int index, FloatBuffer v);
 
-    /** Pointer version of {@link #glVertexAttrib2s VertexAttrib2s}.@param index the index of the generic vertex attribute to be modified@param v the vertex attribute buffer@see <a href="https://docs.gl/gl4/glVertexAttrib">Reference Page</a>*/
+    /** Pointer version of {@link #glVertexAttrib2s VertexAttrib2s}.@param index the index of the generic vertex attribute to be modified@param _2 the vertex attribute buffer@see <a href="https://docs.gl/gl4/glVertexAttrib">Reference Page</a>*/
     void glVertexAttrib2sv(int index, ShortBuffer v);
 
-    /** Pointer version of {@link #glVertexAttrib2d VertexAttrib2d}.@param index the index of the generic vertex attribute to be modified@param v the vertex attribute buffer@see <a href="https://docs.gl/gl4/glVertexAttrib">Reference Page</a>*/
+    /** Pointer version of {@link #glVertexAttrib2d VertexAttrib2d}.@param index the index of the generic vertex attribute to be modified@param _2 the vertex attribute buffer@see <a href="https://docs.gl/gl4/glVertexAttrib">Reference Page</a>*/
     void glVertexAttrib2dv(int index, DoubleBuffer v);
 
-    /** Pointer version of {@link #glVertexAttrib3f VertexAttrib3f}.@param index the index of the generic vertex attribute to be modified@param v the vertex attribute buffer@see <a href="https://docs.gl/gl4/glVertexAttrib">Reference Page</a>*/
+    /** Pointer version of {@link #glVertexAttrib3f VertexAttrib3f}.@param index the index of the generic vertex attribute to be modified@param _2 the vertex attribute buffer@see <a href="https://docs.gl/gl4/glVertexAttrib">Reference Page</a>*/
     void glVertexAttrib3fv(int index, FloatBuffer v);
 
-    /** Pointer version of {@link #glVertexAttrib3s VertexAttrib3s}.@param index the index of the generic vertex attribute to be modified@param v the vertex attribute buffer@see <a href="https://docs.gl/gl4/glVertexAttrib">Reference Page</a>*/
+    /** Pointer version of {@link #glVertexAttrib3s VertexAttrib3s}.@param index the index of the generic vertex attribute to be modified@param _2 the vertex attribute buffer@see <a href="https://docs.gl/gl4/glVertexAttrib">Reference Page</a>*/
     void glVertexAttrib3sv(int index, ShortBuffer v);
 
-    /** Pointer version of {@link #glVertexAttrib3d VertexAttrib3d}.@param index the index of the generic vertex attribute to be modified@param v the vertex attribute buffer@see <a href="https://docs.gl/gl4/glVertexAttrib">Reference Page</a>*/
+    /** Pointer version of {@link #glVertexAttrib3d VertexAttrib3d}.@param index the index of the generic vertex attribute to be modified@param _2 the vertex attribute buffer@see <a href="https://docs.gl/gl4/glVertexAttrib">Reference Page</a>*/
     void glVertexAttrib3dv(int index, DoubleBuffer v);
 
-    /** Pointer version of {@link #glVertexAttrib4f VertexAttrib4f}.@param index the index of the generic vertex attribute to be modified@param v the vertex attribute buffer@see <a href="https://docs.gl/gl4/glVertexAttrib">Reference Page</a>*/
+    /** Pointer version of {@link #glVertexAttrib4f VertexAttrib4f}.@param index the index of the generic vertex attribute to be modified@param _2 the vertex attribute buffer@see <a href="https://docs.gl/gl4/glVertexAttrib">Reference Page</a>*/
     void glVertexAttrib4fv(int index, FloatBuffer v);
 
-    /** Pointer version of {@link #glVertexAttrib4s VertexAttrib4s}.@param index the index of the generic vertex attribute to be modified@param v the vertex attribute buffer@see <a href="https://docs.gl/gl4/glVertexAttrib">Reference Page</a>*/
+    /** Pointer version of {@link #glVertexAttrib4s VertexAttrib4s}.@param index the index of the generic vertex attribute to be modified@param _2 the vertex attribute buffer@see <a href="https://docs.gl/gl4/glVertexAttrib">Reference Page</a>*/
     void glVertexAttrib4sv(int index, ShortBuffer v);
 
-    /** Pointer version of {@link #glVertexAttrib4d VertexAttrib4d}.@param index the index of the generic vertex attribute to be modified@param v the vertex attribute buffer@see <a href="https://docs.gl/gl4/glVertexAttrib">Reference Page</a>*/
+    /** Pointer version of {@link #glVertexAttrib4d VertexAttrib4d}.@param index the index of the generic vertex attribute to be modified@param _2 the vertex attribute buffer@see <a href="https://docs.gl/gl4/glVertexAttrib">Reference Page</a>*/
     void glVertexAttrib4dv(int index, DoubleBuffer v);
 
-    /** Integer pointer version of {@link #glVertexAttrib4f VertexAttrib4f}.@param index the index of the generic vertex attribute to be modified@param v the vertex attribute buffer@see <a href="https://docs.gl/gl4/glVertexAttrib">Reference Page</a>*/
+    /** Integer pointer version of {@link #glVertexAttrib4f VertexAttrib4f}.@param index the index of the generic vertex attribute to be modified@param _2 the vertex attribute buffer@see <a href="https://docs.gl/gl4/glVertexAttrib">Reference Page</a>*/
     void glVertexAttrib4iv(int index, IntBuffer v);
 
-    /** Byte pointer version of {@link #glVertexAttrib4f VertexAttrib4f}.@param index the index of the generic vertex attribute to be modified@param v the vertex attribute buffer@see <a href="https://docs.gl/gl4/glVertexAttrib">Reference Page</a>*/
+    /** Byte pointer version of {@link #glVertexAttrib4f VertexAttrib4f}.@param index the index of the generic vertex attribute to be modified@param _2 the vertex attribute buffer@see <a href="https://docs.gl/gl4/glVertexAttrib">Reference Page</a>*/
     void glVertexAttrib4bv(int index, ByteBuffer v);
 
-    /** Pointer version of {@link #glVertexAttrib4Nub VertexAttrib4Nub}.@param index the index of the generic vertex attribute to be modified@param v the vertex attribute buffer@see <a href="https://docs.gl/gl4/glVertexAttrib">Reference Page</a>*/
+    /** Pointer version of {@link #glVertexAttrib4Nub VertexAttrib4Nub}.@param index the index of the generic vertex attribute to be modified@param _2 the vertex attribute buffer@see <a href="https://docs.gl/gl4/glVertexAttrib">Reference Page</a>*/
     void glVertexAttrib4ubv(int index, ByteBuffer v);
 
-    /** Unsigned short pointer version of {@link #glVertexAttrib4f VertexAttrib4f}.@param index the index of the generic vertex attribute to be modified@param v the vertex attribute buffer@see <a href="https://docs.gl/gl4/glVertexAttrib">Reference Page</a>*/
+    /** Unsigned short pointer version of {@link #glVertexAttrib4f VertexAttrib4f}.@param index the index of the generic vertex attribute to be modified@param _2 the vertex attribute buffer@see <a href="https://docs.gl/gl4/glVertexAttrib">Reference Page</a>*/
     void glVertexAttrib4usv(int index, ShortBuffer v);
 
-    /** Unsigned int pointer version of {@link #glVertexAttrib4f VertexAttrib4f}.@param index the index of the generic vertex attribute to be modified@param v the vertex attribute buffer@see <a href="https://docs.gl/gl4/glVertexAttrib">Reference Page</a>*/
+    /** Unsigned int pointer version of {@link #glVertexAttrib4f VertexAttrib4f}.@param index the index of the generic vertex attribute to be modified@param _2 the vertex attribute buffer@see <a href="https://docs.gl/gl4/glVertexAttrib">Reference Page</a>*/
     void glVertexAttrib4uiv(int index, IntBuffer v);
 
-    /** Normalized byte pointer version of {@link #glVertexAttrib4f VertexAttrib4f}.@param index the index of the generic vertex attribute to be modified@param v the vertex attribute buffer@see <a href="https://docs.gl/gl4/glVertexAttrib">Reference Page</a>*/
+    /** Normalized byte pointer version of {@link #glVertexAttrib4f VertexAttrib4f}.@param index the index of the generic vertex attribute to be modified@param _2 the vertex attribute buffer@see <a href="https://docs.gl/gl4/glVertexAttrib">Reference Page</a>*/
     void glVertexAttrib4Nbv(int index, ByteBuffer v);
 
-    /** Normalized short pointer version of {@link #glVertexAttrib4f VertexAttrib4f}.@param index the index of the generic vertex attribute to be modified@param v the vertex attribute buffer@see <a href="https://docs.gl/gl4/glVertexAttrib">Reference Page</a>*/
+    /** Normalized short pointer version of {@link #glVertexAttrib4f VertexAttrib4f}.@param index the index of the generic vertex attribute to be modified@param _2 the vertex attribute buffer@see <a href="https://docs.gl/gl4/glVertexAttrib">Reference Page</a>*/
     void glVertexAttrib4Nsv(int index, ShortBuffer v);
 
-    /** Normalized int pointer version of {@link #glVertexAttrib4f VertexAttrib4f}.@param index the index of the generic vertex attribute to be modified@param v the vertex attribute buffer@see <a href="https://docs.gl/gl4/glVertexAttrib">Reference Page</a>*/
+    /** Normalized int pointer version of {@link #glVertexAttrib4f VertexAttrib4f}.@param index the index of the generic vertex attribute to be modified@param _2 the vertex attribute buffer@see <a href="https://docs.gl/gl4/glVertexAttrib">Reference Page</a>*/
     void glVertexAttrib4Niv(int index, IntBuffer v);
 
-    /** Normalized unsigned byte pointer version of {@link #glVertexAttrib4f VertexAttrib4f}.@param index the index of the generic vertex attribute to be modified@param v the vertex attribute buffer@see <a href="https://docs.gl/gl4/glVertexAttrib">Reference Page</a>*/
+    /** Normalized unsigned byte pointer version of {@link #glVertexAttrib4f VertexAttrib4f}.@param index the index of the generic vertex attribute to be modified@param _2 the vertex attribute buffer@see <a href="https://docs.gl/gl4/glVertexAttrib">Reference Page</a>*/
     void glVertexAttrib4Nubv(int index, ByteBuffer v);
 
-    /** Normalized unsigned short pointer version of {@link #glVertexAttrib4f VertexAttrib4f}.@param index the index of the generic vertex attribute to be modified@param v the vertex attribute buffer@see <a href="https://docs.gl/gl4/glVertexAttrib">Reference Page</a>*/
+    /** Normalized unsigned short pointer version of {@link #glVertexAttrib4f VertexAttrib4f}.@param index the index of the generic vertex attribute to be modified@param _2 the vertex attribute buffer@see <a href="https://docs.gl/gl4/glVertexAttrib">Reference Page</a>*/
     void glVertexAttrib4Nusv(int index, ShortBuffer v);
 
-    /** Normalized unsigned int pointer version of {@link #glVertexAttrib4f VertexAttrib4f}.@param index the index of the generic vertex attribute to be modified@param v the vertex attribute buffer@see <a href="https://docs.gl/gl4/glVertexAttrib">Reference Page</a>*/
+    /** Normalized unsigned int pointer version of {@link #glVertexAttrib4f VertexAttrib4f}.@param index the index of the generic vertex attribute to be modified@param _2 the vertex attribute buffer@see <a href="https://docs.gl/gl4/glVertexAttrib">Reference Page</a>*/
     void glVertexAttrib4Nuiv(int index, IntBuffer v);
 
     /** Specifies the location and organization of a vertex attribute array.@param index the index of the generic vertex attribute to be modified@param size the number of values per vertex that are stored in the array. The initial value is 4. One of:<br><table><tr><td>1</td><td>2</td><td>3</td><td>4</td><td>{@link GL12#GL_BGRA BGRA}</td></tr></table>@param type the data type of each component in the array. The initial value is GL_FLOAT. One of:<br><table><tr><td>{@link GL11#GL_BYTE BYTE}</td><td>{@link GL11#GL_UNSIGNED_BYTE UNSIGNED_BYTE}</td><td>{@link GL11#GL_SHORT SHORT}</td><td>{@link GL11#GL_UNSIGNED_SHORT UNSIGNED_SHORT}</td><td>{@link GL11#GL_INT INT}</td><td>{@link GL11#GL_UNSIGNED_INT UNSIGNED_INT}</td><td>{@link GL30#GL_HALF_FLOAT HALF_FLOAT}</td><td>{@link GL11#GL_FLOAT FLOAT}</td></tr><tr><td>{@link GL11#GL_DOUBLE DOUBLE}</td><td>{@link GL12#GL_UNSIGNED_INT_2_10_10_10_REV UNSIGNED_INT_2_10_10_10_REV}</td><td>{@link GL33#GL_INT_2_10_10_10_REV INT_2_10_10_10_REV}</td><td>{@link GL41#GL_FIXED FIXED}</td></tr></table>@param normalized whether fixed-point data values should be normalized or converted directly as fixed-point values when they are accessed@param stride the byte offset between consecutive generic vertex attributes. If stride is 0, the generic vertex attributes are understood to be tightly packed in                   the array. The initial value is 0.@param pointer the vertex attribute data or the offset of the first component of the first generic vertex attribute in the array in the data store of the buffer                   currently bound to the {@link GL15#GL_ARRAY_BUFFER ARRAY_BUFFER} target. The initial value is 0.@see <a href="https://docs.gl/gl4/glVertexAttribPointer">Reference Page</a>*/

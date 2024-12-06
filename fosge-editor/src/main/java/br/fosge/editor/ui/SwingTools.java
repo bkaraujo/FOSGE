@@ -5,6 +5,8 @@ import br.fosge.tools.Meta;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
+import javax.swing.event.DocumentListener;
+import javax.swing.text.JTextComponent;
 import java.awt.*;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
@@ -72,6 +74,14 @@ public abstract class SwingTools {
                     if (Meta.assignable(component, AbstractButton.class)) {
                         final var button = Meta.cast(component, AbstractButton.class);
                         button.addActionListener(Meta.cast(listener, ActionListener.class));
+                    }
+                    continue;
+                }
+
+                if (Meta.assignable(listener, DocumentListener.class)) {
+                    if (Meta.assignable(component, JTextComponent.class)) {
+                        final var txt = Meta.cast(component, JTextComponent.class);
+                        txt.getDocument().addDocumentListener(Meta.cast(listener, DocumentListener.class));
                     }
                 }
             }

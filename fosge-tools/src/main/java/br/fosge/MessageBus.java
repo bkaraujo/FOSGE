@@ -72,18 +72,6 @@ public abstract class MessageBus implements Facade {
                 continue;
             }
 
-            if (!hierarchy.containsKey(parameters[0].getType())) {
-                final var list = new ArrayList<Class<?>>();
-
-                Class<?> klass = parameters[0].getType();
-                while (klass != Object.class) {
-                    list.add(klass);
-                    klass = klass.getSuperclass();
-                }
-
-                hierarchy.put(parameters[0].getType(), list.reversed());
-            }
-
             subscribed++;
             processors
                     .computeIfAbsent(parameters[0].getType(), _ -> new ArrayList<>())
@@ -94,7 +82,19 @@ public abstract class MessageBus implements Facade {
     }
 
     public static <T extends Message> void submit(T message) {
-        for (final var entry : hierarchy.getOrDefault(message.getClass(), new ArrayList<>())) {
+        if (!hierarchy.containsKey(message.getClass())) {
+            final var list = new ArrayList<Class<?>>();
+
+            Class<?> klass = message.getClass();
+            while (klass != Object.class) {
+                list.add(klass);
+                klass = klass.getSuperclass();
+            }
+
+            hierarchy.put(message.getClass(), list.reversed());
+        }
+
+        for (final var entry : hierarchy.get(message.getClass())) {
             for (final var processor : processors.getOrDefault(entry, new ArrayList<>())) {
                 if (processor.process(message) == MessagePipeline.AVAILABLE) {
                     break;

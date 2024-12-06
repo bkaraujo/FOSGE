@@ -141,7 +141,7 @@ public interface GL42 {
     /** Returned in {@code params} by GetActiveUniform and GetActiveUniformsiv.*/
     int GL_UNSIGNED_INT_ATOMIC_COUNTER = 37595;
 
-    /** Accepted by the {@code value} parameter of GetTexParameter{if}v.*/
+    /** Accepted by the {@code value} parameter of GetTexParameter{if}_2.*/
     int GL_TEXTURE_IMMUTABLE_FORMAT = 37167;
 
     /** Accepted by the {@code pname} parameter of GetBooleanv, GetIntegerv, GetFloatv, GetDoublev, and GetInteger64v.*/

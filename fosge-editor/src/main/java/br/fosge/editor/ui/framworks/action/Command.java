@@ -1,9 +1,11 @@
 package br.fosge.editor.ui.framworks.action;
 
-import java.util.Map;
+import br.fosge.Triplet;
+
+import java.util.List;
 
 public interface Command {
 
-    boolean execute(Map<String, Object> params);
+    boolean execute(List<Triplet<?>> parameters);
 
 }

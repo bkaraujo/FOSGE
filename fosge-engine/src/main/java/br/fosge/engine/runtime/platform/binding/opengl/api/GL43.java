@@ -759,10 +759,10 @@ public interface GL43 {
     /** Accepted by the {@code pname} parameters of GetTexParameterfv and  GetTexParameteriv.*/
     int GL_TEXTURE_VIEW_NUM_LAYERS = 33502;
 
-    /** Accepted by the {@code pname} parameter of GetVertexAttrib*v.*/
+    /** Accepted by the {@code pname} parameter of GetVertexAttrib*_2.*/
     int GL_VERTEX_ATTRIB_BINDING = 33492;
 
-    /** Accepted by the {@code pname} parameter of GetVertexAttrib*v.*/
+    /** Accepted by the {@code pname} parameter of GetVertexAttrib*_2.*/
     int GL_VERTEX_ATTRIB_RELATIVE_OFFSET = 33493;
 
     /** Accepted by the {@code target} parameter of GetBooleani_v, GetIntegeri_v, GetFloati_v, GetDoublei_v, and GetInteger64i_v.*/

@@ -354,16 +354,16 @@ public interface GL41 {
     /** Specifies the value of a generic vertex attribute.@param index the index of the generic vertex attribute to be modified@param x the vertex attribute x component@param y the vertex attribute y component@param z the vertex attribute z component@param w the vertex attribute w component@see <a href="https://docs.gl/gl4/glVertexAttrib">Reference Page</a>*/
     void glVertexAttribL4d(int index, double x, double y, double z, double w);
 
-    /** Pointer version of {@link #glVertexAttribL1d VertexAttribL1d}.@param index the index of the generic vertex attribute to be modified@param v the vertex attribute buffer@see <a href="https://docs.gl/gl4/glVertexAttrib">Reference Page</a>*/
+    /** Pointer version of {@link #glVertexAttribL1d VertexAttribL1d}.@param index the index of the generic vertex attribute to be modified@param _2 the vertex attribute buffer@see <a href="https://docs.gl/gl4/glVertexAttrib">Reference Page</a>*/
     void glVertexAttribL1dv(int index, DoubleBuffer v);
 
-    /** Pointer version of {@link #glVertexAttribL2d VertexAttribL2d}.@param index the index of the generic vertex attribute to be modified@param v the vertex attribute buffer@see <a href="https://docs.gl/gl4/glVertexAttrib">Reference Page</a>*/
+    /** Pointer version of {@link #glVertexAttribL2d VertexAttribL2d}.@param index the index of the generic vertex attribute to be modified@param _2 the vertex attribute buffer@see <a href="https://docs.gl/gl4/glVertexAttrib">Reference Page</a>*/
     void glVertexAttribL2dv(int index, DoubleBuffer v);
 
-    /** Pointer version of {@link #glVertexAttribL3d VertexAttribL3d}.@param index the index of the generic vertex attribute to be modified@param v the vertex attribute buffer@see <a href="https://docs.gl/gl4/glVertexAttrib">Reference Page</a>*/
+    /** Pointer version of {@link #glVertexAttribL3d VertexAttribL3d}.@param index the index of the generic vertex attribute to be modified@param _2 the vertex attribute buffer@see <a href="https://docs.gl/gl4/glVertexAttrib">Reference Page</a>*/
     void glVertexAttribL3dv(int index, DoubleBuffer v);
 
-    /** Pointer version of {@link #glVertexAttribL4d VertexAttribL4d}.@param index the index of the generic vertex attribute to be modified@param v the vertex attribute buffer@see <a href="https://docs.gl/gl4/glVertexAttrib">Reference Page</a>*/
+    /** Pointer version of {@link #glVertexAttribL4d VertexAttribL4d}.@param index the index of the generic vertex attribute to be modified@param _2 the vertex attribute buffer@see <a href="https://docs.gl/gl4/glVertexAttrib">Reference Page</a>*/
     void glVertexAttribL4dv(int index, DoubleBuffer v);
 
     /** Specifies the location and organization of a 64-bit vertex attribute array.@param index the index of the generic vertex attribute to be modified@param size the number of values per vertex that are stored in the array. The initial value is 4. One of:<br><table><tr><td>1</td><td>2</td><td>3</td><td>4</td><td>{@link GL12#GL_BGRA BGRA}</td></tr></table>@param type the data type of each component in the array. Must be:<br><table><tr><td>{@link GL11#GL_DOUBLE DOUBLE}</td></tr></table>@param stride the byte offset between consecutive generic vertex attributes. If stride is 0, the generic vertex attributes are understood to be tightly packed in                the array. The initial value is 0.@param pointer the vertex attribute data or the offset of the first component of the first generic vertex attribute in the array in the data store of the buffer                currently bound to the {@link GL15#GL_ARRAY_BUFFER ARRAY_BUFFER} target. The initial value is 0.@see <a href="https://docs.gl/gl4/glVertexAttribLPointer">Reference Page</a>*/
@@ -378,25 +378,25 @@ public interface GL41 {
     /** Double version of {@link GL20C#glGetVertexAttribiv GetVertexAttribiv}.@param index the generic vertex attribute parameter to be queried@param pname the symbolic name of the vertex attribute parameter to be queried@param params the requested data@see <a href="https://docs.gl/gl4/glGetVertexAttrib">Reference Page</a>*/
     void glGetVertexAttribLdv(int index, int pname, DoubleBuffer params);
 
-    /** Sets multiple viewports.@param first the first viewport to set@param v an array containing the viewport parameters@see <a href="https://docs.gl/gl4/glViewportArrayv">Reference Page</a>*/
+    /** Sets multiple viewports.@param first the first viewport to set@param _2 an array containing the viewport parameters@see <a href="https://docs.gl/gl4/glViewportArrayv">Reference Page</a>*/
     void glViewportArrayv(int first, FloatBuffer v);
 
     /** Sets a specified viewport.@param index the viewport to set@param x the left viewport coordinate@param y the bottom viewport coordinate@param w the viewport width@param h the viewport height@see <a href="https://docs.gl/gl4/glViewportIndexedf">Reference Page</a>*/
     void glViewportIndexedf(int index, float x, float y, float w, float h);
 
-    /** Pointer version of {@link #glViewportIndexedf ViewportIndexedf}.@param index the viewport to set@param v the viewport parameters@see <a href="https://docs.gl/gl4/glViewportIndexed">Reference Page</a>*/
+    /** Pointer version of {@link #glViewportIndexedf ViewportIndexedf}.@param index the viewport to set@param _2 the viewport parameters@see <a href="https://docs.gl/gl4/glViewportIndexed">Reference Page</a>*/
     void glViewportIndexedfv(int index, FloatBuffer v);
 
-    /** Defines the scissor box for multiple viewports.@param first the index of the first viewport whose scissor box to modify@param v an array containing the left, bottom, width and height of each scissor box, in that order@see <a href="https://docs.gl/gl4/glScissorArrayv">Reference Page</a>*/
+    /** Defines the scissor box for multiple viewports.@param first the index of the first viewport whose scissor box to modify@param _2 an array containing the left, bottom, width and height of each scissor box, in that order@see <a href="https://docs.gl/gl4/glScissorArrayv">Reference Page</a>*/
     void glScissorArrayv(int first, IntBuffer v);
 
     /** Defines the scissor box for a specific viewport.@param index the index of the viewport whose scissor box to modify@param left the left scissor box coordinate@param bottom the bottom scissor box coordinate@param width the scissor box width@param height the scissor box height@see <a href="https://docs.gl/gl4/glScissorIndexed">Reference Page</a>*/
     void glScissorIndexed(int index, int left, int bottom, int width, int height);
 
-    /** Pointer version of {@link #glScissorIndexed ScissorIndexed}.@param index the index of the viewport whose scissor box to modify@param v an array containing the left, bottom, width and height of each scissor box, in that order@see <a href="https://docs.gl/gl4/glScissorIndexed">Reference Page</a>*/
+    /** Pointer version of {@link #glScissorIndexed ScissorIndexed}.@param index the index of the viewport whose scissor box to modify@param _2 an array containing the left, bottom, width and height of each scissor box, in that order@see <a href="https://docs.gl/gl4/glScissorIndexed">Reference Page</a>*/
     void glScissorIndexedv(int index, IntBuffer v);
 
-    /** Specifies mapping of depth values from normalized device coordinates to window coordinates for a specified set of viewports.@param first the index of the first viewport whose depth range to update@param v n array containing the near and far values for the depth range of each modified viewport@see <a href="https://docs.gl/gl4/glDepthRangeArrayv">Reference Page</a>*/
+    /** Specifies mapping of depth values from normalized device coordinates to window coordinates for a specified set of viewports.@param first the index of the first viewport whose depth range to update@param _2 n array containing the near and far values for the depth range of each modified viewport@see <a href="https://docs.gl/gl4/glDepthRangeArrayv">Reference Page</a>*/
     void glDepthRangeArrayv(int first, DoubleBuffer v);
 
     /** Specifies mapping of depth values from normalized device coordinates to window coordinates for a specified viewport.@param index the index of the viewport whose depth range to update@param zNear the mapping of the near clipping plane to window coordinates. The initial value is 0.@param zFar the mapping of the far clipping plane to window coordinates. The initial value is 1.@see <a href="https://docs.gl/gl4/glDepthRangeIndexed">Reference Page</a>*/

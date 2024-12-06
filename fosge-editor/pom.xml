@@ -15,10 +15,14 @@
 
     <properties>
         <project.mainClass>br.fosge.editor.Launcher</project.mainClass>
+        <dependency.runtime.fosge>1.0.0</dependency.runtime.fosge>
+        <dependency.runtime.jgit>7.1.0.202411261347-r</dependency.runtime.jgit>
     </properties>
 
     <dependencies>
-        <dependency><groupId>br.fosge</groupId><artifactId>fosge-tools</artifactId><version>1.0.0</version></dependency>
+        <dependency><groupId>br.fosge</groupId><artifactId>fosge-tools</artifactId><version>${dependency.runtime.fosge}</version></dependency>
+        <dependency><groupId>org.eclipse.jgit</groupId><artifactId>org.eclipse.jgit</artifactId><version>${dependency.runtime.jgit}</version></dependency>
+        <dependency><groupId>org.slf4j</groupId><artifactId>slf4j-nop</artifactId><version>1.7.36</version></dependency>
     </dependencies>
 
     <profiles>

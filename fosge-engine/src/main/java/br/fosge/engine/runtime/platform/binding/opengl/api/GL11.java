@@ -1686,28 +1686,28 @@ public interface GL11 {
     /** Unsigned int version of {@link #glColor3b Color3b}@param red the red component of the current color@param green the green component of the current color@param blue the blue component of the current color@see <a href="https://docs.gl/gl3/glColor">Reference Page</a> - <em>This function is deprecated and unavailable in the Core profile</em>*/
     void glColor3ui(int red, int green, int blue);
 
-    /** Byte pointer version of {@link #glColor3b Color3b}.@param v the color buffer@see <a href="https://docs.gl/gl3/glColor">Reference Page</a> - <em>This function is deprecated and unavailable in the Core profile</em>*/
+    /** Byte pointer version of {@link #glColor3b Color3b}.@param _2 the color buffer@see <a href="https://docs.gl/gl3/glColor">Reference Page</a> - <em>This function is deprecated and unavailable in the Core profile</em>*/
     void glColor3bv(ByteBuffer v);
 
-    /** Pointer version of {@link #glColor3s Color3s}.@param v the color buffer@see <a href="https://docs.gl/gl3/glColor">Reference Page</a> - <em>This function is deprecated and unavailable in the Core profile</em>*/
+    /** Pointer version of {@link #glColor3s Color3s}.@param _2 the color buffer@see <a href="https://docs.gl/gl3/glColor">Reference Page</a> - <em>This function is deprecated and unavailable in the Core profile</em>*/
     void glColor3sv(ShortBuffer v);
 
-    /** Pointer version of {@link #glColor3i Color3i}.@param v the color buffer@see <a href="https://docs.gl/gl3/glColor">Reference Page</a> - <em>This function is deprecated and unavailable in the Core profile</em>*/
+    /** Pointer version of {@link #glColor3i Color3i}.@param _2 the color buffer@see <a href="https://docs.gl/gl3/glColor">Reference Page</a> - <em>This function is deprecated and unavailable in the Core profile</em>*/
     void glColor3iv(IntBuffer v);
 
-    /** Pointer version of {@link #glColor3f Color3f}.@param v the color buffer@see <a href="https://docs.gl/gl3/glColor">Reference Page</a> - <em>This function is deprecated and unavailable in the Core profile</em>*/
+    /** Pointer version of {@link #glColor3f Color3f}.@param _2 the color buffer@see <a href="https://docs.gl/gl3/glColor">Reference Page</a> - <em>This function is deprecated and unavailable in the Core profile</em>*/
     void glColor3fv(FloatBuffer v);
 
-    /** Pointer version of {@link #glColor3d Color3d}.@param v the color buffer@see <a href="https://docs.gl/gl3/glColor">Reference Page</a> - <em>This function is deprecated and unavailable in the Core profile</em>*/
+    /** Pointer version of {@link #glColor3d Color3d}.@param _2 the color buffer@see <a href="https://docs.gl/gl3/glColor">Reference Page</a> - <em>This function is deprecated and unavailable in the Core profile</em>*/
     void glColor3dv(DoubleBuffer v);
 
-    /** Pointer version of {@link #glColor3ub Color3ub}.@param v the color buffer@see <a href="https://docs.gl/gl3/glColor">Reference Page</a> - <em>This function is deprecated and unavailable in the Core profile</em>*/
+    /** Pointer version of {@link #glColor3ub Color3ub}.@param _2 the color buffer@see <a href="https://docs.gl/gl3/glColor">Reference Page</a> - <em>This function is deprecated and unavailable in the Core profile</em>*/
     void glColor3ubv(ByteBuffer v);
 
-    /** Pointer version of {@link #glColor3us Color3us}.@param v the color buffer@see <a href="https://docs.gl/gl3/glColor">Reference Page</a> - <em>This function is deprecated and unavailable in the Core profile</em>*/
+    /** Pointer version of {@link #glColor3us Color3us}.@param _2 the color buffer@see <a href="https://docs.gl/gl3/glColor">Reference Page</a> - <em>This function is deprecated and unavailable in the Core profile</em>*/
     void glColor3usv(ShortBuffer v);
 
-    /** Pointer version of {@link #glColor3ui Color3ui}.@param v the color buffer@see <a href="https://docs.gl/gl3/glColor">Reference Page</a> - <em>This function is deprecated and unavailable in the Core profile</em>*/
+    /** Pointer version of {@link #glColor3ui Color3ui}.@param _2 the color buffer@see <a href="https://docs.gl/gl3/glColor">Reference Page</a> - <em>This function is deprecated and unavailable in the Core profile</em>*/
     void glColor3uiv(IntBuffer v);
 
     /** Sets the current color.@param red the red component of the current color@param green the green component of the current color@param blue the blue component of the current color@param alpha the alpha component of the current color@see <a href="https://docs.gl/gl3/glColor">Reference Page</a> - <em>This function is deprecated and unavailable in the Core profile</em>*/
@@ -1734,28 +1734,28 @@ public interface GL11 {
     /** Unsigned int version of {@link #glColor4b Color4b}@param red the red component of the current color@param green the green component of the current color@param blue the blue component of the current color@param alpha the alpha component of the current color@see <a href="https://docs.gl/gl3/glColor">Reference Page</a> - <em>This function is deprecated and unavailable in the Core profile</em>*/
     void glColor4ui(int red, int green, int blue, int alpha);
 
-    /** Pointer version of {@link #glColor4b Color4b}.@param v the color buffer@see <a href="https://docs.gl/gl3/glColor">Reference Page</a> - <em>This function is deprecated and unavailable in the Core profile</em>*/
+    /** Pointer version of {@link #glColor4b Color4b}.@param _2 the color buffer@see <a href="https://docs.gl/gl3/glColor">Reference Page</a> - <em>This function is deprecated and unavailable in the Core profile</em>*/
     void glColor4bv(ByteBuffer v);
 
-    /** Pointer version of {@link #glColor4s Color4s}.@param v the color buffer@see <a href="https://docs.gl/gl3/glColor">Reference Page</a> - <em>This function is deprecated and unavailable in the Core profile</em>*/
+    /** Pointer version of {@link #glColor4s Color4s}.@param _2 the color buffer@see <a href="https://docs.gl/gl3/glColor">Reference Page</a> - <em>This function is deprecated and unavailable in the Core profile</em>*/
     void glColor4sv(ShortBuffer v);
 
-    /** Pointer version of {@link #glColor4i Color4i}.@param v the color buffer@see <a href="https://docs.gl/gl3/glColor">Reference Page</a> - <em>This function is deprecated and unavailable in the Core profile</em>*/
+    /** Pointer version of {@link #glColor4i Color4i}.@param _2 the color buffer@see <a href="https://docs.gl/gl3/glColor">Reference Page</a> - <em>This function is deprecated and unavailable in the Core profile</em>*/
     void glColor4iv(IntBuffer v);
 
-    /** Pointer version of {@link #glColor4f Color4f}.@param v the color buffer@see <a href="https://docs.gl/gl3/glColor">Reference Page</a> - <em>This function is deprecated and unavailable in the Core profile</em>*/
+    /** Pointer version of {@link #glColor4f Color4f}.@param _2 the color buffer@see <a href="https://docs.gl/gl3/glColor">Reference Page</a> - <em>This function is deprecated and unavailable in the Core profile</em>*/
     void glColor4fv(FloatBuffer v);
 
-    /** Pointer version of {@link #glColor4d Color4d}.@param v the color buffer@see <a href="https://docs.gl/gl3/glColor">Reference Page</a> - <em>This function is deprecated and unavailable in the Core profile</em>*/
+    /** Pointer version of {@link #glColor4d Color4d}.@param _2 the color buffer@see <a href="https://docs.gl/gl3/glColor">Reference Page</a> - <em>This function is deprecated and unavailable in the Core profile</em>*/
     void glColor4dv(DoubleBuffer v);
 
-    /** Pointer version of {@link #glColor4ub Color4ub}.@param v the color buffer@see <a href="https://docs.gl/gl3/glColor">Reference Page</a> - <em>This function is deprecated and unavailable in the Core profile</em>*/
+    /** Pointer version of {@link #glColor4ub Color4ub}.@param _2 the color buffer@see <a href="https://docs.gl/gl3/glColor">Reference Page</a> - <em>This function is deprecated and unavailable in the Core profile</em>*/
     void glColor4ubv(ByteBuffer v);
 
-    /** Pointer version of {@link #glColor4us Color4us}.@param v the color buffer@see <a href="https://docs.gl/gl3/glColor">Reference Page</a> - <em>This function is deprecated and unavailable in the Core profile</em>*/
+    /** Pointer version of {@link #glColor4us Color4us}.@param _2 the color buffer@see <a href="https://docs.gl/gl3/glColor">Reference Page</a> - <em>This function is deprecated and unavailable in the Core profile</em>*/
     void glColor4usv(ShortBuffer v);
 
-    /** Pointer version of {@link #glColor4ui Color4ui}.@param v the color buffer@see <a href="https://docs.gl/gl3/glColor">Reference Page</a> - <em>This function is deprecated and unavailable in the Core profile</em>*/
+    /** Pointer version of {@link #glColor4ui Color4ui}.@param _2 the color buffer@see <a href="https://docs.gl/gl3/glColor">Reference Page</a> - <em>This function is deprecated and unavailable in the Core profile</em>*/
     void glColor4uiv(IntBuffer v);
 
     /** Masks the writing of R, G, B and A values to all draw buffers. In the initial state, all color values are enabled for writing for all draw buffers.@param red whether R values are written or not@param green whether G values are written or not@param blue whether B values are written or not@param alpha whether A values are written or not@see <a href="https://docs.gl/gl4/glColorMask">Reference Page</a>*/
@@ -1866,13 +1866,13 @@ public interface GL11 {
     /** Pointer version of {@link #glEvalCoord1d EvalCoord1d}.@param u the domain coordinate buffer@see <a href="https://docs.gl/gl3/glEvalCoord">Reference Page</a> - <em>This function is deprecated and unavailable in the Core profile</em>*/
     void glEvalCoord1dv(DoubleBuffer u);
 
-    /** Causes evaluation of the enabled two-dimensional evaluator maps.@param u the domain coordinate u@param v the domain coordinate v@see <a href="https://docs.gl/gl3/glEvalCoord">Reference Page</a> - <em>This function is deprecated and unavailable in the Core profile</em>*/
+    /** Causes evaluation of the enabled two-dimensional evaluator maps.@param u the domain coordinate u@param _2 the domain coordinate _2@see <a href="https://docs.gl/gl3/glEvalCoord">Reference Page</a> - <em>This function is deprecated and unavailable in the Core profile</em>*/
     void glEvalCoord2f(float u, float v);
 
     /** Pointer version of {@link #glEvalCoord2f EvalCoord2f}.@param u the domain coordinate buffer@see <a href="https://docs.gl/gl3/glEvalCoord">Reference Page</a> - <em>This function is deprecated and unavailable in the Core profile</em>*/
     void glEvalCoord2fv(FloatBuffer u);
 
-    /** Double version of {@link #glEvalCoord2f EvalCoord2f}.@param u the domain coordinate u@param v the domain coordinate v@see <a href="https://docs.gl/gl3/glEvalCoord">Reference Page</a> - <em>This function is deprecated and unavailable in the Core profile</em>*/
+    /** Double version of {@link #glEvalCoord2f EvalCoord2f}.@param u the domain coordinate u@param _2 the domain coordinate _2@see <a href="https://docs.gl/gl3/glEvalCoord">Reference Page</a> - <em>This function is deprecated and unavailable in the Core profile</em>*/
     void glEvalCoord2d(double u, double v);
 
     /** Pointer version of {@link #glEvalCoord2d EvalCoord2d}.@param u the domain coordinate buffer@see <a href="https://docs.gl/gl3/glEvalCoord">Reference Page</a> - <em>This function is deprecated and unavailable in the Core profile</em>*/
@@ -1881,13 +1881,13 @@ public interface GL11 {
     /** Carries out an evaluation on a subset of the one-dimensional map grid.@param mode the mesh type. One of:<br><table><tr><td>{@link #GL_POINT POINT}</td><td>{@link #GL_LINE LINE}</td></tr></table>@param i1 the start index@param i2 the end index@see <a href="https://docs.gl/gl3/glEvalMesh1">Reference Page</a> - <em>This function is deprecated and unavailable in the Core profile</em>*/
     void glEvalMesh1(int mode, int i1, int i2);
 
-    /** Carries out an evaluation on a rectangular subset of the two-dimensional map grid.@param mode the mesh type. One of:<br><table><tr><td>{@link #GL_FILL FILL}</td><td>{@link #GL_LINE LINE}</td><td>{@link #GL_POINT POINT}</td></tr></table>@param i1 the u-dimension start index@param i2 the u-dimension end index@param j1 the v-dimension start index@param j2 the v-dimension end index@see <a href="https://docs.gl/gl3/glEvalMesh2">Reference Page</a> - <em>This function is deprecated and unavailable in the Core profile</em>*/
+    /** Carries out an evaluation on a rectangular subset of the two-dimensional map grid.@param mode the mesh type. One of:<br><table><tr><td>{@link #GL_FILL FILL}</td><td>{@link #GL_LINE LINE}</td><td>{@link #GL_POINT POINT}</td></tr></table>@param i1 the u-dimension start index@param i2 the u-dimension end index@param j1 the _2-dimension start index@param j2 the _2-dimension end index@see <a href="https://docs.gl/gl3/glEvalMesh2">Reference Page</a> - <em>This function is deprecated and unavailable in the Core profile</em>*/
     void glEvalMesh2(int mode, int i1, int i2, int j1, int j2);
 
     /** Carries out an evalutation of a single point on the one-dimensional map grid.@param i the grid index@see <a href="https://docs.gl/gl3/glEvalPoint1">Reference Page</a> - <em>This function is deprecated and unavailable in the Core profile</em>*/
     void glEvalPoint1(int i);
 
-    /** Carries out an evalutation of a single point on the two-dimensional map grid.@param i the u-dimension grid index@param j the v-dimension grid index@see <a href="https://docs.gl/gl3/glEvalPoint2">Reference Page</a> - <em>This function is deprecated and unavailable in the Core profile</em>*/
+    /** Carries out an evalutation of a single point on the two-dimensional map grid.@param i the u-dimension grid index@param j the _2-dimension grid index@see <a href="https://docs.gl/gl3/glEvalPoint2">Reference Page</a> - <em>This function is deprecated and unavailable in the Core profile</em>*/
     void glEvalPoint2(int i, int j);
 
     /** Returns information about primitives when the GL is in feedback mode.@param type the type of information to feed back for each vertex. One of:<br><table><tr><td>{@link #GL_2D 2D}</td><td>{@link #GL_3D 3D}</td><td>{@link #GL_3D_COLOR 3D_COLOR}</td><td>{@link #GL_3D_COLOR_TEXTURE 3D_COLOR_TEXTURE}</td><td>{@link #GL_4D_COLOR_TEXTURE 4D_COLOR_TEXTURE}</td></tr></table>@param buffer an array of floating-point values into which feedback information will be placed@see <a href="https://docs.gl/gl3/glFeedbackBuffer">Reference Page</a> - <em>This function is deprecated and unavailable in the Core profile</em>*/
@@ -2235,10 +2235,10 @@ public interface GL11 {
     /** Double version of {@link #glMap1f Map1f}.@param target the evaluator target@param u1 the first endpoint of the pre-image of the map@param u2 the second endpoint of the pre-image of the map@param stride the number of values in each block of storage@param order the polynomial order@param points a set of {@code order} blocks of storage containing control points@see <a href="https://docs.gl/gl3/glMap">Reference Page</a> - <em>This function is deprecated and unavailable in the Core profile</em>*/
     void glMap1d(int target, double u1, double u2, int stride, int order, DoubleBuffer points);
 
-    /** Bivariate version of {@link #glMap1f Map1f}.@param target the evaluator target@param u1 the first u-dimension endpoint of the pre-image rectangle of the map@param u2 the second u-dimension endpoint of the pre-image rectangle of the map@param ustride the number of values in the u-dimension in each block of storage@param uorder the polynomial order in the u-dimension@param v1 the first v-dimension endpoint of the pre-image rectangle of the map@param v2 the second v-dimension endpoint of the pre-image rectangle of the map@param vstride the number of values in the v-dimension in each block of storage@param vorder the polynomial order in the v-dimension@param points a set of <code>uorder &times; vorder</code> blocks of storage containing control points@see <a href="https://docs.gl/gl3/glMap">Reference Page</a> - <em>This function is deprecated and unavailable in the Core profile</em>*/
+    /** Bivariate version of {@link #glMap1f Map1f}.@param target the evaluator target@param u1 the first u-dimension endpoint of the pre-image rectangle of the map@param u2 the second u-dimension endpoint of the pre-image rectangle of the map@param ustride the number of values in the u-dimension in each block of storage@param uorder the polynomial order in the u-dimension@param v1 the first _2-dimension endpoint of the pre-image rectangle of the map@param v2 the second _2-dimension endpoint of the pre-image rectangle of the map@param vstride the number of values in the _2-dimension in each block of storage@param vorder the polynomial order in the _2-dimension@param points a set of <code>uorder &times; vorder</code> blocks of storage containing control points@see <a href="https://docs.gl/gl3/glMap">Reference Page</a> - <em>This function is deprecated and unavailable in the Core profile</em>*/
     void glMap2f(int target, float u1, float u2, int ustride, int uorder, float v1, float v2, int vstride, int vorder, FloatBuffer points);
 
-    /** Double version of {@link #glMap2f Map2f}.@param target the evaluator target@param u1 the first u-dimension endpoint of the pre-image rectangle of the map@param u2 the second u-dimension endpoint of the pre-image rectangle of the map@param ustride the number of values in the u-dimension in each block of storage@param uorder the polynomial order in the u-dimension@param v1 the first v-dimension endpoint of the pre-image rectangle of the map@param v2 the second v-dimension endpoint of the pre-image rectangle of the map@param vstride the number of values in the v-dimension in each block of storage@param vorder the polynomial order in the v-dimension@param points a set of <code>uorder &times; vorder</code> blocks of storage containing control points@see <a href="https://docs.gl/gl3/glMap">Reference Page</a> - <em>This function is deprecated and unavailable in the Core profile</em>*/
+    /** Double version of {@link #glMap2f Map2f}.@param target the evaluator target@param u1 the first u-dimension endpoint of the pre-image rectangle of the map@param u2 the second u-dimension endpoint of the pre-image rectangle of the map@param ustride the number of values in the u-dimension in each block of storage@param uorder the polynomial order in the u-dimension@param v1 the first _2-dimension endpoint of the pre-image rectangle of the map@param v2 the second _2-dimension endpoint of the pre-image rectangle of the map@param vstride the number of values in the _2-dimension in each block of storage@param vorder the polynomial order in the _2-dimension@param points a set of <code>uorder &times; vorder</code> blocks of storage containing control points@see <a href="https://docs.gl/gl3/glMap">Reference Page</a> - <em>This function is deprecated and unavailable in the Core profile</em>*/
     void glMap2d(int target, double u1, double u2, int ustride, int uorder, double v1, double v2, int vstride, int vorder, DoubleBuffer points);
 
     /** Defines a one-dimensional grid in the map evaluator domain.@param n the number of partitions of the interval@param u1 the first interval endpoint@param u2 the second interval endpoint@see <a href="https://docs.gl/gl3/glMapGrid">Reference Page</a> - <em>This function is deprecated and unavailable in the Core profile</em>*/
@@ -2247,10 +2247,10 @@ public interface GL11 {
     /** Double version of {@link #glMapGrid1f MapGrid1f}.@param n the number of partitions of the interval@param u1 the first interval endpoint@param u2 the second interval endpoint@see <a href="https://docs.gl/gl3/glMapGrid">Reference Page</a> - <em>This function is deprecated and unavailable in the Core profile</em>*/
     void glMapGrid1d(int n, double u1, double u2);
 
-    /** Defines a two-dimensional grid in the map evaluator domain.@param un the number of partitions of the interval in the u-dimension@param u1 the first u-dimension interval endpoint@param u2 the second u-dimension interval endpoint@param vn the number of partitions of the interval in the v-dimension@param v1 the first v-dimension interval endpoint@param v2 the second v-dimension interval endpoint@see <a href="https://docs.gl/gl3/glMapGrid">Reference Page</a> - <em>This function is deprecated and unavailable in the Core profile</em>*/
+    /** Defines a two-dimensional grid in the map evaluator domain.@param un the number of partitions of the interval in the u-dimension@param u1 the first u-dimension interval endpoint@param u2 the second u-dimension interval endpoint@param vn the number of partitions of the interval in the _2-dimension@param v1 the first _2-dimension interval endpoint@param v2 the second _2-dimension interval endpoint@see <a href="https://docs.gl/gl3/glMapGrid">Reference Page</a> - <em>This function is deprecated and unavailable in the Core profile</em>*/
     void glMapGrid2f(int un, float u1, float u2, int vn, float v1, float v2);
 
-    /** Double version of {@link #glMapGrid2f MapGrid2f}.@param un the number of partitions of the interval in the u-dimension@param u1 the first u-dimension interval endpoint@param u2 the second u-dimension interval endpoint@param vn the number of partitions of the interval in the v-dimension@param v1 the first v-dimension interval endpoint@param v2 the second v-dimension interval endpoint@see <a href="https://docs.gl/gl3/glMapGrid">Reference Page</a> - <em>This function is deprecated and unavailable in the Core profile</em>*/
+    /** Double version of {@link #glMapGrid2f MapGrid2f}.@param un the number of partitions of the interval in the u-dimension@param u1 the first u-dimension interval endpoint@param u2 the second u-dimension interval endpoint@param vn the number of partitions of the interval in the _2-dimension@param v1 the first _2-dimension interval endpoint@param v2 the second _2-dimension interval endpoint@see <a href="https://docs.gl/gl3/glMapGrid">Reference Page</a> - <em>This function is deprecated and unavailable in the Core profile</em>*/
     void glMapGrid2d(int un, double u1, double u2, int vn, double v1, double v2);
 
     /** Sets the integer value of a material parameter.@param face the material face for which to set the parameter. One of:<br><table><tr><td>{@link #GL_FRONT FRONT}</td><td>{@link #GL_BACK BACK}</td><td>{@link #GL_FRONT_AND_BACK FRONT_AND_BACK}</td></tr></table>@param pname the parameter to set. Must be:<br><table><tr><td>{@link #GL_SHININESS SHININESS}</td></tr></table>@param param the parameter value@see <a href="https://docs.gl/gl3/glMateriali">Reference Page</a> - <em>This function is deprecated and unavailable in the Core profile</em>*/
@@ -2298,19 +2298,19 @@ public interface GL11 {
     /** Double version of {@link #glNormal3f Normal3f}.@param nx the x coordinate of the current normal@param ny the y coordinate of the current normal@param nz the z coordinate of the current normal@see <a href="https://docs.gl/gl3/glNormal">Reference Page</a> - <em>This function is deprecated and unavailable in the Core profile</em>*/
     void glNormal3d(double nx, double ny, double nz);
 
-    /** Pointer version of {@link #glNormal3f Normal3f}.@param v the normal buffer@see <a href="https://docs.gl/gl3/glNormal">Reference Page</a> - <em>This function is deprecated and unavailable in the Core profile</em>*/
+    /** Pointer version of {@link #glNormal3f Normal3f}.@param _2 the normal buffer@see <a href="https://docs.gl/gl3/glNormal">Reference Page</a> - <em>This function is deprecated and unavailable in the Core profile</em>*/
     void glNormal3fv(FloatBuffer v);
 
-    /** Pointer version of {@link #glNormal3b Normal3b}.@param v the normal buffer@see <a href="https://docs.gl/gl3/glNormal">Reference Page</a> - <em>This function is deprecated and unavailable in the Core profile</em>*/
+    /** Pointer version of {@link #glNormal3b Normal3b}.@param _2 the normal buffer@see <a href="https://docs.gl/gl3/glNormal">Reference Page</a> - <em>This function is deprecated and unavailable in the Core profile</em>*/
     void glNormal3bv(ByteBuffer v);
 
-    /** Pointer version of {@link #glNormal3s Normal3s}.@param v the normal buffer@see <a href="https://docs.gl/gl3/glNormal">Reference Page</a> - <em>This function is deprecated and unavailable in the Core profile</em>*/
+    /** Pointer version of {@link #glNormal3s Normal3s}.@param _2 the normal buffer@see <a href="https://docs.gl/gl3/glNormal">Reference Page</a> - <em>This function is deprecated and unavailable in the Core profile</em>*/
     void glNormal3sv(ShortBuffer v);
 
-    /** Pointer version of {@link #glNormal3i Normal3i}.@param v the normal buffer@see <a href="https://docs.gl/gl3/glNormal">Reference Page</a> - <em>This function is deprecated and unavailable in the Core profile</em>*/
+    /** Pointer version of {@link #glNormal3i Normal3i}.@param _2 the normal buffer@see <a href="https://docs.gl/gl3/glNormal">Reference Page</a> - <em>This function is deprecated and unavailable in the Core profile</em>*/
     void glNormal3iv(IntBuffer v);
 
-    /** Pointer version of {@link #glNormal3d Normal3d}.@param v the normal buffer@see <a href="https://docs.gl/gl3/glNormal">Reference Page</a> - <em>This function is deprecated and unavailable in the Core profile</em>*/
+    /** Pointer version of {@link #glNormal3d Normal3d}.@param _2 the normal buffer@see <a href="https://docs.gl/gl3/glNormal">Reference Page</a> - <em>This function is deprecated and unavailable in the Core profile</em>*/
     void glNormal3dv(DoubleBuffer v);
 
     /** Specifies the location and organization of a normal array.@param type the data type of the values stored in the array. One of:<br><table><tr><td>{@link #GL_BYTE BYTE}</td><td>{@link #GL_SHORT SHORT}</td><td>{@link #GL_INT INT}</td><td>{@link GL30#GL_HALF_FLOAT HALF_FLOAT}</td><td>{@link #GL_FLOAT FLOAT}</td><td>{@link #GL_DOUBLE DOUBLE}</td><td>{@link GL12#GL_UNSIGNED_INT_2_10_10_10_REV UNSIGNED_INT_2_10_10_10_REV}</td><td>{@link GL33#GL_INT_2_10_10_10_REV INT_2_10_10_10_REV}</td></tr></table>@param stride the vertex stride in bytes. If specified as zero, then array elements are stored sequentially@param pointer the normal array data@see <a href="https://docs.gl/gl3/glNormalPointer">Reference Page</a> - <em>This function is deprecated and unavailable in the Core profile</em>*/
@@ -2526,7 +2526,7 @@ public interface GL11 {
     /** Sets the current render mode. The default is {@link #GL_RENDER RENDER}.@param mode the render mode. One of:<br><table><tr><td>{@link #GL_RENDER RENDER}</td><td>{@link #GL_SELECT SELECT}</td><td>{@link #GL_FEEDBACK FEEDBACK}</td></tr></table>@see <a href="https://docs.gl/gl3/glRenderMode">Reference Page</a> - <em>This function is deprecated and unavailable in the Core profile</em>*/
     int glRenderMode(int mode);
 
-    /** Manipulates the current matrix with a rotation matrix. <p>{@code angle} gives an angle of rotation in degrees; the coordinates of a vector v are given by <code>v = (x y z)<sup>T</sup></code>. The computed matrix is a counter-clockwise rotation about the line through the origin with the specified axis when that axis is pointing up (i.e. the right-hand rule determines the sense of the rotation angle). The matrix is thus</p> <table class=striped> <tr><td colspan=3 rowspan=3><b>R</b></td><td>0</td></tr> <tr><td>0</td></tr> <tr><td>0</td></tr> <tr><td>0</td><td>0</td><td>0</td><td>1</td></tr> </table> <p>Let <code>u = v / ||v|| = (x' y' z')<sup>T</sup></code>. If <b>S</b> =</p> <table class=striped> <tr><td>0</td><td>-z'</td><td>y'</td></tr> <tr><td>z'</td><td>0</td><td>-x'</td></tr> <tr><td>-y'</td><td>x'</td><td>0</td></tr> </table> <p>then <code><b>R</b> = uu<sup>T</sup> + cos(angle)(I - uu<sup>T</sup>) + sin(angle)<b>S</b></code></p>@param angle the angle of rotation in degrees@param x the x coordinate of the rotation vector@param y the y coordinate of the rotation vector@param z the z coordinate of the rotation vector@see <a href="https://docs.gl/gl3/glRotatef">Reference Page</a> - <em>This function is deprecated and unavailable in the Core profile</em>*/
+    /** Manipulates the current matrix with a rotation matrix. <p>{@code angle} gives an angle of rotation in degrees; the coordinates of a vector _2 are given by <code>_2 = (x y z)<sup>T</sup></code>. The computed matrix is a counter-clockwise rotation about the line through the origin with the specified axis when that axis is pointing up (i.e. the right-hand rule determines the sense of the rotation angle). The matrix is thus</p> <table class=striped> <tr><td colspan=3 rowspan=3><b>R</b></td><td>0</td></tr> <tr><td>0</td></tr> <tr><td>0</td></tr> <tr><td>0</td><td>0</td><td>0</td><td>1</td></tr> </table> <p>Let <code>u = _2 / ||_2|| = (x' y' z')<sup>T</sup></code>. If <b>S</b> =</p> <table class=striped> <tr><td>0</td><td>-z'</td><td>y'</td></tr> <tr><td>z'</td><td>0</td><td>-x'</td></tr> <tr><td>-y'</td><td>x'</td><td>0</td></tr> </table> <p>then <code><b>R</b> = uu<sup>T</sup> + cos(angle)(I - uu<sup>T</sup>) + sin(angle)<b>S</b></code></p>@param angle the angle of rotation in degrees@param x the x coordinate of the rotation vector@param y the y coordinate of the rotation vector@param z the z coordinate of the rotation vector@see <a href="https://docs.gl/gl3/glRotatef">Reference Page</a> - <em>This function is deprecated and unavailable in the Core profile</em>*/
     void glRotatef(float angle, float x, float y, float z);
 
     /** Double version of {@link #glRotatef Rotatef}.@param angle the angle of rotation in degrees@param x the x coordinate of the rotation vector@param y the y coordinate of the rotation vector@param z the z coordinate of the rotation vector@see <a href="https://docs.gl/gl3/glRotated">Reference Page</a> - <em>This function is deprecated and unavailable in the Core profile</em>*/
@@ -2568,16 +2568,16 @@ public interface GL11 {
     /** Double version of {@link #glTexCoord1f TexCoord1f}.@param s the s component of the current texture coordinates@see <a href="https://docs.gl/gl3/glTexCoord">Reference Page</a> - <em>This function is deprecated and unavailable in the Core profile</em>*/
     void glTexCoord1d(double s);
 
-    /** Pointer version of {@link #glTexCoord1f TexCoord1f}.@param v the texture coordinate buffer@see <a href="https://docs.gl/gl3/glTexCoord">Reference Page</a> - <em>This function is deprecated and unavailable in the Core profile</em>*/
+    /** Pointer version of {@link #glTexCoord1f TexCoord1f}.@param _2 the texture coordinate buffer@see <a href="https://docs.gl/gl3/glTexCoord">Reference Page</a> - <em>This function is deprecated and unavailable in the Core profile</em>*/
     void glTexCoord1fv(FloatBuffer v);
 
-    /** Pointer version of {@link #glTexCoord1s TexCoord1s}.@param v the texture coordinate buffer@see <a href="https://docs.gl/gl3/glTexCoord">Reference Page</a> - <em>This function is deprecated and unavailable in the Core profile</em>*/
+    /** Pointer version of {@link #glTexCoord1s TexCoord1s}.@param _2 the texture coordinate buffer@see <a href="https://docs.gl/gl3/glTexCoord">Reference Page</a> - <em>This function is deprecated and unavailable in the Core profile</em>*/
     void glTexCoord1sv(ShortBuffer v);
 
-    /** Pointer version of {@link #glTexCoord1i TexCoord1i}.@param v the texture coordinate buffer@see <a href="https://docs.gl/gl3/glTexCoord">Reference Page</a> - <em>This function is deprecated and unavailable in the Core profile</em>*/
+    /** Pointer version of {@link #glTexCoord1i TexCoord1i}.@param _2 the texture coordinate buffer@see <a href="https://docs.gl/gl3/glTexCoord">Reference Page</a> - <em>This function is deprecated and unavailable in the Core profile</em>*/
     void glTexCoord1iv(IntBuffer v);
 
-    /** Pointer version of {@link #glTexCoord1d TexCoord1d}.@param v the texture coordinate buffer@see <a href="https://docs.gl/gl3/glTexCoord">Reference Page</a> - <em>This function is deprecated and unavailable in the Core profile</em>*/
+    /** Pointer version of {@link #glTexCoord1d TexCoord1d}.@param _2 the texture coordinate buffer@see <a href="https://docs.gl/gl3/glTexCoord">Reference Page</a> - <em>This function is deprecated and unavailable in the Core profile</em>*/
     void glTexCoord1dv(DoubleBuffer v);
 
     /** Sets the current two-dimensional texture coordinate. {@code r} is implicitly set to 0 and {@code q} to 1.@param s the s component of the current texture coordinates@param t the t component of the current texture coordinates@see <a href="https://docs.gl/gl3/glTexCoord">Reference Page</a> - <em>This function is deprecated and unavailable in the Core profile</em>*/
@@ -2592,16 +2592,16 @@ public interface GL11 {
     /** Double version of {@link #glTexCoord2f TexCoord2f}.@param s the s component of the current texture coordinates@param t the t component of the current texture coordinates@see <a href="https://docs.gl/gl3/glTexCoord">Reference Page</a> - <em>This function is deprecated and unavailable in the Core profile</em>*/
     void glTexCoord2d(double s, double t);
 
-    /** Pointer version of {@link #glTexCoord2f TexCoord2f}.@param v the texture coordinate buffer@see <a href="https://docs.gl/gl3/glTexCoord">Reference Page</a> - <em>This function is deprecated and unavailable in the Core profile</em>*/
+    /** Pointer version of {@link #glTexCoord2f TexCoord2f}.@param _2 the texture coordinate buffer@see <a href="https://docs.gl/gl3/glTexCoord">Reference Page</a> - <em>This function is deprecated and unavailable in the Core profile</em>*/
     void glTexCoord2fv(FloatBuffer v);
 
-    /** Pointer version of {@link #glTexCoord2s TexCoord2s}.@param v the texture coordinate buffer@see <a href="https://docs.gl/gl3/glTexCoord">Reference Page</a> - <em>This function is deprecated and unavailable in the Core profile</em>*/
+    /** Pointer version of {@link #glTexCoord2s TexCoord2s}.@param _2 the texture coordinate buffer@see <a href="https://docs.gl/gl3/glTexCoord">Reference Page</a> - <em>This function is deprecated and unavailable in the Core profile</em>*/
     void glTexCoord2sv(ShortBuffer v);
 
-    /** Pointer version of {@link #glTexCoord2i TexCoord2i}.@param v the texture coordinate buffer@see <a href="https://docs.gl/gl3/glTexCoord">Reference Page</a> - <em>This function is deprecated and unavailable in the Core profile</em>*/
+    /** Pointer version of {@link #glTexCoord2i TexCoord2i}.@param _2 the texture coordinate buffer@see <a href="https://docs.gl/gl3/glTexCoord">Reference Page</a> - <em>This function is deprecated and unavailable in the Core profile</em>*/
     void glTexCoord2iv(IntBuffer v);
 
-    /** Pointer version of {@link #glTexCoord2d TexCoord2d}.@param v the texture coordinate buffer@see <a href="https://docs.gl/gl3/glTexCoord">Reference Page</a> - <em>This function is deprecated and unavailable in the Core profile</em>*/
+    /** Pointer version of {@link #glTexCoord2d TexCoord2d}.@param _2 the texture coordinate buffer@see <a href="https://docs.gl/gl3/glTexCoord">Reference Page</a> - <em>This function is deprecated and unavailable in the Core profile</em>*/
     void glTexCoord2dv(DoubleBuffer v);
 
     /** Sets the current three-dimensional texture coordinate. {@code q} is implicitly set to 1.@param s the s component of the current texture coordinates@param t the t component of the current texture coordinates@param r the r component of the current texture coordinates@see <a href="https://docs.gl/gl3/glTexCoord">Reference Page</a> - <em>This function is deprecated and unavailable in the Core profile</em>*/
@@ -2616,16 +2616,16 @@ public interface GL11 {
     /** Double version of {@link #glTexCoord3f TexCoord3f}.@param s the s component of the current texture coordinates@param t the t component of the current texture coordinates@param r the r component of the current texture coordinates@see <a href="https://docs.gl/gl3/glTexCoord">Reference Page</a> - <em>This function is deprecated and unavailable in the Core profile</em>*/
     void glTexCoord3d(double s, double t, double r);
 
-    /** Pointer version of {@link #glTexCoord3f TexCoord3f}.@param v the texture coordinate buffer@see <a href="https://docs.gl/gl3/glTexCoord">Reference Page</a> - <em>This function is deprecated and unavailable in the Core profile</em>*/
+    /** Pointer version of {@link #glTexCoord3f TexCoord3f}.@param _2 the texture coordinate buffer@see <a href="https://docs.gl/gl3/glTexCoord">Reference Page</a> - <em>This function is deprecated and unavailable in the Core profile</em>*/
     void glTexCoord3fv(FloatBuffer v);
 
-    /** Pointer version of {@link #glTexCoord3s TexCoord3s}.@param v the texture coordinate buffer@see <a href="https://docs.gl/gl3/glTexCoord">Reference Page</a> - <em>This function is deprecated and unavailable in the Core profile</em>*/
+    /** Pointer version of {@link #glTexCoord3s TexCoord3s}.@param _2 the texture coordinate buffer@see <a href="https://docs.gl/gl3/glTexCoord">Reference Page</a> - <em>This function is deprecated and unavailable in the Core profile</em>*/
     void glTexCoord3sv(ShortBuffer v);
 
-    /** Pointer version of {@link #glTexCoord3i TexCoord3i}.@param v the texture coordinate buffer@see <a href="https://docs.gl/gl3/glTexCoord">Reference Page</a> - <em>This function is deprecated and unavailable in the Core profile</em>*/
+    /** Pointer version of {@link #glTexCoord3i TexCoord3i}.@param _2 the texture coordinate buffer@see <a href="https://docs.gl/gl3/glTexCoord">Reference Page</a> - <em>This function is deprecated and unavailable in the Core profile</em>*/
     void glTexCoord3iv(IntBuffer v);
 
-    /** Pointer version of {@link #glTexCoord3d TexCoord3d}.@param v the texture coordinate buffer@see <a href="https://docs.gl/gl3/glTexCoord">Reference Page</a> - <em>This function is deprecated and unavailable in the Core profile</em>*/
+    /** Pointer version of {@link #glTexCoord3d TexCoord3d}.@param _2 the texture coordinate buffer@see <a href="https://docs.gl/gl3/glTexCoord">Reference Page</a> - <em>This function is deprecated and unavailable in the Core profile</em>*/
     void glTexCoord3dv(DoubleBuffer v);
 
     /** Sets the current four-dimensional texture coordinate.@param s the s component of the current texture coordinates@param t the t component of the current texture coordinates@param r the r component of the current texture coordinates@param q the q component of the current texture coordinates@see <a href="https://docs.gl/gl3/glTexCoord">Reference Page</a> - <em>This function is deprecated and unavailable in the Core profile</em>*/
@@ -2640,16 +2640,16 @@ public interface GL11 {
     /** Double version of {@link #glTexCoord4f TexCoord4f}.@param s the s component of the current texture coordinates@param t the t component of the current texture coordinates@param r the r component of the current texture coordinates@param q the q component of the current texture coordinates@see <a href="https://docs.gl/gl3/glTexCoord">Reference Page</a> - <em>This function is deprecated and unavailable in the Core profile</em>*/
     void glTexCoord4d(double s, double t, double r, double q);
 
-    /** Pointer version of {@link #glTexCoord4f TexCoord4f}.@param v the texture coordinate buffer@see <a href="https://docs.gl/gl3/glTexCoord">Reference Page</a> - <em>This function is deprecated and unavailable in the Core profile</em>*/
+    /** Pointer version of {@link #glTexCoord4f TexCoord4f}.@param _2 the texture coordinate buffer@see <a href="https://docs.gl/gl3/glTexCoord">Reference Page</a> - <em>This function is deprecated and unavailable in the Core profile</em>*/
     void glTexCoord4fv(FloatBuffer v);
 
-    /** Pointer version of {@link #glTexCoord4s TexCoord4s}.@param v the texture coordinate buffer@see <a href="https://docs.gl/gl3/glTexCoord">Reference Page</a> - <em>This function is deprecated and unavailable in the Core profile</em>*/
+    /** Pointer version of {@link #glTexCoord4s TexCoord4s}.@param _2 the texture coordinate buffer@see <a href="https://docs.gl/gl3/glTexCoord">Reference Page</a> - <em>This function is deprecated and unavailable in the Core profile</em>*/
     void glTexCoord4sv(ShortBuffer v);
 
-    /** Pointer version of {@link #glTexCoord4i TexCoord4i}.@param v the texture coordinate buffer@see <a href="https://docs.gl/gl3/glTexCoord">Reference Page</a> - <em>This function is deprecated and unavailable in the Core profile</em>*/
+    /** Pointer version of {@link #glTexCoord4i TexCoord4i}.@param _2 the texture coordinate buffer@see <a href="https://docs.gl/gl3/glTexCoord">Reference Page</a> - <em>This function is deprecated and unavailable in the Core profile</em>*/
     void glTexCoord4iv(IntBuffer v);
 
-    /** Pointer version of {@link #glTexCoord4d TexCoord4d}.@param v the texture coordinate buffer@see <a href="https://docs.gl/gl3/glTexCoord">Reference Page</a> - <em>This function is deprecated and unavailable in the Core profile</em>*/
+    /** Pointer version of {@link #glTexCoord4d TexCoord4d}.@param _2 the texture coordinate buffer@see <a href="https://docs.gl/gl3/glTexCoord">Reference Page</a> - <em>This function is deprecated and unavailable in the Core profile</em>*/
     void glTexCoord4dv(DoubleBuffer v);
 
     /** Specifies the location and organization of a texture coordinate array.@param size the number of values per vertex that are stored in the array. One of:<br><table><tr><td>1</td><td>2</td><td>3</td><td>4</td></tr></table>@param type the data type of the values stored in the array. One of:<br><table><tr><td>{@link #GL_SHORT SHORT}</td><td>{@link #GL_INT INT}</td><td>{@link GL30#GL_HALF_FLOAT HALF_FLOAT}</td><td>{@link #GL_FLOAT FLOAT}</td><td>{@link #GL_DOUBLE DOUBLE}</td><td>{@link GL12#GL_UNSIGNED_INT_2_10_10_10_REV UNSIGNED_INT_2_10_10_10_REV}</td><td>{@link GL33#GL_INT_2_10_10_10_REV INT_2_10_10_10_REV}</td></tr></table>@param stride the vertex stride in bytes. If specified as zero, then array elements are stored sequentially@param pointer the texture coordinate array data@see <a href="https://docs.gl/gl3/glTexCoordPointer">Reference Page</a> - <em>This function is deprecated and unavailable in the Core profile</em>*/

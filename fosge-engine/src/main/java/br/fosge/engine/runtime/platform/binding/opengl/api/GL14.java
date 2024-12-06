@@ -229,28 +229,28 @@ public interface GL14 {
     /** Unsigned int version of {@link #glSecondaryColor3b SecondaryColor3b}@param red the red component of the current secondary color@param green the green component of the current secondary color@param blue the blue component of the current secondary color@see <a href="https://docs.gl/gl3/glSecondaryColor">Reference Page</a> - <em>This function is deprecated and unavailable in the Core profile</em>*/
     void glSecondaryColor3ui(int red, int green, int blue);
 
-    /** Byte pointer version of {@link #glSecondaryColor3b SecondaryColor3b}.@param v the secondary color buffer@see <a href="https://docs.gl/gl3/glSecondaryColor">Reference Page</a> - <em>This function is deprecated and unavailable in the Core profile</em>*/
+    /** Byte pointer version of {@link #glSecondaryColor3b SecondaryColor3b}.@param _2 the secondary color buffer@see <a href="https://docs.gl/gl3/glSecondaryColor">Reference Page</a> - <em>This function is deprecated and unavailable in the Core profile</em>*/
     void glSecondaryColor3bv(ByteBuffer v);
 
-    /** Pointer version of {@link #glSecondaryColor3s SecondaryColor3s}.@param v the secondary color buffer@see <a href="https://docs.gl/gl3/glSecondaryColor">Reference Page</a> - <em>This function is deprecated and unavailable in the Core profile</em>*/
+    /** Pointer version of {@link #glSecondaryColor3s SecondaryColor3s}.@param _2 the secondary color buffer@see <a href="https://docs.gl/gl3/glSecondaryColor">Reference Page</a> - <em>This function is deprecated and unavailable in the Core profile</em>*/
     void glSecondaryColor3sv(ShortBuffer v);
 
-    /** Pointer version of {@link #glSecondaryColor3i SecondaryColor3i}.@param v the secondary color buffer@see <a href="https://docs.gl/gl3/glSecondaryColor">Reference Page</a> - <em>This function is deprecated and unavailable in the Core profile</em>*/
+    /** Pointer version of {@link #glSecondaryColor3i SecondaryColor3i}.@param _2 the secondary color buffer@see <a href="https://docs.gl/gl3/glSecondaryColor">Reference Page</a> - <em>This function is deprecated and unavailable in the Core profile</em>*/
     void glSecondaryColor3iv(IntBuffer v);
 
-    /** Pointer version of {@link #glSecondaryColor3f SecondaryColor3f}.@param v the secondary color buffer@see <a href="https://docs.gl/gl3/glSecondaryColor">Reference Page</a> - <em>This function is deprecated and unavailable in the Core profile</em>*/
+    /** Pointer version of {@link #glSecondaryColor3f SecondaryColor3f}.@param _2 the secondary color buffer@see <a href="https://docs.gl/gl3/glSecondaryColor">Reference Page</a> - <em>This function is deprecated and unavailable in the Core profile</em>*/
     void glSecondaryColor3fv(FloatBuffer v);
 
-    /** Pointer version of {@link #glSecondaryColor3d SecondaryColor3d}.@param v the secondary color buffer@see <a href="https://docs.gl/gl3/glSecondaryColor">Reference Page</a> - <em>This function is deprecated and unavailable in the Core profile</em>*/
+    /** Pointer version of {@link #glSecondaryColor3d SecondaryColor3d}.@param _2 the secondary color buffer@see <a href="https://docs.gl/gl3/glSecondaryColor">Reference Page</a> - <em>This function is deprecated and unavailable in the Core profile</em>*/
     void glSecondaryColor3dv(DoubleBuffer v);
 
-    /** Pointer version of {@link #glSecondaryColor3ub SecondaryColor3ub}.@param v the secondary color buffer@see <a href="https://docs.gl/gl3/glSecondaryColor">Reference Page</a> - <em>This function is deprecated and unavailable in the Core profile</em>*/
+    /** Pointer version of {@link #glSecondaryColor3ub SecondaryColor3ub}.@param _2 the secondary color buffer@see <a href="https://docs.gl/gl3/glSecondaryColor">Reference Page</a> - <em>This function is deprecated and unavailable in the Core profile</em>*/
     void glSecondaryColor3ubv(ByteBuffer v);
 
-    /** Pointer version of {@link #glSecondaryColor3us SecondaryColor3us}.@param v the secondary color buffer@see <a href="https://docs.gl/gl3/glSecondaryColor">Reference Page</a> - <em>This function is deprecated and unavailable in the Core profile</em>*/
+    /** Pointer version of {@link #glSecondaryColor3us SecondaryColor3us}.@param _2 the secondary color buffer@see <a href="https://docs.gl/gl3/glSecondaryColor">Reference Page</a> - <em>This function is deprecated and unavailable in the Core profile</em>*/
     void glSecondaryColor3usv(ShortBuffer v);
 
-    /** Pointer version of {@link #glSecondaryColor3ui SecondaryColor3ui}.@param v the secondary color buffer@see <a href="https://docs.gl/gl3/glSecondaryColor">Reference Page</a> - <em>This function is deprecated and unavailable in the Core profile</em>*/
+    /** Pointer version of {@link #glSecondaryColor3ui SecondaryColor3ui}.@param _2 the secondary color buffer@see <a href="https://docs.gl/gl3/glSecondaryColor">Reference Page</a> - <em>This function is deprecated and unavailable in the Core profile</em>*/
     void glSecondaryColor3uiv(IntBuffer v);
 
     /** Specifies the location and organization of a secondary color array.@param size the number of values per vertex that are stored in the array, as well as their component ordering. Must be:<br><table><tr><td>3</td></tr></table>@param type the data type of the values stored in the array. One of:<br><table><tr><td>{@link GL11#GL_BYTE BYTE}</td><td>{@link GL11#GL_UNSIGNED_BYTE UNSIGNED_BYTE}</td><td>{@link GL11#GL_SHORT SHORT}</td><td>{@link GL11#GL_UNSIGNED_SHORT UNSIGNED_SHORT}</td><td>{@link GL11#GL_INT INT}</td><td>{@link GL11#GL_UNSIGNED_INT UNSIGNED_INT}</td><td>{@link GL30#GL_HALF_FLOAT HALF_FLOAT}</td></tr><tr><td>{@link GL11#GL_FLOAT FLOAT}</td><td>{@link GL11#GL_DOUBLE DOUBLE}</td><td>{@link GL12#GL_UNSIGNED_INT_2_10_10_10_REV UNSIGNED_INT_2_10_10_10_REV}</td><td>{@link GL33#GL_INT_2_10_10_10_REV INT_2_10_10_10_REV}</td></tr></table>@param stride the vertex stride in bytes. If specified as zero, then array elements are stored sequentially@param pointer the secondary color array data@see <a href="https://docs.gl/gl3/glSecondaryColorPointer">Reference Page</a> - <em>This function is deprecated and unavailable in the Core profile</em>*/

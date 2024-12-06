@@ -1,10 +1,13 @@
 package br.fosge.editor.ui;
 
+import br.fosge.editor.RuntimeState;
 import br.fosge.editor.ui.component.JLimitedDocument;
 import br.fosge.editor.ui.component.RadioButtonSpec;
 import br.fosge.graphics.Rectangle;
+import br.fosge.tools.Meta;
 
 import javax.swing.*;
+import javax.swing.border.Border;
 import java.awt.*;
 import java.nio.file.Path;
 import java.util.ArrayList;
@@ -13,6 +16,11 @@ import java.util.List;
 
 public abstract class UIControl {
     private UIControl()  { /* Private constructor */ }
+    private static final Border errorBorder = BorderFactory.createLineBorder(Color.red, 3);
+
+    public static Border errorBorder() {
+        return errorBorder;
+    }
 
     public static JButton button(String title, EventListener... listeners) {
         return button(title, null, listeners);
@@ -42,8 +50,32 @@ public abstract class UIControl {
         return components;
     }
 
+    public static JRadioButton radioButton(ButtonGroup group) {
+        final var iterator = group.getElements().asIterator();
+        while (iterator.hasNext()) {
+            final var element = iterator.next();
+            if (element.isSelected()) {
+                return Meta.cast(element, JRadioButton.class);
+            }
+        }
+
+        return null;
+    }
+
+    public static void clear(ButtonGroup group) {
+        final var iterator = group.getElements();
+        while (iterator.hasMoreElements()) {
+            final var element = iterator.nextElement();
+            element.setSelected(false);
+        }
+    }
+
     public static JTextField textField() {
         return textField(300);
+    }
+
+    public static JTextField textField( EventListener ... listeners) {
+        return textField(300, listeners);
     }
 
     public static JTextField textField(int size) {
@@ -85,7 +117,7 @@ public abstract class UIControl {
     }
 
     private static Path choose(JComponent parent, int type, String btnName) {
-        final var fileChooser = new JFileChooser(System.getProperty("user.home"));
+        final var fileChooser = new JFileChooser(RuntimeState.ROOTFS.toString());
         fileChooser.setFileSelectionMode(type);
         fileChooser.setApproveButtonText(btnName);
 

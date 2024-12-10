@@ -14,6 +14,7 @@
         <module>../fosge-tools</module>
         <module>../fosge-engine</module>
         <module>../fosge-editor</module>
+        <module>../fosge-editor-forms</module>
         <module>../fosge-sandbox-brakeys</module>
         <module>../fosge-sandbox-homeland</module>
     </modules>

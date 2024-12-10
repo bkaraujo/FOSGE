@@ -2,8 +2,9 @@ package br.fosge.editor;
 
 import br.fosge.Logger;
 import br.fosge.MessageBus;
-import br.fosge.editor.ui.Forms;
-import br.fosge.editor.ui.SwingTools;
+import br.fosge.RT;
+import br.fosge.editor.forms.BrowseFrame;
+import br.fosge.editor.ui.SWTools;
 import br.fosge.editor.ui.UIState;
 import br.fosge.editor.ui.event.UIBeepEvent;
 import br.fosge.logger.LogLevel;
@@ -14,7 +15,6 @@ import br.fosge.tools.Meta;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.FocusEvent;
-import java.nio.file.Files;
 
 public class Launcher {
     private final Toolkit toolkit = Toolkit.getDefaultToolkit();
@@ -23,7 +23,7 @@ public class Launcher {
         new Launcher();
     }
 
-    public Launcher() throws Exception {
+    public Launcher() {
         Logger.level(LogLevel.TRACE);
         MessageBus.subscribe(this);
 
@@ -34,31 +34,20 @@ public class Launcher {
 
             if (component != UIState.lastFocus) {
                 UIState.lastFocus = component;
-                Logger.trace("UIState.lastFocus = %s", Meta.fqn(UIState.lastFocus));
             }
         }, FocusEvent.FOCUS_EVENT_MASK);
 
-        if (!RuntimeState.SETTINGSFS.toFile().exists()) {
-            if (!RuntimeState.SETTINGSFS.toFile().mkdirs()) {
-                Logger.error("Failed to create: %s", RuntimeState.SETTINGSFS);
-            }
-        }
-
-        for (final var file : new String[] {"editor.yaml", "projects.yaml"}) {
-            final var absolute = RuntimeState.SETTINGSFS.resolve(file);
-
-            if (!absolute.toFile().exists()) {
-                Logger.trace("Creating file: %s", absolute);
-                Files.createFile(absolute);
-            }
-        }
+        RT.set("settingsfs", RT.rootfs().resolve("settings"));
 
         SwingUtilities.invokeLater(() -> {
-            final var form = Forms.projectBrowse();
-            if (!form.initialize()) { Logger.error("Failed to initialize %s", Meta.fqn(form)); Meta.exit(99); }
+            final var window = new BrowseFrame();
+            if (!window.initialize()) {
+                Logger.error("Failed to initialize %s", Meta.fqn(window));
+                Meta.exit(99);
+            }
 
-            SwingTools.centralize(form);
-            form.setVisible(true);
+            SWTools.toScreenCenter(window);
+            window.setVisible(true);
         });
     }
 

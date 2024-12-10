@@ -7,18 +7,33 @@ import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 import java.nio.file.Path;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 public class Yaml {
     private static final ObjectMapper mapper = new ObjectMapper(new YAMLFactory());
 
-    public static Map<String, Object> load(Path file) {
+    public static Map<String, Object> load(Path path) {
         try {
-            final var map = mapper.readValue(file.toFile(), Map.class);
+            final var map = mapper.readValue(path.toFile(), Map.class);
             return Collections.unmodifiableMap(map);
         } catch (Throwable throwable) {
-            Logger.error("Failed to read %s: %s", file, throwable);
+            Logger.error("Failed to read %s: %s", path, throwable);
             return new HashMap<>();
+        }
+    }
+
+    public static void save(Path path, Map<String, Object> data) {
+        final var content = new LinkedHashMap<String, Object>();
+
+        final var file = path.toFile();
+        if (file.exists()) { content.putAll(load(path)); }
+        content.putAll(data);
+
+        try {
+            mapper.writeValue(file, content);
+        } catch (Throwable throwable) {
+            Logger.error("Failed to write %s: %s", path, throwable);
         }
     }
 

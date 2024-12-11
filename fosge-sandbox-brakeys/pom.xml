@@ -15,10 +15,6 @@
     <packaging>jar</packaging>
     <version>1.0.0</version>
 
-    <properties>
-        <project.mainClass>br.fosge.Launcher</project.mainClass>
-    </properties>
-
     <dependencies>
         <dependency>
             <groupId>br.fosge</groupId>

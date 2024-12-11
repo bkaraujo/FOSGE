@@ -12,6 +12,7 @@
 
     <properties>
         <profile.platform/>
+        <project.mainClass>br.fosge.Launcher</project.mainClass>
 
         <dependency.test.junit>5.11.3</dependency.test.junit>
         <dependency.test.archunit>1.3.0</dependency.test.archunit>

@@ -1,6 +1,5 @@
 package br.fosge.editor.forms;
 
-import br.fosge.editor.ui.UIContainers;
 import br.fosge.editor.ui.component.FGFrame;
 import br.fosge.editor.ui.component.FGImagePanel;
 import br.fosge.editor.ui.component.FGPanel;
@@ -8,6 +7,7 @@ import br.fosge.editor.ui.listener.CursorHoverListener;
 import br.fosge.tools.Meta;
 
 import javax.swing.*;
+import javax.swing.text.JTextComponent;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -114,9 +114,12 @@ public final class BrowseFrame extends FGFrame {
         private final OpenProjectPanel pnlOpenProject;
         private final CreateProjectPanel pnlCreateProject;
 
+        public final JTextComponent txtProjectName = new JTextField();
+        public final JTextComponent txtProjectPath = new JTextField();
+
         public CenterPanel(SouthPanel south) {
             pnlOpenProject = new OpenProjectPanel(south);
-            pnlCreateProject = new CreateProjectPanel(south);
+            pnlCreateProject = new CreateProjectPanel(south, txtProjectName, txtProjectPath);
         }
 
         @Override
@@ -134,7 +137,7 @@ public final class BrowseFrame extends FGFrame {
 
             pnlOpenProject.visible = false;
             pnlCreateProject.visible = true;
-            cards.show(this, Meta.fqn(pnlCreateProject));
+            SwingUtilities.invokeLater(() -> cards.show(this, Meta.fqn(pnlCreateProject)));
         }
 
         public void showOpenProject() {
@@ -142,7 +145,7 @@ public final class BrowseFrame extends FGFrame {
 
             pnlOpenProject.visible = true;
             pnlCreateProject.visible = false;
-            cards.show(this, Meta.fqn(pnlOpenProject));
+            SwingUtilities.invokeLater(() -> cards.show(this, Meta.fqn(pnlOpenProject)));
         }
 
         @Override
@@ -164,46 +167,75 @@ public final class BrowseFrame extends FGFrame {
             public boolean visible;
             private final SouthPanel south;
             private final ButtonGroup buttonGroup = new ButtonGroup();
+            public final JTextComponent txtProjectName;
+            public final JTextComponent txtProjectPath;
 
-            public CreateProjectPanel(SouthPanel south) {
+            public CreateProjectPanel(SouthPanel south, JTextComponent txtProjectName, JTextComponent txtProjectPath) {
                 this.south = south;
+                this.txtProjectName = txtProjectName;
+                this.txtProjectPath = txtProjectPath;
             }
 
             @Override
             public boolean initialize() {
-                setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
+                setLayout(new BorderLayout());
                 setBorder(BorderFactory.createEmptyBorder(0, 20, 0, 20));
-                // ######################################################
-                // Project Types Panel
-                // ######################################################
-                final var pnlProjectTypes = UIContainers.boxVertical(); {
-                    add(pnlProjectTypes);
+                final var pnlProjectType = FGPanel.newBoxVertical(); {
+                    add(pnlProjectType, BorderLayout.CENTER);
 
-                    final var rbtEmpty = new JRadioButton("Empty");
-                    buttonGroup.add(rbtEmpty);
-                    pnlProjectTypes.add(rbtEmpty);
-                    final var rbt1stPerson = new JRadioButton("1st Person");
-                    buttonGroup.add(rbt1stPerson);
-                    pnlProjectTypes.add(rbt1stPerson);
-                    final var rbt3rdPerson = new JRadioButton("3st Person");
-                    buttonGroup.add(rbt3rdPerson);
-                    pnlProjectTypes.add(rbt3rdPerson);
-                    final var rbtIsometric = new JRadioButton("Isometric");
-                    buttonGroup.add(rbtIsometric);
-                    pnlProjectTypes.add(rbtIsometric);
+                    final var pnlProjectTypeChooser = FGPanel.newBoxVertical(); {
+                        pnlProjectType.add(pnlProjectTypeChooser);
 
-                    final var elements = buttonGroup.getElements();
-                    while (elements.hasMoreElements()) {
-                        elements
-                                .nextElement()
-                                .addMouseListener(new CursorHoverListener(Cursor.HAND_CURSOR));
+                        buttonGroup.add(new JRadioButton("Empty"));
+                        buttonGroup.add(new JRadioButton("1st Person"));
+                        buttonGroup.add(new JRadioButton("3st Person"));
+                        buttonGroup.add(new JRadioButton("Isometric"));
+
+                        final var elements = buttonGroup.getElements();
+                        while (elements.hasMoreElements()) {
+                            final var element = elements.nextElement();
+
+                            pnlProjectType.add(element);
+                            element.addMouseListener(new CursorHoverListener(Cursor.HAND_CURSOR));
+                        }
+                    }
+
+                    final var pnlProjectTypeImage = new FGImagePanel(); {
+                        pnlProjectType.add(pnlProjectTypeImage);
                     }
                 }
-                // ######################################################
-                // Project Type Image Panel
-                // ######################################################
-                final var pnlProjectImage = new FGImagePanel(); {
-                    add(pnlProjectImage);
+                final var pnlProjectName = FGPanel.newGridBag(); {
+                    add(pnlProjectName, BorderLayout.SOUTH);
+                    final var constraints = new GridBagConstraints();
+                    constraints.insets = new Insets( 5, 5, 5, 5 );
+                    constraints.anchor = GridBagConstraints.NORTHWEST;
+
+                    constraints.gridx = 0;
+                    constraints.gridy = 0;
+                    constraints.ipadx = 1;
+                    constraints.ipady = 1;
+                    pnlProjectName.add(new JLabel("Name: "), constraints);
+
+                    constraints.gridx = 1;
+                    constraints.gridy = 0;
+                    constraints.ipadx = 1;
+                    constraints.ipady = 1;
+                    pnlProjectName.add(txtProjectName, constraints);
+
+                    constraints.gridx = 0;
+                    constraints.gridy = 1;
+                    constraints.ipadx = 1;
+                    constraints.ipady = 1;
+                    pnlProjectName.add(new JLabel("Directory: "), constraints);
+                    constraints.gridx = 1;
+                    constraints.gridy = 1;
+                    constraints.ipadx = 1;
+                    constraints.ipady = 1;
+                    pnlProjectName.add(txtProjectPath, constraints);
+
+//                    final var btnChoose = new JButton("...");
+//                    pnlProjectName.add(btnChoose, constraints);
+
                 }
                 // ######################################################
                 // Form Buttons

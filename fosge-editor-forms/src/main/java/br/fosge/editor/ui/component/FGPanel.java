@@ -1,5 +1,6 @@
 package br.fosge.editor.ui.component;
 
+import br.fosge.Logger;
 import br.fosge.annotation.Lifecycle;
 import br.fosge.math.SimpleMath;
 
@@ -12,7 +13,37 @@ public class FGPanel extends JPanel implements Lifecycle {
     private GradientPaint gradient;
     private FGGradientSpec gradientSpec;
 
-    public FGPanel() {
+    public static FGPanel newBoxVertical() {
+        final var panel = new FGPanel();
+        panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
+
+        return panel;
+    }
+
+    public static FGPanel newBoxHorizontal() {
+        final var panel = new FGPanel();
+        panel.setLayout(new BoxLayout(panel, BoxLayout.X_AXIS));
+
+        return panel;
+    }
+
+    public static FGPanel newFlow() {
+        return new FGPanel(new FlowLayout());
+    }
+
+    public static FGPanel newBorder() {
+        return new FGPanel(new BorderLayout());
+    }
+
+    public static FGPanel newGridBag() {
+        return new FGPanel(new GridBagLayout());
+    }
+
+    public static FGPanel newGrid() {
+        return new FGPanel(new GridLayout());
+    }
+
+    protected FGPanel() {
         this(new FlowLayout());
         addComponentListener(new ComponentAdapter() {
             @Override
@@ -31,7 +62,7 @@ public class FGPanel extends JPanel implements Lifecycle {
         });
     }
 
-    public FGPanel(LayoutManager layout) {
+    protected FGPanel(LayoutManager layout) {
         super(layout);
     }
 

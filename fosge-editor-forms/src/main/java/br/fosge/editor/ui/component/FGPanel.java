@@ -1,5 +1,6 @@
 package br.fosge.editor.ui.component;
 
+import br.fosge.annotation.Lifecycle;
 import br.fosge.math.SimpleMath;
 
 import javax.swing.*;
@@ -7,7 +8,7 @@ import java.awt.*;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 
-public class FGPanel extends JPanel {
+public class FGPanel extends JPanel implements Lifecycle {
     private GradientPaint gradient;
     private FGGradientSpec gradientSpec;
 
@@ -33,6 +34,8 @@ public class FGPanel extends JPanel {
     public FGPanel(LayoutManager layout) {
         super(layout);
     }
+
+    public void reset() {}
 
     public final void gradient(FGGradientSpec desired) { gradientSpec = desired; }
     public final FGGradientSpec gradient() { return gradientSpec; }

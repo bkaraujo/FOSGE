@@ -1,56 +1,148 @@
 package br.fosge.editor.forms;
 
+import br.fosge.editor.ui.Fonts;
+import br.fosge.editor.ui.component.FGButtonGroup;
 import br.fosge.editor.ui.component.FGFrame;
 import br.fosge.editor.ui.component.FGImagePanel;
 import br.fosge.editor.ui.component.FGPanel;
 import br.fosge.editor.ui.listener.CursorHoverListener;
-import br.fosge.tools.Meta;
+import net.miginfocom.swing.MigLayout;
 
 import javax.swing.*;
-import javax.swing.text.JTextComponent;
 import java.awt.*;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
+import java.awt.event.*;
 import java.util.Map;
 
 public final class BrowseFrame extends FGFrame {
-    private final SouthPanel south ;
-    private final CenterPanel center;
-    private final NorthPanel north;
 
-    public BrowseFrame() {
-        south = new SouthPanel();
-        center = new CenterPanel(south);
-        north = new NorthPanel(center, south);
-    }
+    private final JButton btnAction = new JButton("Action");
+    private final JButton btnCancel = new JButton("Cancel");
+
+    private final JTextField txtProjectName = new JTextField();
+    private final JTextField txtProjectPath = new JTextField();
 
     @Override
     public boolean initialize() {
         setTitle("FOSGE :: Project Browser");
-        setSize(800, 600);
+        setSize(1024, 768);
         setResizable(false);
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-        // ##################################################################
+
+
+        final var content = getContentPane();
+        content.setLayout(new MigLayout("fill","[][grow][]", "[]"));
+
+        btnAction.setFont(Fonts.fontDroidSerifRegular(13));
+        btnCancel.setFont(btnAction.getFont());
+
+        final var cards = new CardLayout();
+        final var pnlCenter = FGPanel.mig("align 50% 50%", "[]", "[]");
+        // #################################################################################
         //
-        // ##################################################################
-        setLayout(new BorderLayout());
-        // ##################################################################
         //
-        // ##################################################################
+        //
+        // #################################################################################
+        final var north = FGPanel.mig("align 50% 50%, ", "[center] 25 [center]", "[]"); {
+            content.add(north, "dock north");
 
-        south.btnAction.setText("Create");
-        south.btnAction.setPreferredSize(south.buttonSize);
-        south.btnCancel.setPreferredSize(south.buttonSize);
+            final var lblOpenProject = north.add(JLabel.class, new JLabel("Open Project"));
+            lblOpenProject.setFont(Fonts.fontDroidSerifRegular(20));
+            lblOpenProject.addMouseListener(new CursorHoverListener(Cursor.HAND_CURSOR));
+            lblOpenProject.setBorder(BorderFactory.createEmptyBorder(25, 50, 25, 50));
+            lblOpenProject.addMouseListener(new MouseAdapter() {
+                @Override
+                public void mousePressed(MouseEvent e) {
+                    btnAction.setText(" Open ");
+                    cards.show(pnlCenter, "open");
+                }
+            });
 
-        add(south, BorderLayout.SOUTH);
-        add(center, BorderLayout.CENTER);
-        add(north, BorderLayout.NORTH);
+            final var lblCreateProject = north.add(JLabel.class, new JLabel("Create Project"));
+            lblCreateProject.setFont(lblOpenProject.getFont());
+            lblCreateProject.addMouseListener(new CursorHoverListener(Cursor.HAND_CURSOR));
+            lblCreateProject.setBorder(BorderFactory.createEmptyBorder(25, 50, 25, 50));
+            lblCreateProject.addMouseListener(new MouseAdapter() {
+                @Override
+                public void mousePressed(MouseEvent e) {
+                    btnAction.setText("Create");
+                    cards.show(pnlCenter, "create");
+                }
+            });
+        }
+        // #################################################################################
+        //
+        //
+        //
+        // #################################################################################
+        pnlCenter.setLayout(cards); {
+            content.add(pnlCenter, "dock north");
 
-        if (!super.initialize()) {
-            return false;
+            final var pnlOpenProject = FGPanel.mig("fillx, insets 50", "[][][]", "[][][][]"); {
+                pnlCenter.add(pnlOpenProject, "open");
+
+            }
+
+            final var pnlCreateProject = FGPanel.mig("fillx, insets 20 50 20 50", "[grow]"); {
+                pnlCenter.add(pnlCreateProject, "create");
+
+                pnlCreateProject.add(JLabel.class, new JLabel("Project name: "), "width 100, split");
+                 pnlCreateProject.add(JTextField.class, txtProjectName, "growx, wrap");
+
+                pnlCreateProject.add(JLabel.class, new JLabel("Project Folder: "), "width 100, split");
+                pnlCreateProject.add(JTextField.class, txtProjectPath, "growx");
+                final var btnProjectFolder = pnlCreateProject.add(JButton.class, new JButton("..."), "align right, wrap");
+                btnProjectFolder.addActionListener((_) -> {
+                    final var chooser = new JFileChooser();
+                    chooser.setDialogTitle("Select Project Folder");
+                    chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+                    chooser.setAcceptAllFileFilterUsed(false);
+                    if (chooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
+                        txtProjectPath.setText(chooser.getSelectedFile().getAbsolutePath());
+                    }
+                });
+
+                pnlCreateProject.add(Box.createVerticalStrut(60), "wrap");
+
+                final var buttonGroup = new FGButtonGroup();
+                final var pnlProjectTypes = pnlCreateProject.add(FGPanel.class, FGPanel.mig("fill", "[]"), "width 100, split"); {
+                    pnlProjectTypes.add(Box.createVerticalStrut(100), "wrap");
+                    for (final var option : new String[] {"Empty", "1st Person", "3rd Person", "Isometric"}) {
+                        final var button = buttonGroup.add(JRadioButton.class, new JRadioButton(option));
+                        button.addMouseListener(new CursorHoverListener(Cursor.HAND_CURSOR));
+                        pnlProjectTypes.add(button, "wrap");
+                    }
+                    pnlProjectTypes.add(Box.createVerticalStrut(100));
+                }
+
+                pnlCreateProject.add(new FGImagePanel(), "grow, wrap");
+                pnlCreateProject.add(Box.createVerticalStrut(60), "wrap");
+            }
+        }
+        // #################################################################################
+        //
+        //
+        //
+        // #################################################################################
+        final var south = FGPanel.mig("align 50% 50%, insets 25 0 25 0", "[] 25 []", "[]"); {
+            content.add(south, "dock south");
+            south.add(btnAction);
+            btnAction.addActionListener((_) -> {
+                if (btnAction.getText().contains("Create")) {
+                    cards.show(pnlCenter, "create");
+                }
+
+                if (btnAction.getText().contains("Open")) {
+                    cards.show(pnlCenter, "open");
+                }
+            });
+
+            south.add(btnCancel);
+            btnCancel.addActionListener((_) -> {
+                BrowseFrame.this.setVisible(false);
+                BrowseFrame.this.dispose();
+            });
         }
 
-        center.showCreateProject();
         return true;
     }
 
@@ -59,215 +151,4 @@ public final class BrowseFrame extends FGFrame {
         return false;
     }
 
-    private static final class NorthPanel extends FGPanel {
-        public final JLabel lblOpenProject = new JLabel("Open Project");
-        public final JLabel lblCreateProject = new JLabel("Create Project");
-
-        private final CenterPanel center;
-        private final SouthPanel south;
-
-        public NorthPanel(CenterPanel center, SouthPanel south) {
-            this.center = center;
-            this.south = south;
-        }
-
-        @Override
-        public boolean initialize() {
-
-            lblOpenProject.setOpaque(true);
-            lblOpenProject.setBackground(Color.BLUE);
-            lblOpenProject.setBorder(BorderFactory.createEmptyBorder(50, 75, 50, 75));
-            lblOpenProject.addMouseListener(new CursorHoverListener(Cursor.HAND_CURSOR));
-            lblOpenProject.addMouseListener(new MouseAdapter() {
-                @Override
-                public void mouseClicked(MouseEvent e) {
-                    south.btnAction.setText(" Open ");
-                    south.btnAction.setPreferredSize(south.buttonSize);
-                    center.showOpenProject();
-                }
-            });
-
-            add(lblOpenProject);
-
-            add(Box.createHorizontalStrut(25));
-
-            lblCreateProject.setOpaque(true);
-            lblCreateProject.setBackground(Color.PINK);
-            lblCreateProject.setBorder(BorderFactory.createEmptyBorder(50, 75, 50, 75));
-            lblCreateProject.addMouseListener(new CursorHoverListener(Cursor.HAND_CURSOR));
-            lblCreateProject.addMouseListener(new MouseAdapter() {
-                @Override
-                public void mouseClicked(MouseEvent e) {
-                    south.btnAction.setText("Create");
-                    south.btnAction.setPreferredSize(south.buttonSize);
-                    center.showCreateProject();
-                }
-            });
-
-            add(lblCreateProject);
-            return true;
-        }
-    }
-
-    private static final class CenterPanel extends FGPanel {
-        private final CardLayout cards = new CardLayout();
-        private final OpenProjectPanel pnlOpenProject;
-        private final CreateProjectPanel pnlCreateProject;
-
-        public final JTextComponent txtProjectName = new JTextField();
-        public final JTextComponent txtProjectPath = new JTextField();
-
-        public CenterPanel(SouthPanel south) {
-            pnlOpenProject = new OpenProjectPanel(south);
-            pnlCreateProject = new CreateProjectPanel(south, txtProjectName, txtProjectPath);
-        }
-
-        @Override
-        public boolean initialize() {
-            setLayout(cards);
-            setBackground(Color.blue);
-            add(pnlOpenProject, Meta.fqn(pnlOpenProject));
-            add(pnlCreateProject, Meta.fqn(pnlCreateProject));
-
-            return true;
-        }
-
-        public void showCreateProject() {
-            reset();
-
-            pnlOpenProject.visible = false;
-            pnlCreateProject.visible = true;
-            SwingUtilities.invokeLater(() -> cards.show(this, Meta.fqn(pnlCreateProject)));
-        }
-
-        public void showOpenProject() {
-            reset();
-
-            pnlOpenProject.visible = true;
-            pnlCreateProject.visible = false;
-            SwingUtilities.invokeLater(() -> cards.show(this, Meta.fqn(pnlOpenProject)));
-        }
-
-        @Override
-        public void reset() {
-            if (pnlOpenProject.visible) pnlOpenProject.reset();
-            if (pnlCreateProject.visible) pnlCreateProject.reset();
-        }
-
-        private static final class OpenProjectPanel extends FGPanel {
-            public boolean visible;
-
-            private final SouthPanel south;
-            public OpenProjectPanel(SouthPanel south) {
-                this.south = south;
-            }
-        }
-
-        private static final class CreateProjectPanel extends FGPanel {
-            public boolean visible;
-            private final SouthPanel south;
-            private final ButtonGroup buttonGroup = new ButtonGroup();
-            public final JTextComponent txtProjectName;
-            public final JTextComponent txtProjectPath;
-
-            public CreateProjectPanel(SouthPanel south, JTextComponent txtProjectName, JTextComponent txtProjectPath) {
-                this.south = south;
-                this.txtProjectName = txtProjectName;
-                this.txtProjectPath = txtProjectPath;
-            }
-
-            @Override
-            public boolean initialize() {
-                setLayout(new BorderLayout());
-                setBorder(BorderFactory.createEmptyBorder(0, 20, 0, 20));
-                final var pnlProjectType = FGPanel.newBoxVertical(); {
-                    add(pnlProjectType, BorderLayout.CENTER);
-
-                    final var pnlProjectTypeChooser = FGPanel.newBoxVertical(); {
-                        pnlProjectType.add(pnlProjectTypeChooser);
-
-                        buttonGroup.add(new JRadioButton("Empty"));
-                        buttonGroup.add(new JRadioButton("1st Person"));
-                        buttonGroup.add(new JRadioButton("3st Person"));
-                        buttonGroup.add(new JRadioButton("Isometric"));
-
-                        final var elements = buttonGroup.getElements();
-                        while (elements.hasMoreElements()) {
-                            final var element = elements.nextElement();
-
-                            pnlProjectType.add(element);
-                            element.addMouseListener(new CursorHoverListener(Cursor.HAND_CURSOR));
-                        }
-                    }
-
-                    final var pnlProjectTypeImage = new FGImagePanel(); {
-                        pnlProjectType.add(pnlProjectTypeImage);
-                    }
-                }
-                final var pnlProjectName = FGPanel.newGridBag(); {
-                    add(pnlProjectName, BorderLayout.SOUTH);
-                    final var constraints = new GridBagConstraints();
-                    constraints.insets = new Insets( 5, 5, 5, 5 );
-                    constraints.anchor = GridBagConstraints.NORTHWEST;
-
-                    constraints.gridx = 0;
-                    constraints.gridy = 0;
-                    constraints.ipadx = 1;
-                    constraints.ipady = 1;
-                    pnlProjectName.add(new JLabel("Name: "), constraints);
-
-                    constraints.gridx = 1;
-                    constraints.gridy = 0;
-                    constraints.ipadx = 1;
-                    constraints.ipady = 1;
-                    pnlProjectName.add(txtProjectName, constraints);
-
-                    constraints.gridx = 0;
-                    constraints.gridy = 1;
-                    constraints.ipadx = 1;
-                    constraints.ipady = 1;
-                    pnlProjectName.add(new JLabel("Directory: "), constraints);
-                    constraints.gridx = 1;
-                    constraints.gridy = 1;
-                    constraints.ipadx = 1;
-                    constraints.ipady = 1;
-                    pnlProjectName.add(txtProjectPath, constraints);
-
-//                    final var btnChoose = new JButton("...");
-//                    pnlProjectName.add(btnChoose, constraints);
-
-                }
-                // ######################################################
-                // Form Buttons
-                // ######################################################
-                south.btnCancel.addActionListener((_) -> {
-                    if (!visible) return;
-                    reset();
-                });
-                return true;
-            }
-
-            @Override
-            public void reset() {
-                buttonGroup.clearSelection();
-            }
-        }
-    }
-
-    private static final class SouthPanel extends FGPanel {
-        public final JButton btnAction = new JButton("......");
-        public final JButton btnCancel = new JButton("Cancel");
-        public final Dimension buttonSize = new Dimension(120, 30);
-
-        @Override
-        public boolean initialize() {
-            setBorder(BorderFactory.createEmptyBorder(20, 0, 20, 0));
-
-            add(btnAction);
-            add(Box.createHorizontalStrut(40));
-            add(btnCancel);
-
-            return true;
-        }
-    }
 }

@@ -19,7 +19,7 @@ import java.awt.event.FocusEvent;
 public class Launcher {
     private final Toolkit toolkit = Toolkit.getDefaultToolkit();
 
-    public static void main(String[] args) throws Exception {
+    public static void main(String[] args) {
         new Launcher();
     }
 

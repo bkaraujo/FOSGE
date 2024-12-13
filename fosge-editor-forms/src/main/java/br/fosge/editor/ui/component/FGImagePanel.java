@@ -12,12 +12,14 @@ public final class FGImagePanel extends FGPanel {
     private BufferedImage image;
 
     public FGImagePanel() {
-        super(new FlowLayout());
+        setLayout(new FlowLayout());
+        setBackground(Color.PINK);
     }
 
     public FGImagePanel(Path path) {
-        super(new FlowLayout());
+        setLayout(new FlowLayout());
         setImage(path);
+        setBackground(Color.PINK);
     }
 
     public void setImage(Path path) {
@@ -29,7 +31,7 @@ public final class FGImagePanel extends FGPanel {
             imagePath = path;
             image = ImageIO.read(path.toFile());
         } catch (Throwable throwable) {
-            Logger.warn("Failed to load %s. %s", path, throwable);
+            Logger.warn("Failed to load image %s: %s", imagePath, throwable);
         }
     }
 

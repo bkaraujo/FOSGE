@@ -3,6 +3,7 @@ package br.fosge.editor.ui.component;
 import br.fosge.Logger;
 import br.fosge.annotation.Lifecycle;
 import br.fosge.tools.Meta;
+import com.formdev.flatlaf.FlatDarkLaf;
 
 import javax.swing.*;
 import javax.swing.text.JTextComponent;
@@ -11,6 +12,10 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class FGFrame extends JFrame implements Lifecycle {
+
+    static {
+        FlatDarkLaf.setup();
+    }
 
     public FGFrame() {
         this(null, null);

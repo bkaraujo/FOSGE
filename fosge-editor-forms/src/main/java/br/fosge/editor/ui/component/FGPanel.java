@@ -1,8 +1,8 @@
 package br.fosge.editor.ui.component;
 
-import br.fosge.Logger;
 import br.fosge.annotation.Lifecycle;
 import br.fosge.math.SimpleMath;
+import net.miginfocom.swing.MigLayout;
 
 import javax.swing.*;
 import java.awt.*;
@@ -13,34 +13,14 @@ public class FGPanel extends JPanel implements Lifecycle {
     private GradientPaint gradient;
     private FGGradientSpec gradientSpec;
 
-    public static FGPanel newBoxVertical() {
+    public static FGPanel mig() { return mig(null); }
+    public static FGPanel mig(String layout) { return mig(layout, null); }
+    public static FGPanel mig(String layout, String column) { return mig(layout, column, null); }
+    public static FGPanel mig(String layout, String column, String row) {
         final var panel = new FGPanel();
-        panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
+        panel.setLayout(new MigLayout(layout, column, row));
 
         return panel;
-    }
-
-    public static FGPanel newBoxHorizontal() {
-        final var panel = new FGPanel();
-        panel.setLayout(new BoxLayout(panel, BoxLayout.X_AXIS));
-
-        return panel;
-    }
-
-    public static FGPanel newFlow() {
-        return new FGPanel(new FlowLayout());
-    }
-
-    public static FGPanel newBorder() {
-        return new FGPanel(new BorderLayout());
-    }
-
-    public static FGPanel newGridBag() {
-        return new FGPanel(new GridBagLayout());
-    }
-
-    public static FGPanel newGrid() {
-        return new FGPanel(new GridLayout());
     }
 
     protected FGPanel() {
@@ -64,6 +44,19 @@ public class FGPanel extends JPanel implements Lifecycle {
 
     protected FGPanel(LayoutManager layout) {
         super(layout);
+    }
+
+    public FGPanel add(FGPanel component) {
+        return add(FGPanel.class, component);
+    }
+
+    public <T> T add(Class<T> type, Component component) {
+        return type.cast(super.add(component));
+    }
+
+    public <T> T add(Class<T> type, Component component, String constraints) {
+        super.add(component, constraints);
+        return type.cast(component);
     }
 
     public void reset() {}

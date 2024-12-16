@@ -3,7 +3,7 @@ package br.fosge.editor;
 import br.fosge.Logger;
 import br.fosge.MessageBus;
 import br.fosge.RT;
-import br.fosge.editor.forms.BrowseFrame;
+import br.fosge.editor.forms.ProjectBrowse;
 import br.fosge.editor.ui.SWTools;
 import br.fosge.editor.ui.UIState;
 import br.fosge.editor.ui.event.UIBeepEvent;
@@ -40,7 +40,7 @@ public class Launcher {
         RT.set("settingsfs", RT.rootfs().resolve("settings"));
 
         SwingUtilities.invokeLater(() -> {
-            final var window = new BrowseFrame();
+            final var window = new ProjectBrowse();
             if (!window.initialize()) {
                 Logger.error("Failed to initialize %s", Meta.fqn(window));
                 Meta.exit(99);

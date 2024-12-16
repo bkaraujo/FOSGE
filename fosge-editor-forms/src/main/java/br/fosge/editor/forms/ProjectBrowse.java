@@ -6,20 +6,24 @@ import br.fosge.editor.ui.component.FGFrame;
 import br.fosge.editor.ui.component.FGImagePanel;
 import br.fosge.editor.ui.component.FGPanel;
 import br.fosge.editor.ui.listener.CursorHoverListener;
+import com.formdev.flatlaf.FlatClientProperties;
 import net.miginfocom.swing.MigLayout;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.io.File;
 import java.util.Map;
 
-public final class BrowseFrame extends FGFrame {
+public final class ProjectBrowse extends FGFrame {
 
     private final JButton btnAction = new JButton("Action");
     private final JButton btnCancel = new JButton("Cancel");
 
     private final JTextField txtProjectName = new JTextField();
     private final JTextField txtProjectPath = new JTextField();
+    private final JFileChooser chooser = new JFileChooser();
 
     @Override
     public boolean initialize() {
@@ -28,6 +32,10 @@ public final class BrowseFrame extends FGFrame {
         setResizable(false);
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 
+        chooser.setCurrentDirectory(new File(System.getProperty("user.dir")));
+        chooser.setDialogTitle("Select Project Folder");
+        chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+        chooser.setAcceptAllFileFilterUsed(false);
 
         final var content = getContentPane();
         content.setLayout(new MigLayout("fill","[][grow][]", "[]"));
@@ -85,18 +93,23 @@ public final class BrowseFrame extends FGFrame {
             final var pnlCreateProject = FGPanel.mig("fillx, insets 20 50 20 50", "[grow]"); {
                 pnlCenter.add(pnlCreateProject, "create");
 
-                pnlCreateProject.add(JLabel.class, new JLabel("Project name: "), "width 100, split");
-                 pnlCreateProject.add(JTextField.class, txtProjectName, "growx, wrap");
+                final var lblProjectName = new JLabel("Project Name: ");
+                lblProjectName.putClientProperty(FlatClientProperties.STYLE, "font: bold +2");
+                pnlCreateProject.add(JLabel.class, lblProjectName, "width 120, split");
+                pnlCreateProject.add(JTextField.class, txtProjectName, "growx, wrap");
+                txtProjectName.putClientProperty(FlatClientProperties.STYLE, "background:darken(@background, 1%)");
 
-                pnlCreateProject.add(JLabel.class, new JLabel("Project Folder: "), "width 100, split");
+                final var lblProjectFolder = new JLabel("Project Folder: ");
+                lblProjectFolder.putClientProperty(FlatClientProperties.STYLE, "font: bold +2");
+                pnlCreateProject.add(JLabel.class, lblProjectFolder, "width 120, split");
                 pnlCreateProject.add(JTextField.class, txtProjectPath, "growx");
+                txtProjectPath.setEditable(false);
+                txtProjectPath.putClientProperty(FlatClientProperties.STYLE, "background:darken(@background, 1%)");
+
+
                 final var btnProjectFolder = pnlCreateProject.add(JButton.class, new JButton("..."), "align right, wrap");
                 btnProjectFolder.addActionListener((_) -> {
-                    final var chooser = new JFileChooser();
-                    chooser.setDialogTitle("Select Project Folder");
-                    chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
-                    chooser.setAcceptAllFileFilterUsed(false);
-                    if (chooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
+                    if (chooser.showOpenDialog(ProjectBrowse.this) == JFileChooser.APPROVE_OPTION) {
                         txtProjectPath.setText(chooser.getSelectedFile().getAbsolutePath());
                     }
                 });
@@ -109,7 +122,8 @@ public final class BrowseFrame extends FGFrame {
                     for (final var option : new String[] {"Empty", "1st Person", "3rd Person", "Isometric"}) {
                         final var button = buttonGroup.add(JRadioButton.class, new JRadioButton(option));
                         button.addMouseListener(new CursorHoverListener(Cursor.HAND_CURSOR));
-                        pnlProjectTypes.add(button, "wrap");
+                        button.putClientProperty(FlatClientProperties.STYLE, "font: bold +2");
+                        pnlProjectTypes.add(button, "width 120, wrap");
                     }
                     pnlProjectTypes.add(Box.createVerticalStrut(100));
                 }
@@ -138,17 +152,12 @@ public final class BrowseFrame extends FGFrame {
 
             south.add(btnCancel);
             btnCancel.addActionListener((_) -> {
-                BrowseFrame.this.setVisible(false);
-                BrowseFrame.this.dispose();
+                ProjectBrowse.this.setVisible(false);
+                ProjectBrowse.this.dispose();
             });
         }
 
         return true;
-    }
-
-    @Override
-    public boolean submit(Map<String, ?> values) {
-        return false;
     }
 
 }

@@ -104,10 +104,6 @@ public class FGFrame extends JFrame implements Lifecycle {
         }
     }
 
-    public boolean submit(Map<String, ?> values) {
-        return false;
-    }
-
     @Override
     public boolean initialize() {
         return initialize((JFrame) this);

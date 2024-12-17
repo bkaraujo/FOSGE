@@ -2,6 +2,7 @@ package br.fosge.editor.ui.actions;
 
 import br.fosge.Logger;
 import br.fosge.RT;
+import br.fosge.editor.ui.forms.ProjectBrowseCreatePanel;
 import br.fosge.editor.ui.forms.ProjectEditor;
 import br.fosge.editor.ui.framework.ActionAdapter;
 import br.fosge.editor.ui.framework.SWTools;
@@ -21,11 +22,11 @@ import java.util.Map;
 public final class CreateProjectAction extends ActionAdapter {
 
     public CreateProjectAction(FGFrame frame) {
-        super(frame);
+        super(frame, ProjectBrowseCreatePanel.ACTION);
     }
 
     @Override
-    public void actionPerformed(ActionEvent event) {
+    protected void doAction(ActionEvent event) {
         final var values = frame.values();
 
         insertKnownProject(values);

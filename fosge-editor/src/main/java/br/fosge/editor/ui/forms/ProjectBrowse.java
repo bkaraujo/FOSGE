@@ -53,7 +53,7 @@ public final class ProjectBrowse extends FGFrame {
             lblOpenProject.addMouseListener(new MouseAdapter() {
                 @Override
                 public void mousePressed(MouseEvent e) {
-                    btnAction.setAction(new NoopAction(ProjectBrowse.this));
+                    btnAction.addActionListener(new NoopAction(ProjectBrowse.this));
                     btnAction.setText(ProjectBrowseOpenPanel.ACTION);
                     cards.show(pnlCenter, Meta.fqn(pnlOpenProject));
                     panel = pnlOpenProject;
@@ -67,7 +67,7 @@ public final class ProjectBrowse extends FGFrame {
             lblCreateProject.addMouseListener(new MouseAdapter() {
                 @Override
                 public void mousePressed(MouseEvent e) {
-                    btnAction.setAction(new CreateProjectAction(ProjectBrowse.this));
+                    btnAction.addActionListener(new CreateProjectAction(ProjectBrowse.this));
                     btnAction.setText(ProjectBrowseCreatePanel.ACTION);
                     cards.show(pnlCenter, Meta.fqn(pnlCreateProject));
                     panel = pnlCreateProject;

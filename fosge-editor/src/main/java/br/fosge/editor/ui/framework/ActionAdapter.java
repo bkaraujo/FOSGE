@@ -1,30 +1,34 @@
 package br.fosge.editor.ui.framework;
 
+import br.fosge.Logger;
 import br.fosge.editor.ui.framework.component.FGFrame;
+import br.fosge.tools.Meta;
 
 import javax.swing.*;
-import java.beans.PropertyChangeListener;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
-public abstract class ActionAdapter implements Action {
-    private boolean enabled = true;
-    private final Map<String, Object> values = new HashMap<>();
-    private final List<PropertyChangeListener> listeners = new ArrayList();
+public abstract class ActionAdapter implements ActionListener {
 
     protected final FGFrame frame;
-    protected ActionAdapter(final FGFrame frame) {
+    private final String actonCommand;
+    protected ActionAdapter(final FGFrame frame, String actonCommand) {
         this.frame = frame;
+        this.actonCommand = actonCommand;
     }
 
-    @Override public final Object getValue(String key) { return values.getOrDefault(key, null); }
-    @Override public final void putValue(String key, Object value) { values.put(key, value); }
+    @Override
+    public final void actionPerformed(ActionEvent event) {
+        if (!Meta.assignable(event.getSource(), AbstractButton.class)) {
+            Logger.warn("Don't know how to process: %s", Meta.fqn(event.getSource()));
+            return;
+        }
 
-    @Override public final boolean isEnabled() { return enabled; }
-    @Override public final void setEnabled(boolean desired) { enabled = desired; }
+        final var button = Meta.cast(event.getSource(), AbstractButton.class);
+        if (button.getActionCommand() == null) { return; }
+        if (!button.getActionCommand().equals(actonCommand)) { return; }
+        doAction(event);
+    }
 
-    @Override public final void addPropertyChangeListener(PropertyChangeListener desired) { listeners.add(desired); }
-    @Override public final void removePropertyChangeListener(PropertyChangeListener desired) { listeners.remove(desired); }
+    protected abstract void doAction(ActionEvent event);
 }

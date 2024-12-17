@@ -15,7 +15,7 @@ import java.io.File;
 import java.util.Map;
 import java.util.concurrent.ConcurrentSkipListMap;
 
-final class ProjectBrowseCreatePanel extends FGPanel {
+public final class ProjectBrowseCreatePanel extends FGPanel {
     public static final String ACTION = "Create";
 
     private final FGFrame parent;

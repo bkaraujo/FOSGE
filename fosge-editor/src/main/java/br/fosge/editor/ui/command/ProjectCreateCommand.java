@@ -28,7 +28,7 @@ final class ProjectCreateCommand implements Command {
     }
 
     private void insertKnownProject(final Map<String, ?> values) {
-        final var yaml = Yaml.load(RT.get("projects.yml", Path.class));
+        final var yaml = Yaml.from(RT.get("projects.yml", Path.class)).raw();
         if (!yaml.containsKey("projects")) { yaml.put("projects", new ArrayList<>()); }
 
         final var project = new HashMap<String, Object>();
@@ -41,7 +41,7 @@ final class ProjectCreateCommand implements Command {
         final var projects = (List< Map<String, Object>>) yaml.get("projects");
         projects.add(project);
 
-        Yaml.save(RT.get("projects.yml", Path.class), yaml);
+        Yaml.from(yaml).save(RT.get("projects.yml", Path.class));
     }
 
     private void createProjectFolder(final Map<String, ?> values) {
@@ -55,11 +55,11 @@ final class ProjectCreateCommand implements Command {
             }
 
             {
-                final var yaml = new HashMap<String, Object>();
+                final var yaml = Yaml.empty().raw();
                 final var project = (HashMap<String, Object>) yaml.put("project", new HashMap<String, Object>());
                 project.put("name", projectName);
                 project.put("version", "0.1.0");
-                Yaml.save(path.resolve("project.yml"), yaml);
+                Yaml.from(yaml).save(path.resolve("project.yml"));
             }
 
             Files.createFile(path.resolve("settings.yml"));

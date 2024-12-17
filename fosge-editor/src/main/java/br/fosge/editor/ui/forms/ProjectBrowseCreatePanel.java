@@ -2,7 +2,6 @@ package br.fosge.editor.ui.forms;
 
 import br.fosge.editor.project.ProjectType;
 import br.fosge.editor.ui.framework.component.FGButtonGroup;
-import br.fosge.editor.ui.framework.component.FGFrame;
 import br.fosge.editor.ui.framework.component.FGImagePanel;
 import br.fosge.editor.ui.framework.component.FGPanel;
 import br.fosge.editor.ui.framework.listener.CursorHoverListener;

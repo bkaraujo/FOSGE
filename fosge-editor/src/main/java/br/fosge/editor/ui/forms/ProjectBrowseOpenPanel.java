@@ -2,7 +2,6 @@ package br.fosge.editor.ui.forms;
 
 import br.fosge.RT;
 import br.fosge.editor.ui.framework.component.FGButtonGroup;
-import br.fosge.editor.ui.framework.component.FGFrame;
 import br.fosge.editor.ui.framework.component.FGImagePanel;
 import br.fosge.editor.ui.framework.component.FGPanel;
 import br.fosge.editor.ui.framework.listener.CursorHoverListener;
@@ -26,7 +25,7 @@ public final class ProjectBrowseOpenPanel extends FGPanel {
     ProjectBrowseOpenPanel() {
         setLayout(new MigLayout("filly, insets 20 50 20 50", "[][grow]"));
         final var pnlProjects = FGPanel.newBoxVertical(); {
-            final var yaml = Yaml.load(RT.get("projects.yml", Path.class));
+            final var yaml = Yaml.from(RT.get("projects.yml", Path.class)).raw();
             if (!yaml.containsKey("projects")) { yaml.put("projects", new ArrayList<>()); }
 
             final var projects = (List< Map<String, Object>>) yaml.get("projects");

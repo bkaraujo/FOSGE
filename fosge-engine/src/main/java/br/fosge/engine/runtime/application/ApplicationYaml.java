@@ -20,7 +20,7 @@ public abstract class ApplicationYaml {
 
     public static Configuration get() {
         if (configuration != null) return configuration;
-        final var yaml = Yaml.load(ROOTFS.resolve("application.yaml"));
+        final var yaml = Yaml.from(ROOTFS.resolve("application.yaml")).raw();
 
         configuration = new Configuration(
                 new Engine(

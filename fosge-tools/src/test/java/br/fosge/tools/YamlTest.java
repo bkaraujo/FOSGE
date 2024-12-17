@@ -7,21 +7,32 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
-class YamlFileTest {
+class YamlTest {
 
     @Test
     public void testQuery() {
-        final var yamlfile = new YamlFile(yaml());
-        assertEquals("0.1.0", yamlfile.asString("project.version"));
-        assertEquals("Brakeys", yamlfile.asString("project.window.title"));
-        assertEquals(Resolution.nHD, yamlfile.asEnum("project.window.resolution", Resolution.class));
-        assertEquals("nHD", yamlfile.asString("project.window.resolution"));
+        final var yaml = Yaml.from(yaml());
+        assertEquals("0.1.0", yaml.asString("project.version"));
+        assertEquals("Brakeys", yaml.asString("project.window.title"));
+        assertEquals(Resolution.nHD, yaml.asEnum("project.window.resolution", Resolution.class));
+        assertEquals("nHD", yaml.asString("project.window.resolution"));
 
-        assertTrue(yamlfile.asBoolean("project.graphics.vsync"));
-        assertEquals("world", yamlfile.asString("project.scenes.0.layers.0.name"));
-        assertEquals("MESH_COMPONENT", yamlfile.asString("project.scenes.0.layers.0.actors.1.components.2.type"));
+        assertTrue(yaml.asBoolean("project.graphics.vsync"));
+        assertEquals("world", yaml.asString("project.scenes.0.layers.0.name"));
+        assertEquals("MESH_COMPONENT", yaml.asString("project.scenes.0.layers.0.actors.1.components.2.type"));
+    }
+
+    @Test
+    public void testWrite() {
+        final var yaml = Yaml.empty();
+        yaml.put("project.version", "1.0.0");
+        yaml.put("project.window.title", "Fafifo");
+        yaml.put("project.window.resolution", Resolution.QHD);
+
+
     }
 
     private Map<String, Object> yaml() {

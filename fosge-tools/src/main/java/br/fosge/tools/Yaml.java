@@ -8,85 +8,174 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
-public class Yaml {
-    private static final ObjectMapper mapper = new ObjectMapper(new YAMLFactory());
+public final class Yaml {
+    private final Map<String, Object> raw = new ConcurrentHashMap<>();
 
-    public static Map<String, Object> load(Path path) {
+    public static Yaml from(Path path) {
         try {
-            if (Files.size(path) == 0) { return new HashMap<>(); }
-            return Collections.unmodifiableMap(mapper.readValue(
-                    path.toFile(),
-                    Map.class
-            ));
+            final var mapper = new ObjectMapper(new YAMLFactory());
+            return from(mapper.readValue(path.toFile(), Map.class));
         } catch (Throwable throwable) {
             Logger.error("Failed to read %s: %s", path, throwable);
-            return new HashMap<>();
+            return null;
         }
     }
 
-    public static void save(Path path, Map<String, Object> data) {
-        final var content = new LinkedHashMap<String, Object>();
+    public static Yaml empty() {
+        return from(new HashMap<>());
+    }
 
+    public static Yaml from(Map<String, Object> values) {
+        return new Yaml(values);
+    }
+
+    private Yaml(final Map<String, Object> values) {
+        raw.putAll(values);
+    }
+
+    public boolean isEmpty() {
+        return raw.isEmpty();
+    }
+
+    public void clear() {
+        raw.clear();
+    }
+
+    public boolean containsKey(final String key) {
+        return asString(key) != null;
+    }
+
+    public void put(String key, Object value) {
+        put(raw, 0, value, key.split("\\."));
+    }
+
+    private void put(Object root, final int index, Object value, String ... tokens) {
+        final var token = tokens[index];
+
+        if (Meta.assignable(root, Map.class)) {
+
+        }
+    }
+
+    public void save(Path path) {
         final var file = path.toFile();
-        if (file.exists()) { content.putAll(load(path)); }
-        content.putAll(data);
-
         try {
-            mapper.writeValue(file, content);
+            if (!file.exists()) { Files.createFile(path); }
+            new ObjectMapper(new YAMLFactory()).writeValue(file, raw);
         } catch (Throwable throwable) {
             Logger.error("Failed to write %s: %s", path, throwable);
         }
     }
 
-//    public static Map<String, Object> load(Path file) {
-//        try {
-//            final var map = new HashMap<String, Object>(20);
-//
-//            flatten(
-//                    mapper.readValue(file.toFile(), Map.class),
-//                    map,
-//                    null
-//            );
-//
-//            return Collections.unmodifiableMap(map);
-//        } catch (Throwable throwable) {
-//            Logger.error("Failed to read %s: %s", file, throwable);
-//            return new HashMap<>();
-//        }
-//    }
+    public Boolean asBoolean(String key) {
+        return Meta.cast(find(key, raw), Boolean.class);
+    }
 
-//    private static void flatten(Map<String, Object> in, Map<String, Object> out, String parent) {
-//        if (in == null || in.isEmpty()){ return; }
-//        in.keySet().forEach( x -> {
-//            String keyBeingProcessed;
-//
-//            if(parent != null && out.containsKey(parent)){
-//                final var currentKey = parent + "." + x;
-//                out.put(currentKey, null);
-//                keyBeingProcessed = currentKey;
-//            } else {
-//                out.put(x, null);
-//                keyBeingProcessed = x;
-//            }
-//
-//            final var o = in.get(x);
-//            out.put(keyBeingProcessed,o);
-//
-//            if(o instanceof Map) {
-//                flatten((Map)in.get(x), out, keyBeingProcessed);
-//            } else if (o instanceof List<?> list)  {
-//                int counter = 0;
-//                for (final var obj: list){
-//                    if (obj instanceof  Map) {
-//                        final var currentKey = keyBeingProcessed + ".[" + counter + "]";
-//                        out.put(currentKey, null);
-//                        flatten((Map) obj, out, currentKey);
-//                    }
-//                }
-//            }
-//        });
-//    }
+    public String asString(String key) {
+        return Meta.cast(find(key, raw), String.class);
+    }
+
+    public <T extends Enum<T>> T asEnum(String key, Class<T> klass) {
+        final var value = asString(key);
+        for (final var constant : klass.getEnumConstants()) {
+            if (constant.name().equals(value)) {
+                return constant;
+            }
+        }
+
+        return null;
+    }
+
+    public Byte asByte(String key) {
+        return Meta.cast(find(key, raw), Byte.class);
+    }
+
+    public Short asShort(String key) {
+        return Meta.cast(find(key, raw), Short.class);
+    }
+
+    public Integer asInt(String key) {
+        return Meta.cast(find(key, raw), Integer.class);
+    }
+
+    public Long asLong(String key) {
+        return Meta.cast(find(key, raw), Long.class);
+    }
+
+    public Float asFloat(String key) {
+        return Meta.cast(find(key, raw), Float.class);
+    }
+
+    public Double asDouble(String key) {
+        return Meta.cast(find(key, raw), Double.class);
+    }
+
+    public Yaml slice(String key) {
+        return null;
+    }
+
+    public Map<String, Object> raw() {
+        return Collections.unmodifiableMap(raw);
+    }
+
+    private Object find(String key, Object root) {
+        return find(root, 0, key.split("\\."));
+    }
+
+    private Object find(Object root, final int index, String ... tokens) {
+        final var token = tokens[index];
+
+        if (Meta.assignable(root, Map.class)) {
+            final var map = Meta.cast(root, Map.class);
+            if (map.containsKey(token)) {
+                final var value = map.get(token);
+                return index == tokens.length - 1 ? value : find(value, index + 1, tokens);
+            }
+        }
+
+        if (Meta.assignable(root, List.class)) {
+            final var list = Meta.cast(root, List.class);
+
+            try {
+                final var number = Integer.parseInt(token);
+                if (number >= list.size()) {
+                    Logger.warn("Element index (%d) beyond bounds (%d)", number, list.size() - 1);
+                    return null;
+                }
+
+                final var value = list.get(number);
+                return index == tokens.length - 1 ? value : find(value, index + 1, tokens);
+            } catch (final NumberFormatException e) {
+                Logger.fatal("Expected a number, got %s", token);
+            }
+        }
+
+        return null;
+    }
+
+    private Object find(Map<String, Object> root, final int index, String ... tokens) {
+        final var token = tokens[index];
+
+        if (root.containsKey(token)) {
+            final var value = root.get(token);
+            return index == tokens.length - 1 ? value : find(value, index + 1, tokens);
+        }
+
+        return null;
+    }
+
+    private String join(char delimiter, String ... tokens) {
+        final var builder = new StringBuilder();
+        for (int i = 0; i < tokens.length - 1; i++) {
+            builder.append(tokens[i]);
+            builder.append(delimiter);
+        }
+
+        builder.append(tokens[tokens.length - 1]);
+        return builder.toString();
+    }
 }

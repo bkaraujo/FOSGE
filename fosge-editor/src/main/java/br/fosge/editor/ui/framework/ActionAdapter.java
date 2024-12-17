@@ -27,6 +27,7 @@ public abstract class ActionAdapter implements ActionListener {
         final var button = Meta.cast(event.getSource(), AbstractButton.class);
         if (button.getActionCommand() == null) { return; }
         if (!button.getActionCommand().equals(actonCommand)) { return; }
+
         doAction(event);
     }
 

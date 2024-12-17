@@ -18,15 +18,13 @@ import java.util.concurrent.ConcurrentSkipListMap;
 public final class ProjectBrowseCreatePanel extends FGPanel {
     public static final String ACTION = "Create";
 
-    private final FGFrame parent;
     private final JFileChooser chooser = new JFileChooser();
     private final FGButtonGroup buttonGroup = new FGButtonGroup();
     private final JTextField txtProjectName = new JTextField();
     private final JTextField txtProjectPath = new JTextField();
 
-    ProjectBrowseCreatePanel(FGFrame parent) {
+    ProjectBrowseCreatePanel() {
         setLayout(new MigLayout("fillx, insets 20 50 20 50", "[grow]"));
-        this.parent = parent;
 
         chooser.setCurrentDirectory(new File(System.getProperty("user.dir")));
         chooser.setDialogTitle("Select Project Folder");
@@ -52,7 +50,7 @@ public final class ProjectBrowseCreatePanel extends FGPanel {
 
         final var btnProjectFolder = add(JButton.class, new JButton("..."), "align right, wrap");
         btnProjectFolder.addActionListener((_) -> {
-            if (chooser.showOpenDialog(parent) == JFileChooser.APPROVE_OPTION) {
+            if (chooser.showOpenDialog(ProjectBrowseCreatePanel.this.getParent()) == JFileChooser.APPROVE_OPTION) {
                 final var path = chooser.getSelectedFile().getAbsolutePath();
                 txtProjectPath.setText(path.replace('\\', '/'));
             }
@@ -80,9 +78,7 @@ public final class ProjectBrowseCreatePanel extends FGPanel {
         final var values = new ConcurrentSkipListMap<String, Object>();
         values.put("project.name", txtProjectName.getText());
         values.put("project.path", txtProjectPath.getText());
-
-        final var selected = buttonGroup.getSelected();
-        values.put("project.type", selected != null ? selected.getText() : null);
+        values.put("project.type", buttonGroup.getSelectedText());
 
         return values;
     }

@@ -36,7 +36,7 @@ public abstract class Meta {
     }
 
     public static <T> T cast(Object object, Class<T> type) {
-        return type.cast(object);
+        return object == null ? null : type.cast(object);
     }
 
     public static List<StackFrame> stackTrace() {

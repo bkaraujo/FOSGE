@@ -21,4 +21,11 @@ public class FGButtonGroup extends ButtonGroup {
         return null;
     }
 
+    public final String getSelectedText() {
+        final var selected = getSelected();
+        if (selected != null) { return selected.getText(); }
+
+        return null;
+    }
+
 }

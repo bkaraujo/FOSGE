@@ -16,6 +16,20 @@ public class FGPanel extends JPanel implements Lifecycle {
     private GradientPaint gradient;
     private FGGradientSpec gradientSpec;
 
+    public static FGPanel newBoxVertical() {
+        final var panel = new FGPanel();
+        panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
+
+        return panel;
+    }
+
+    public static FGPanel newBoxHorizontal() {
+        final var panel = new FGPanel();
+        panel.setLayout(new BoxLayout(panel, BoxLayout.X_AXIS));
+
+        return panel;
+    }
+
     public static FGPanel mig() { return mig(null); }
     public static FGPanel mig(String layout) { return mig(layout, null); }
     public static FGPanel mig(String layout, String column) { return mig(layout, column, null); }

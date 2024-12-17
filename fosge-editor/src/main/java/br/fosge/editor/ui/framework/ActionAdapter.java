@@ -11,10 +11,10 @@ import java.awt.event.ActionListener;
 public abstract class ActionAdapter implements ActionListener {
 
     protected final FGFrame frame;
-    private final String actonCommand;
-    protected ActionAdapter(final FGFrame frame, String actonCommand) {
+    private final String actionCommand;
+    protected ActionAdapter(final FGFrame frame, String actionCommand) {
         this.frame = frame;
-        this.actonCommand = actonCommand;
+        this.actionCommand = actionCommand;
     }
 
     @Override
@@ -26,7 +26,7 @@ public abstract class ActionAdapter implements ActionListener {
 
         final var button = Meta.cast(event.getSource(), AbstractButton.class);
         if (button.getActionCommand() == null) { return; }
-        if (!button.getActionCommand().equals(actonCommand)) { return; }
+        if (!button.getActionCommand().equals(actionCommand)) { return; }
 
         doAction(event);
     }

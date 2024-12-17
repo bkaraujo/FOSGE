@@ -1,17 +1,10 @@
-package br.fosge.editor.ui.actions;
+package br.fosge.editor.ui.command;
 
 import br.fosge.Logger;
 import br.fosge.RT;
-import br.fosge.editor.ui.forms.ProjectBrowseCreatePanel;
-import br.fosge.editor.ui.forms.ProjectEditor;
-import br.fosge.editor.ui.framework.ActionAdapter;
-import br.fosge.editor.ui.framework.SWTools;
-import br.fosge.editor.ui.framework.component.FGFrame;
 import br.fosge.tools.Meta;
 import br.fosge.tools.Yaml;
 
-import javax.swing.*;
-import java.awt.event.ActionEvent;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
@@ -19,29 +12,19 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public final class CreateProjectAction extends ActionAdapter {
-
-    public CreateProjectAction(FGFrame frame) {
-        super(frame, ProjectBrowseCreatePanel.ACTION);
-    }
+final class ProjectCreateCommand implements Command {
 
     @Override
-    protected void doAction(ActionEvent event) {
-        final var values = frame.values();
+    public boolean execute(Map<String, ?> values) {
+        try {
+            insertKnownProject(values);
+            createProjectFolder(values);
 
-        insertKnownProject(values);
-        createProjectFolder(values);
-
-        frame.setVisible(false);
-        frame.dispose();
-
-        SwingUtilities.invokeLater(() -> {
-            final var projectName = Meta.cast(values.get("project.name"), String.class);
-            final var projectPath = Meta.cast(values.get("project.path"), String.class);
-            final var frame = new ProjectEditor(Path.of(projectPath, projectName));
-            SWTools.toScreenCenter(frame);
-            frame.setVisible(true);
-        });
+            return true;
+        } catch (Throwable throwable) {
+            Logger.warn("Failed to create project: %s", throwable);
+            return false;
+        }
     }
 
     private void insertKnownProject(final Map<String, ?> values) {
@@ -71,7 +54,14 @@ public final class CreateProjectAction extends ActionAdapter {
                 Files.createDirectories(path.resolve("assets", folder));
             }
 
-            Files.createFile(path.resolve("project.yml"));
+            {
+                final var yaml = new HashMap<String, Object>();
+                final var project = (HashMap<String, Object>) yaml.put("project", new HashMap<String, Object>());
+                project.put("name", projectName);
+                project.put("version", "0.1.0");
+                Yaml.save(path.resolve("project.yml"), yaml);
+            }
+
             Files.createFile(path.resolve("settings.yml"));
         } catch (final Throwable throwable) {
             Logger.error("Failed to create %s: %s", path, throwable);

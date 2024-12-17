@@ -19,7 +19,6 @@
             <id>editor</id>
             <modules>
                 <module>../fosge-editor</module>
-                <module>../fosge-editor-forms</module>
             </modules>
         </profile>
         <profile>

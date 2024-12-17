@@ -1,4 +1,4 @@
-package br.fosge.editor.ui.listener;
+package br.fosge.editor.ui.framework.listener;
 
 import java.awt.*;
 import java.awt.event.MouseAdapter;

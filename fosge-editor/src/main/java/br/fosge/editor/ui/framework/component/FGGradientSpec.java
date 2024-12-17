@@ -1,4 +1,4 @@
-package br.fosge.editor.ui.component;
+package br.fosge.editor.ui.framework.component;
 
 import br.fosge.annotation.Specification;
 

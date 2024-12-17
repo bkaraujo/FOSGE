@@ -1,4 +1,4 @@
-package br.fosge.editor.ui;
+package br.fosge.editor.ui.framework;
 
 import br.fosge.annotation.State;
 

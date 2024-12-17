@@ -4,6 +4,7 @@ import br.fosge.Logger;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Collections;
 import java.util.HashMap;
@@ -15,8 +16,11 @@ public class Yaml {
 
     public static Map<String, Object> load(Path path) {
         try {
-            final var map = mapper.readValue(path.toFile(), Map.class);
-            return Collections.unmodifiableMap(map);
+            if (Files.size(path) == 0) { return new HashMap<>(); }
+            return Collections.unmodifiableMap(mapper.readValue(
+                    path.toFile(),
+                    Map.class
+            ));
         } catch (Throwable throwable) {
             Logger.error("Failed to read %s: %s", path, throwable);
             return new HashMap<>();

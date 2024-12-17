@@ -1,4 +1,4 @@
-package br.fosge.editor.ui.event;
+package br.fosge.editor.ui.framework.event;
 
 import br.fosge.message.Message;
 

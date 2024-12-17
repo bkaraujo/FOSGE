@@ -3,10 +3,10 @@ package br.fosge.editor;
 import br.fosge.Logger;
 import br.fosge.MessageBus;
 import br.fosge.RT;
-import br.fosge.editor.forms.ProjectBrowse;
-import br.fosge.editor.ui.SWTools;
-import br.fosge.editor.ui.UIState;
-import br.fosge.editor.ui.event.UIBeepEvent;
+import br.fosge.editor.ui.forms.ProjectBrowse;
+import br.fosge.editor.ui.framework.SWTools;
+import br.fosge.editor.ui.framework.UIState;
+import br.fosge.editor.ui.framework.event.UIBeepEvent;
 import br.fosge.logger.LogLevel;
 import br.fosge.message.MessageListener;
 import br.fosge.message.MessagePipeline;
@@ -15,6 +15,8 @@ import br.fosge.tools.Meta;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.FocusEvent;
+import java.io.IOException;
+import java.nio.file.Files;
 
 public class Launcher {
     private final Toolkit toolkit = Toolkit.getDefaultToolkit();
@@ -37,7 +39,7 @@ public class Launcher {
             }
         }, FocusEvent.FOCUS_EVENT_MASK);
 
-        RT.set("settingsfs", RT.rootfs().resolve("settings"));
+        createFilesystemStructures();
 
         SwingUtilities.invokeLater(() -> {
             final var window = new ProjectBrowse();
@@ -55,6 +57,32 @@ public class Launcher {
     public MessagePipeline handle(UIBeepEvent event) {
         toolkit.beep();
         return MessagePipeline.CONSUMED;
+    }
+
+    private boolean createFilesystemStructures() {
+        final var settingsfs = RT.rootfs().resolve("settings");
+        RT.set("settingsfs", RT.rootfs().resolve("settings"));
+
+        if (!Files.exists(settingsfs)) {
+            try { Files.createDirectories(settingsfs); }
+            catch (IOException e) { Logger.fatal("Failed to create %s: %s", settingsfs, e); }
+        }
+
+        final var settings = settingsfs.resolve("settings.yml");
+        if (!settings.toFile().exists()) {
+            try { settings.toFile().createNewFile(); }
+            catch (IOException e) { Logger.fatal("Failed to create %s: %s", settings, e); }
+        }
+        RT.set("settings.yml", settings);
+
+        final var projects = settingsfs.resolve("projects.yml");
+        if (!projects.toFile().exists()) {
+            try { projects.toFile().createNewFile(); }
+            catch (IOException e) { Logger.fatal("Failed to create %s: %s", projects, e); }
+        }
+        RT.set("projects.yml", projects);
+
+        return true;
     }
 
 }

@@ -1,5 +1,6 @@
-package br.fosge.editor.ui.component;
+package br.fosge.editor.ui.framework.component;
 
+import br.fosge.Logger;
 import br.fosge.annotation.Lifecycle;
 import br.fosge.math.SimpleMath;
 import net.miginfocom.swing.MigLayout;
@@ -8,6 +9,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
+import java.util.HashMap;
+import java.util.Map;
 
 public class FGPanel extends JPanel implements Lifecycle {
     private GradientPaint gradient;
@@ -59,7 +62,14 @@ public class FGPanel extends JPanel implements Lifecycle {
         return type.cast(component);
     }
 
-    public void reset() {}
+    public Map<String, ?> values() {
+        Logger.fatal("Implementation missing");
+        return new HashMap<>();
+    }
+
+    public void reset() {
+        Logger.fatal("Implementation missing");
+    }
 
     public final void gradient(FGGradientSpec desired) { gradientSpec = desired; }
     public final FGGradientSpec gradient() { return gradientSpec; }

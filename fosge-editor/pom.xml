@@ -20,9 +20,12 @@
 
     <dependencies>
         <dependency><groupId>br.fosge</groupId><artifactId>fosge-tools</artifactId><version>${project.parent.version}</version></dependency>
-        <dependency><groupId>br.fosge</groupId><artifactId>fosge-editor-forms</artifactId><version>${project.parent.version}</version></dependency>
         <dependency><groupId>org.eclipse.jgit</groupId><artifactId>org.eclipse.jgit</artifactId><version>${dependency.runtime.jgit}</version></dependency>
         <dependency><groupId>org.slf4j</groupId><artifactId>slf4j-nop</artifactId><version>1.7.36</version></dependency>
+
+        <dependency><groupId>com.miglayout</groupId><artifactId>miglayout-swing</artifactId><version>11.4.2</version></dependency>
+        <dependency><groupId>com.formdev</groupId><artifactId>flatlaf</artifactId><version>3.2.1</version></dependency>
+        <dependency><groupId>com.formdev</groupId><artifactId>flatlaf-extras</artifactId><version>3.2.1</version></dependency>
     </dependencies>
 
     <profiles>

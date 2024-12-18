@@ -115,7 +115,7 @@ public final class Yaml {
     }
 
     public Yaml slice(String key) {
-        return null;
+        return Yaml.from(subtree(raw, 0, key.split("\\.")));
     }
 
     public Map<String, Object> raw() {
@@ -157,12 +157,40 @@ public final class Yaml {
         return null;
     }
 
-    private Object find(Map<String, Object> root, final int index, String ... tokens) {
+    private Map<String, Object> subtree(Object root, final int index, String ... tokens) {
         final var token = tokens[index];
 
-        if (root.containsKey(token)) {
-            final var value = root.get(token);
-            return index == tokens.length - 1 ? value : find(value, index + 1, tokens);
+        if (Meta.assignable(root, Map.class)) {
+            final var map = Meta.cast(root, Map.class);
+            if (map.containsKey(token)) {
+                final var value = map.get(token);
+                if (index != tokens.length - 1) { return subtree(value, index + 1, tokens); }
+                if (Meta.assignable(value, Map.class)) { return Meta.cast(value, Map.class); }
+
+                Logger.warn("Element is not a map: %s", join('.', tokens));
+                return null;
+            }
+        }
+
+        if (Meta.assignable(root, List.class)) {
+            final var list = Meta.cast(root, List.class);
+
+            try {
+                final var number = Integer.parseInt(token);
+                if (number >= list.size()) {
+                    Logger.warn("Element index (%d) beyond bounds (%d)", number, list.size() - 1);
+                    return null;
+                }
+
+                final var value = list.get(number);
+                if (index != tokens.length - 1) { return subtree(value, index + 1, tokens); }
+                if (Meta.assignable(value, Map.class)) { return Meta.cast(value, Map.class); }
+
+                Logger.warn("Expected a map, got: %s", Meta.fqn(value));
+                return null;
+            } catch (final NumberFormatException e) {
+                Logger.fatal("Expected a number, got %s", token);
+            }
         }
 
         return null;
@@ -178,4 +206,5 @@ public final class Yaml {
         builder.append(tokens[tokens.length - 1]);
         return builder.toString();
     }
+
 }

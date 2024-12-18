@@ -26,6 +26,24 @@ class YamlTest {
     }
 
     @Test
+    public void testSliceOfMap() {
+        final var yaml = Yaml.from(yaml());
+        final var slice = yaml.slice("project.window");
+
+        assertEquals("Brakeys", slice.asString("title"));
+        assertEquals(Resolution.nHD, slice.asEnum("resolution", Resolution.class));
+        assertEquals("nHD", slice.asString("resolution"));
+    }
+
+    @Test
+    public void testSliceOfList() {
+        final var yaml = Yaml.from(yaml());
+        final var slice = yaml.slice("project.scenes.0.layers.0");
+
+        assertEquals("world", slice.asString("name"));
+    }
+
+    @Test
     public void testWrite() {
         final var yaml = Yaml.empty();
         yaml.put("project.version", "1.0.0");

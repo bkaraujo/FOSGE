@@ -118,45 +118,6 @@ public final class Yaml {
         return Yaml.from(subtree(raw, 0, key.split("\\.")));
     }
 
-    public Map<String, Object> raw() {
-        return Collections.unmodifiableMap(raw);
-    }
-
-    private Object find(String key, Object root) {
-        return find(root, 0, key.split("\\."));
-    }
-
-    private Object find(Object root, final int index, String ... tokens) {
-        final var token = tokens[index];
-
-        if (Meta.assignable(root, Map.class)) {
-            final var map = Meta.cast(root, Map.class);
-            if (map.containsKey(token)) {
-                final var value = map.get(token);
-                return index == tokens.length - 1 ? value : find(value, index + 1, tokens);
-            }
-        }
-
-        if (Meta.assignable(root, List.class)) {
-            final var list = Meta.cast(root, List.class);
-
-            try {
-                final var number = Integer.parseInt(token);
-                if (number >= list.size()) {
-                    Logger.warn("Element index (%d) beyond bounds (%d)", number, list.size() - 1);
-                    return null;
-                }
-
-                final var value = list.get(number);
-                return index == tokens.length - 1 ? value : find(value, index + 1, tokens);
-            } catch (final NumberFormatException e) {
-                Logger.fatal("Expected a number, got %s", token);
-            }
-        }
-
-        return null;
-    }
-
     private Map<String, Object> subtree(Object root, final int index, String ... tokens) {
         final var token = tokens[index];
 
@@ -198,15 +159,43 @@ public final class Yaml {
         return null;
     }
 
-    private String join(char delimiter, String ... tokens) {
-        final var builder = new StringBuilder();
-        for (int i = 0; i < tokens.length - 1; i++) {
-            builder.append(tokens[i]);
-            builder.append(delimiter);
+    public Map<String, Object> raw() {
+        return Collections.unmodifiableMap(raw);
+    }
+
+    private Object find(String key, Object root) {
+        return find(root, 0, key.split("\\."));
+    }
+
+    private Object find(Object root, final int index, String ... tokens) {
+        final var token = tokens[index];
+
+        if (Meta.assignable(root, Map.class)) {
+            final var map = Meta.cast(root, Map.class);
+            if (map.containsKey(token)) {
+                if (index == tokens.length - 1) return map.get(token);
+                return find(map.get(token), index + 1, tokens);
+            }
         }
 
-        builder.append(tokens[tokens.length - 1]);
-        return builder.toString();
+        if (Meta.assignable(root, List.class)) {
+            final var list = Meta.cast(root, List.class);
+
+            try {
+                final var number = Integer.parseInt(token);
+                if (number >= list.size()) {
+                    Logger.warn("Element index (%d) beyond bounds (%d)", number, list.size() - 1);
+                    return null;
+                }
+
+                if (index == tokens.length - 1) return list.get(number);
+                return find(list.get(number), index + 1, tokens);
+            } catch (final NumberFormatException e) {
+                Logger.fatal("Expected a number, got %s", token);
+            }
+        }
+
+        return null;
     }
 
 }

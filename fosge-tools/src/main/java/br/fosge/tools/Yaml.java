@@ -167,8 +167,10 @@ public final class Yaml {
                 if (index != tokens.length - 1) { return subtree(value, index + 1, tokens); }
                 if (Meta.assignable(value, Map.class)) { return Meta.cast(value, Map.class); }
 
-                Logger.warn("Element is not a map: %s", join('.', tokens));
-                return null;
+                final var values = new ConcurrentHashMap<String, Object>();
+                values.put(token, value);
+
+                return values;
             }
         }
 

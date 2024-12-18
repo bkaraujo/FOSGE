@@ -38,6 +38,15 @@ class YamlTest {
     @Test
     public void testSliceOfList() {
         final var yaml = Yaml.from(yaml());
+        final var slice = yaml.slice("project.scenes.0.layers");
+
+        assertEquals("world", slice.asString("layers.0.name"));
+        assertEquals("MESH_COMPONENT", slice.asString("layers.0.actors.1.components.2.type"));
+    }
+
+    @Test
+    public void testSliceOfListItem() {
+        final var yaml = Yaml.from(yaml());
         final var slice = yaml.slice("project.scenes.0.layers.0");
 
         assertEquals("world", slice.asString("name"));

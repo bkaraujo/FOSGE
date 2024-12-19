@@ -28,38 +28,44 @@ class YamlTest {
     @Test
     public void testSliceOfMap() {
         final var yaml = Yaml.from(yaml());
-        final var slice = yaml.slice("project.window");
+        final var subtree = yaml.subtree("project.window");
 
-        assertEquals("Brakeys", slice.asString("title"));
-        assertEquals(Resolution.nHD, slice.asEnum("resolution", Resolution.class));
-        assertEquals("nHD", slice.asString("resolution"));
+        assertEquals("Brakeys", subtree.asString("title"));
+        assertEquals(Resolution.nHD, subtree.asEnum("resolution", Resolution.class));
+        assertEquals("nHD", subtree.asString("resolution"));
     }
 
     @Test
     public void testSliceOfList() {
         final var yaml = Yaml.from(yaml());
-        final var slice = yaml.slice("project.scenes.0.layers");
+        final var subtree = yaml.subtree("project.scenes.0.layers");
 
-        assertEquals("world", slice.asString("layers.0.name"));
-        assertEquals("MESH_COMPONENT", slice.asString("layers.0.actors.1.components.2.type"));
+        assertEquals("world", subtree.asString("layers.0.name"));
+        assertEquals("MESH_COMPONENT", subtree.asString("layers.0.actors.1.components.2.type"));
     }
 
     @Test
     public void testSliceOfListItem() {
         final var yaml = Yaml.from(yaml());
-        final var slice = yaml.slice("project.scenes.0.layers.0");
+        final var subtree = yaml.subtree("project.scenes.0.layers.0");
 
-        assertEquals("world", slice.asString("name"));
+        assertEquals("world", subtree.asString("name"));
     }
 
     @Test
     public void testWrite() {
         final var yaml = Yaml.empty();
         yaml.put("project.version", "1.0.0");
+        assertEquals("1.0.0", yaml.asString("project.version"));
+
         yaml.put("project.window.title", "Fafifo");
+        assertEquals("Fafifo", yaml.asString("project.window.title"));
+
         yaml.put("project.window.resolution", Resolution.QHD);
+        assertEquals(Resolution.QHD, yaml.asEnum("project.window.resolution", Resolution.class));
 
-
+        yaml.put("project.window.resolution", Resolution.qHD);
+        assertEquals(Resolution.qHD, yaml.asEnum("project.window.resolution", Resolution.class));
     }
 
     private Map<String, Object> yaml() {

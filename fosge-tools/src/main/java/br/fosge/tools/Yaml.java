@@ -10,15 +10,19 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentSkipListMap;
 
 public final class Yaml {
-    private final Map<String, Object> raw = new ConcurrentHashMap<>();
+    private Path path;
+    private final Map<String, Object> raw = new ConcurrentSkipListMap<>();
 
     public static Yaml from(Path path) {
         try {
             final var mapper = new ObjectMapper(new YAMLFactory());
-            return from(mapper.readValue(path.toFile(), Map.class));
+            final var yaml = from(mapper.readValue(path.toFile(), Map.class));
+            yaml.path = path;
+
+            return yaml;
         } catch (Throwable throwable) {
             Logger.error("Failed to read %s: %s", path, throwable);
             return null;
@@ -29,7 +33,7 @@ public final class Yaml {
         return from(new HashMap<>());
     }
 
-    public static Yaml from(Map<String, Object> values) {
+    public static Yaml from(final Map<String, Object> values) {
         return new Yaml(values);
     }
 
@@ -45,23 +49,67 @@ public final class Yaml {
         raw.clear();
     }
 
+    public Map<String, Object> raw() {
+        return Collections.unmodifiableMap(raw);
+    }
+
     public boolean containsKey(final String key) {
         return asString(key) != null;
     }
 
-    public void put(String key, Object value) {
-        put(raw, 0, value, key.split("\\."));
+    public void put(final String key, final Object value) {
+        if (!key.contains(".")) { raw.put(key, value); return; }
+
+        final var path = key.substring(0, key.lastIndexOf('.'));
+        final var item = key.substring(key.lastIndexOf('.') + 1);
+
+        final var container = create(path);
+        final var map = Meta.cast(container, Map.class);
+        map.put(item, value.toString());
     }
 
-    private void put(Object root, final int index, Object value, String ... tokens) {
-        final var token = tokens[index];
+    private Object create(final String key) {
+        final var tokens = key.split("\\.");
 
-        if (Meta.assignable(root, Map.class)) {
+        Object container = raw;
+        for (final String token : tokens) {
+            if (Meta.assignable(container, Map.class)) {
+                final var map = Meta.cast(container, Map.class);
+                if (map.containsKey(token)) {
+                    container = map.get(token);
+                } else {
+                    container = new ConcurrentSkipListMap<String, Object>();
+                    map.put(token, container);
+                }
 
+                continue;
+            }
+
+            if (Meta.assignable(container, List.class)) {
+                final var list = Meta.cast(container, List.class);
+
+                try {
+                    container = new ConcurrentSkipListMap<String, Object>();
+                    list.add(container);
+                } catch (final NumberFormatException e) {
+                    Logger.fatal("Expected a number, got %s", token);
+                }
+            }
         }
+
+        return container;
     }
 
-    public void save(Path path) {
+    public void save() {
+        if (path == null) {
+            Logger.warn("Failed to save: Yaml not loaded from a known file");
+            return;
+        }
+
+        save(path);
+    }
+
+    public void save(final Path path) {
         final var file = path.toFile();
         try {
             if (!file.exists()) { Files.createFile(path); }
@@ -71,15 +119,15 @@ public final class Yaml {
         }
     }
 
-    public Boolean asBoolean(String key) {
-        return Meta.cast(find(key, raw), Boolean.class);
-    }
-
-    public String asString(String key) {
-        return Meta.cast(find(key, raw), String.class);
-    }
-
-    public <T extends Enum<T>> T asEnum(String key, Class<T> klass) {
+    public Boolean asBoolean(final String key) { return find(key, Boolean.class); }
+    public String asString(final String key) { return find(key, String.class); }
+    public Byte asByte(final String key) { return find(key, Byte.class); }
+    public Short asShort(final String key) { return find(key, Short.class); }
+    public Integer asInt(final String key) { return find(key, Integer.class); }
+    public Long asLong(final String key) { return find(key, Long.class); }
+    public Float asFloat(final String key) { return find(key, Float.class); }
+    public Double asDouble(final String key) { return find(key, Double.class); }
+    public <T extends Enum<T>> T asEnum(final String key, Class<T> klass) {
         final var value = asString(key);
         for (final var constant : klass.getEnumConstants()) {
             if (constant.name().equals(value)) {
@@ -90,112 +138,72 @@ public final class Yaml {
         return null;
     }
 
-    public Byte asByte(String key) {
-        return Meta.cast(find(key, raw), Byte.class);
-    }
+    /**
+     * <p>Subset of a yaml file.</p>
+     *
+     * <p>The subset is dependent of the original yaml, any modification done in the subset alters the original set.</p>
+     */
+    public Yaml subtree(final String key) {
+        final var result = find(key);
+        if (result == null) { return null; }
 
-    public Short asShort(String key) {
-        return Meta.cast(find(key, raw), Short.class);
-    }
-
-    public Integer asInt(String key) {
-        return Meta.cast(find(key, raw), Integer.class);
-    }
-
-    public Long asLong(String key) {
-        return Meta.cast(find(key, raw), Long.class);
-    }
-
-    public Float asFloat(String key) {
-        return Meta.cast(find(key, raw), Float.class);
-    }
-
-    public Double asDouble(String key) {
-        return Meta.cast(find(key, raw), Double.class);
-    }
-
-    public Yaml slice(String key) {
-        return Yaml.from(subtree(raw, 0, key.split("\\.")));
-    }
-
-    private Map<String, Object> subtree(Object root, final int index, String ... tokens) {
-        final var token = tokens[index];
-
-        if (Meta.assignable(root, Map.class)) {
-            final var map = Meta.cast(root, Map.class);
-            if (map.containsKey(token)) {
-                final var value = map.get(token);
-                if (index != tokens.length - 1) { return subtree(value, index + 1, tokens); }
-                if (Meta.assignable(value, Map.class)) { return Meta.cast(value, Map.class); }
-
-                final var values = new ConcurrentHashMap<String, Object>();
-                values.put(token, value);
-
-                return values;
-            }
+        if (Meta.assignable(result, Map.class)) {
+            return Yaml.from(Meta.cast(result, Map.class));
         }
 
-        if (Meta.assignable(root, List.class)) {
-            final var list = Meta.cast(root, List.class);
-
-            try {
-                final var number = Integer.parseInt(token);
-                if (number >= list.size()) {
-                    Logger.warn("Element index (%d) beyond bounds (%d)", number, list.size() - 1);
-                    return null;
-                }
-
-                final var value = list.get(number);
-                if (index != tokens.length - 1) { return subtree(value, index + 1, tokens); }
-                if (Meta.assignable(value, Map.class)) { return Meta.cast(value, Map.class); }
-
-                Logger.warn("Expected a map, got: %s", Meta.fqn(value));
-                return null;
-            } catch (final NumberFormatException e) {
-                Logger.fatal("Expected a number, got %s", token);
-            }
+        if (Meta.assignable(result, List.class)) {
+            final var map = new ConcurrentSkipListMap<String, Object>();
+            final var desired = key.contains(".") ? key.substring(key.lastIndexOf('.') + 1) : key;
+            map.put(desired, result);
+            return Yaml.from(map);
         }
 
         return null;
     }
 
-    public Map<String, Object> raw() {
-        return Collections.unmodifiableMap(raw);
+    private <T> T find(final String key, final Class<T> type) {
+        final var desired = key.contains(".") ? key.substring(0, key.lastIndexOf('.')) : key;
+        final var result = find(desired);
+
+        if (result == null) { return null; }
+        if (!Meta.assignable(result, Map.class)) { return Meta.cast(result, type); }
+
+        final var map = Meta.cast(result, Map.class);
+        final var value = map.get(key.substring(key.lastIndexOf('.') + 1));
+        return Meta.cast(value, type);
     }
 
-    private Object find(String key, Object root) {
-        return find(root, 0, key.split("\\."));
-    }
+    private Object find(final String key) {
+        final var tokens = key.split("\\.");
 
-    private Object find(Object root, final int index, String ... tokens) {
-        final var token = tokens[index];
-
-        if (Meta.assignable(root, Map.class)) {
-            final var map = Meta.cast(root, Map.class);
-            if (map.containsKey(token)) {
-                if (index == tokens.length - 1) return map.get(token);
-                return find(map.get(token), index + 1, tokens);
-            }
-        }
-
-        if (Meta.assignable(root, List.class)) {
-            final var list = Meta.cast(root, List.class);
-
-            try {
-                final var number = Integer.parseInt(token);
-                if (number >= list.size()) {
-                    Logger.warn("Element index (%d) beyond bounds (%d)", number, list.size() - 1);
-                    return null;
+        Object container = raw;
+        for (final String token : tokens) {
+            if (Meta.assignable(container, Map.class)) {
+                final var map = Meta.cast(container, Map.class);
+                if (map.containsKey(token)) {
+                    container = map.get(token);
+                    continue;
                 }
+            }
 
-                if (index == tokens.length - 1) return list.get(number);
-                return find(list.get(number), index + 1, tokens);
-            } catch (final NumberFormatException e) {
-                Logger.fatal("Expected a number, got %s", token);
+            if (Meta.assignable(container, List.class)) {
+                final var list = Meta.cast(container, List.class);
+
+                try {
+                    final var number = Integer.parseInt(token);
+                    if (number >= list.size()) {
+                        Logger.warn("Element index (%d) beyond bounds (%d)", number, list.size() - 1);
+                        return null;
+                    }
+
+                    container = list.get(number);
+                } catch (final NumberFormatException e) {
+                    Logger.fatal("Expected a number, got %s", token);
+                }
             }
         }
 
-        return null;
+        return container;
     }
 
 }

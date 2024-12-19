@@ -8,8 +8,6 @@ import br.fosge.tools.Yaml;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 final class ProjectCreateCommand implements Command {
@@ -28,20 +26,15 @@ final class ProjectCreateCommand implements Command {
     }
 
     private void insertKnownProject(final Map<String, ?> values) {
-        final var yaml = Yaml.from(RT.get("projects.yml", Path.class)).raw();
+        final var yaml = Yaml.from(RT.get("projects.yml", Path.class));
         if (!yaml.containsKey("projects")) { yaml.put("projects", new ArrayList<>()); }
 
-        final var project = new HashMap<String, Object>();
         final var projectName = Meta.cast(values.get("project.name"), String.class);
         final var projectPath = Meta.cast(values.get("project.path"), String.class);
+        yaml.put("projects.path", projectPath + "/" + projectName.toLowerCase());
+        yaml.put("projects.thumbnail", "n/a");
 
-        project.put("path", projectPath + "/" + projectName.toLowerCase());
-        project.put("thumbnail", "n/a");
-
-        final var projects = (List< Map<String, Object>>) yaml.get("projects");
-        projects.add(project);
-
-        Yaml.from(yaml).save(RT.get("projects.yml", Path.class));
+        yaml.save();
     }
 
     private void createProjectFolder(final Map<String, ?> values) {
@@ -54,13 +47,10 @@ final class ProjectCreateCommand implements Command {
                 Files.createDirectories(path.resolve("assets", folder));
             }
 
-            {
-                final var yaml = Yaml.empty().raw();
-                final var project = (HashMap<String, Object>) yaml.put("project", new HashMap<String, Object>());
-                project.put("name", projectName);
-                project.put("version", "0.1.0");
-                Yaml.from(yaml).save(path.resolve("project.yml"));
-            }
+            final var yaml = Yaml.empty();
+            yaml.put("project.name", projectName);
+            yaml.put("project.version", "0.1.0");
+            yaml.save(path.resolve("project.yml"));
 
             Files.createFile(path.resolve("settings.yml"));
         } catch (final Throwable throwable) {

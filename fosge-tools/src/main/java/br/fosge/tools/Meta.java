@@ -2,6 +2,7 @@ package br.fosge.tools;
 
 import br.fosge.Logger;
 
+import java.text.DecimalFormatSymbols;
 import java.util.List;
 
 public abstract class Meta {
@@ -36,7 +37,7 @@ public abstract class Meta {
     }
 
     public static <T> T cast(Object object, Class<T> type) {
-        return object == null ? null : type.cast(object);
+        return type.cast(object);
     }
 
     public static List<StackFrame> stackTrace() {
@@ -63,5 +64,27 @@ public abstract class Meta {
         } catch (Throwable throwable) {
             Logger.fatal("Failed to set %s: %s", field, throwable);
         }
+    }
+
+    public static boolean isNumeric(String input) {
+        if(input == null || input.trim().isBlank()) return false;
+
+        final var isNegative = input.charAt(0) == DecimalFormatSymbols.getInstance().getMinusSign();
+        if (isNegative && input.length() == 1) return false;
+
+        var isDecimalSeparatorFound = false;
+        final var separator = DecimalFormatSymbols.getInstance().getDecimalSeparator();
+
+        for (var i = isNegative ? 1 : 0; i < input.length(); i++) {
+            if(!Character.isDigit(input.charAt(i))) {
+                if(!isDecimalSeparatorFound && input.charAt(i) == separator) {
+                    isDecimalSeparatorFound = true;
+                } else {
+                    return false;
+                }
+            }
+        }
+
+        return true;
     }
 }

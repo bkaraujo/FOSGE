@@ -20,7 +20,7 @@ final class ProjectOpenCommand implements Command {
             if (yaml.isEmpty()) { Logger.warn("Failed to read project.yml"); return false; }
 
             SwingUtilities.invokeLater(() -> {
-                final var frame = new ProjectEditor(Path.of((String) param.get("project.path")));
+                final var frame = new ProjectEditor(yaml);
                 SWTools.toScreenCenter(frame);
                 frame.setVisible(true);
             });

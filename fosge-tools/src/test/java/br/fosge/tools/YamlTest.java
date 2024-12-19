@@ -1,5 +1,6 @@
 package br.fosge.tools;
 
+import br.fosge.Tuple;
 import br.fosge.graphics.Resolution;
 import org.junit.jupiter.api.Test;
 
@@ -53,7 +54,7 @@ class YamlTest {
     }
 
     @Test
-    public void testWrite() {
+    public void testYamlPutValue() {
         final var yaml = Yaml.empty();
         yaml.put("project.version", "1.0.0");
         assertEquals("1.0.0", yaml.asString("project.version"));
@@ -66,6 +67,17 @@ class YamlTest {
 
         yaml.put("project.window.resolution", Resolution.qHD);
         assertEquals(Resolution.qHD, yaml.asEnum("project.window.resolution", Resolution.class));
+
+        yaml.append("project.scenes", new YamlEntry("name", "Scene 01"));
+        assertEquals("Scene 01", yaml.asString("project.scenes.0.name"));
+    }
+
+    @Test
+    public void testYamlPutIntoList() {
+        final var yaml = Yaml.empty();
+
+        yaml.append("project.scenes", new YamlEntry("name", "Scene 01"));
+        assertEquals("Scene 01", yaml.asString("project.scenes.0.name"));
     }
 
     private Map<String, Object> yaml() {

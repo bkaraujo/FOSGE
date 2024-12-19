@@ -1,15 +1,13 @@
 package br.fosge.tools;
 
 import br.fosge.Logger;
+import br.fosge.Tuple;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.concurrent.ConcurrentSkipListMap;
 
 public final class Yaml {
@@ -57,6 +55,31 @@ public final class Yaml {
         return asString(key) != null;
     }
 
+    public void append(final String key, final String name, Object value) {
+        append(key, new YamlEntry(name, value));
+    }
+
+    public void append(final String key, final YamlEntry ... values) {
+        var container = find(key);
+        if (container != null && Meta.assignable(container, List.class)) {
+            final var list = Meta.cast(container, List.class);
+            for (final var entry : values) {
+                list.add(entry.toMap());
+            }
+
+            return;
+        }
+
+        final var list = new ArrayList<>();
+        for (final var entry : values) {
+            list.add(entry.toMap());
+        }
+
+        final var path = key.substring(0, key.lastIndexOf('.'));
+        final var item = key.substring(key.lastIndexOf('.') + 1);
+        create(path).put(item, list);
+    }
+
     public void put(final String key, final Object value) {
         if (!key.contains(".")) { raw.put(key, value); return; }
 
@@ -68,7 +91,7 @@ public final class Yaml {
         map.put(item, value.toString());
     }
 
-    private Object create(final String key) {
+    private Map<String, Object> create(final String key) {
         final var tokens = key.split("\\.");
 
         Object container = raw;
@@ -97,7 +120,7 @@ public final class Yaml {
             }
         }
 
-        return container;
+        return Meta.cast(container, Map.class);
     }
 
     public void save() {
@@ -184,6 +207,8 @@ public final class Yaml {
                     container = map.get(token);
                     continue;
                 }
+
+                return null;
             }
 
             if (Meta.assignable(container, List.class)) {

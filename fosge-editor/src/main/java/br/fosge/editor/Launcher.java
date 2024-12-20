@@ -11,12 +11,14 @@ import br.fosge.logger.LogLevel;
 import br.fosge.message.MessageListener;
 import br.fosge.message.MessagePipeline;
 import br.fosge.tools.Meta;
+import br.fosge.tools.Yaml;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.FocusEvent;
 import java.io.IOException;
 import java.nio.file.Files;
+import java.nio.file.Path;
 
 public class Launcher {
     private final Toolkit toolkit = Toolkit.getDefaultToolkit();
@@ -59,30 +61,14 @@ public class Launcher {
         return MessagePipeline.CONSUMED;
     }
 
-    private boolean createFilesystemStructures() {
-        final var settingsfs = RT.rootfs().resolve("settings");
-        RT.set("settingsfs", RT.rootfs().resolve("settings"));
-
-        if (!Files.exists(settingsfs)) {
-            try { Files.createDirectories(settingsfs); }
-            catch (IOException e) { Logger.fatal("Failed to create %s: %s", settingsfs, e); }
+    private void createFilesystemStructures() {
+        final var settingsFS = RT.set("settingsfs", Path.class, RT.rootfs().resolve("settings"));
+        if (!Files.exists(settingsFS)) {
+            try { Files.createDirectories(settingsFS); }
+            catch (IOException e) { Logger.fatal("Failed to create %s: %s", settingsFS, e); }
         }
 
-        final var settings = settingsfs.resolve("settings.yml");
-        if (!settings.toFile().exists()) {
-            try { settings.toFile().createNewFile(); }
-            catch (IOException e) { Logger.fatal("Failed to create %s: %s", settings, e); }
-        }
-        RT.set("settings.yml", settings);
-
-        final var projects = settingsfs.resolve("projects.yml");
-        if (!projects.toFile().exists()) {
-            try { projects.toFile().createNewFile(); }
-            catch (IOException e) { Logger.fatal("Failed to create %s: %s", projects, e); }
-        }
-        RT.set("projects.yml", projects);
-
-        return true;
+        RT.set("editor.settings", Yaml.class, Yaml.from(settingsFS.resolve("settings.yml")));
+        RT.set("editor.projects", Yaml.class, Yaml.from(settingsFS.resolve("projects.yml")));
     }
-
 }

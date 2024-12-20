@@ -1,6 +1,7 @@
 package br.fosge.editor.ui.forms;
 
 import br.fosge.editor.project.ProjectType;
+import br.fosge.editor.ui.command.ProjectCreateCommand;
 import br.fosge.editor.ui.framework.component.FGButtonGroup;
 import br.fosge.editor.ui.framework.component.FGImagePanel;
 import br.fosge.editor.ui.framework.component.FGPanel;
@@ -75,9 +76,9 @@ public final class ProjectBrowseCreatePanel extends FGPanel {
     @Override
     public Map<String, ?> values() {
         final var values = new ConcurrentSkipListMap<String, Object>();
-        values.put("project.name", txtProjectName.getText());
-        values.put("project.path", txtProjectPath.getText());
-        values.put("project.type", buttonGroup.getSelectedText());
+        values.put(ProjectCreateCommand.PROJECT_NAME, txtProjectName.getText());
+        values.put(ProjectCreateCommand.PROJECT_PATH, txtProjectPath.getText());
+        values.put(ProjectCreateCommand.PROJECT_TYPE, buttonGroup.getSelectedText());
 
         return values;
     }

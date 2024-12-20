@@ -1,9 +1,9 @@
 package br.fosge.tools;
 
-import br.fosge.Tuple;
 import br.fosge.graphics.Resolution;
 import org.junit.jupiter.api.Test;
 
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -12,6 +12,21 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class YamlTest {
+
+    @Test
+    public void testYamlFactories() {
+        var yaml = Yaml.empty();
+        assertTrue(yaml.isEmpty());
+
+        yaml = Yaml.from(new HashMap<>());
+        assertTrue(yaml.isEmpty());
+
+        yaml = Yaml.from(Path.of(System.getProperty("user.dir"), "application.yaml"));
+        assertTrue(yaml.isEmpty());
+
+        yaml = Yaml.from(Path.of(System.getProperty("user.dir"), "src/test/resources/empty.yaml"));
+        assertTrue(yaml.isEmpty());
+    }
 
     @Test
     public void testQuery() {
@@ -78,6 +93,25 @@ class YamlTest {
 
         yaml.append("project.scenes", new YamlEntry("name", "Scene 01"));
         assertEquals("Scene 01", yaml.asString("project.scenes.0.name"));
+    }
+
+    @Test
+    public void testYamlPutIntoRootList() {
+        final var yaml = Yaml.empty();
+
+        yaml.append("projects", "path", "xxxx");
+        assertEquals("xxxx", yaml.asString("projects.0.path"));
+    }
+
+    @Test
+    public void testYamlCreateListAndAppendToIt() {
+        final var yaml = Yaml.empty();
+
+        yaml.append("projects", "path", "xxxx");
+        assertEquals("xxxx", yaml.asString("projects.0.path"));
+
+        yaml.put("projects.0.name", "kkk");
+        assertEquals("kkk", yaml.asString("projects.0.name"));
     }
 
     private Map<String, Object> yaml() {

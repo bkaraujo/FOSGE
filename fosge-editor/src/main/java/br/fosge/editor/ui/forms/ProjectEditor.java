@@ -1,6 +1,7 @@
 package br.fosge.editor.ui.forms;
 
 import br.fosge.editor.ui.framework.component.FGFrame;
+import br.fosge.tools.Strings;
 import br.fosge.tools.Yaml;
 
 public final class ProjectEditor extends FGFrame {
@@ -13,7 +14,8 @@ public final class ProjectEditor extends FGFrame {
         setSize(1024, 768);
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 
-        setTitle("FOSGE :: %s".formatted(yaml.asString("project.name")));
+        final var projectName = yaml.asString("project.name");
+        setTitle("FOSGE :: %s".formatted(Strings.toTitleCase(projectName)));
     }
 
     @Override

@@ -21,10 +21,12 @@ public abstract class Meta {
     }
 
     public static boolean assignable(Object object, Class<?> type) {
+        if (object == null) return false;
         return assignable(object.getClass(), type);
     }
 
     public static boolean assignable(Class<?> object, Class<?> type) {
+        if (object == null || type == null) return false;
         return type.isAssignableFrom(object);
     }
 
@@ -66,25 +68,4 @@ public abstract class Meta {
         }
     }
 
-    public static boolean isNumeric(String input) {
-        if(input == null || input.trim().isBlank()) return false;
-
-        final var isNegative = input.charAt(0) == DecimalFormatSymbols.getInstance().getMinusSign();
-        if (isNegative && input.length() == 1) return false;
-
-        var isDecimalSeparatorFound = false;
-        final var separator = DecimalFormatSymbols.getInstance().getDecimalSeparator();
-
-        for (var i = isNegative ? 1 : 0; i < input.length(); i++) {
-            if(!Character.isDigit(input.charAt(i))) {
-                if(!isDecimalSeparatorFound && input.charAt(i) == separator) {
-                    isDecimalSeparatorFound = true;
-                } else {
-                    return false;
-                }
-            }
-        }
-
-        return true;
-    }
 }

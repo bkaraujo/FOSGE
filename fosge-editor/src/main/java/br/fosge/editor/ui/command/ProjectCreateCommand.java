@@ -7,17 +7,24 @@ import br.fosge.tools.Yaml;
 
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Map;
 
-final class ProjectCreateCommand implements Command {
+public final class ProjectCreateCommand implements Command {
+    public static final String PROJECT_NAME = "project.name";
+    public static final String PROJECT_PATH = "project.path";
+    public static final String PROJECT_TYPE = "project.type";
+
+    private Path projectPath;
+
+    ProjectCreateCommand(){}
 
     @Override
     public boolean execute(Map<String, ?> values) {
         try {
             insertKnownProject(values);
             createProjectFolder(values);
-
+            openProject();
             return true;
         } catch (Throwable throwable) {
             Logger.warn("Failed to create project: %s", throwable);
@@ -26,14 +33,11 @@ final class ProjectCreateCommand implements Command {
     }
 
     private void insertKnownProject(final Map<String, ?> values) {
-        final var yaml = Yaml.from(RT.get("projects.yml", Path.class));
-        if (!yaml.containsKey("projects")) { yaml.put("projects", new ArrayList<>()); }
-
-        final var projectName = Meta.cast(values.get("project.name"), String.class);
-        final var projectPath = Meta.cast(values.get("project.path"), String.class);
-        yaml.put("projects.path", projectPath + "/" + projectName.toLowerCase());
-        yaml.put("projects.thumbnail", "n/a");
-
+        final var yaml = RT.get("editor.projects", Yaml.class);
+        final var projectName = Meta.cast(values.get(PROJECT_NAME), String.class);
+        projectPath = Path.of(Meta.cast(values.get(PROJECT_PATH), String.class), projectName.toLowerCase());
+        yaml.append("projects", "path", projectPath.toString());
+        yaml.put("projects.0.thumbnail", "n/a");
         yaml.save();
     }
 
@@ -56,5 +60,11 @@ final class ProjectCreateCommand implements Command {
         } catch (final Throwable throwable) {
             Logger.error("Failed to create %s: %s", path, throwable);
         }
+    }
+
+    private void openProject() {
+        final var values = new HashMap<String, Object>();
+        values.put(ProjectOpenCommand.PROJECT_PATH, projectPath.toString());
+        Commands.projectOpen(values);
     }
 }

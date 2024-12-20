@@ -1,7 +1,6 @@
 package br.fosge.tools;
 
 import br.fosge.Logger;
-import br.fosge.Tuple;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 
@@ -16,10 +15,15 @@ public final class Yaml {
 
     public static Yaml from(Path path) {
         try {
-            final var mapper = new ObjectMapper(new YAMLFactory());
-            final var yaml = from(mapper.readValue(path.toFile(), Map.class));
-            yaml.path = path;
+            Yaml yaml;
+            if (!Files.exists(path) || Files.size(path) == 0) {
+                yaml = empty();
+            } else {
+                final var mapper = new ObjectMapper(new YAMLFactory());
+                yaml = from(mapper.readValue(path.toFile(), Map.class));
+            }
 
+            yaml.path = path;
             return yaml;
         } catch (Throwable throwable) {
             Logger.error("Failed to read %s: %s", path, throwable);
@@ -75,9 +79,13 @@ public final class Yaml {
             list.add(entry.toMap());
         }
 
-        final var path = key.substring(0, key.lastIndexOf('.'));
-        final var item = key.substring(key.lastIndexOf('.') + 1);
-        create(path).put(item, list);
+        if (key.contains(".")) {
+            final var path = key.substring(0, key.lastIndexOf('.'));
+            final var item = key.substring(key.lastIndexOf('.') + 1);
+            newMap(path).put(item, list);
+        } else {
+            newList(key).addAll(list);
+        }
     }
 
     public void put(final String key, final Object value) {
@@ -86,12 +94,16 @@ public final class Yaml {
         final var path = key.substring(0, key.lastIndexOf('.'));
         final var item = key.substring(key.lastIndexOf('.') + 1);
 
-        final var container = create(path);
+        var container = find(path);
+        if (container == null) {
+            container = newMap(path);
+        }
+
         final var map = Meta.cast(container, Map.class);
         map.put(item, value.toString());
     }
 
-    private Map<String, Object> create(final String key) {
+    private Map<String, Object> newMap(final String key) {
         final var tokens = key.split("\\.");
 
         Object container = raw;
@@ -121,6 +133,40 @@ public final class Yaml {
         }
 
         return Meta.cast(container, Map.class);
+    }
+
+    private List<Object> newList(final String key) {
+        final var tokens = key.split("\\.");
+
+        Object container = raw;
+        for(int i = 0 ; i < tokens.length; ++i) {
+            final var token = tokens[i];
+
+            if (Meta.assignable(container, Map.class)) {
+                final var map = Meta.cast(container, Map.class);
+                if (i != tokens.length - 1) {
+                    container = map.get(token);
+                } else {
+                    container = new ArrayList<>();
+                    map.put(token, container);
+                }
+
+                continue;
+            }
+
+            if (Meta.assignable(container, List.class)) {
+                final var list = Meta.cast(container, List.class);
+
+                try {
+                    container = new ConcurrentSkipListMap<String, Object>();
+                    list.add(container);
+                } catch (final NumberFormatException e) {
+                    Logger.fatal("Expected a number, got %s", token);
+                }
+            }
+        }
+
+        return Meta.cast(container, List.class);
     }
 
     public void save() {
@@ -159,6 +205,27 @@ public final class Yaml {
         }
 
         return null;
+    }
+
+    public List<Yaml> list(final String key) {
+        final var result = new ArrayList<Yaml>();
+        if (Strings.isNumeric(key.substring(key.lastIndexOf('.') + 1))) {
+            Logger.warn("Key must relate to a yaml array");
+            return result;
+        }
+
+        final var found = find(key);
+        if (!Meta.assignable(found, List.class)) {
+            Logger.warn("Key must relate to a yaml array");
+            return result;
+        }
+
+        for (final var entry : Meta.cast(found, List.class)) {
+            final var yaml = Yaml.from(Meta.cast(entry, Map.class));
+            result.add(yaml);
+        }
+
+        return result;
     }
 
     /**

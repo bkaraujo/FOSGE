@@ -9,14 +9,17 @@ import javax.swing.*;
 import java.nio.file.Path;
 import java.util.Map;
 
-final class ProjectOpenCommand implements Command {
+public final class ProjectOpenCommand implements Command {
+    public static final String PROJECT_PATH = "project.path";
+
+    ProjectOpenCommand(){}
 
     @Override
     public boolean execute(Map<String, ?> param) {
         if (!param.containsKey("project.path")) { Logger.warn("project.path not informed"); return false; }
 
         try {
-            final var yaml = Yaml.from(Path.of((String) param.get("project.path"), "project.yml"));
+            final var yaml = Yaml.from(Path.of((String) param.get(PROJECT_PATH), "project.yml"));
             if (yaml.isEmpty()) { Logger.warn("Failed to read project.yml"); return false; }
 
             SwingUtilities.invokeLater(() -> {

@@ -16,12 +16,11 @@ public abstract class RT implements State {
         state.put("rootfs", Path.of(System.getProperty("user.dir")));
     }
 
-    public static void set(String key, Object value) { state.put(key, value); }
+    public static <T> T set(String key, Class<T> type, Object value) { state.put(key, value); return Meta.cast(value, type); }
     public static <T> T get(String key, Class<T> type) {
         final var value = state.getOrDefault(key, null);
         return value == null ? null : Meta.cast(value, type);
     }
 
     public static Path rootfs() { return get("rootfs", Path.class); }
-    public static Path settingsfs() { return get("settingsfs", Path.class); }
 }

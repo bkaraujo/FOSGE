@@ -30,7 +30,6 @@ public class FGFrame extends JFrame implements Lifecycle {
 
     public FGFrame(String title, GraphicsConfiguration gc) {
         super(title, gc);
-        setContentPane(new FGPanel());
     }
 
     public Map<String, ?> values() {

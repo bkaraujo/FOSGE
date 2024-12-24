@@ -1,7 +1,6 @@
 package br.fosge.editor.ui.forms;
 
 import br.fosge.editor.ui.framework.component.FGFrame;
-import br.fosge.editor.ui.framework.component.FGPanel;
 import br.fosge.tools.Strings;
 import br.fosge.tools.Yaml;
 
@@ -9,10 +8,6 @@ import javax.swing.*;
 
 public final class ProjectEditor extends FGFrame {
     private final Yaml yaml;
-
-    private final JSplitPane LCPanel = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT);
-    private final JSplitPane NSPanel = new JSplitPane(JSplitPane.VERTICAL_SPLIT);
-    private final JSplitPane CRPanel = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT);
 
     private final JTabbedPane tbCenter = new JTabbedPane();
     private final JTabbedPane tbBottom = new JTabbedPane();
@@ -25,27 +20,30 @@ public final class ProjectEditor extends FGFrame {
         setResizable(true);
         setSize(1024, 768);
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-
         final var projectName = yaml.asString("project.name");
         setTitle("FOSGE :: %s".formatted(Strings.toTitleCase(projectName)));
 
-        LCPanel.setRightComponent(NSPanel);
-        NSPanel.setTopComponent(CRPanel);
+        final var CRPanel = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT); {
+            CRPanel.setTopComponent(tbCenter);
+            tbCenter.addTab("Renderer", new ProjectEditorRenderPanel());
 
-        LCPanel.setLeftComponent(tbLeft);
-        tbLeft.addTab("Project", new ProjectEditorExplorerPanel());
+            CRPanel.setRightComponent(tbRight);
+            tbRight.addTab("Properties", new ProjectEditorPropertiesPanel());
+        }
 
-        CRPanel.setTopComponent(tbCenter);
-        tbCenter.addTab("Renderer", new ProjectEditorRenderPanel());
+        final var NSPanel = new JSplitPane(JSplitPane.VERTICAL_SPLIT); {
+            NSPanel.setTopComponent(CRPanel);
+            NSPanel.setBottomComponent(tbBottom);
+            tbBottom.addTab("Assets", new ProjectEditorAssetsPanel());
+            tbBottom.addTab("Messages", new ProjectEditorMessagesPanel());
+        }
 
-        NSPanel.setBottomComponent(tbBottom);
-        tbBottom.addTab("Assets", new ProjectEditorAssetsPanel());
-        tbBottom.addTab("Messages", new ProjectEditorMessagesPanel());
-
-        CRPanel.setRightComponent(tbRight);
-        tbRight.addTab("Properties", new ProjectEditorPropertiesPanel());
-
-        add(LCPanel);
+        final var LCPanel = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT); {
+            LCPanel.setRightComponent(NSPanel);
+            LCPanel.setLeftComponent(tbLeft);
+            tbLeft.addTab("Project", new ProjectEditorExplorerPanel());
+            add(LCPanel);
+        }
     }
 
     @Override

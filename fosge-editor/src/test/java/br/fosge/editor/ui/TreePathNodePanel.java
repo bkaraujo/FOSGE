@@ -1,6 +1,6 @@
 package br.fosge.editor.ui;
 
-import br.fosge.editor.ui.framework.component.FGPanel;
+import br.fosge.editor.ui.container.FGPanel;
 
 import javax.swing.*;
 

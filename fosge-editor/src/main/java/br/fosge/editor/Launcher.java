@@ -3,13 +3,11 @@ package br.fosge.editor;
 import br.fosge.Logger;
 import br.fosge.MessageBus;
 import br.fosge.RT;
-import br.fosge.editor.ui.command.Commands;
-import br.fosge.editor.ui.forms.ProjectBrowse;
-import br.fosge.editor.ui.forms.ProjectEditor;
-import br.fosge.editor.ui.framework.SWTools;
-import br.fosge.editor.ui.framework.UIState;
-import br.fosge.editor.ui.framework.component.FGFrame;
-import br.fosge.editor.ui.framework.event.UIBeepEvent;
+import br.fosge.editor.command.Commands;
+import br.fosge.editor.forms.ProjectBrowse;
+import br.fosge.editor.ui.SWTools;
+import br.fosge.editor.ui.UIState;
+import br.fosge.editor.ui.event.UIBeepEvent;
 import br.fosge.logger.LogLevel;
 import br.fosge.message.MessageListener;
 import br.fosge.message.MessagePipeline;
@@ -27,9 +25,7 @@ public class Launcher {
     private final Toolkit toolkit = Toolkit.getDefaultToolkit();
 
     public static void main(String[] args) {
-        new Launcher(
-                args.length == 1 ? args[0] : null
-        );
+        new Launcher(args.length == 1 ? args[0] : null);
     }
 
     public Launcher(String path) {
@@ -78,7 +74,7 @@ public class Launcher {
             catch (IOException e) { Logger.fatal("Failed to create %s: %s", settingsFS, e); }
         }
 
-        RT.set("editor.settings", Yaml.class, Yaml.from(settingsFS.resolve("settings.yml")));
-        RT.set("editor.projects", Yaml.class, Yaml.from(settingsFS.resolve("projects.yml")));
+        RT.set(RTKeys.Editor.SETTINGS, Yaml.class, Yaml.from(settingsFS.resolve("settings.yml")));
+        RT.set(RTKeys.Editor.PROJECTS, Yaml.class, Yaml.from(settingsFS.resolve("projects.yml")));
     }
 }

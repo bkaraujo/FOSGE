@@ -2,7 +2,6 @@ package br.fosge.tools;
 
 import br.fosge.Logger;
 
-import java.text.DecimalFormatSymbols;
 import java.util.List;
 
 public abstract class Meta {

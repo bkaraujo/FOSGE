@@ -1,6 +1,6 @@
 package br.fosge.editor.ui;
 
-import br.fosge.editor.ui.framework.component.TreePath;
+import br.fosge.editor.ui.component.TreePath;
 
 import javax.swing.*;
 import java.nio.file.Path;

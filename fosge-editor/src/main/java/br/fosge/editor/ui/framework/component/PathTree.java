@@ -18,7 +18,7 @@ public final class PathTree extends JTree {
 
     public PathTree(Path rootfs, boolean showFiles) {
         setRootVisible(true);
-        setAlignmentX(0f);
+
         if (rootfs != null && rootfs.toFile().isDirectory()) {
             final var rootNode = new DefaultMutableTreeNode(rootfs.toFile().getName());
             try (final var files = Files.list(rootfs)) {

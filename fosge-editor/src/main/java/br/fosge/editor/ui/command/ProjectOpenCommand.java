@@ -17,13 +17,14 @@ public final class ProjectOpenCommand implements Command {
     @Override
     public boolean execute(Map<String, ?> param) {
         if (!param.containsKey("project.path")) { Logger.warn("project.path not informed"); return false; }
+        final var rootfs = Path.of((String) param.get(PROJECT_PATH));
 
         try {
-            final var yaml = Yaml.from(Path.of((String) param.get(PROJECT_PATH), "project.yml"));
+            final var yaml = Yaml.from(rootfs.resolve("project.yml"));
             if (yaml.isEmpty()) { Logger.warn("Failed to read project.yml"); return false; }
 
             SwingUtilities.invokeLater(() -> {
-                final var frame = new ProjectEditor(yaml);
+                final var frame = new ProjectEditor(rootfs, yaml);
                 SWTools.toScreenCenter(frame);
                 frame.setVisible(true);
             });

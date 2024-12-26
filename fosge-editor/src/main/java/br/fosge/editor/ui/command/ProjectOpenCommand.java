@@ -16,7 +16,7 @@ public final class ProjectOpenCommand implements Command {
 
     @Override
     public boolean execute(Map<String, ?> param) {
-        if (!param.containsKey("project.path")) { Logger.warn("project.path not informed"); return false; }
+        if (!param.containsKey(PROJECT_PATH)) { Logger.warn("project.path not informed"); return false; }
         final var rootfs = Path.of((String) param.get(PROJECT_PATH));
 
         try {

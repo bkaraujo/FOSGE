@@ -3,9 +3,12 @@ package br.fosge.editor;
 import br.fosge.Logger;
 import br.fosge.MessageBus;
 import br.fosge.RT;
+import br.fosge.editor.ui.command.Commands;
 import br.fosge.editor.ui.forms.ProjectBrowse;
+import br.fosge.editor.ui.forms.ProjectEditor;
 import br.fosge.editor.ui.framework.SWTools;
 import br.fosge.editor.ui.framework.UIState;
+import br.fosge.editor.ui.framework.component.FGFrame;
 import br.fosge.editor.ui.framework.event.UIBeepEvent;
 import br.fosge.logger.LogLevel;
 import br.fosge.message.MessageListener;
@@ -24,10 +27,12 @@ public class Launcher {
     private final Toolkit toolkit = Toolkit.getDefaultToolkit();
 
     public static void main(String[] args) {
-        new Launcher();
+        new Launcher(
+                args.length == 1 ? args[0] : null
+        );
     }
 
-    public Launcher() {
+    public Launcher(String path) {
         Logger.level(LogLevel.TRACE);
         MessageBus.subscribe(this);
 
@@ -44,14 +49,19 @@ public class Launcher {
         createFilesystemStructures();
 
         SwingUtilities.invokeLater(() -> {
-            final var window = new ProjectBrowse();
-            if (!window.initialize()) {
-                Logger.error("Failed to initialize %s", Meta.fqn(window));
-                Meta.exit(99);
-            }
+            if (path == null) {
+                final var window = new ProjectBrowse();
 
-            SWTools.toScreenCenter(window);
-            window.setVisible(true);
+                if (!window.initialize()) {
+                    Logger.error("Failed to initialize %s", Meta.fqn(window));
+                    Meta.exit(99);
+                }
+
+                SWTools.toScreenCenter(window);
+                window.setVisible(true);
+            } else {
+                Commands.projectOpen(path);
+            }
         });
     }
 

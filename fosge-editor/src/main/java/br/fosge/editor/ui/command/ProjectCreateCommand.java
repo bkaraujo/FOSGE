@@ -7,7 +7,6 @@ import br.fosge.tools.Yaml;
 
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.HashMap;
 import java.util.Map;
 
 public final class ProjectCreateCommand implements Command {
@@ -63,8 +62,6 @@ public final class ProjectCreateCommand implements Command {
     }
 
     private void openProject() {
-        final var values = new HashMap<String, Object>();
-        values.put(ProjectOpenCommand.PROJECT_PATH, projectPath.toString());
-        Commands.projectOpen(values);
+        Commands.projectOpen(projectPath.toString());
     }
 }

@@ -93,7 +93,7 @@ public final class ProjectBrowse extends FGFrame {
             south.add(btnAction);
             btnAction.addActionListener((_) -> {
                 final var success = switch (btnAction.getText()) {
-                    case ProjectBrowseOpenPanel.ACTION -> Commands.projectOpen(ProjectBrowse.this.values());
+                    case ProjectBrowseOpenPanel.ACTION -> Commands.projectOpen(values());
                     case ProjectBrowseCreatePanel.ACTION -> Commands.projectCreate(ProjectBrowse.this.values());
                     default -> false;
                 };

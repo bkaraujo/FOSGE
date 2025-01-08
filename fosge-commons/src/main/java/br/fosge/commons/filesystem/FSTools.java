@@ -3,9 +3,9 @@ package br.fosge.commons.filesystem;
 import br.fosge.commons.Logger;
 
 import javax.swing.filechooser.FileSystemView;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
+import java.io.IOException;
+import java.nio.file.*;
+import java.nio.file.attribute.BasicFileAttributes;
 import java.util.stream.Stream;
 
 public abstract class FSTools {
@@ -19,30 +19,57 @@ public abstract class FSTools {
         return FileSystemView.getFileSystemView().getDefaultDirectory().toPath();
     }
 
-    public static Path search(Path rootfs, String name) {
-        try (Stream<Path> stream = Files.walk(rootfs)) {
-            return stream
-                    .filter(p -> p.toFile().getName().contentEquals(name))
-                    .findFirst()
-                    .orElse(null);
+    public static boolean contains(Path rootfs, String filename) {
+        final boolean[] result = {false};
+
+        try {
+            Files.walkFileTree(rootfs, new SimpleFileVisitor<>() {
+                @Override
+                public FileVisitResult visitFile(Path path, BasicFileAttributes attrs) {
+                    if (path.toFile().getName().contentEquals(filename)) {
+                        result[0] = true;
+                        return FileVisitResult.TERMINATE;
+                    }
+
+                    return FileVisitResult.CONTINUE;
+                }
+            });
         } catch (Throwable throwable) {
-            Logger.error("%s", throwable);
-            return null;
+            Logger.error("Failed to walk path: %s", throwable);
         }
+
+        return result[0];
     }
 
-    public static boolean contains(Path directory, String filename) {
-        try (final var files = Files.list(directory)) {
-            for (final var file : files.map(Path::toFile).toList()) {
-                if (file.getName().equals(filename)) {
-                    return true;
+    public static Path search(Path rootfs, String name) {
+        final Path[] result = {null};
+
+        try {
+            Files.walkFileTree(rootfs, new SimpleFileVisitor<>() {
+                @Override
+                public FileVisitResult preVisitDirectory(Path path, BasicFileAttributes attrs) {
+                    if (path.toFile().getName().contentEquals(name)) {
+                        result[0] = path;
+                        return FileVisitResult.TERMINATE;
+                    }
+
+                    return FileVisitResult.CONTINUE;
                 }
-            }
+
+                @Override
+                public FileVisitResult visitFile(Path path, BasicFileAttributes attrs) {
+                    if (path.toFile().getName().contentEquals(name)) {
+                        result[0] = path;
+                        return FileVisitResult.TERMINATE;
+                    }
+
+                    return FileVisitResult.CONTINUE;
+                }
+            });
         } catch (Throwable throwable) {
-            Logger.warn("Failed to list files in directory %s: %s", directory, throwable);
-            return false;
+            Logger.error("Failed to walk path: %s", throwable);
         }
 
-        return false;
+        return result[0];
     }
 }

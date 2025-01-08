@@ -23,7 +23,6 @@ public final class EditorLauncher {
         final var level = RT.get("fosge.logging.level", LogLevel.class);
         Logger.level(level == null ? LogLevel.TRACE : level);
 
-        new Thread(new FSWatcher()).start();
 
         Toolkit
                 .getDefaultToolkit()
@@ -36,6 +35,7 @@ public final class EditorLauncher {
         }
 
         RT.running = true;
+        new Thread(new FSWatcher()).start();
         RT.set(RTKeys.Swing.MULTI_CLICK_INTERVAL, Integer.class, 250);
         RT.set(RTKeys.Editor.SETTINGS, Yaml.class, Yaml.from(settingsFS.resolve("settings.yml")));
         RT.set(RTKeys.Editor.PROJECTS, Yaml.class, Yaml.from(settingsFS.resolve("projects.yml")));

@@ -1,8 +1,6 @@
 package br.fosge.commons.tools;
 
 import br.fosge.commons.graphics.Resolution;
-import br.fosge.commons.tools.Yaml;
-import br.fosge.commons.tools.YamlEntry;
 import org.junit.jupiter.api.Test;
 
 import java.nio.file.Path;

@@ -1,7 +1,6 @@
 package br.fosge.commons.filesystem;
 
 import java.nio.file.Path;
-import java.nio.file.WatchEvent;
 
 public interface WatchDogAction {
 

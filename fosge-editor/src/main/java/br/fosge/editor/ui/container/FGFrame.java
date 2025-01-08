@@ -4,13 +4,10 @@ import br.fosge.commons.Logger;
 import br.fosge.commons.RT;
 import br.fosge.commons.annotation.Lifecycle;
 import br.fosge.commons.tools.Meta;
-import br.fosge.editor.forms.ProjectBrowse;
 import com.formdev.flatlaf.FlatDarkLaf;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
 import java.util.HashMap;
 import java.util.Map;
 

@@ -3,9 +3,9 @@ package br.fosge.commons.filesystem;
 import br.fosge.commons.Logger;
 
 import javax.swing.filechooser.FileSystemView;
-import java.nio.file.*;
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.stream.Stream;
 
 public abstract class FSTools {

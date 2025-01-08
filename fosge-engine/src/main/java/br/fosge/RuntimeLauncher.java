@@ -30,25 +30,8 @@ public final class RuntimeLauncher {
         Logger.debug("LWJGL: %s", Version.getVersion());
 
         final var engine = new Engine();
-
-        if (!engine.initialize()) {
-            if (!engine.terminate()) {
-                Meta.exit(99);
-            }
-
-            Meta.exit(90);
-        }
-
-        if (!engine.run()) {
-            if (!engine.terminate()) {
-                Meta.exit(99);
-            }
-
-            Meta.exit(90);
-        }
-
-        if (!engine.terminate()) {
-            Meta.exit(99);
-        }
+        if (!engine.initialize()) { if (!engine.terminate()) { Meta.exit(99); } Meta.exit(90); }
+        if (!engine.run()) { if (!engine.terminate()) { Meta.exit(99); } Meta.exit(90); }
+        if (!engine.terminate()) { Meta.exit(99); }
     }
 }

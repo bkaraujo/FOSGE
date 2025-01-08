@@ -5,12 +5,9 @@ import br.fosge.commons.RT;
 import br.fosge.commons.filesystem.FSTools;
 import br.fosge.commons.filesystem.FSWatcher;
 import br.fosge.commons.logger.LogLevel;
-import br.fosge.commons.tools.Meta;
 import br.fosge.editor.RTKeys;
 
 import javax.swing.*;
-import java.nio.file.Path;
-import java.nio.file.StandardWatchEventKinds;
 
 public class JTreePathTest {
 
@@ -26,10 +23,7 @@ public class JTreePathTest {
         frame.setTitle("FSTree");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        final var rootfs = FSTools.defaultDirectory();
-        final var tree = new FSTree(rootfs);
-
-        frame.getContentPane().add(new JScrollPane(tree));
+        frame.getContentPane().add(new JScrollPane(new FSTree(FSTools.defaultDirectory())));
         SwingUtilities.invokeLater(() -> {
             frame.pack();
             frame.setLocationRelativeTo(null);

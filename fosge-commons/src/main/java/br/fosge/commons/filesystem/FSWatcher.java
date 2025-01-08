@@ -13,6 +13,7 @@ import java.util.concurrent.TimeUnit;
 import static java.nio.file.StandardWatchEventKinds.*;
 
 public final class FSWatcher implements Runnable {
+
     private static WatchService service;
     private static final Map<WatchKey, Path> ofPath = new ConcurrentHashMap<>();
     private static final Map<Path, WatchKey> ofWatchers = new ConcurrentHashMap<>();
@@ -46,16 +47,24 @@ public final class FSWatcher implements Runnable {
 
                 final var path = ofPath.get(watcher);
                 for (final var event : watcher.pollEvents()) {
+                    if (event.kind() == OVERFLOW || event.count() > 1) continue;
                     final var target = Meta.cast(event.context(), Path.class);
                     final var absolute = path.resolve(target);
-                    ofActions.get(path).run(event, absolute);
 
-                    if (event.kind() == ENTRY_DELETE) {
-                        watcher.cancel();
-                        ofPath.remove(watcher);
-                        ofWatchers.remove(path);
-                        ofActions.remove(path);
+                    if (event.kind() == ENTRY_CREATE) {
+                        Logger.trace("ENTRY_CREATE: %s", absolute);
+                        ofActions.get(path).onCreate(absolute);
+                        continue;
                     }
+
+                    if (event.kind() == ENTRY_MODIFY) {
+                        Logger.trace("ENTRY_MODIFY: %s", absolute);
+                        ofActions.get(path).onModify(absolute);
+                        continue;
+                    }
+
+                    Logger.trace("ENTRY_DELETE: %s", absolute);
+                    ofActions.get(path).onDelete(absolute);
                 }
 
                 if (watcher.isValid() && !watcher.reset()) {

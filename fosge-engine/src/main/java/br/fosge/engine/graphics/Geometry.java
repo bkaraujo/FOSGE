@@ -1,6 +1,6 @@
 package br.fosge.engine.graphics;
 
-import br.fosge.annotation.Configurable;
+import br.fosge.commons.annotation.Configurable;
 
 public interface Geometry extends GraphicsObject, Configurable {
 

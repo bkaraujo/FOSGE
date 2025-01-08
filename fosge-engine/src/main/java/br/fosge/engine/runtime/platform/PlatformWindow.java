@@ -1,15 +1,15 @@
 package br.fosge.engine.runtime.platform;
 
-import br.fosge.Logger;
-import br.fosge.MessageBus;
-import br.fosge.annotation.Lifecycle;
+import br.fosge.commons.Logger;
+import br.fosge.commons.MessageBus;
+import br.fosge.commons.annotation.Lifecycle;
+import br.fosge.commons.message.MessageListener;
+import br.fosge.commons.message.MessagePipeline;
 import br.fosge.engine.input.Keyboard;
 import br.fosge.engine.input.Mouse;
 import br.fosge.engine.platform.input.*;
 import br.fosge.engine.platform.window.*;
 import br.fosge.engine.runtime.application.ApplicationYaml;
-import br.fosge.message.MessageListener;
-import br.fosge.message.MessagePipeline;
 import org.lwjgl.glfw.Callbacks;
 import org.lwjgl.system.MemoryUtil;
 

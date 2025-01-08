@@ -11,13 +11,21 @@
 
     <modules>
         <module>../fosge-a-parent</module>
-        <module>../fosge-engine</module>
+        <module>../fosge-commons</module>
     </modules>
 
     <profiles>
         <profile>
-            <id>sandbox</id>
+            <id>editor</id>
             <modules>
+                <module>../fosge-editor</module>
+            </modules>
+        </profile>
+
+        <profile>
+            <id>runtime</id>
+            <modules>
+                <module>../fosge-engine</module>
                 <module>../fosge-sandbox-brakeys</module>
                 <module>../fosge-sandbox-homeland</module>
             </modules>

@@ -1,6 +1,7 @@
 package br.fosge.engine.runtime;
 
-import br.fosge.Logger;
+import br.fosge.Configuration;
+import br.fosge.commons.Logger;
 import br.fosge.engine.diagnostics.Diagnostics;
 import org.lwjgl.system.MemoryUtil;
 

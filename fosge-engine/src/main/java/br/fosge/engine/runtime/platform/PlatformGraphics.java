@@ -1,21 +1,21 @@
 package br.fosge.engine.runtime.platform;
 
-import br.fosge.Logger;
-import br.fosge.MessageBus;
-import br.fosge.annotation.Lifecycle;
+import br.fosge.Configuration;
+import br.fosge.commons.Logger;
+import br.fosge.commons.MessageBus;
+import br.fosge.commons.annotation.Lifecycle;
+import br.fosge.commons.message.MessageListener;
+import br.fosge.commons.message.MessagePipeline;
 import br.fosge.engine.graphics.Geometry;
 import br.fosge.engine.graphics.Shader;
 import br.fosge.engine.graphics.Texture;
 import br.fosge.engine.graphics.Texture2D;
 import br.fosge.engine.platform.window.WindowResizedEvent;
-import br.fosge.engine.runtime.Configuration;
 import br.fosge.engine.runtime.application.ApplicationYaml;
 import br.fosge.engine.runtime.platform.binding.opengl.objects.GLGeometry;
 import br.fosge.engine.runtime.platform.binding.opengl.objects.GLParser;
 import br.fosge.engine.runtime.platform.binding.opengl.objects.GLShader;
 import br.fosge.engine.runtime.platform.binding.opengl.objects.GLTexture2D;
-import br.fosge.message.MessageListener;
-import br.fosge.message.MessagePipeline;
 import org.lwjgl.opengl.GL;
 import org.lwjgl.opengl.GLCapabilities;
 import org.lwjgl.opengl.GLDebugMessageCallback;

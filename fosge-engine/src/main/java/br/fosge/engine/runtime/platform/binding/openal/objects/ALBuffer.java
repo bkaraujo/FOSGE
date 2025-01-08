@@ -1,7 +1,7 @@
 package br.fosge.engine.runtime.platform.binding.openal.objects;
 
+import br.fosge.commons.tools.Meta;
 import br.fosge.engine.audio.AudioBuffer;
-import br.fosge.tools.Meta;
 
 import java.nio.file.Path;
 

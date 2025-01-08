@@ -1,6 +1,6 @@
 package br.fosge.engine.runtime;
 
-import br.fosge.annotation.State;
+import br.fosge.commons.annotation.State;
 import br.fosge.engine.input.Keyboard;
 import br.fosge.engine.input.Mouse;
 import org.joml.Vector2i;

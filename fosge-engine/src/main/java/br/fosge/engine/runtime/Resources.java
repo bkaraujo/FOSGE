@@ -1,7 +1,7 @@
 package br.fosge.engine.runtime;
 
-import br.fosge.Logger;
-import br.fosge.annotation.Facade;
+import br.fosge.commons.Logger;
+import br.fosge.commons.annotation.Facade;
 import br.fosge.engine.audio.AudioBuffer;
 import br.fosge.engine.graphics.Texture;
 import br.fosge.engine.graphics.Texture2D;

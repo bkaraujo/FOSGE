@@ -1,10 +1,10 @@
 package br.fosge.engine.runtime.scene;
 
-import br.fosge.Logger;
-import br.fosge.annotation.Specification;
-import br.fosge.engine.runtime.Configuration;
+import br.fosge.Configuration;
+import br.fosge.commons.Logger;
+import br.fosge.commons.annotation.Specification;
+import br.fosge.commons.tools.Meta;
 import br.fosge.engine.runtime.ecs.component.TransformComponent;
-import br.fosge.tools.Meta;
 import org.joml.Matrix4f;
 import org.joml.Matrix4fc;
 import org.joml.Vector3f;

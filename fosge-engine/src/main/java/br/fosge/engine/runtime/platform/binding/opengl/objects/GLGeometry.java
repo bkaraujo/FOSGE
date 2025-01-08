@@ -1,17 +1,17 @@
 package br.fosge.engine.runtime.platform.binding.opengl.objects;
 
-import br.fosge.Logger;
-import br.fosge.annotation.Specification;
+import br.fosge.Configuration;
+import br.fosge.commons.Logger;
+import br.fosge.commons.annotation.Specification;
+import br.fosge.commons.tools.Meta;
 import br.fosge.engine.diagnostics.Diagnostics;
 import br.fosge.engine.graphics.DataType;
 import br.fosge.engine.graphics.DrawMode;
 import br.fosge.engine.graphics.Geometry;
 import br.fosge.engine.graphics.geometry.GeometrySpec;
-import br.fosge.engine.runtime.Configuration;
 import br.fosge.engine.runtime.Memory;
 import br.fosge.engine.runtime.platform.PlatformState;
 import br.fosge.engine.runtime.platform.binding.opengl.api.GL11;
-import br.fosge.tools.Meta;
 
 import java.nio.ByteBuffer;
 

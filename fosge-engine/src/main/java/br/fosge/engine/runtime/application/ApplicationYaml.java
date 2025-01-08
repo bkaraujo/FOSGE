@@ -1,13 +1,13 @@
 package br.fosge.engine.runtime.application;
 
-import br.fosge.Logger;
 import br.fosge.Version;
+import br.fosge.commons.Logger;
+import br.fosge.commons.graphics.Resolution;
+import br.fosge.commons.logger.LogLevel;
+import br.fosge.commons.tools.Meta;
+import br.fosge.commons.tools.Yaml;
 import br.fosge.engine.configuration.*;
 import br.fosge.engine.ecs.ComponentType;
-import br.fosge.graphics.Resolution;
-import br.fosge.logger.LogLevel;
-import br.fosge.tools.Meta;
-import br.fosge.tools.Yaml;
 
 import java.util.ArrayList;
 import java.util.List;

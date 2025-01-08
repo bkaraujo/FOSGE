@@ -1,6 +1,6 @@
-package br.fosge.engine.diagnostics;
+package br.fosge.commons.diagnostics;
 
-import br.fosge.Logger;
+import br.fosge.commons.Logger;
 
 public final class ReportThread extends Thread implements Runnable {
     public ReportThread() {
@@ -20,7 +20,7 @@ public final class ReportThread extends Thread implements Runnable {
                 Logger.debug(
                         "Java Heap (On/Off): (%.2f / %.2f) MB",
                         (total - free) / (1024.0 * 1024.0),
-                        Diagnostics.offHeap / (1024.0 * 1024.0)
+                        Diagnostics.offHeap() / (1024.0 * 1024.0)
                 );
 
                 System.gc();

@@ -1,14 +1,14 @@
 package br.fosge.engine.runtime.platform.binding.opengl.objects;
 
-import br.fosge.Logger;
-import br.fosge.annotation.Specification;
+import br.fosge.Configuration;
+import br.fosge.commons.Logger;
+import br.fosge.commons.annotation.Specification;
+import br.fosge.commons.tools.Meta;
 import br.fosge.engine.diagnostics.Diagnostics;
 import br.fosge.engine.graphics.Shader;
 import br.fosge.engine.graphics.shader.ShaderSpec;
-import br.fosge.engine.runtime.Configuration;
 import br.fosge.engine.runtime.platform.PlatformState;
 import br.fosge.engine.runtime.platform.binding.opengl.api.GL11;
-import br.fosge.tools.Meta;
 import org.joml.*;
 import org.lwjgl.system.MemoryStack;
 

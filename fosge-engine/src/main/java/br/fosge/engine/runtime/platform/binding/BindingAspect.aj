@@ -1,7 +1,7 @@
 package br.fosge.engine.runtime.platform.binding;
 
-import br.fosge.Logger;
-import br.fosge.engine.runtime.Configuration;
+import br.fosge.Configuration;
+import br.fosge.commons.Logger;
 import br.fosge.engine.runtime.platform.PlatformState;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;

@@ -1,6 +1,6 @@
 package br.fosge.engine.runtime.platform.binding.opengl.objects;
 
-import br.fosge.Logger;
+import br.fosge.commons.Logger;
 import br.fosge.engine.diagnostics.Diagnostics;
 import br.fosge.engine.graphics.Texture2D;
 import br.fosge.engine.runtime.platform.binding.opengl.api.GL11;

@@ -1,16 +1,16 @@
 package br.fosge.engine.runtime.ecs;
 
-import br.fosge.Logger;
+import br.fosge.Configuration;
+import br.fosge.commons.Logger;
+import br.fosge.commons.tools.Meta;
 import br.fosge.engine.configuration.Tuple;
 import br.fosge.engine.ecs.Component;
 import br.fosge.engine.ecs.ComponentType;
-import br.fosge.engine.runtime.Configuration;
 import br.fosge.engine.runtime.Threads;
 import br.fosge.engine.runtime.ecs.component.AudioSourceComponent;
 import br.fosge.engine.runtime.ecs.component.BehaviourComponent;
 import br.fosge.engine.runtime.ecs.component.MeshComponent;
 import br.fosge.engine.runtime.ecs.component.TransformComponent;
-import br.fosge.tools.Meta;
 import com.github.f4b6a3.ulid.Ulid;
 import com.github.f4b6a3.ulid.UlidCreator;
 

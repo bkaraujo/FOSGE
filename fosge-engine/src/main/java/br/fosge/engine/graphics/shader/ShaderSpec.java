@@ -1,6 +1,6 @@
 package br.fosge.engine.graphics.shader;
 
-import br.fosge.annotation.Specification;
+import br.fosge.commons.annotation.Specification;
 
 public record ShaderSpec (
     ShaderSource ... source

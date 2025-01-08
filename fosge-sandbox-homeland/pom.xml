@@ -21,7 +21,7 @@
         <dependency>
             <groupId>br.fosge</groupId>
             <artifactId>fosge-engine</artifactId>
-            <version>0.1.0</version>
+            <version>${fosge.version}</version>
         </dependency>
     </dependencies>
 
@@ -41,7 +41,7 @@
                         </goals>
                         <configuration>
                             <shadedArtifactAttached>true</shadedArtifactAttached>
-                            <shadedClassifierName>no-deps-${profile.platform}</shadedClassifierName>
+                            <shadedClassifierName>no-deps-${fosge.platform}</shadedClassifierName>
                             <filters>
                                 <filter>
                                     <!-- exclude files that sign a jar -->
@@ -66,7 +66,7 @@
                                     <file>${project.build.directory}/tmp/META-INF/MANIFEST.MF</file>
                                 </transformer>
                                 <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
-                                    <mainClass>${project.mainClass}</mainClass>
+                                    <mainClass>${fosge.mainClass}</mainClass>
                                 </transformer>
                             </transformers>
                         </configuration>
@@ -93,7 +93,7 @@
                             </execution>
                         </executions>
                         <configuration>
-                            <mainClass>${project.mainClass}</mainClass>
+                            <mainClass>${fosge.mainClass}</mainClass>
                             <arguments>X:\java\FOSGE\fosge-sandbox-homeland</arguments>
                         </configuration>
                     </plugin>

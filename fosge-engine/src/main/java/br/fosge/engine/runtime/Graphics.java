@@ -1,6 +1,6 @@
 package br.fosge.engine.runtime;
 
-import br.fosge.annotation.Facade;
+import br.fosge.commons.annotation.Facade;
 import br.fosge.engine.graphics.Geometry;
 import br.fosge.engine.graphics.Shader;
 import br.fosge.engine.graphics.Texture;

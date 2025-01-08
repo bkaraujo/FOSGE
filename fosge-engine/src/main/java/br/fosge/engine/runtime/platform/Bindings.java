@@ -1,5 +1,6 @@
 package br.fosge.engine.runtime.platform;
 
+import br.fosge.commons.tools.Meta;
 import br.fosge.engine.runtime.platform.binding.GLFW;
 import br.fosge.engine.runtime.platform.binding.OpenAL;
 import br.fosge.engine.runtime.platform.binding.OpenGL;
@@ -10,7 +11,6 @@ import br.fosge.engine.runtime.platform.binding.stb.api.STBImage;
 import br.fosge.engine.runtime.platform.binding.stb.api.STBVorbis;
 import br.fosge.engine.runtime.platform.binding.stb.impl.STBImageImpl;
 import br.fosge.engine.runtime.platform.binding.stb.impl.STBVorbisImpl;
-import br.fosge.tools.Meta;
 
 public abstract class Bindings {
     private Bindings() { /* Private constructor */ }

@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>br.fosge</groupId>
+        <artifactId>fosge-a-parent</artifactId>
+        <version>1.0.0</version>
+        <relativePath>../fosge-a-parent</relativePath>
+    </parent>
+
+    <artifactId>fosge-commons</artifactId>
+    <version>${fosge.version}</version>
+    <packaging>jar</packaging>
+
+
+    <properties>
+        <dependency.runtime.joml>1.10.7</dependency.runtime.joml>
+        <dependency.runtime.joml-p>1.10.0</dependency.runtime.joml-p>
+        <dependency.runtime.ulid>5.2.3</dependency.runtime.ulid>
+    </properties>
+
+    <dependencies>
+        <dependency><groupId>org.joml</groupId><artifactId>joml</artifactId><version>${dependency.runtime.joml}</version></dependency>
+        <dependency><groupId>org.joml</groupId><artifactId>joml-primitives</artifactId><version>${dependency.runtime.joml-p}</version></dependency>
+        <dependency><groupId>com.github.f4b6a3</groupId><artifactId>ulid-creator</artifactId><version>${dependency.runtime.ulid}</version></dependency>
+
+        <dependency><groupId>com.miglayout</groupId><artifactId>miglayout-swing</artifactId><version>11.4.2</version></dependency>
+        <dependency><groupId>com.formdev</groupId><artifactId>flatlaf</artifactId><version>3.2.1</version></dependency>
+        <dependency><groupId>com.formdev</groupId><artifactId>flatlaf-extras</artifactId><version>3.2.1</version></dependency>
+    </dependencies>
+</project>

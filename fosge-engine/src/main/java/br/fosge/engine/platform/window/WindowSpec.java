@@ -1,7 +1,7 @@
 package br.fosge.engine.platform.window;
 
-import br.fosge.annotation.Specification;
-import br.fosge.graphics.Resolution;
+import br.fosge.commons.annotation.Specification;
+import br.fosge.commons.graphics.Resolution;
 
 public record WindowSpec(
         String title,

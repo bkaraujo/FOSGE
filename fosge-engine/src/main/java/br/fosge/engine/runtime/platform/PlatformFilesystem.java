@@ -1,6 +1,6 @@
 package br.fosge.engine.runtime.platform;
 
-import br.fosge.Logger;
+import br.fosge.commons.Logger;
 
 import java.io.IOException;
 import java.io.InputStream;

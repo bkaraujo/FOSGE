@@ -1,6 +1,6 @@
 package br.fosge.engine.runtime.ecs.component;
 
-import br.fosge.Logger;
+import br.fosge.commons.Logger;
 import br.fosge.engine.configuration.Tuple;
 import br.fosge.engine.ecs.Component;
 import br.fosge.engine.ecs.ComponentType;

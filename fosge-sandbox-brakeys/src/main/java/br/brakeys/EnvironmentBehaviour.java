@@ -1,6 +1,6 @@
 package br.brakeys;
 
-import br.fosge.Time;
+import br.fosge.commons.Time;
 import br.fosge.engine.ecs.ComponentType;
 import br.fosge.engine.runtime.ecs.ECS;
 import br.fosge.engine.runtime.ecs.component.BehaviourComponent;

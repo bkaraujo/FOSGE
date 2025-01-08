@@ -1,9 +1,12 @@
 package br.fosge.engine.runtime;
 
-import br.fosge.Logger;
-import br.fosge.MessageBus;
-import br.fosge.Time;
-import br.fosge.annotation.Lifecycle;
+import br.fosge.commons.Logger;
+import br.fosge.commons.MessageBus;
+import br.fosge.commons.RT;
+import br.fosge.commons.Time;
+import br.fosge.commons.annotation.Lifecycle;
+import br.fosge.commons.message.MessageListener;
+import br.fosge.commons.message.MessagePipeline;
 import br.fosge.engine.ecs.System;
 import br.fosge.engine.platform.window.WindowClosedEvent;
 import br.fosge.engine.platform.window.WindowMinimizedEvent;
@@ -13,8 +16,6 @@ import br.fosge.engine.runtime.ecs.system.AudioSystem;
 import br.fosge.engine.runtime.platform.InputListener;
 import br.fosge.engine.runtime.platform.PlatformState;
 import br.fosge.engine.runtime.scene.Scene;
-import br.fosge.message.MessageListener;
-import br.fosge.message.MessagePipeline;
 import org.lwjgl.glfw.GLFWErrorCallback;
 
 import java.util.ArrayList;
@@ -25,8 +26,6 @@ import static br.fosge.engine.runtime.platform.Bindings.glfw;
 
 public final class Engine implements Lifecycle {
     private GLFWErrorCallback glfwErrorCallback;
-    private boolean running;
-    private boolean suspended;
     private Scene scene;
     private final List<System> systems = new ArrayList<>();
 
@@ -88,8 +87,6 @@ public final class Engine implements Lifecycle {
         Logger.debug("FPS: %d", RuntimeState.framePerSecond);
         glfw.glfwShowWindow(PlatformState.window);
 
-        running = true;
-
         final var STEP = 1 / 100d;
 
         long timer = Time.millis();
@@ -97,10 +94,11 @@ public final class Engine implements Lifecycle {
         double accumulator = 0f;
         final var baseTitle = ApplicationYaml.get().application().window().title();
 
-        while (running) {
+        RT.running = true;
+        while (RT.running) {
             RuntimeState.frame++;
 
-            if (!suspended) {
+            if (!RT.suspended) {
                 RuntimeState.framePerSecond++;
                 final var delta = Time.seconds() - lastTime;
 
@@ -143,22 +141,19 @@ public final class Engine implements Lifecycle {
 
     @MessageListener
     public MessagePipeline handle(WindowClosedEvent event) {
-        running = false;
-        Logger.trace("Engine.running = false");
+        RT.running = false;
         return MessagePipeline.CONSUMED;
     }
 
     @MessageListener
     public MessagePipeline handle(WindowMinimizedEvent event) {
-        suspended = true;
-        Logger.trace("Engine.suspended = true");
+        RT.suspended = true;
         return MessagePipeline.CONSUMED;
     }
 
     @MessageListener
     public MessagePipeline handle(WindowRestoredEvent event) {
-        suspended = false;
-        Logger.trace("Engine.suspended = false");
+        RT.suspended = false;
         return MessagePipeline.CONSUMED;
     }
 

@@ -1,11 +1,11 @@
 package br.fosge.engine.runtime.platform;
 
-import br.fosge.Logger;
-import br.fosge.annotation.Lifecycle;
+import br.fosge.Configuration;
+import br.fosge.commons.Logger;
+import br.fosge.commons.annotation.Lifecycle;
 import br.fosge.engine.audio.AudioBuffer;
 import br.fosge.engine.audio.AudioSource;
 import br.fosge.engine.diagnostics.Diagnostics;
-import br.fosge.engine.runtime.Configuration;
 import br.fosge.engine.runtime.Memory;
 import br.fosge.engine.runtime.Threads;
 import br.fosge.engine.runtime.platform.binding.openal.objects.ALBuffer;

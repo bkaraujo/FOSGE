@@ -1,13 +1,13 @@
 package br.fosge.engine.runtime.scene;
 
-import br.fosge.Logger;
-import br.fosge.annotation.Lifecycle;
+import br.fosge.commons.Logger;
+import br.fosge.commons.annotation.Lifecycle;
+import br.fosge.commons.tools.Meta;
 import br.fosge.engine.ecs.Component;
 import br.fosge.engine.ecs.ComponentType;
 import br.fosge.engine.runtime.application.OnFrame;
 import br.fosge.engine.runtime.ecs.ECS;
 import br.fosge.engine.runtime.ecs.component.TransformComponent;
-import br.fosge.tools.Meta;
 import com.github.f4b6a3.ulid.Ulid;
 
 import java.util.Arrays;

@@ -27,9 +27,10 @@ public sealed class FatalForwarder implements LogForwarder permits ErrorForwarde
     protected final void forward(LogRecord record) {
         final var frame = Meta.stackTrace().get(3);
 
-        Logger.channel().write("%s%s %5s %s:%d - %s".formatted(
+        Logger.channel().write("%s%s %-20s %5s %s:%d - %s".formatted(
                 record.level().color,
                 sdf.format(new Date(record.timestamp())),
+                Thread.currentThread().getName(),
                 record.level().name(),
                 frame.className(),
                 frame.lineNumber(),

@@ -31,15 +31,12 @@ public final class FSWatcher implements Runnable {
     @Override
     public void run() {
         if (service == null) return;
-        final var thread = Thread.currentThread();
-        thread.setName("FOSGE::FSWatcher");
 
-        while (RT.running) {
-            final WatchKey watcher;
-
-            try {
-                watcher = service.poll(100, TimeUnit.MILLISECONDS);
+        try {
+            while (RT.running) {
+                final var watcher = service.poll(100, TimeUnit.MILLISECONDS);
                 if (watcher == null) continue;
+
                 if (!ofPath.containsKey(watcher)) {
                     Logger.warn("Watcher not recognized: %s", watcher);
                     continue;
@@ -68,20 +65,25 @@ public final class FSWatcher implements Runnable {
                 }
 
                 if (watcher.isValid() && !watcher.reset()) {
-                    Logger.warn("Watcher %s reset failed", path);
+                    Logger.debug("Removing watcher %s", path);
                     watcher.cancel();
                     ofPath.remove(watcher);
                     ofWatchers.remove(path);
                     ofActions.remove(path);
                 }
+            }
+        } catch (Throwable throwable) {
+            Logger.error("What?? %s", throwable);
 
-            } catch (InterruptedException _) {}
+        } finally {
+            Logger.debug("Releasing resources");
+            ofPath.clear();
+            ofActions.clear();
+            ofWatchers.values().forEach(WatchKey::cancel);
+            ofWatchers.clear();
         }
 
-        ofPath.clear();
-        ofActions.clear();
-        ofWatchers.values().forEach(WatchKey::cancel);
-        ofWatchers.clear();
+        Logger.debug("Done");
     }
 
     public static void watchTree(final Path path, final WatchDogAction action) {

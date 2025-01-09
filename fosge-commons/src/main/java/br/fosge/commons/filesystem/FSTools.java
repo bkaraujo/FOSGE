@@ -3,10 +3,8 @@ package br.fosge.commons.filesystem;
 import br.fosge.commons.Logger;
 
 import javax.swing.filechooser.FileSystemView;
-import java.io.IOException;
 import java.nio.file.*;
 import java.nio.file.attribute.BasicFileAttributes;
-import java.util.stream.Stream;
 
 public abstract class FSTools {
     private FSTools() {}

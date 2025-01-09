@@ -34,7 +34,7 @@ public final class ProjectCreateCommand implements Command {
     }
 
     private void insertKnownProject(final Map<String, ?> values) {
-        final var yaml = RT.get(RTKeys.Editor.PROJECTS, Yaml.class);
+        final var yaml = RT.get(RTKeys.Editor.PROJECTS_FILE, Yaml.class);
         final var projectName = Meta.cast(values.get(RTKeys.Project.NAME), String.class);
         projectPath = Path.of(Meta.cast(values.get(RTKeys.Project.PATH), String.class), projectName.toLowerCase());
         yaml.append("projects", "path", projectPath.toString());

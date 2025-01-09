@@ -1,6 +1,7 @@
 package br.fosge.editor.ui.component;
 
 import br.fosge.commons.Logger;
+import br.fosge.commons.filesystem.FSWatcher;
 import br.fosge.commons.tools.Meta;
 
 import javax.swing.*;
@@ -16,12 +17,16 @@ public final class FSTree extends JTree {
     public FSTree(final Path path) {
         rootfs = path;
         model = new DefaultTreeModel(new DefaultMutableTreeNode(new FSTreeData(rootfs), true));
-        try { Files.walkFileTree(path, new FSTreeWalker(this)); }
-        catch (Throwable throwable) { Logger.error("Failed to walk %s: %s", rootfs, throwable); }
+
+        try {
+            FSWatcher.watchSingle(path, new FSTreeWatcher(this));
+            Files.walkFileTree(rootfs, new FSTreeWalker(this));
+        } catch (Throwable throwable) {
+            Logger.error("Failed to walk %s: %s", rootfs, throwable);
+        }
 
         setRootVisible(true);
         setModel(model);
-        repaint();
     }
 
     public void attach(final String ... elements) {
@@ -75,9 +80,7 @@ public final class FSTree extends JTree {
                 }
             }
 
-            if (!found) {
-                node = null;
-            }
+            if (!found) { node = null; }
         }
 
         if (node != null) {
@@ -87,5 +90,4 @@ public final class FSTree extends JTree {
             model.nodeStructureChanged(parent);
         }
     }
-
 }

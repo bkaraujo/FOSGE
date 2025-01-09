@@ -2,6 +2,7 @@ package br.fosge.editor.ui.component;
 
 import br.fosge.commons.Logger;
 import br.fosge.commons.RT;
+import br.fosge.commons.concurrent.Threads;
 import br.fosge.commons.filesystem.FSTools;
 import br.fosge.commons.filesystem.FSWatcher;
 import br.fosge.commons.logger.LogLevel;
@@ -15,9 +16,10 @@ public class JTreePathTest {
         Logger.level(LogLevel.TRACE);
 
         RT.running = true;
-        RT.set(RTKeys.Swing.MULTI_CLICK_INTERVAL, Integer.class, 250);
+        RT.set(RTKeys.UI.MULTI_CLICK_INTERVAL, Integer.class, 250);
 
-        new Thread(new FSWatcher()).start();
+
+        Threads.system(new FSWatcher());
 
         final var frame = new JFrame();
         frame.setTitle("FSTree");

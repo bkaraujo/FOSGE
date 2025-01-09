@@ -3,7 +3,9 @@ package br.fosge.editor.ui.container;
 import br.fosge.commons.Logger;
 import br.fosge.commons.RT;
 import br.fosge.commons.annotation.Lifecycle;
+import br.fosge.commons.concurrent.Threads;
 import br.fosge.commons.tools.Meta;
+import br.fosge.editor.RTKeys;
 import com.formdev.flatlaf.FlatDarkLaf;
 
 import javax.swing.*;
@@ -32,8 +34,8 @@ public class FGFrame extends JFrame implements Lifecycle {
     public FGFrame(String title, GraphicsConfiguration gc) {
         super(title, gc);
 
-        var count = RT.getInt("fosge.editor.windows");
-        RT.set("fosge.editor.windows", Integer.class, count == null ? 1 : count + 1);
+        var count = RT.getInt(RTKeys.UI.WINDOWS);
+        RT.set(RTKeys.UI.WINDOWS, Integer.class, count == null ? 1 : count + 1);
     }
 
     public Map<String, ?> values() {
@@ -82,14 +84,9 @@ public class FGFrame extends JFrame implements Lifecycle {
         setVisible(false);
         SwingUtilities.invokeLater(super::dispose);
         SwingUtilities.invokeLater(() -> {
-            var count = RT.getInt("fosge.editor.windows");
-            if (count == null) { Logger.error("Wrong window count @ fosge.editor.windows"); }
-            RT.set("fosge.editor.windows", Integer.class, count == null ? 0 : count - 1);
-
-            if (RT.getInt("fosge.editor.windows") == 0) {
-                Logger.debug("No more window showing ...");
-                Meta.exit(0);
-            }
+            var count = RT.getInt(RTKeys.UI.WINDOWS);
+            if (count == null) { Logger.error("Wrong window count @ %s", RTKeys.UI.WINDOWS); }
+            RT.set(RTKeys.UI.WINDOWS, Integer.class, count == null ? 0 : count - 1);
         });
     }
 }

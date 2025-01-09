@@ -11,7 +11,7 @@ public class MouseAdapter implements ActionListener, MouseListener, MouseWheelLi
     private final Timer timer;
 
     public MouseAdapter() {
-        timer = new Timer(RT.getInt(RTKeys.Swing.MULTI_CLICK_INTERVAL), MouseAdapter.this);
+        timer = new Timer(RT.getInt(RTKeys.UI.MULTI_CLICK_INTERVAL), MouseAdapter.this);
     }
 
     @Override

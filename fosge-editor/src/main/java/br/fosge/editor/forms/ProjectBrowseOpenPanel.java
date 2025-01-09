@@ -26,7 +26,7 @@ public final class ProjectBrowseOpenPanel extends FGPanel {
         setLayout(new MigLayout("filly, insets 20 50 20 50", "[][grow]"));
         final var pnlProjects = FGPanel.newBoxVertical(); {
             try {
-                final var yaml = RT.get(RTKeys.Editor.PROJECTS, Yaml.class);
+                final var yaml = RT.get(RTKeys.Editor.PROJECTS_FILE, Yaml.class);
                 for (final var project : yaml.list("projects")) {
                     final var projectPath = project.asString("path");
                     final var tokens = projectPath.split("\\\\");

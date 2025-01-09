@@ -11,6 +11,7 @@ public abstract class RTKeys {
 
         public static final String MULTI_CLICK_INTERVAL = "fosge.editor.ui.multiClickInterval";
         public static final String WINDOWS = "fosge.editor.ui.open-window";
+        public static final String LAST_FOCUS = "fosge.editor.ui.lastFocus";
     }
 
     public static abstract class Editor {

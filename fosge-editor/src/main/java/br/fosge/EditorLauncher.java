@@ -9,7 +9,6 @@ import br.fosge.commons.tools.Meta;
 import br.fosge.commons.tools.Yaml;
 import br.fosge.editor.RTKeys;
 import br.fosge.editor.command.Commands;
-import br.fosge.editor.ui.UIState;
 
 import java.awt.*;
 import java.awt.event.AWTEventListener;
@@ -82,8 +81,9 @@ public final class EditorLauncher {
             if (event.getID() != FocusEvent.FOCUS_LOST) return;
 
             final var component = Meta.cast(event.getSource(), Component.class);
-            if (component != UIState.lastFocus) { UIState.lastFocus = component; }
-
+            if (component != RT.get(RTKeys.UI.LAST_FOCUS, Component.class)) {
+                RT.set(RTKeys.UI.LAST_FOCUS, Component.class, component);
+            }
         }
     }
 }

@@ -3,10 +3,9 @@ package br.fosge.editor.ui.container;
 import br.fosge.commons.Logger;
 import br.fosge.commons.RT;
 import br.fosge.commons.annotation.Lifecycle;
-import br.fosge.commons.concurrent.Threads;
 import br.fosge.commons.tools.Meta;
 import br.fosge.editor.RTKeys;
-import com.formdev.flatlaf.FlatDarkLaf;
+import br.fosge.editor.ui.component.FGMenuItem;
 
 import javax.swing.*;
 import java.awt.*;
@@ -14,10 +13,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class FGFrame extends JFrame implements Lifecycle {
-
-    static {
-        FlatDarkLaf.setup();
-    }
 
     public FGFrame() {
         this(null, null);
@@ -36,15 +31,6 @@ public class FGFrame extends JFrame implements Lifecycle {
 
         var count = RT.getInt(RTKeys.UI.WINDOWS);
         RT.set(RTKeys.UI.WINDOWS, Integer.class, count == null ? 1 : count + 1);
-    }
-
-    public Map<String, ?> values() {
-        Logger.fatal("Implementation missing");
-        return new HashMap<>();
-    }
-
-    public void reset() {
-        Logger.fatal("Implementation missing");
     }
 
     @Override
@@ -79,14 +65,43 @@ public class FGFrame extends JFrame implements Lifecycle {
         return true;
     }
 
+    public final void addMenu(String menu, FGMenuItem ... items) {
+        final var mnu = new JMenu(menu);
+        mnu.addSeparator();
+        for (final var item : items) {
+            if (item.title() == null && item.action() == null) {
+                mnu.addSeparator();
+                continue;
+            }
+
+            mnu.add(item.asMenuItem());
+        }
+
+        var menuBar = getJMenuBar();
+        if (menuBar == null) {
+            menuBar = new JMenuBar();
+            setJMenuBar(menuBar);
+        }
+
+        menuBar.add(mnu);
+    }
+
+    public Map<String, ?> values() {
+        Logger.fatal("Implementation missing");
+        return new HashMap<>();
+    }
+
+    public void reset() {
+        Logger.fatal("Implementation missing");
+    }
+
     @Override
-    public void dispose() {
+    public final void dispose() {
         setVisible(false);
-        SwingUtilities.invokeLater(super::dispose);
-        SwingUtilities.invokeLater(() -> {
-            var count = RT.getInt(RTKeys.UI.WINDOWS);
-            if (count == null) { Logger.error("Wrong window count @ %s", RTKeys.UI.WINDOWS); }
-            RT.set(RTKeys.UI.WINDOWS, Integer.class, count == null ? 0 : count - 1);
-        });
+        super.dispose();
+
+        var count = RT.getInt(RTKeys.UI.WINDOWS);
+        if (count == null) { Logger.error("Wrong window count @ %s", RTKeys.UI.WINDOWS); }
+        RT.set(RTKeys.UI.WINDOWS, Integer.class, count == null ? 0 : count - 1);
     }
 }

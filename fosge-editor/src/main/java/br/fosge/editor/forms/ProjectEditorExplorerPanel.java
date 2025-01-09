@@ -5,6 +5,8 @@ import br.fosge.editor.ui.container.FGFrame;
 import br.fosge.editor.ui.container.FGPanel;
 
 import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ComponentAdapter;
 import java.nio.file.Path;
 
 public class ProjectEditorExplorerPanel extends FGPanel {
@@ -16,5 +18,6 @@ public class ProjectEditorExplorerPanel extends FGPanel {
         tree = new FSTree(rootfs);
 
         add(new JScrollPane(tree));
+        setPreferredSize(tree.getPreferredSize());
     }
 }

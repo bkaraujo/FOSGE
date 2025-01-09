@@ -24,6 +24,11 @@ public final class ProjectOpenCommand implements Command {
             if (yaml.isEmpty()) { Logger.warn("Failed to read project.yml"); return false; }
 
             final var frame = new ProjectEditor(rootfs, yaml);
+            if (!frame.initialize()) {
+                Logger.error("Failed to initialize editor");
+                return false;
+            }
+
             SWTools.toScreenCenter(frame);
             frame.setVisible(true);
 

@@ -55,6 +55,7 @@ public abstract class Meta {
     }
 
     public static void exit(int code) {
+        Logger.trace("System.exit(%d)", code);
         System.exit(code);
     }
 

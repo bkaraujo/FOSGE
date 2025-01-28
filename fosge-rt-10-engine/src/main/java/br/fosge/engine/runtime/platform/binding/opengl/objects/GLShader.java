@@ -294,6 +294,19 @@ public final class GLShader implements Shader {
     }
 
     @Override
+    public int hashCode() {
+        return fileName.hashCode();
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) return false;
+        if (!Meta.assignable(obj, GLShader.class)) return false;
+        if (fileName == null) return false;
+        return fileName.equals(Meta.cast(obj, GLShader.class).fileName);
+    }
+
+    @Override
     public boolean terminate() {
         if (program != GL11.GL_NONE) {
             opengl.glDeleteProgram(program);

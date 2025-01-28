@@ -65,9 +65,8 @@ public abstract class ECS implements Facade {
     }
 
     public static Component attach(Ulid entity, ComponentType type, Tuple... properties) {
-        if (RT.debug && !entities.contains(entity)) {
-            Logger.fatal("Unknown entity %s", entity);
-        }
+        if (RT.debug && !entities.contains(entity)) { Logger.fatal("Unknown entity %s", entity); }
+        Logger.debug("Entity %s :: attaching %s", entity, type);
 
         final var instance = switch (type) {
             case TRANSFORM_COMPONENT -> TransformComponent.create(properties);
@@ -79,7 +78,6 @@ public abstract class ECS implements Facade {
         if (instance == null) { return null; }
         Meta.set(instance, "owner", entity);
 
-        Logger.debug("Entity %s :: attaching %s", instance.owner, type);
         ofEntities.get(entity).add(instance);
         ofComponents.computeIfAbsent(type, _ -> new ConcurrentLinkedQueue<>()).add(instance);
 

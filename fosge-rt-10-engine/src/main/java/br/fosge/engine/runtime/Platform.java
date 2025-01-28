@@ -45,6 +45,7 @@ public abstract class Platform implements Facade {
         if (!audio.initialize()) { return false; }
         if (!input.initialize()) { return false; }
 
+        Logger.info("Platform initialized");
         return true;
     }
 

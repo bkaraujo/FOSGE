@@ -12,6 +12,7 @@ import org.joml.*;
 import org.lwjgl.system.MemoryStack;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -19,8 +20,13 @@ import static br.fosge.engine.runtime.platform.Bindings.opengl;
 import static br.fosge.engine.runtime.platform.binding.OpenGL.*;
 
 public final class GLShader implements Shader {
+    /** Bind position of the uniform */
+    private final Map<String, Integer> unPosition = new HashMap<>();
+
+    /** Last applied value of the uniform */
+    private final Map<String, Object> unValue = new HashMap<>();
+
     private int program = GL11.GL_NONE;
-    private final Map<String, Integer> uniforms = new HashMap<>();
     private int references;
     private String fileName;
 
@@ -137,7 +143,7 @@ public final class GLShader implements Shader {
                     for (int i = 0; i < uniformCount; i++) {
                         final var name = opengl.glGetActiveUniform(program, i, pLength, pType);
                         Logger.trace("[Shader %d] Found uniform name \"%s\"", program, name);
-                        uniforms.put(name, opengl.glGetUniformLocation(program, name));
+                        unPosition.put(name, opengl.glGetUniformLocation(program, name));
                     }
                 }
             }
@@ -155,7 +161,7 @@ public final class GLShader implements Shader {
 
     @Override
     public boolean uniform(String name, int ... values) {
-        if (!uniforms.containsKey(name)) {
+        if (!unPosition.containsKey(name)) {
             Logger.warn("Uniform %s not found", name);
             return false;
         }
@@ -165,11 +171,18 @@ public final class GLShader implements Shader {
             return false;
         }
 
+        if (unValue.containsKey(name)) {
+            final var lastValue = unValue.get(name);
+            if (Arrays.equals((int[]) lastValue, values)) {
+                return true;
+            }
+        }
+
         switch (values.length) {
-            case 1 -> opengl.glProgramUniform1iv(program, uniforms.get(name), values);
-            case 2 -> opengl.glProgramUniform2iv(program, uniforms.get(name), values);
-            case 3 -> opengl.glProgramUniform3iv(program, uniforms.get(name), values);
-            case 4 -> opengl.glProgramUniform4iv(program, uniforms.get(name), values);
+            case 1 -> opengl.glProgramUniform1iv(program, unPosition.get(name), values);
+            case 2 -> opengl.glProgramUniform2iv(program, unPosition.get(name), values);
+            case 3 -> opengl.glProgramUniform3iv(program, unPosition.get(name), values);
+            case 4 -> opengl.glProgramUniform4iv(program, unPosition.get(name), values);
         }
 
         return true;
@@ -177,7 +190,7 @@ public final class GLShader implements Shader {
 
     @Override
     public boolean uniform(String name, float ... values) {
-        if (!uniforms.containsKey(name)) {
+        if (!unPosition.containsKey(name)) {
             Logger.warn("Uniform %s not found", name);
             return false;
         }
@@ -187,11 +200,18 @@ public final class GLShader implements Shader {
             return false;
         }
 
+        if (unValue.containsKey(name)) {
+            final var lastValue = unValue.get(name);
+            if (Arrays.equals((float[]) lastValue, values)) {
+                return true;
+            }
+        }
+
         switch (values.length) {
-            case 1 -> opengl.glProgramUniform1fv(program, uniforms.get(name), values);
-            case 2 -> opengl.glProgramUniform2fv(program, uniforms.get(name), values);
-            case 3 -> opengl.glProgramUniform3fv(program, uniforms.get(name), values);
-            case 4 -> opengl.glProgramUniform4fv(program, uniforms.get(name), values);
+            case 1 -> opengl.glProgramUniform1fv(program, unPosition.get(name), values);
+            case 2 -> opengl.glProgramUniform2fv(program, unPosition.get(name), values);
+            case 3 -> opengl.glProgramUniform3fv(program, unPosition.get(name), values);
+            case 4 -> opengl.glProgramUniform4fv(program, unPosition.get(name), values);
         }
 
         return true;
@@ -224,7 +244,7 @@ public final class GLShader implements Shader {
 
     @Override
     public boolean uniform(String name, int rows, int columns, float ... values) {
-        if (!uniforms.containsKey(name)) {
+        if (!unPosition.containsKey(name)) {
             Logger.warn("Uniform %s not found", name);
             return false;
         }
@@ -244,21 +264,29 @@ public final class GLShader implements Shader {
             return false;
         }
 
+        if (unValue.containsKey(name)) {
+            final var lastValue = unValue.get(name);
+            if (Arrays.equals((float[]) lastValue, values)) {
+                return true;
+            }
+        }
+
+        unValue.put(name, values);
         switch (rows) {
             case 2: switch (columns) {
-                case 2: opengl.glProgramUniformMatrix2fv  (program, uniforms.get(name), false, values); break;
-                case 3: opengl.glProgramUniformMatrix2x3fv(program, uniforms.get(name), false, values); break;
-                case 4: opengl.glProgramUniformMatrix2x4fv(program, uniforms.get(name), false, values); break;
+                case 2: opengl.glProgramUniformMatrix2fv  (program, unPosition.get(name), false, values); break;
+                case 3: opengl.glProgramUniformMatrix2x3fv(program, unPosition.get(name), false, values); break;
+                case 4: opengl.glProgramUniformMatrix2x4fv(program, unPosition.get(name), false, values); break;
             } break ;
             case 3: switch (columns) {
-                case 2: opengl.glProgramUniformMatrix3x2fv(program, uniforms.get(name), false, values); break;
-                case 3: opengl.glProgramUniformMatrix3fv  (program, uniforms.get(name), false, values); break;
-                case 4: opengl.glProgramUniformMatrix3x4fv(program, uniforms.get(name), false, values); break;
+                case 2: opengl.glProgramUniformMatrix3x2fv(program, unPosition.get(name), false, values); break;
+                case 3: opengl.glProgramUniformMatrix3fv  (program, unPosition.get(name), false, values); break;
+                case 4: opengl.glProgramUniformMatrix3x4fv(program, unPosition.get(name), false, values); break;
             } break ;
             case 4: switch (columns) {
-                case 2: opengl.glProgramUniformMatrix4x2fv(program, uniforms.get(name), false, values); break;
-                case 3: opengl.glProgramUniformMatrix4x3fv(program, uniforms.get(name), false, values); break;
-                case 4: opengl.glProgramUniformMatrix4fv  (program, uniforms.get(name), false, values); break;
+                case 2: opengl.glProgramUniformMatrix4x2fv(program, unPosition.get(name), false, values); break;
+                case 3: opengl.glProgramUniformMatrix4x3fv(program, unPosition.get(name), false, values); break;
+                case 4: opengl.glProgramUniformMatrix4fv  (program, unPosition.get(name), false, values); break;
             } break ;
         }
 

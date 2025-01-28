@@ -9,6 +9,8 @@ import br.fosge.commons.serializer.Yaml;
 import br.fosge.engine.runtime.Application;
 import br.fosge.engine.runtime.Platform;
 
+import static br.fosge.RT.yaml;
+
 public final class EngineLauncher extends Launcher {
     private final Application application = new Application();
 
@@ -22,6 +24,12 @@ public final class EngineLauncher extends Launcher {
             Logger.error("File is empty: %s", RT.yaml);
             return false;
         }
+
+        Logger.info("Initializing Application: %s.%s.%s",
+                yaml.asInt("fosge.application.version.major"),
+                yaml.asInt("fosge.application.version.minor"),
+                yaml.asInt("fosge.application.version.rev")
+        );
 
         final var settings = RT.yaml.subtree("fosge.engine");
         if (settings != null) {

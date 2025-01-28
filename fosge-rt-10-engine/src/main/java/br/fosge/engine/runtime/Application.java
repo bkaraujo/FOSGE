@@ -19,6 +19,7 @@ import br.fosge.engine.platform.window.WindowMinimizedEvent;
 import br.fosge.engine.platform.window.WindowRestoredEvent;
 import br.fosge.engine.runtime.ecs.system.AudioSystem;
 import br.fosge.engine.runtime.ecs.system.BehaviourSystem;
+import br.fosge.engine.runtime.ecs.system.RenderSystem;
 
 import static br.fosge.RT.yaml;
 import static br.fosge.RT.Application.scene;
@@ -30,11 +31,6 @@ public final class Application implements Lifecycle {
 
     @Override
     public boolean initialize() {
-        Logger.debug("Initializing Application: %s.%s.%s",
-                yaml.asInt("fosge.application.version.major"),
-                yaml.asInt("fosge.application.version.minor"),
-                yaml.asInt("fosge.application.version.rev")
-        );
 
         MessageBus.subscribe(this);
 
@@ -56,7 +52,9 @@ public final class Application implements Lifecycle {
 
         ECS.attach(new AudioSystem());
         ECS.attach(new BehaviourSystem());
+        ECS.attach(new RenderSystem());
 
+        Logger.info("Application initialized");
         return true;
     }
 

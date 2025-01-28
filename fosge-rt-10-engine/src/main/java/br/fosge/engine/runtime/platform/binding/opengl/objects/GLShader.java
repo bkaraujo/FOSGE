@@ -33,7 +33,7 @@ public final class GLShader implements Shader {
     public boolean initialize() {
         program = opengl.glCreateProgram();
         RT.Graphics.shaderPrograms++;
-        return Shader.super.initialize();
+        return true;
     }
 
     @Override

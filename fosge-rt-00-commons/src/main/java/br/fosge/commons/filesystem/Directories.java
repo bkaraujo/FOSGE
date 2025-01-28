@@ -52,9 +52,8 @@ public abstract class Directories {
             java.nio.file.Files.walkFileTree(rootfs, Collections.emptySet(), 1, new SimpleFileVisitor<>() {
                 @Override
                 public FileVisitResult visitFile(Path path, BasicFileAttributes attrs) {
-                    if (path.toFile().getName().contentEquals(fileName)) {
+                    if (path.toFile().getName().startsWith(fileName)) {
                         result.add(path);
-                        return FileVisitResult.TERMINATE;
                     }
 
                     return FileVisitResult.CONTINUE;

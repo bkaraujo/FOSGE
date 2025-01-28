@@ -23,7 +23,8 @@ public final class MeshComponent extends Component {
 
     public static MeshComponent create(Tuple... properties) {
         final var instance = new MeshComponent();
-        instance.shader = Resources.shader(find("shader.fileName"));
+
+        instance.shader = Resources.shader(find("shader.fileName", properties));
         if (instance.shader == null) {
             Logger.error("Failed to configure shader");
             instance.terminate();
@@ -52,6 +53,7 @@ public final class MeshComponent extends Component {
                         DataType.valueOf(find("geometry.type", properties)),
                         layouts.toArray(new BufferLayout[0])
         ));
+
         if (instance.geometry == null) {
             Logger.error("Failed to configure texture");
             instance.terminate();

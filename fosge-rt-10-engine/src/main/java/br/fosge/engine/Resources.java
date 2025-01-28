@@ -21,8 +21,7 @@ import java.nio.ByteBuffer;
 import java.nio.file.Files;
 import java.util.ArrayList;
 
-import static br.fosge.engine.runtime.Platform.audio;
-import static br.fosge.engine.runtime.Platform.graphics;
+import static br.fosge.engine.runtime.Platform.*;
 import static br.fosge.engine.runtime.platform.Bindings.openal;
 
 /**
@@ -177,7 +176,7 @@ public abstract class Resources implements Facade {
 
     public static Shader shader(String fileName) {
         final var sources = new ArrayList<ShaderSource>();
-        final var files = Directories.matching(Directories.resolve("assets", "shaders"), fileName);
+        final var files = Directories.matching(filesystem.assets.resolve("shader"), fileName);
         for (final var file : files) {
             final var extension = file.toString().substring(file.toString().lastIndexOf('.') + 1);
             try {

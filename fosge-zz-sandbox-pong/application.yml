@@ -36,3 +36,33 @@ application:
         properties:
         - name: "target"
           value: "br.fosge.sandbox.pong.PlayerController"
+    - name: "player"
+      components:
+      - type: "TRANSFORM_COMPONENT"
+        properties:
+        - name: "position"
+          value: "0, 0, 0"
+        - name: "rotation"
+          value: "0, 0, 0"
+        - name: "scale"
+          value: "0, 0, 0"
+      - type: "MESH_COMPONENT"
+        properties:
+        - name: "shader.fileName"
+          value: "basic"
+        - name: "geometry.mode"
+          value: "TRIANGLE"
+        - name: "geometry.type"
+          value: "UINT"
+        - name: "geometry.layout.in_position"
+          value: "FLOAT3"
+        - name: "geometry.layout.in_uv"
+          value: "FLOAT2"
+        - name: "texture.asset"
+          value: "assets/texture/container.jpg"
+        - name: "geometry.elements"
+          value: "0, 1, 3, 1, 2, 3"
+        - name: "geometry.vertices"
+          value: " 0.5,  0.5, 0.0, 1.0, 1.0,0.5, -0.5, 0.0, 1.0, 0.0,-0.5, -0.5, 0.0,\
+            \ 0.0, 0.0,-0.5,  0.5, 0.0, 0.0, 1.0"
+      identity: "01JJPMGHGR5T5C3KBVGP2TZWC0"

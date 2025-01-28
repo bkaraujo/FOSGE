@@ -2,10 +2,7 @@ package br.fosge.engine.runtime;
 
 import br.fosge.commons.Logger;
 import br.fosge.commons.annotation.Facade;
-import br.fosge.engine.runtime.platform.PlatformAudio;
-import br.fosge.engine.runtime.platform.PlatformGraphics;
-import br.fosge.engine.runtime.platform.PlatformInput;
-import br.fosge.engine.runtime.platform.PlatformWindow;
+import br.fosge.engine.runtime.platform.*;
 import org.lwjgl.glfw.GLFW;
 import org.lwjgl.glfw.GLFWErrorCallback;
 import org.lwjgl.system.APIUtil;
@@ -23,6 +20,7 @@ public abstract class Platform implements Facade {
     public static final PlatformGraphics graphics = new PlatformGraphics();
     public static final PlatformAudio audio = new PlatformAudio();
     public static final PlatformInput input = new PlatformInput();
+    public static final PlatformFilesystem filesystem = new PlatformFilesystem();
 
     public static boolean initialize() {
         glfwErrorCallback = GLFWErrorCallback.create(new GLFWErrorCallback() {

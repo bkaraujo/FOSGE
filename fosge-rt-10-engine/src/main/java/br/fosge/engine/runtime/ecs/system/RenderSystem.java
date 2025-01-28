@@ -38,14 +38,17 @@ public final class RenderSystem implements System {
     public void onRest() {
         for(final var mesh : meshes) {
             final var transform = ECS.get(mesh.owner, TransformComponent.class);
+
+            mesh.shader.bind();
             mesh.shader.uniform(modelMatrix, transform.matrix());
             mesh.shader.uniform(viewProjectionMatrix, scene.camera().viewProjectionMatrix());
 
-            Graphics.draw(
-                    mesh.shader,
-                    mesh.geometry,
-                    mesh.texture
-            );
+            mesh.geometry.bind();
+            for (int i = 0 ; i < mesh.textures.size() ; ++i) {
+                mesh.textures.get(i).bind(i);
+            }
+
+            Graphics.draw(mesh.shader, mesh.geometry);
         }
     }
 }

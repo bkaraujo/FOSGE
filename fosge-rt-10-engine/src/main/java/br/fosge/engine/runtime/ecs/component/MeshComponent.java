@@ -1,5 +1,6 @@
 package br.fosge.engine.runtime.ecs.component;
 
+import br.fosge.RT;
 import br.fosge.commons.Logger;
 import br.fosge.commons.Tuple;
 import br.fosge.engine.Resources;
@@ -11,13 +12,14 @@ import br.fosge.engine.graphics.geometry.GeometrySpec;
 import br.fosge.engine.runtime.ecs.ComponentType;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public final class MeshComponent extends Component {
     public static final ComponentType type = ComponentType.MESH_COMPONENT;
 
     public Shader shader;
     public Geometry geometry;
-    public Texture texture;
+    public final List<Texture> textures = new ArrayList<>(RT.Graphics.textureUnitLimit);
 
     private MeshComponent() {}
 
@@ -31,11 +33,22 @@ public final class MeshComponent extends Component {
             return null;
         }
 
-        instance.texture = Resources.texture2d(find("texture", properties));
-        if (instance.texture == null) {
-            Logger.error("Failed to configure texture");
-            instance.terminate();
-            return null;
+        Logger.trace("Attaching shader: %s", instance.shader);
+
+        for (int i = 0; i < RT.Graphics.textureUnitLimit; i++) {
+            final var candidate = find("texture." + i + ".asset", properties);
+            // Expect bind unit to be contiguous
+            if (candidate == null) { break; }
+
+            final var texture = Resources.texture2d(candidate);
+            if (texture == null) {
+                Logger.error("Failed to configure texture");
+                instance.terminate();
+                return null;
+            }
+
+            Logger.trace("Attaching texture: %s", texture);
+            instance.textures.add(texture);
         }
 
         final var layouts = new ArrayList<BufferLayout>();
@@ -60,6 +73,7 @@ public final class MeshComponent extends Component {
             return null;
         }
 
+        Logger.trace("Attaching geometry: %s", instance.geometry);
         instance.geometry.elements(toInts("geometry.elements", properties));
         instance.geometry.vertices(toFloats("geometry.vertices", properties));
 
@@ -69,8 +83,9 @@ public final class MeshComponent extends Component {
     @Override
     public boolean terminate() {
         if (shader != null) { shader.terminate(); shader = null; }
-        if (texture != null) { texture.terminate(); texture = null; }
         if (geometry != null) { geometry.terminate(); geometry = null; }
+        for (final var texture : textures) { texture.terminate(); }
+        textures.clear();
 
         return true;
     }

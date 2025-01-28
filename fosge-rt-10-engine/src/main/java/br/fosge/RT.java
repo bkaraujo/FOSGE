@@ -74,6 +74,7 @@ public abstract class RT implements State {
 
         public static int boundTexture;
         public static int boundTextureUnit;
+        public static final int textureUnitLimit = 16;
 
         public static int buffers;
         public static int vertexArrays;

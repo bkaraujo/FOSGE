@@ -62,7 +62,7 @@ fosge:
           properties:
           - name: "shader"
             value: "shader/default.glsl"
-          - name: "texture"
+          - name: "texture.0.asset"
             value: "texture/container.jpg"
           - name: "geometry.mode"
             value: "TRIANGLE"

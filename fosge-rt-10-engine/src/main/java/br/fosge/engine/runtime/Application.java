@@ -21,9 +21,9 @@ import br.fosge.engine.runtime.ecs.system.AudioSystem;
 import br.fosge.engine.runtime.ecs.system.BehaviourSystem;
 import br.fosge.engine.runtime.ecs.system.RenderSystem;
 
-import static br.fosge.RT.yaml;
 import static br.fosge.RT.Application.scene;
 import static br.fosge.RT.Application.systems;
+import static br.fosge.RT.yaml;
 import static br.fosge.engine.runtime.Platform.*;
 
 public final class Application implements Lifecycle {

@@ -20,6 +20,9 @@ fosge:
     scenes:
     - name: "default"
       clearColor: ".25, .33, .18"
+      camera:
+        depth: "-1.0, 1.0"
+        rectangle: "-3.0, 3.0, -3.0, 3.0"
       actors:
       - name: "environment"
         identity: "01JJPF8ZPC6ZZ7ZJVC9VVTYHS2"

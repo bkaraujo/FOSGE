@@ -20,14 +20,11 @@ public abstract class Main implements Facade {
         final var isEditor = Directories.contains(Directories.rootfs(), "editor.yml");
         final var launcher = isEditor ? new EditorLauncher() : new EngineLauncher();
 
-        if (!launcher.initialize()) {
-            Logger.error("Failed to initialize");
-            if (!launcher.terminate()) {
-                Logger.fatal("Failed to terminate!");
-            }
-        }
+        if (!launcher.initialize()) { Logger.error("Failed to initialize"); }
+        else { if (!launcher.run()) { Logger.error("Failed to run!"); } }
 
-        if (!launcher.run()) { Logger.error("Failed to run!"); }
-        if (!launcher.terminate()) { Logger.fatal("Failed to terminate!"); }
+        if (!launcher.terminate()) {
+            Logger.fatal("Failed to terminate!");
+        }
     }
 }

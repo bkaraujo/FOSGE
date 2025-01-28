@@ -23,13 +23,15 @@ public abstract class Platform implements Facade {
     public static final PlatformFilesystem filesystem = new PlatformFilesystem();
 
     public static boolean initialize() {
+
+        // Incorporated from the GLFW private code
+        // so the log message goes to the engine pipeline
         glfwErrorCallback = GLFWErrorCallback.create(new GLFWErrorCallback() {
             private final Map<Integer, String> ERROR_CODES = APIUtil.apiClassTokens((_, value) -> 0x10000 < value && value < 0x20000, null, GLFW.class);
 
             @Override
             public void invoke(int error, long description) {
-                final var msg = getDescription(description);
-                Logger.error("[LWJGL] %s error: %s", ERROR_CODES.get(error), msg);
+                Logger.error("[LWJGL] %s error: %s", ERROR_CODES.get(error), getDescription(description));
             }
         });
 

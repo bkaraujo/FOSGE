@@ -21,7 +21,7 @@ class YamlTest {
         yaml = Yaml.from(new HashMap<>());
         assertTrue(yaml.isEmpty());
 
-        yaml = Yaml.from(Path.of(System.getProperty("user.dir"), "application.yaml"));
+        yaml = Yaml.from(Path.of(System.getProperty("user.dir"), "fosge.application.yaml"));
         assertTrue(yaml.isEmpty());
 
         yaml = Yaml.from(Path.of(System.getProperty("user.dir"), "src/test/resources/empty.yaml"));

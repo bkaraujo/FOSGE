@@ -82,6 +82,7 @@ public abstract class MessageBus implements Facade {
 
     public static <T extends Message> void submit(T message) {
         if (!hierarchy.containsKey(message.getClass())) {
+            Logger.trace("Creating message hierarchy: %s", Meta.fqn(message));
             final var list = new ArrayList<Class<?>>();
 
             Class<?> klass = message.getClass();

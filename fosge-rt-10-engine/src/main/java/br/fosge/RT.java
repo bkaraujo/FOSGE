@@ -9,7 +9,7 @@ import br.fosge.engine.graphics.GraphicsObject;
 import br.fosge.engine.input.Keyboard;
 import br.fosge.engine.input.Mouse;
 import br.fosge.engine.runtime.ecs.ComponentType;
-import br.fosge.engine.runtime.scene.Scene;
+import br.fosge.engine.runtime.Scene;
 import com.github.f4b6a3.ulid.Ulid;
 import org.joml.Vector2i;
 

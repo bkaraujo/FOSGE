@@ -4,16 +4,11 @@ import br.fosge.commons.annotation.Facade;
 import br.fosge.engine.graphics.Geometry;
 import br.fosge.engine.graphics.Shader;
 import br.fosge.engine.graphics.Texture;
-import org.joml.Vector4fc;
 
 import static br.fosge.engine.runtime.Platform.graphics;
 
 public abstract class Graphics implements Facade {
     private Graphics() { /* Private constructor */ }
-
-    public static void clearColor(Vector4fc color) {
-        graphics.clearColor(color);
-    }
 
     public static void draw(Shader shader, Geometry geometry, Texture texture) {
         draw(shader, geometry, texture, 0);

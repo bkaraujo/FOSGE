@@ -19,8 +19,8 @@ import br.fosge.engine.platform.window.WindowMinimizedEvent;
 import br.fosge.engine.platform.window.WindowRestoredEvent;
 import br.fosge.engine.runtime.ecs.system.AudioSystem;
 import br.fosge.engine.runtime.ecs.system.BehaviourSystem;
-import br.fosge.engine.runtime.scene.Scene;
 
+import static br.fosge.RT.yaml;
 import static br.fosge.RT.Application.scene;
 import static br.fosge.RT.Application.systems;
 import static br.fosge.engine.runtime.Platform.*;
@@ -30,16 +30,22 @@ public final class Application implements Lifecycle {
 
     @Override
     public boolean initialize() {
+        Logger.debug("Initializing Application: %s.%s.%s",
+                yaml.asInt("fosge.application.version.major"),
+                yaml.asInt("fosge.application.version.minor"),
+                yaml.asInt("fosge.application.version.rev")
+        );
+
         MessageBus.subscribe(this);
 
-        final var engine = RT.yaml.subtree("application.engine");
+        final var engine = yaml.subtree("fosge.engine");
         if (engine != null && engine.contains("simulation.step")) {
             STEP = 1 / engine.asDouble("simulation.step");
         } else {
             STEP = 1 / 100d;
         }
 
-        final var firstScene = RT.yaml.asString("application.firstScene");
+        final var firstScene = yaml.asString("fosge.application.firstScene");
         scene = Scene.of(firstScene);
         if (scene == null) {
             Logger.error("Failed to load scene: %s", firstScene);

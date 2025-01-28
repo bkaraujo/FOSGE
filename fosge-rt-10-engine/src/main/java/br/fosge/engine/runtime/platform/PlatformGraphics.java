@@ -84,7 +84,7 @@ public final class PlatformGraphics implements Lifecycle {
 
         boolean swapInterval = true;
 
-        final var engine = RT.yaml.subtree("application.engine");
+        final var engine = RT.yaml.subtree("fosge.engine");
         if (engine != null) { swapInterval = engine.asBoolean("graphics.vsync"); }
 
         Logger.debug("VSYNC: %s", swapInterval);

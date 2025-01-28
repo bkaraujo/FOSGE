@@ -216,6 +216,6 @@ public final class GLGeometry implements Geometry {
 
     @Override
     public String toString() {
-        return "Geometry %d" + VAO;
+        return "Geometry :: " + VAO;
     }
 }

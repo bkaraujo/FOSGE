@@ -1,68 +1,73 @@
 ---
-application:
-  window:
-    title: "Pong"
-    resolution: "qHD"
+fosge:
   engine:
     debug: true
     trace: false
     graphics:
       vsync: false
-  firstScene: "default"
-  scenes:
-  - name: "default"
-    clearColor: ".25, .33, .18"
-    actors:
-    - identity: "01JJPF8ZPC6ZZ7ZJVC9VVTYHS2"
-      name: "environment"
-      components:
-      - type: "TRANSFORM_COMPONENT"
-        properties:
-        - name: "position"
-          value: "0, 0, 0"
-        - name: "rotation"
-          value: "0, 0, 0"
-        - name: "scale"
-          value: "0, 0, 0"
-      - type: "AUDIO_SOURCE_COMPONENT"
-        properties:
-        - name: "path"
-          value: "audio/overworld.ogg"
-        - name: "loop"
-          value: "true"
-        - name: "gain"
-          value: "0.3"
-      - type: "BEHAVIOUR_COMPONENT"
-        properties:
-        - name: "target"
-          value: "br.fosge.sandbox.pong.PlayerController"
-    - name: "player"
-      components:
-      - type: "TRANSFORM_COMPONENT"
-        properties:
-        - name: "position"
-          value: "0, 0, 0"
-        - name: "rotation"
-          value: "0, 0, 0"
-        - name: "scale"
-          value: "0, 0, 0"
-      - type: "MESH_COMPONENT"
-        properties:
-        - name: "shader"
-          value: "shader/default.glsl"
-        - name: "texture"
-          value: "texture/container.jpg"
-        - name: "geometry.mode"
-          value: "TRIANGLE"
-        - name: "geometry.type"
-          value: "UINT"
-        - name: "geometry.layout.in_position"
-          value: "FLOAT3"
-        - name: "geometry.layout.in_uv"
-          value: "FLOAT2"
-        - name: "geometry.elements"
-          value: "0, 1, 3, 1, 2, 3"
-        - name: "geometry.vertices"
-          value: " 0.5,  0.5, 0.0, 1.0, 1.0,0.5, -0.5, 0.0, 1.0, 0.0,-0.5, -0.5, 0.0,\
-            \ 0.0, 0.0,-0.5,  0.5, 0.0, 0.0, 1.0"
-      identity: "01JJPMGHGR5T5C3KBVGP2TZWC0"
+  application:
+    version:
+      major: 0
+      minor: 1
+      rev: 0
+    window:
+      title: "Pong"
+      resolution: "qHD"
+    firstScene: "default"
+    scenes:
+    - name: "default"
+      clearColor: ".25, .33, .18"
+      actors:
+      - identity: "01JJPF8ZPC6ZZ7ZJVC9VVTYHS2"
+        name: "environment"
+        components:
+        - type: "TRANSFORM_COMPONENT"
+          properties:
+          - name: "position"
+            value: "0, 0, 0"
+          - name: "rotation"
+            value: "0, 0, 0"
+          - name: "scale"
+            value: "0, 0, 0"
+        - type: "AUDIO_SOURCE_COMPONENT"
+          properties:
+          - name: "path"
+            value: "audio/overworld.ogg"
+          - name: "loop"
+            value: "true"
+          - name: "gain"
+            value: "0.3"
+        - type: "BEHAVIOUR_COMPONENT"
+          properties:
+          - name: "target"
+            value: "br.fosge.sandbox.pong.PlayerController"
+      - name: "player"
+        components:
+        - type: "TRANSFORM_COMPONENT"
+          properties:
+          - name: "position"
+            value: "0, 0, 0"
+          - name: "rotation"
+            value: "0, 0, 0"
+          - name: "scale"
+            value: "0, 0, 0"
+        - type: "MESH_COMPONENT"
+          properties:
+          - name: "shader"
+            value: "shader/default.glsl"
+          - name: "texture"
+            value: "texture/container.jpg"
+          - name: "geometry.mode"
+            value: "TRIANGLE"
+          - name: "geometry.type"
+            value: "UINT"
+          - name: "geometry.layout.in_position"
+            value: "FLOAT3"
+          - name: "geometry.layout.in_uv"
+            value: "FLOAT2"
+          - name: "geometry.elements"
+            value: "0, 1, 3, 1, 2, 3"
+          - name: "geometry.vertices"
+            value: " 0.5,  0.5, 0.0, 1.0, 1.0,0.5, -0.5, 0.0, 1.0, 0.0,-0.5, -0.5,\
+              \ 0.0, 0.0, 0.0,-0.5,  0.5, 0.0, 0.0, 1.0"
+        identity: "01JJPMGHGR5T5C3KBVGP2TZWC0"

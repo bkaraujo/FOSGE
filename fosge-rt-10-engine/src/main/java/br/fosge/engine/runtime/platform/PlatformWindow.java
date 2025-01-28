@@ -31,7 +31,7 @@ public final class PlatformWindow implements Lifecycle {
 //        glfwWindowHint(GLFW_OPENGL_DEBUG_CONTEXT, GLFW_TRUE);
         glfw.glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
-        final var spec = RT.yaml.subtree("application.window");
+        final var spec = RT.yaml.subtree("fosge.application.window");
         final var resolution = spec.asEnum("resolution", Resolution.class);
 
         // Create the window

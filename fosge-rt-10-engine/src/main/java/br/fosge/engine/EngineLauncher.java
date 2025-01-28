@@ -23,7 +23,7 @@ public final class EngineLauncher extends Launcher {
             return false;
         }
 
-        final var settings = RT.yaml.subtree("application.engine");
+        final var settings = RT.yaml.subtree("fosge.engine");
         if (settings != null) {
             if (settings.contains("debug")) {
                 RT.debug = settings.asBoolean("debug");

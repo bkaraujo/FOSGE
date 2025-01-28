@@ -1,4 +1,4 @@
-package br.fosge.engine.runtime.scene;
+package br.fosge.engine.runtime;
 
 import br.fosge.RT;
 import br.fosge.commons.Logger;
@@ -27,7 +27,7 @@ public record Scene(
     }
 
     private static Yaml find(String name) {
-        for (final var yaml : RT.yaml.list("application.scenes")) {
+        for (final var yaml : RT.yaml.list("fosge.application.scenes")) {
             if (yaml.asString("name").equals(name)) {
                 return yaml;
             }

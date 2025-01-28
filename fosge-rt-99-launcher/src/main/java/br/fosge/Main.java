@@ -1,11 +1,12 @@
 package br.fosge;
 
-import br.fosge.commons.Launcher;
 import br.fosge.commons.Logger;
 import br.fosge.commons.Meta;
 import br.fosge.commons.annotation.Facade;
 import br.fosge.commons.filesystem.Directories;
 import br.fosge.commons.logger.LogLevel;
+import br.fosge.editor.EditorLauncher;
+import br.fosge.engine.EngineLauncher;
 
 public abstract class Main implements Facade {
     private Main() {}
@@ -17,7 +18,7 @@ public abstract class Main implements Facade {
         System.setProperty("br.fosge.rootfs", args[0]);
 
         final var isEditor = Directories.contains(Directories.rootfs(), "editor.yml");
-        final var launcher = isEditor ? Meta.instance(Launcher.class, "br.fosge.editor.EditorLauncher") : Meta.instance(Launcher.class, "br.fosge.engine.EngineLauncher");
+        final var launcher = isEditor ? new EditorLauncher() : new EngineLauncher();
 
         if (!launcher.initialize()) {
             Logger.error("Failed to initialize");

@@ -1,3 +1,4 @@
+// vertex
 #version 330 core
 
 layout (location = 0) in vec3 in_position;
@@ -11,4 +12,15 @@ uniform mat4 un_viewProjection;
 void main() {
     gl_Position = un_model * un_viewProjection * vec4(in_position, 1.0);
     vtx_uv = in_uv;
+}
+// fragment
+#version 330 core
+out vec4 FragColor;
+
+in vec2 vtx_uv;
+
+uniform sampler2D un_texture;
+
+void main() {
+    FragColor = texture(un_texture, vtx_uv);
 }

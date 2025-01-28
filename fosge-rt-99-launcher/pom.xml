@@ -14,17 +14,8 @@
     <artifactId>fosge-launcher</artifactId>
 
     <dependencies>
-        <dependency>
-            <groupId>br.bkraujo</groupId>
-            <artifactId>fosge-engine</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>br.bkraujo</groupId>
-            <artifactId>fosge-editor</artifactId>
-            <version>${project.version}</version>
-        </dependency>
+        <dependency><groupId>br.bkraujo</groupId><artifactId>fosge-engine</artifactId><version>${project.version}</version></dependency>
+        <dependency><groupId>br.bkraujo</groupId><artifactId>fosge-editor</artifactId><version>${project.version}</version></dependency>
     </dependencies>
 
 </project>

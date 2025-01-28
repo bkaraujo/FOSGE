@@ -1,21 +1,36 @@
 package br.fosge.engine.graphics.shader;
 
+import br.fosge.commons.Logger;
 import br.fosge.commons.annotation.Specification;
 
-import java.io.File;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.util.ArrayList;
+import java.util.List;
 
 public record ShaderSpec (
-    ShaderSource ... source
+        Path shaderFile,
+    List<ShaderSource> sources
 ) implements Specification {
-    public String toString() {
-        if (source == null) return "ShaderSpec: empty";
-        if (source.length == 0) return "ShaderSpec: empty";
+    public ShaderSpec(Path shaderFile) {
+        this(shaderFile, new ArrayList<>());
 
-        final var result = new StringBuilder();
-        for (var source : source) {
-            result.append(source.stage()).append(": ").append(source.name()).append(File.separator);
+        try {
+            final var payload = Files.readString(shaderFile);
+            final var tokens = payload.split("//");
+            for (final var token : tokens) {
+                final var trimmed = token.trim();
+                if (trimmed.startsWith("vertex")) { sources.add(new ShaderSource(ShaderStage.VERTEX, trimmed.substring(6))); }
+                if (trimmed.startsWith("fragment")) { sources.add(new ShaderSource(ShaderStage.FRAGMENT, trimmed.substring(8))); }
+            }
+
+        } catch (Throwable throwable) {
+            Logger.error("Failed to read %s", shaderFile.toString());
         }
+    }
 
-        return result.toString();
+    public String toString() {
+        if (sources.isEmpty()) return "ShaderSpec: empty";
+        return shaderFile.toString();
     }
 }

@@ -24,14 +24,14 @@ public final class MeshComponent extends Component {
     public static MeshComponent create(Tuple... properties) {
         final var instance = new MeshComponent();
 
-        instance.shader = Resources.shader(find("shader.fileName", properties));
+        instance.shader = Resources.shader(find("shader", properties));
         if (instance.shader == null) {
             Logger.error("Failed to configure shader");
             instance.terminate();
             return null;
         }
 
-        instance.texture = Resources.texture2d(find("texture.asset", properties));
+        instance.texture = Resources.texture2d(find("texture", properties));
         if (instance.texture == null) {
             Logger.error("Failed to configure texture");
             instance.terminate();

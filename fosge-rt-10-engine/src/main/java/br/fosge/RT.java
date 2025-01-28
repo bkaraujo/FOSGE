@@ -2,8 +2,7 @@ package br.fosge;
 
 import br.fosge.commons.annotation.State;
 import br.fosge.commons.serializer.Yaml;
-import br.fosge.engine.audio.AudioBuffer;
-import br.fosge.engine.audio.AudioSource;
+import br.fosge.engine.audio.AudioObject;
 import br.fosge.engine.ecs.Component;
 import br.fosge.engine.ecs.System;
 import br.fosge.engine.graphics.GraphicsObject;
@@ -19,7 +18,6 @@ import java.util.Map;
 import java.util.Queue;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentLinkedQueue;
-import java.util.concurrent.atomic.AtomicInteger;
 
 /** Global Shared State */
 public abstract class RT implements State {
@@ -96,8 +94,8 @@ public abstract class RT implements State {
 
         public static int monoSourceLimit;
 
-        public static final Queue<AudioBuffer> buffers = new ConcurrentLinkedQueue<>();
-        public static final Queue<AudioSource> monoSources = new ConcurrentLinkedQueue<>();
+        public static final Queue<AudioObject> buffers = new ConcurrentLinkedQueue<>();
+        public static final Queue<AudioObject> monoSources = new ConcurrentLinkedQueue<>();
     }
 
     public static abstract class Input {

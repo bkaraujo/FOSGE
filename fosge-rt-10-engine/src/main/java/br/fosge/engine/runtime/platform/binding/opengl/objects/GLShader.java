@@ -66,25 +66,20 @@ public final class GLShader implements Shader {
         }
 
         final var spec = Meta.cast(specification, ShaderSpec.class);
-        if (RT.debug && spec.source() == null) {
-            Logger.error("Shader source not set");
+        if (RT.debug && spec.sources().size() < 2) {
+            Logger.error("Expecting at least a 2 stages shader, got %d", spec.sources().size());
             return false;
         }
 
-        if (RT.debug && spec.source().length < 2) {
-            Logger.error("Expecting at least a 2 stages shader, got %d", spec.source().length);
-            return false;
-        }
-
-        fileName = spec.source()[0].name().substring(0, spec.source()[0].name().lastIndexOf('.'));
+        fileName = spec.shaderFile().toString();
         // ##################################################
         // Compile shader
         // ##################################################
-        opengl.glPushDebugGroup(GL_DEBUG_SOURCE_APPLICATION, 0, "GLShader::configure()");
+//        opengl.glPushDebugGroup(GL_DEBUG_SOURCE_THIRD_PARTY, 0, "GLShader::configure(" + spec + ")");
         final var stages = new ArrayList<Integer>();
 
         try {
-            for (final var source : spec.source()) {
+            for (final var source : spec.sources()) {
                 final var stage = opengl.glCreateShader(switch (source.stage()) {
                     case VERTEX -> GL_VERTEX_SHADER;
                     case FRAGMENT -> GL_FRAGMENT_SHADER;
@@ -94,9 +89,9 @@ public final class GLShader implements Shader {
                 opengl.glShaderSource(stage, source.script());
                 opengl.glCompileShader(stage);
                 if (opengl.glGetShaderi(stage, GL_COMPILE_STATUS) == GL11.GL_FALSE) {
-                    opengl.glDeleteShader(stage);
+                    Logger.error("Failed to compile shader %s:\n\n%s\n\n%s", source.stage(), source.script(), opengl.glGetShaderInfoLog(stage));
                     RT.Graphics.shaderStages--;
-                    Logger.warn("Failed to compile shader %s", source.stage());
+                    opengl.glDeleteShader(stage);
                     return false;
                 }
 
@@ -152,7 +147,7 @@ public final class GLShader implements Shader {
                 RT.Graphics.shaderStages--;
             });
 
-            opengl.glPopDebugGroup();
+//            opengl.glPopDebugGroup();
         }
 
         return true;

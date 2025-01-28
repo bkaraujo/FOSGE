@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>br.bkraujo</groupId>
+    <artifactId>fosge-aa-packager</artifactId>
+    <packaging>pom</packaging>
+    <version>1.0.0</version>
+
+    <modules>
+        <module>../fosge-aa-parent</module>
+        <module>../fosge-rt-00-commons</module>
+        <module>../fosge-rt-10-engine</module>
+        <module>../fosge-rt-20-editor</module>
+        <module>../fosge-rt-99-launcher</module>
+        <module>../fosge-zz-sandbox-pong</module>
+    </modules>
+
+</project>

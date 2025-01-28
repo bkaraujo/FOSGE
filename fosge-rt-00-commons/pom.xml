@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>br.bkraujo</groupId>
+        <artifactId>fosge-aa-parent</artifactId>
+        <version>1.0.0</version>
+        <relativePath>../fosge-aa-parent</relativePath>
+    </parent>
+
+    <artifactId>fosge-commons</artifactId>
+
+    <properties>
+        <dependency.runtime.ulid>5.2.3</dependency.runtime.ulid>
+        <dependency.runtime.jackson>2.18.1</dependency.runtime.jackson>
+    </properties>
+
+    <dependencies>
+        <dependency><groupId>org.lwjgl</groupId><artifactId>lwjgl</artifactId></dependency>
+        <dependency><groupId>org.lwjgl</groupId><artifactId>lwjgl</artifactId><classifier>natives-${fosge.platform}</classifier></dependency>
+
+        <dependency><groupId>com.github.f4b6a3</groupId><artifactId>ulid-creator</artifactId><version>${dependency.runtime.ulid}</version></dependency>
+        <dependency><groupId>com.fasterxml.jackson.dataformat</groupId><artifactId>jackson-dataformat-yaml</artifactId><version>${dependency.runtime.jackson}</version></dependency>
+        <dependency><groupId>com.fasterxml.jackson.datatype</groupId><artifactId>jackson-datatype-jsr310</artifactId><version>${dependency.runtime.jackson}</version></dependency>
+    </dependencies>
+</project>

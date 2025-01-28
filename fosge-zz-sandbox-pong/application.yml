@@ -1,0 +1,38 @@
+---
+application:
+  window:
+    title: "Pong"
+    resolution: "qHD"
+  engine:
+    debug: true
+    trace: false
+    graphics:
+      vsync: false
+  firstScene: "default"
+  scenes:
+  - name: "default"
+    clearColor: ".25, .33, .18"
+    actors:
+    - identity: "01JJPF8ZPC6ZZ7ZJVC9VVTYHS2"
+      name: "environment"
+      components:
+      - type: "TRANSFORM_COMPONENT"
+        properties:
+        - name: "position"
+          value: "0, 0, 0"
+        - name: "rotation"
+          value: "0, 0, 0"
+        - name: "scale"
+          value: "0, 0, 0"
+      - type: "AUDIO_SOURCE_COMPONENT"
+        properties:
+        - name: "path"
+          value: "assets/audio/overworld.ogg"
+        - name: "loop"
+          value: "true"
+        - name: "gain"
+          value: "0.3"
+      - type: "BEHAVIOUR_COMPONENT"
+        properties:
+        - name: "target"
+          value: "br.fosge.sandbox.pong.PlayerController"

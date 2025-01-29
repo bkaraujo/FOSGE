@@ -34,7 +34,9 @@ public abstract class Directories {
     }
 
     public static Path resolve(String token, String ... tokens) {
-        return rootfs().resolve(token, tokens);
+        var path = rootfs().resolve(token);
+        for (final var entry : tokens) { path = path.resolve(entry); }
+        return path;
     }
 
     public static List<Path> matching(String fileName) {

@@ -39,7 +39,7 @@ public final class RenderSystem implements System {
         // 2 - Sort by Shader
 
         for (final var mesh : ECS.list(MeshComponent.class)) {
-            ofShaders.computeIfAbsent(mesh.shader, _ -> new ArrayList<>());
+            ofShaders.computeIfAbsent(mesh.shader, ignored -> new ArrayList<>());
             ofShaders.get(mesh.shader).add(mesh);
         }
     }

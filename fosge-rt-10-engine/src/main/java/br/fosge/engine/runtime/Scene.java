@@ -60,7 +60,7 @@ public record Scene(
                     Float.parseFloat(tokens[2]),
                     tokens.length == 3 ? 1.0f : Float.parseFloat(tokens[3])
             );
-        } catch (NumberFormatException _) {
+        } catch (NumberFormatException ignored) {
             Logger.fatal("Failed to parse clear color value.");
             return new Vector4f();
         }

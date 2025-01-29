@@ -23,8 +23,8 @@
         <maven.plugin.site>3.21.0</maven.plugin.site>
         <maven.plugin.exec>3.5.0</maven.plugin.exec>
 
-        <maven.compiler.target>22</maven.compiler.target>
-        <maven.compiler.source>22</maven.compiler.source>
+        <maven.compiler.target>21</maven.compiler.target>
+        <maven.compiler.source>21</maven.compiler.source>
         <maven.resources.encoding>UTF-8</maven.resources.encoding>
 
         <dependency.runtime.lwjgl>3.3.4</dependency.runtime.lwjgl>

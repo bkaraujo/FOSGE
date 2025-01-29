@@ -58,19 +58,19 @@ public final class PlatformWindow implements Lifecycle {
 
         glfw.glfwSetWindowPos(RT.Window.handle, RT.Window.position.x(), RT.Window.position.y());
 
-        glfw.glfwSetWindowCloseCallback(RT.Window.handle, (_) -> MessageBus.submit(new WindowClosedEvent()));
-        glfw.glfwSetWindowPosCallback(RT.Window.handle, (_, x, y) -> MessageBus.submit(new WindowMovedEvent(x, y)));
-        glfw.glfwSetWindowSizeCallback(RT.Window.handle, (_, w, h) -> MessageBus.submit(new WindowResizedEvent(w, h)));
-        glfw.glfwSetWindowFocusCallback(RT.Window.handle, (_, b) -> MessageBus.submit(b ? new WindowFocusGainedEvent() : new WindowsFocusLostEvent()));
-        glfw.glfwSetWindowIconifyCallback(RT.Window.handle, (_, b) -> MessageBus.submit(b ? new WindowMinimizedEvent() : new WindowRestoredEvent()));
-        glfw.glfwSetWindowMaximizeCallback(RT.Window.handle, (_, b) -> MessageBus.submit(b ? new WindowMaximizedEvent() : new WindowRestoredEvent()));
+        glfw.glfwSetWindowCloseCallback(RT.Window.handle, (window) -> MessageBus.submit(new WindowClosedEvent()));
+        glfw.glfwSetWindowPosCallback(RT.Window.handle, (window, x, y) -> MessageBus.submit(new WindowMovedEvent(x, y)));
+        glfw.glfwSetWindowSizeCallback(RT.Window.handle, (window, w, h) -> MessageBus.submit(new WindowResizedEvent(w, h)));
+        glfw.glfwSetWindowFocusCallback(RT.Window.handle, (window, b) -> MessageBus.submit(b ? new WindowFocusGainedEvent() : new WindowsFocusLostEvent()));
+        glfw.glfwSetWindowIconifyCallback(RT.Window.handle, (window, b) -> MessageBus.submit(b ? new WindowMinimizedEvent() : new WindowRestoredEvent()));
+        glfw.glfwSetWindowMaximizeCallback(RT.Window.handle, (window, b) -> MessageBus.submit(b ? new WindowMaximizedEvent() : new WindowRestoredEvent()));
 
-        glfw.glfwSetScrollCallback(RT.Window.handle, (_, x, _) -> MessageBus.submit(new InputMouseScrolledEvent((byte) (x > 0 ? 1 :(x < 0 ? -1 : 0)))));
-        glfw.glfwSetCursorPosCallback(RT.Window.handle, (_ , x, y) -> MessageBus.submit(new InputMouseMovedEvent(x, y)));
-        glfw.glfwSetCursorEnterCallback(RT.Window.handle, (_, entered) -> MessageBus.submit(entered ? new InputMouseEnteredEvent() : new InputMouseLeftEvent()));
-        glfw.glfwSetMouseButtonCallback(RT.Window.handle, (_, button, action, _) -> MessageBus.submit(action != GLFW_RELEASE ? new InputMousePressedEvent(Mouse.from(button)) : new InputMouseReleasedEvent(Mouse.from(button))));
+        glfw.glfwSetScrollCallback(RT.Window.handle, (window, x, y) -> MessageBus.submit(new InputMouseScrolledEvent((byte) (x > 0 ? 1 :(x < 0 ? -1 : 0)))));
+        glfw.glfwSetCursorPosCallback(RT.Window.handle, (window , x, y) -> MessageBus.submit(new InputMouseMovedEvent(x, y)));
+        glfw.glfwSetCursorEnterCallback(RT.Window.handle, (window, entered) -> MessageBus.submit(entered ? new InputMouseEnteredEvent() : new InputMouseLeftEvent()));
+        glfw.glfwSetMouseButtonCallback(RT.Window.handle, (window, button, action, mods) -> MessageBus.submit(action != GLFW_RELEASE ? new InputMousePressedEvent(Mouse.from(button)) : new InputMouseReleasedEvent(Mouse.from(button))));
 
-        glfw.glfwSetKeyCallback(RT.Window.handle, (_, key, _, action, _) -> MessageBus.submit(action != GLFW_RELEASE ? new InputKeyboardPressedEvent(Keyboard.from(key)) : new InputKeyboardReleasedEvent(Keyboard.from(key))));
+        glfw.glfwSetKeyCallback(RT.Window.handle, (window, key, scancode, action, mods) -> MessageBus.submit(action != GLFW_RELEASE ? new InputKeyboardPressedEvent(Keyboard.from(key)) : new InputKeyboardReleasedEvent(Keyboard.from(key))));
 
         MessageBus.subscribe(this);
         return true;

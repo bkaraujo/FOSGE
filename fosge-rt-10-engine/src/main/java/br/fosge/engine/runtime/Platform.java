@@ -27,7 +27,7 @@ public abstract class Platform implements Facade {
         // Incorporated from the GLFW private code
         // so the log message goes to the engine pipeline
         glfwErrorCallback = GLFWErrorCallback.create(new GLFWErrorCallback() {
-            private final Map<Integer, String> ERROR_CODES = APIUtil.apiClassTokens((_, value) -> 0x10000 < value && value < 0x20000, null, GLFW.class);
+            private final Map<Integer, String> ERROR_CODES = APIUtil.apiClassTokens((ignored, value) -> 0x10000 < value && value < 0x20000, null, GLFW.class);
 
             @Override
             public void invoke(int error, long description) {

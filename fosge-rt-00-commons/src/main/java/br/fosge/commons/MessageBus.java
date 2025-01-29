@@ -73,7 +73,7 @@ public abstract class MessageBus implements Facade {
 
             subscribed++;
             processors
-                    .computeIfAbsent(parameters[0].getType(), _ -> new ArrayList<>())
+                    .computeIfAbsent(parameters[0].getType(), ignored -> new ArrayList<>())
                     .add(new MessageProcessor(container, method));
         }
 

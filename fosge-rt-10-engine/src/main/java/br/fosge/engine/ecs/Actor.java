@@ -38,7 +38,7 @@ public record Actor (
 
             ComponentType type;
             try { type = ComponentType.valueOf(component.asString("type")); }
-            catch (IllegalArgumentException _) {
+            catch (IllegalArgumentException ignored) {
                 Logger.error("Invalid component type: " + component.asString("type"));
                 continue;
             }

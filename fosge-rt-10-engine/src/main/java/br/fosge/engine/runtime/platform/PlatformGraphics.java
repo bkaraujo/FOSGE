@@ -43,7 +43,7 @@ public final class PlatformGraphics implements Lifecycle {
             opengl.glEnable(GL_DEBUG_OUTPUT);
             opengl.glEnable(GL_DEBUG_OUTPUT_SYNCHRONOUS);
 
-            debugCallback = GLDebugMessageCallback.create((source, type, id, severity, length, message, _) -> {
+            debugCallback = GLDebugMessageCallback.create((source, type, id, severity, length, message, ignored) -> {
                 Logger.debug(
                         "\nID      : 0x%s\nSource  : %s\nType    : %s\nSeverity: %s\nMessage : %s",
                         Integer.toHexString(id).toUpperCase(),

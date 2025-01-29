@@ -29,6 +29,6 @@ public abstract class Tasks implements Facade {
 
     public static void sleep(final long millis) {
         try { Thread.sleep(millis); }
-        catch (final InterruptedException _) {}
+        catch (final InterruptedException ignored) {}
     }
 }

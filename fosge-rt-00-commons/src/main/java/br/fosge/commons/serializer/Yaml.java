@@ -311,32 +311,32 @@ public final class Yaml {
         if (Meta.assignable(type, Number.class)) {
             if (Meta.assignable(type, Byte.class)) {
                 try { return Meta.cast(Byte.parseByte(value.toString()), type); }
-                catch (final NumberFormatException _) { Logger.fatal("Expected a number, got %s", value); }
+                catch (final NumberFormatException ignored) { Logger.fatal("Expected a number, got %s", value); }
             }
 
             if (Meta.assignable(type, Short.class)) {
                 try { return Meta.cast(Short.parseShort(value.toString()), type); }
-                catch (final NumberFormatException _) { Logger.fatal("Expected a number, got %s", value); }
+                catch (final NumberFormatException ignored) { Logger.fatal("Expected a number, got %s", value); }
             }
 
             if (Meta.assignable(type, Integer.class)) {
                 try { return Meta.cast(Integer.parseInt(value.toString()), type); }
-                catch (final NumberFormatException _) { Logger.fatal("Expected a number, got %s", value); }
+                catch (final NumberFormatException ignored) { Logger.fatal("Expected a number, got %s", value); }
             }
 
             if (Meta.assignable(type, Long.class)) {
                 try { return Meta.cast(Long.parseLong(value.toString()), type); }
-                catch (final NumberFormatException _) { Logger.fatal("Expected a number, got %s", value); }
+                catch (final NumberFormatException ignored) { Logger.fatal("Expected a number, got %s", value); }
             }
 
             if (Meta.assignable(type, Float.class)) {
                 try { return Meta.cast(Float.parseFloat(value.toString()), type); }
-                catch (final NumberFormatException _) { Logger.fatal("Expected a number, got %s", value); }
+                catch (final NumberFormatException ignored) { Logger.fatal("Expected a number, got %s", value); }
             }
 
             if (Meta.assignable(type, Double.class)) {
                 try { return Meta.cast(Double.parseDouble(value.toString()), type); }
-                catch (final NumberFormatException _) { Logger.fatal("Expected a number, got %s", value); }
+                catch (final NumberFormatException ignored) { Logger.fatal("Expected a number, got %s", value); }
             }
         }
 

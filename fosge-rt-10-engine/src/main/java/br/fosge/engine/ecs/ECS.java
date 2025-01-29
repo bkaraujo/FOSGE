@@ -79,7 +79,7 @@ public abstract class ECS implements Facade {
         Meta.set(instance, "owner", entity);
 
         ofEntities.get(entity).add(instance);
-        ofComponents.computeIfAbsent(type, _ -> new ConcurrentLinkedQueue<>()).add(instance);
+        ofComponents.computeIfAbsent(type, ignored -> new ConcurrentLinkedQueue<>()).add(instance);
 
         return instance;
     }

@@ -42,4 +42,76 @@ public abstract class Strings {
 
         return true;
     }
+
+    public static byte[] bytes(String name) {
+        if (name == null || name.isEmpty()) { return null; }
+        final var tokens = name.split(",");
+
+        final var values = new byte[tokens.length];
+        for (int i = 0; i < values.length; i++) {
+            values[i] = Byte.parseByte(tokens[i].trim());
+        }
+
+        return values;
+    }
+
+    public static short[] shorts(String name) {
+        if (name == null || name.isEmpty()) { return null; }
+        final var tokens = name.split(",");
+
+        final var values = new short[tokens.length];
+        for (int i = 0; i < values.length; i++) {
+            values[i] = Short.parseShort(tokens[i].trim());
+        }
+
+        return values;
+    }
+
+    public static int[] ints(String name) {
+        if (name == null || name.isEmpty()) { return null; }
+        final var tokens = name.split(",");
+
+        final var values = new int[tokens.length];
+        for (int i = 0; i < values.length; i++) {
+            values[i] = Integer.parseInt(tokens[i].trim());
+        }
+
+        return values;
+    }
+
+    public static long[] longs(String name) {
+        if (name == null || name.isEmpty()) { return null; }
+        final var tokens = name.split(",");
+
+        final var values = new long[tokens.length];
+        for (int i = 0; i < values.length; i++) {
+            values[i] = Long.parseLong(tokens[i].trim());
+        }
+
+        return values;
+    }
+
+    public static float[] floats(String name) {
+        if (name == null || name.isEmpty()) { return null; }
+        final var tokens = name.split(",");
+
+        final var values = new float[tokens.length];
+        for (int i = 0; i < values.length; i++) {
+            values[i] = Float.parseFloat(tokens[i].trim());
+        }
+
+        return values;
+    }
+
+    public static double[] doubles(String name) {
+        if (name == null || name.isEmpty()) { return null; }
+        final var tokens = name.split(",");
+
+        final var values = new double[tokens.length];
+        for (int i = 0; i < values.length; i++) {
+            values[i] = Double.parseDouble(tokens[i].trim());
+        }
+
+        return values;
+    }
 }

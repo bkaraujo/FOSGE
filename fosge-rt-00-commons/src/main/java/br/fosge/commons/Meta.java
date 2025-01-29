@@ -1,12 +1,16 @@
 package br.fosge.commons;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.util.List;
 
 public abstract class Meta {
     private Meta() { /* Private constructor */  }
 
-    public static <T> T instance(Class<T> type, String property) {
-        if (property == null) { Logger.fatal("property is null"); return cast(new Object(), type);}
+    @Nonnull
+    public static <T> T instance(@Nonnull Class<T> type, @Nullable String property) {
+        if (type == null) { Logger.fatal("type is null"); return null; }
+        if (property == null) { Logger.fatal("property is null"); return cast(new Object(), type); }
 
         try {
             final var klass = Class.forName(property);
@@ -17,29 +21,33 @@ public abstract class Meta {
         }
     }
 
-    public static boolean assignable(Object object, Class<?> type) {
-        if (object == null) return false;
+    public static boolean assignable(@Nullable Object object, @Nullable Class<?> type) {
+        if (object == null || type == null) return false;
         return assignable(object.getClass(), type);
     }
 
-    public static boolean assignable(Class<?> object, Class<?> type) {
+    public static boolean assignable(@Nullable Class<?> object, @Nullable Class<?> type) {
         if (object == null || type == null) return false;
         return type.isAssignableFrom(object);
     }
 
-    public static String fqn(Object type) {
+    @Nonnull
+    public static String fqn(@Nonnull Object type) {
         return fqn(type.getClass());
     }
 
-    public static String fqn(Class<?> type) {
+    @Nonnull
+    public static String fqn(@Nonnull Class<?> type) {
         return type.getTypeName();
     }
 
-    public static <T> T cast(Object object, Class<T> type) {
+    @Nonnull
+    public static <T> T cast(@Nullable Object object, @Nullable Class<T> type) {
         if (!assignable(object, type)) { Logger.fatal("%s is not assignable to %s", type, object); }
         return type.cast(object);
     }
 
+    @Nonnull
     public static List<StackFrame> stackTrace() {
         return StackWalker
                 .getInstance()
@@ -52,12 +60,16 @@ public abstract class Meta {
                 );
     }
 
-    public static void exit(int code, String message, Object ... args) {
+    public static void exit(int code) {
+        exit(code, null);
+    }
+
+    public static void exit(int code, @Nullable String message, @Nullable Object ... args) {
         Logger.info(message, args);
         System.exit(code);
     }
 
-    public static void set(Object object, String field, Object value) {
+    public static void set(@Nonnull Object object, @Nonnull String field, @Nullable Object value) {
         try {
             final var target = object.getClass().getField(field);
             target.setAccessible(true);
@@ -67,10 +79,8 @@ public abstract class Meta {
         }
     }
 
-    public static boolean equals(Object object, Object ... others) {
-        if (object == null) return false;
-        if (others == null) return false;
-
+    public static boolean equals(@Nullable Object object, @Nullable Object ... others) {
+        if (object == null || others == null) return false;
         for (final var other : others) {
             if (!object.equals(other)) return false;
         }

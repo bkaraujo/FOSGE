@@ -1,4 +1,4 @@
-package br.fosge.engine.renderer.dd;
+package br.fosge.engine.runtime.renderer.dd;
 
 import br.fosge.commons.annotation.Specification;
 

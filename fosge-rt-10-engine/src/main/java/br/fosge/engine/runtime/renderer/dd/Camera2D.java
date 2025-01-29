@@ -1,4 +1,4 @@
-package br.fosge.engine.renderer.dd;
+package br.fosge.engine.runtime.renderer.dd;
 
 import br.fosge.commons.Logger;
 import br.fosge.commons.Meta;
@@ -8,6 +8,8 @@ import br.fosge.engine.runtime.ecs.component.TransformComponent;
 import org.joml.Matrix4f;
 import org.joml.Matrix4fc;
 import org.joml.Vector3f;
+
+import javax.annotation.Nonnull;
 
 public final class Camera2D implements Camera {
     public final TransformComponent transform = TransformComponent.create();
@@ -32,11 +34,13 @@ public final class Camera2D implements Camera {
     }
 
     @Override
+    @Nonnull
     public Matrix4fc projectionMatrix() {
         return projectionMatrix;
     }
 
     @Override
+    @Nonnull
     public Matrix4fc viewProjectionMatrix() {
         // Do not recalculate if it didn't move
         if (position.equals(transform.position) && rotation.equals(transform.rotation)) {

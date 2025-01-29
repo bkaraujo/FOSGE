@@ -2,6 +2,7 @@ package br.fosge.engine.runtime.ecs.component;
 
 import br.fosge.RT;
 import br.fosge.commons.Logger;
+import br.fosge.commons.Strings;
 import br.fosge.commons.Tuple;
 import br.fosge.engine.Resources;
 import br.fosge.engine.ecs.Component;
@@ -74,8 +75,8 @@ public final class MeshComponent extends Component {
         }
 
         Logger.trace("Attaching geometry: %s", instance.geometry);
-        instance.geometry.elements(toInts("geometry.elements", properties));
-        instance.geometry.vertices(toFloats("geometry.vertices", properties));
+        instance.geometry.elements(Strings.ints(find("geometry.elements", properties)));
+        instance.geometry.vertices(Strings.floats(find("geometry.vertices", properties)));
 
         return instance;
     }

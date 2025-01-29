@@ -215,31 +215,12 @@ public final class Yaml {
     public Boolean  asBoolean   (final String key) { return find(key, Boolean   .class); }
     public Double   asDouble    (final String key) { return find(key, Double    .class); }
 
-    public int[]    asoInts(String name, Tuple... properties) {
-        final var content = asString(name);
-        if (content == null) return null;
-
-        final var tokens = content.split(",");
-        final var ints = new int[tokens.length];
-        for (int i = 0; i < ints.length; i++) {
-            ints[i] = Integer.parseInt(tokens[i].trim());
-        }
-
-        return ints;
-    }
-
-    public float[] asFloats(String name) {
-        final var content = asString(name);
-        if (content == null) return null;
-
-        final var tokens = content.split(",");
-        final var floats = new float[tokens.length];
-        for (int i = 0; i < floats.length; i++) {
-            floats[i] = Float.parseFloat(tokens[i].trim());
-        }
-
-        return floats;
-    }
+    public byte[]   asBytes     (String name) { return Strings.bytes    (asString(name)); }
+    public short[]  asShorts    (String name) { return Strings.shorts   (asString(name)); }
+    public int[]    asInts      (String name) { return Strings.ints     (asString(name)); }
+    public long[]   asLongs     (String name) { return Strings.longs    (asString(name)); }
+    public float[]  asFloats    (String name) { return Strings.floats   (asString(name)); }
+    public double[] asDoubles   (String name) { return Strings.doubles  (asString(name)); }
 
     public String asString(final String key) {
         final var string = find(key, String.class);

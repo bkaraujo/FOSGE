@@ -25,11 +25,15 @@ public final class EngineLauncher extends Launcher {
             return false;
         }
 
-        Logger.info("Initializing Application: %s.%s.%s",
-                yaml.asInt("fosge.application.version.major"),
-                yaml.asInt("fosge.application.version.minor"),
-                yaml.asInt("fosge.application.version.rev")
-        );
+        if (yaml.contains("fosge.application.version")) {
+            Logger.info("Initializing Application: %s.%s.%s",
+                    yaml.asInt("fosge.application.version.major"),
+                    yaml.asInt("fosge.application.version.minor"),
+                    yaml.asInt("fosge.application.version.rev")
+            );
+        } else {
+            Logger.info("Initializing Application");
+        }
 
         final var settings = RT.yaml.subtree("fosge.engine");
         if (settings != null) {

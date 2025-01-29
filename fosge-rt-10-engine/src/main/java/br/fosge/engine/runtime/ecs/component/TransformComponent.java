@@ -1,5 +1,6 @@
 package br.fosge.engine.runtime.ecs.component;
 
+import br.fosge.commons.Strings;
 import br.fosge.commons.Tuple;
 import br.fosge.engine.ecs.Component;
 import br.fosge.engine.runtime.ecs.ComponentType;
@@ -21,9 +22,9 @@ public class TransformComponent  extends Component {
         final var component = new TransformComponent();
 
         if (properties != null && properties.length > 0) {
-            component.position.set(toFloats("position", properties));
-            component.rotation.set(toFloats("rotation", properties));
-            component.scale.set(toFloats("scale", properties));
+            component.position.set(Strings.floats(find("position", properties)));
+            component.rotation.set(Strings.floats(find("rotation", properties)));
+            component.scale.set(Strings.floats(find("scale", properties)));
         }
 
         return component;

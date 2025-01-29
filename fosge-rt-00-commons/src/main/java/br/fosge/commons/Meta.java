@@ -28,7 +28,14 @@ public abstract class Meta {
 
     public static boolean assignable(@Nullable Class<?> object, @Nullable Class<?> type) {
         if (object == null || type == null) return false;
-        return type.isAssignableFrom(object);
+        if (!object.isPrimitive()) { return type.isAssignableFrom(object); }
+
+        final var typeName = type.getSimpleName();
+        final var objectName = object.getSimpleName();
+        if (typeName.equalsIgnoreCase(objectName)) { return true; }
+        if (typeName.equals("int")) { return objectName.equalsIgnoreCase("integer"); }
+
+        return false;
     }
 
     @Nonnull
@@ -69,13 +76,24 @@ public abstract class Meta {
         System.exit(code);
     }
 
-    public static void set(@Nonnull Object object, @Nonnull String field, @Nullable Object value) {
+    /** Set the field casting the value to the field type */
+    public static void set(@Nonnull Object object, @Nonnull String fieldName, @Nullable Object fieldValue) {
         try {
-            final var target = object.getClass().getField(field);
-            target.setAccessible(true);
-            target.set(object, value);
+            final var field = object.getClass().getField(fieldName);
+            field.setAccessible(true);
+
+            if (fieldValue == null) { field.set(object, null); return; }
+            if (Meta.assignable(field.getType(), Byte   .class)) { field.set(object, Byte   .valueOf(fieldValue.toString())); return; }
+            if (Meta.assignable(field.getType(), Short  .class)) { field.set(object, Short  .valueOf(fieldValue.toString())); return; }
+            if (Meta.assignable(field.getType(), Integer.class)) { field.set(object, Integer.valueOf(fieldValue.toString())); return; }
+            if (Meta.assignable(field.getType(), Long   .class)) { field.set(object, Long   .valueOf(fieldValue.toString())); return; }
+            if (Meta.assignable(field.getType(), Float  .class)) { field.set(object, Float  .valueOf(fieldValue.toString())); return; }
+            if (Meta.assignable(field.getType(), Double .class)) { field.set(object, Double .valueOf(fieldValue.toString())); return; }
+            if (Meta.assignable(field.getType(), Boolean.class)) { field.set(object, Boolean.valueOf(fieldValue.toString())); return; }
+
+            field.set(object, fieldValue);
         } catch (Throwable throwable) {
-            Logger.fatal("Failed to set %s: %s", field, throwable);
+            Logger.fatal("Failed to set %s: %s", fieldName, throwable);
         }
     }
 

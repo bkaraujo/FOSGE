@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>br.bkraujo</groupId>
+        <artifactId>fosge-aa-parent</artifactId>
+        <version>1.0.0</version>
+        <relativePath>../fosge-aa-parent</relativePath>
+    </parent>
+
+    <artifactId>fosge-engine</artifactId>
+
+    <properties>
+        <dependency.runtime.joml>1.10.7</dependency.runtime.joml>
+        <dependency.runtime.joml-p>1.10.0</dependency.runtime.joml-p>
+        <dependency.runtime.ulid>5.2.3</dependency.runtime.ulid>
+        <dependency.runtime.jackson>2.18.1</dependency.runtime.jackson>
+        <dependency.runtime.jgit>7.1.0.202411261347-r</dependency.runtime.jgit>
+        <dependency.runtime.flatlaf>3.2.1</dependency.runtime.flatlaf>
+    </properties>
+
+    <dependencies>
+        <!-- ################################################################################################## -->
+        <!--                                                                                                    -->
+        <!--                                               COMMONS                                              -->
+        <!--                                                                                                    -->
+        <!-- ################################################################################################## -->
+        <dependency><groupId>org.lwjgl</groupId><artifactId>lwjgl</artifactId></dependency>
+        <dependency><groupId>org.lwjgl</groupId><artifactId>lwjgl</artifactId><classifier>natives-${fosge.platform}</classifier></dependency>
+        <dependency><groupId>com.github.f4b6a3</groupId><artifactId>ulid-creator</artifactId><version>${dependency.runtime.ulid}</version></dependency>
+        <dependency><groupId>com.fasterxml.jackson.dataformat</groupId><artifactId>jackson-dataformat-yaml</artifactId><version>${dependency.runtime.jackson}</version></dependency>
+        <dependency><groupId>com.fasterxml.jackson.datatype</groupId><artifactId>jackson-datatype-jsr310</artifactId><version>${dependency.runtime.jackson}</version></dependency>
+        <!-- ################################################################################################## -->
+        <!--                                                                                                    -->
+        <!--                                               EDITOR                                               -->
+        <!--                                                                                                    -->
+        <!-- ################################################################################################## -->
+        <dependency><groupId>com.miglayout</groupId><artifactId>miglayout-swing</artifactId><version>11.4.2</version></dependency>
+        <dependency><groupId>com.formdev</groupId><artifactId>flatlaf</artifactId><version>${dependency.runtime.flatlaf}</version></dependency>
+        <dependency><groupId>com.formdev</groupId><artifactId>flatlaf-extras</artifactId><version>${dependency.runtime.flatlaf}</version></dependency>
+        <dependency><groupId>org.eclipse.jgit</groupId><artifactId>org.eclipse.jgit</artifactId><version>${dependency.runtime.jgit}</version></dependency>
+        <!-- ################################################################################################## -->
+        <!--                                                                                                    -->
+        <!--                                               ENGINE                                               -->
+        <!--                                                                                                    -->
+        <!-- ################################################################################################## -->
+        <dependency><groupId>org.lwjgl</groupId><artifactId>lwjgl-assimp</artifactId></dependency>
+        <dependency><groupId>org.lwjgl</groupId><artifactId>lwjgl-glfw</artifactId></dependency>
+        <dependency><groupId>org.lwjgl</groupId><artifactId>lwjgl-openal</artifactId></dependency>
+        <dependency><groupId>org.lwjgl</groupId><artifactId>lwjgl-opengl</artifactId></dependency>
+        <dependency><groupId>org.lwjgl</groupId><artifactId>lwjgl-stb</artifactId></dependency>
+        <dependency><groupId>org.lwjgl</groupId><artifactId>lwjgl-jemalloc</artifactId></dependency>
+        <dependency><groupId>org.lwjgl</groupId><artifactId>lwjgl-assimp</artifactId><classifier>natives-${fosge.platform}</classifier></dependency>
+        <dependency><groupId>org.lwjgl</groupId><artifactId>lwjgl-glfw</artifactId><classifier>natives-${fosge.platform}</classifier></dependency>
+        <dependency><groupId>org.lwjgl</groupId><artifactId>lwjgl-openal</artifactId><classifier>natives-${fosge.platform}</classifier></dependency>
+        <dependency><groupId>org.lwjgl</groupId><artifactId>lwjgl-opengl</artifactId><classifier>natives-${fosge.platform}</classifier></dependency>
+        <dependency><groupId>org.lwjgl</groupId><artifactId>lwjgl-stb</artifactId><classifier>natives-${fosge.platform}</classifier></dependency>
+        <dependency><groupId>org.lwjgl</groupId><artifactId>lwjgl-jemalloc</artifactId><classifier>natives-${fosge.platform}</classifier></dependency>
+        <dependency><groupId>org.joml</groupId><artifactId>joml</artifactId><version>${dependency.runtime.joml}</version></dependency>
+        <dependency><groupId>org.joml</groupId><artifactId>joml-primitives</artifactId><version>${dependency.runtime.joml-p}</version></dependency>
+    </dependencies>
+
+    <profiles>
+        <profile>
+            <id>editor</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.codehaus.mojo</groupId>
+                        <artifactId>exec-maven-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <phase>verify</phase>
+                                <goals>
+                                    <goal>java</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                        <configuration>
+                            <mainClass>${fosge.launcher}</mainClass>
+                            <arguments>X:\java\FOSGE\editor</arguments>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
+</project>

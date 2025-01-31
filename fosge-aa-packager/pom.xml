@@ -11,10 +11,7 @@
 
     <modules>
         <module>../fosge-aa-parent</module>
-        <module>../fosge-rt-00-commons</module>
-        <module>../fosge-rt-10-engine</module>
-        <module>../fosge-rt-20-editor</module>
-        <module>../fosge-rt-99-launcher</module>
+        <module>../fosge-engine</module>
     </modules>
 
     <profiles>

@@ -1,6 +1,8 @@
-package br.fosge.commons.serializer;
+package br.fosge.commons;
 
 import br.fosge.commons.graphics.Resolution;
+import br.fosge.commons.serializer.Yaml;
+import br.fosge.commons.serializer.YamlEntry;
 import org.junit.jupiter.api.Test;
 
 import java.nio.file.Path;

@@ -137,7 +137,7 @@ public final class PlatformGraphics implements Lifecycle {
         opengl.glClearColor(color.x(), color.y(), color.z(), color.w());
     }
 
-    public void draw(Shader shader, Geometry geometry) {
+    public void draw(Geometry geometry) {
         opengl.glDrawElements(
                 GLParser.parse(geometry.mode()),
                 geometry.elements(),

@@ -33,7 +33,7 @@ public record ShaderSpec (
             return;
         }
 
-        final var tokens = payload.split("//");
+        final var tokens = payload.split("#shader");
         for (final var token : tokens) {
             final var trimmed = token.trim();
 

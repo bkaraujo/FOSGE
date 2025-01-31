@@ -1,6 +1,5 @@
 package br.fosge.engine.runtime.ecs.system;
 
-import br.fosge.engine.Graphics;
 import br.fosge.engine.ecs.ECS;
 import br.fosge.engine.ecs.System;
 import br.fosge.engine.graphics.Shader;
@@ -14,6 +13,7 @@ import java.util.Map;
 
 import static br.fosge.RT.Application.scene;
 import static br.fosge.RT.yaml;
+import static br.fosge.engine.runtime.Platform.graphics;
 
 public final class RenderSystem implements System {
     private final Map<Shader, List<MeshComponent>> ofShaders = new HashMap<>();
@@ -52,15 +52,15 @@ public final class RenderSystem implements System {
             shader.uniform(viewProjectionMatrix, scene.camera().viewProjectionMatrix());
 
             for (final var mesh : entry.getValue()) {
+                final var transform = ECS.get(mesh.owner, TransformComponent.class);
+                shader.uniform(modelMatrix, transform.matrix());
+
+                mesh.geometry.bind();
                 for (int i = 0 ; i < mesh.textures.size() ; ++i) {
                     mesh.textures.get(i).bind(i);
                 }
 
-                 final var transform = ECS.get(mesh.owner, TransformComponent.class);
-                shader.uniform(modelMatrix, transform.matrix());
-                mesh.geometry.bind();
-
-                Graphics.draw(mesh.shader, mesh.geometry);
+                graphics.draw(mesh.geometry);
             }
         }
     }

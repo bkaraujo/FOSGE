@@ -18,4 +18,30 @@
         <dependency><groupId>br.bkraujo</groupId><artifactId>fosge-editor</artifactId><version>${project.version}</version></dependency>
     </dependencies>
 
+    <profiles>
+        <profile>
+            <id>editor</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.codehaus.mojo</groupId>
+                        <artifactId>exec-maven-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <phase>verify</phase>
+                                <goals>
+                                    <goal>java</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                        <configuration>
+                            <mainClass>${fosge.launcher}</mainClass>
+                            <arguments>X:\java\FOSGE\fosge-rt-20-editor</arguments>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
+
 </project>

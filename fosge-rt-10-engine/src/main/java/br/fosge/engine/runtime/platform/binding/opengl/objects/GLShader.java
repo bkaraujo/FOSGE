@@ -77,7 +77,7 @@ public final class GLShader implements Shader {
             return false;
         }
 
-        fileName = spec.shaderFile().toString();
+        fileName = spec.file().toString();
         // ##################################################
         // Compile shader
         // ##################################################

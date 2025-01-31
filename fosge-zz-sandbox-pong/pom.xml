@@ -24,6 +24,60 @@
 
     <profiles>
         <profile>
+            <id>release</id>
+            <build>
+                <plugins>
+                    <!-- ############################################################## -->
+                    <!-- create the uber jar with all dependencies for current platform -->
+                    <!-- ############################################################## -->
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-shade-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <phase>package</phase>
+                                <goals>
+                                    <goal>shade</goal>
+                                </goals>
+                                <configuration>
+                                    <shadedArtifactAttached>true</shadedArtifactAttached>
+                                    <shadedClassifierName>no-deps-${fosge.platform}</shadedClassifierName>
+                                    <filters>
+                                        <filter>
+                                            <!-- exclude files that sign a jar -->
+                                            <artifact>*:*</artifact>
+                                            <excludes>
+                                                <exclude>META-INF/*.SF</exclude>
+                                                <exclude>META-INF/*.RSA</exclude>
+                                                <exclude>META-INF/*.DSA</exclude>
+                                            </excludes>
+                                        </filter>
+                                    </filters>
+                                    <transformers>
+                                        <!-- exclude any other manifest files -->
+                                        <transformer
+                                                implementation="org.apache.maven.plugins.shade.resource.DontIncludeResourceTransformer">
+                                            <resource>MANIFEST.MF</resource>
+                                        </transformer>
+                                        <!-- include the LWJGL manifest file in the uber jar -->
+                                        <transformer
+                                                implementation="org.apache.maven.plugins.shade.resource.IncludeResourceTransformer">
+                                            <resource>META-INF/MANIFEST.MF</resource>
+                                            <file>${project.build.directory}/tmp/META-INF/MANIFEST.MF</file>
+                                        </transformer>
+                                        <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+                                            <mainClass>${fosge.launcher}</mainClass>
+                                        </transformer>
+                                    </transformers>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+
+        <profile>
             <id>pong</id>
             <build>
                 <plugins>
@@ -47,55 +101,4 @@
             </build>
         </profile>
     </profiles>
-
-    <build>
-        <plugins>
-            <!-- ############################################################## -->
-            <!-- create the uber jar with all dependencies for current platform -->
-            <!-- ############################################################## -->
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-shade-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>shade</goal>
-                        </goals>
-                        <configuration>
-                            <shadedArtifactAttached>true</shadedArtifactAttached>
-                            <shadedClassifierName>no-deps-${fosge.platform}</shadedClassifierName>
-                            <filters>
-                                <filter>
-                                    <!-- exclude files that sign a jar -->
-                                    <artifact>*:*</artifact>
-                                    <excludes>
-                                        <exclude>META-INF/*.SF</exclude>
-                                        <exclude>META-INF/*.RSA</exclude>
-                                        <exclude>META-INF/*.DSA</exclude>
-                                    </excludes>
-                                </filter>
-                            </filters>
-                            <transformers>
-                                <!-- exclude any other manifest files -->
-                                <transformer
-                                        implementation="org.apache.maven.plugins.shade.resource.DontIncludeResourceTransformer">
-                                    <resource>MANIFEST.MF</resource>
-                                </transformer>
-                                <!-- include the LWJGL manifest file in the uber jar -->
-                                <transformer
-                                        implementation="org.apache.maven.plugins.shade.resource.IncludeResourceTransformer">
-                                    <resource>META-INF/MANIFEST.MF</resource>
-                                    <file>${project.build.directory}/tmp/META-INF/MANIFEST.MF</file>
-                                </transformer>
-                                <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
-                                    <mainClass>${fosge.launcher}</mainClass>
-                                </transformer>
-                            </transformers>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-        </plugins>
-    </build>
 </project>

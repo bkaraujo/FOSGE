@@ -22,7 +22,7 @@ fosge:
       clearColor: ".25, .33, .18"
       camera:
         depth: "-1.0, 1.0"
-        rectangle: "-3.0, 3.0, -3.0, 3.0"
+        rectangle: "-21.0, 21.0, -21.0, 21.0"
       actors:
       - name: "environment"
         identity: "01JJPF8ZPC6ZZ7ZJVC9VVTYHS2"
@@ -38,7 +38,7 @@ fosge:
         - type: "AUDIO_SOURCE_COMPONENT"
           properties:
           - name: "path"
-            value: "audio/overworld.ogg"
+            value: "audio/music/overworld.ogg"
           - name: "loop"
             value: "true"
           - name: "gain"

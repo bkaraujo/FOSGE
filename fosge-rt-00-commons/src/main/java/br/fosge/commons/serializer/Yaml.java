@@ -57,6 +57,11 @@ public final class Yaml {
         raw.clear();
     }
 
+    public Path folder() {
+        if (source == null) return null;
+        return source.getParent();
+    }
+
     public Map<String, Object> raw() {
         return Collections.unmodifiableMap(raw);
     }

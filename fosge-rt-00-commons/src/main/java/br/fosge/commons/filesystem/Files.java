@@ -18,7 +18,7 @@ public abstract class Files {
             return buf;
         } catch (Throwable throwable) {
             Logger.error("Failed to read stream: %s", throwable);
-            return null;
+            return new byte[0];
         }
     }
 }

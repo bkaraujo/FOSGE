@@ -3,29 +3,33 @@ package br.fosge.engine.graphics.shader;
 import br.fosge.commons.Logger;
 import br.fosge.commons.annotation.Specification;
 
+import javax.annotation.Nonnull;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 
 public record ShaderSpec (
-        Path shaderFile,
+        Path file,
     List<ShaderSource> sources
 ) implements Specification {
 
-    public ShaderSpec(Path shaderFile) {
-        this(shaderFile, new ArrayList<>());
+    public ShaderSpec() {
+        this(null, new ArrayList<>());
+    }
+
+    public ShaderSpec(@Nonnull Path desired) {
+        this(desired, new ArrayList<>());
 
         final String payload;
-
         try {
-            payload = Files.readString(shaderFile);
+            payload = Files.readString(file);
             if (payload == null || payload.isEmpty()) {
-                Logger.warn("Shader script is empty: %s", shaderFile);
+                Logger.warn("Shader script is empty: %s", file);
                 return;
             }
         } catch (Throwable throwable) {
-            Logger.error("Failed to read %s", shaderFile.toString());
+            Logger.error("Failed to read %s", file.toString());
             return;
         }
 
@@ -47,6 +51,6 @@ public record ShaderSpec (
 
     public String toString() {
         if (sources.isEmpty()) return "ShaderSpec: empty";
-        return shaderFile.toString();
+        return file.toString();
     }
 }

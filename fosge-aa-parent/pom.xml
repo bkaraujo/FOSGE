@@ -22,10 +22,12 @@
         <maven.plugin.shade>3.6.0</maven.plugin.shade>
         <maven.plugin.site>3.21.0</maven.plugin.site>
         <maven.plugin.exec>3.5.0</maven.plugin.exec>
+        <maven.plugin.surefire>3.5.2</maven.plugin.surefire>
 
         <maven.compiler.target>21</maven.compiler.target>
         <maven.compiler.source>21</maven.compiler.source>
         <maven.resources.encoding>UTF-8</maven.resources.encoding>
+        <maven.surefire.skipTest>true</maven.surefire.skipTest>
 
         <dependency.runtime.lwjgl>3.3.4</dependency.runtime.lwjgl>
         <dependency.runtime.aspectj>1.9.22.1</dependency.runtime.aspectj>
@@ -35,6 +37,11 @@
     </properties>
 
     <profiles>
+        <profile>
+            <id>release</id>
+            <properties><maven.surefire.skipTest>false</maven.surefire.skipTest></properties>
+        </profile>
+
         <profile>
             <id>linux-amd64</id>
             <activation><os><family>Linux</family><arch>amd64</arch></os></activation>
@@ -102,6 +109,7 @@
                 <plugin><groupId>org.apache.maven.plugins</groupId><artifactId>maven-resources-plugin</artifactId><version>${maven.plugin.resources}</version></plugin>
                 <plugin><groupId>org.apache.maven.plugins</groupId><artifactId>maven-dependency-plugin</artifactId><version>${maven.plugin.dependency}</version></plugin>
                 <plugin><groupId>org.apache.maven.plugins</groupId><artifactId>maven-compiler-plugin</artifactId><version>${maven.plugin.compile}</version></plugin>
+                <plugin><groupId>org.apache.maven.plugins</groupId><artifactId>maven-surefire-plugin</artifactId><version>${maven.plugin.surefire}</version></plugin>
                 <plugin><groupId>org.apache.maven.plugins</groupId><artifactId>maven-jar-plugin</artifactId><version>${maven.plugin.jar}</version></plugin>
                 <plugin><groupId>org.apache.maven.plugins</groupId><artifactId>maven-shade-plugin</artifactId><version>${maven.plugin.shade}</version></plugin>
                 <plugin><groupId>org.graalvm.buildtools</groupId><artifactId>native-maven-plugin</artifactId><version>${maven.plugin.native}</version></plugin>
@@ -121,6 +129,13 @@
                     <source>${maven.compiler.source}</source>
                     <target>${maven.compiler.target}</target>
                     <encoding>${maven.resources.encoding}</encoding>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <configuration>
+                    <skipTests>${maven.surefire.skipTest}</skipTests>
                 </configuration>
             </plugin>
             <!-- ############################################################## -->

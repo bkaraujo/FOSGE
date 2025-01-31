@@ -12,6 +12,7 @@ public abstract class Main implements Facade {
     private Main() {}
 
     public static void main(String ... args) {
+        Thread.currentThread().setName("FOSGE::Launcher");
         Logger.level(LogLevel.INFO);
 
         if (args.length == 0) { Meta.exit(0, "usage: java -jar fosge.jar <application path>"); }

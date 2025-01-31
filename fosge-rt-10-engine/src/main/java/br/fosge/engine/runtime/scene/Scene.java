@@ -1,4 +1,4 @@
-package br.fosge.engine.runtime;
+package br.fosge.engine.runtime.scene;
 
 import br.fosge.RT;
 import br.fosge.commons.Logger;

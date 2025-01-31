@@ -167,7 +167,10 @@ public abstract class Resources implements Facade {
     }
 
     public static Shader shader(String fileName) {
-        final var spec = new ShaderSpec(filesystem.assets.resolve(fileName));
+        return shader(new ShaderSpec(filesystem.assets.resolve(fileName)));
+    }
+
+    public static Shader shader(ShaderSpec specification) {
         final var shader = graphics.shader();
 
         if (!shader.initialize()) {
@@ -176,8 +179,8 @@ public abstract class Resources implements Facade {
             return null;
         }
 
-        if (!shader.configure(spec)) {
-            Logger.error("Failed to configure shader %s", spec);
+        if (!shader.configure(specification)) {
+            Logger.error("Failed to configure shader %s", specification);
             shader.terminate();
             return null;
         }

@@ -15,7 +15,15 @@
         <module>../fosge-rt-10-engine</module>
         <module>../fosge-rt-20-editor</module>
         <module>../fosge-rt-99-launcher</module>
-        <module>../fosge-zz-sandbox-pong</module>
     </modules>
+
+    <profiles>
+        <profile>
+            <id>sandbox</id>
+            <modules>
+                <module>../fosge-zz-sandbox-pong</module>
+            </modules>
+        </profile>
+    </profiles>
 
 </project>

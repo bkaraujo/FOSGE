@@ -20,6 +20,7 @@ import br.fosge.engine.platform.window.WindowRestoredEvent;
 import br.fosge.engine.runtime.ecs.system.AudioSystem;
 import br.fosge.engine.runtime.ecs.system.BehaviourSystem;
 import br.fosge.engine.runtime.ecs.system.RenderSystem;
+import br.fosge.engine.runtime.scene.Scene;
 
 import static br.fosge.RT.Application.scene;
 import static br.fosge.RT.Application.systems;

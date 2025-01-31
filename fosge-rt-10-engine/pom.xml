@@ -36,5 +36,4 @@
         <dependency><groupId>org.joml</groupId><artifactId>joml</artifactId><version>${dependency.runtime.joml}</version></dependency>
         <dependency><groupId>org.joml</groupId><artifactId>joml-primitives</artifactId><version>${dependency.runtime.joml-p}</version></dependency>
     </dependencies>
-
 </project>

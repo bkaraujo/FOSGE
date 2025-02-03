@@ -47,7 +47,17 @@ public abstract class Logger implements Facade {
     public static void info (String message, Object... args) { forwarder.info (message, args); }
     public static void warn (String message, Object... args) { forwarder.warn (message, args); }
     public static void error(String message, Object... args) { forwarder.error(message, args); }
-    public static void fatal(String message, Object... args) { forwarder.fatal(message, args); }
+    public static void fatal(String message, Object... args) {
+        final var local = new StringBuilder(message.formatted(args));
+        local.append("\n");
+
+        final var stackTrace = Meta.stackTrace();
+        for (final var entry : stackTrace.subList(2, stackTrace.size())) {
+            local.append(entry).append("\n");
+        }
+
+        forwarder.fatal(local.toString());
+    }
 
     public static void stackTrace(LogLevel level) {
         final var message = new StringBuilder("\n\n");
@@ -62,7 +72,6 @@ public abstract class Logger implements Facade {
             case INFO: info(message.toString()); break;
             case WARN: warn(message.toString()); break;
             case ERROR: error(message.toString()); break;
-            case FATAL: fatal(message.toString()); break;
         }
     }
 }

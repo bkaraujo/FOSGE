@@ -2,7 +2,13 @@ package br.fosge.commons;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import java.lang.reflect.Field;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public abstract class Meta {
     private Meta() { /* Private constructor */  }
@@ -79,7 +85,7 @@ public abstract class Meta {
     /** Set the field casting the value to the field type */
     public static void set(@Nonnull Object object, @Nonnull String fieldName, @Nullable Object fieldValue) {
         try {
-            final var field = object.getClass().getField(fieldName);
+            final var field = field(object, fieldName);
             field.setAccessible(true);
 
             if (fieldValue == null) { field.set(object, null); return; }
@@ -104,6 +110,53 @@ public abstract class Meta {
         }
 
         return true;
+    }
+
+    public static Field field(Object container, String name) {
+        for (final var field : fields(container)) {
+            if (field.getName().equals(name)) {
+                return field;
+            }
+        }
+
+        return null;
+    }
+
+    private static Set<Field> fields(Object container) {
+        return fields(container.getClass());
+    }
+
+    private static final Map<Class<?>, AtomicInteger> knownFieldsCount = new ConcurrentHashMap<>();
+    private static final Map<Class<?>, Set<Field>> knownFields = new ConcurrentHashMap<>();
+    private static Set<Field> fields(Class<?> container) {
+        if (knownFields.containsKey(container)) { return knownFields.get(container); }
+
+        knownFieldsCount
+                .computeIfAbsent(container, k -> new AtomicInteger(0))
+                .incrementAndGet();
+
+        final var fields = new HashSet<Field>();
+
+        Class<?> klass = container;
+        while (klass != null) {
+            try {
+                fields.addAll(List.of(klass.getFields()));
+                fields.addAll(List.of(klass.getDeclaredFields()));
+            } catch (Throwable ignored) {
+
+            }
+
+            klass = klass.getSuperclass();
+        }
+
+        if (knownFieldsCount.get(container).getAcquire() >= 3) {
+            if (!knownFields.containsKey(container)) {
+                Logger.trace("Creating Set<Field> for %s", container);
+                knownFields.put(container, fields);
+            }
+        }
+
+        return fields;
     }
 
 }

@@ -1,15 +1,13 @@
 package br.fosge.engine;
 
+import br.fosge.RT;
 import br.fosge.commons.annotation.Facade;
-import br.fosge.engine.graphics.Geometry;
-
-import static br.fosge.engine.runtime.Platform.graphics;
+import org.joml.Matrix4fc;
+import org.joml.Vector2ic;
 
 public abstract class Graphics implements Facade {
-    private Graphics() { /* Private constructor */ }
 
-    public static void draw(Geometry geometry) {
-        graphics.draw(geometry);
-    }
+    public static final Vector2ic windowSize = RT.Window.size;
+    public static final Matrix4fc projectionMatrix = RT.Graphics.projectionMatrix;
 
 }

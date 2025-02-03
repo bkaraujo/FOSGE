@@ -15,6 +15,8 @@ import br.fosge.engine.graphics.geometry.GeometrySpec;
 import br.fosge.engine.graphics.shader.ShaderSpec;
 
 import java.nio.ByteBuffer;
+import java.nio.file.Files;
+import java.nio.file.Path;
 
 import static br.fosge.engine.runtime.Platform.*;
 
@@ -143,6 +145,10 @@ public abstract class Resources implements Facade {
 
     public static Texture2D texture2d(String path, int mips) {
         final var absolute = filesystem.assets.resolve(path);
+        if (RT.debug && !Files.exists(absolute) && !Files.isRegularFile(absolute)) {
+            Logger.error("Failed to load %s", path);
+            return null;
+        }
 
         if (RT.debug) {
             for (final var texture : RT.Graphics.textures) {

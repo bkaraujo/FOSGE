@@ -43,7 +43,10 @@ public record Scene(
     private Scene(String name, Camera camera, Yaml yaml) {
         this(UlidCreator.getMonotonicUlid(), name, yaml, camera, new ArrayList<>());
         for (final var found : yaml.list("actors")) {
-            actors.add(Actor.from(found));
+            final var actor = Actor.from(found);
+            if (!actor.initialize()) { actor.terminate(); continue; }
+
+            actors.add(actor);
         }
     }
 

@@ -6,17 +6,14 @@ import br.fosge.engine.graphics.Shader;
 import br.fosge.engine.runtime.ecs.component.MeshComponent;
 import br.fosge.engine.runtime.ecs.component.TransformComponent;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import static br.fosge.RT.Application.scene;
 import static br.fosge.RT.yaml;
 import static br.fosge.engine.runtime.Platform.graphics;
 
 public final class RenderSystem implements System {
-    private final Map<Shader, List<MeshComponent>> ofShaders = new HashMap<>();
+    private final Map<Shader, SortedSet<MeshComponent>> ofShaders = new HashMap<>();
 
     private final String modelMatrix;
     private final String viewProjectionMatrix;
@@ -39,7 +36,15 @@ public final class RenderSystem implements System {
         // 2 - Sort by Shader
 
         for (final var mesh : ECS.list(MeshComponent.class)) {
-            ofShaders.computeIfAbsent(mesh.shader, ignored -> new ArrayList<>());
+            ofShaders.computeIfAbsent(mesh.shader, ignored -> new TreeSet<>((o1, o2) -> {
+                final var t1 = ECS.get(o1.owner, TransformComponent.class);
+                final var t2 = ECS.get(o2.owner, TransformComponent.class);
+
+                if (t1.position.z == t2.position.z) return 0;
+                if (t1.position.z > t2.position.z) return 1;
+
+                return -1;
+            }));
             ofShaders.get(mesh.shader).add(mesh);
         }
     }

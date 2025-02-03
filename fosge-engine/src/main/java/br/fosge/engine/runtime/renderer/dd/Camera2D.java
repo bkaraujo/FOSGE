@@ -9,16 +9,24 @@ import org.joml.Matrix4f;
 import org.joml.Matrix4fc;
 import org.joml.Vector3f;
 
+import static br.fosge.RT.Graphics.projectionMatrix;
+
 import javax.annotation.Nonnull;
 
 public final class Camera2D implements Camera {
-    public final TransformComponent transform = TransformComponent.create();
-    private final Matrix4f projectionMatrix = new Matrix4f();
+    private final TransformComponent transform = TransformComponent.create();
     private final Matrix4f viewMatrix = new Matrix4f();
     private final Matrix4f viewProjectionMatrix = new Matrix4f();
 
     private final Vector3f position = new Vector3f();
     private final Vector3f rotation = new Vector3f(-1 ,-1, -1);
+
+    @Override
+    public boolean initialize() {
+        projectionMatrix = new Matrix4f();
+
+        return true;
+    }
 
     @Override
     public boolean configure(Specification specification) {

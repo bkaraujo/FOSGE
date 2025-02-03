@@ -11,10 +11,10 @@ import br.fosge.engine.graphics.Shader;
 import br.fosge.engine.graphics.Texture;
 import br.fosge.engine.graphics.Texture2D;
 import br.fosge.engine.platform.window.WindowResizedEvent;
-import br.fosge.engine.runtime.platform.binding.opengl.objects.GLGeometry;
-import br.fosge.engine.runtime.platform.binding.opengl.objects.GLParser;
-import br.fosge.engine.runtime.platform.binding.opengl.objects.GLShader;
-import br.fosge.engine.runtime.platform.binding.opengl.objects.GLTexture2D;
+import br.fosge.engine.runtime.platform.graphics.GLGeometry;
+import br.fosge.engine.runtime.platform.graphics.GLParser;
+import br.fosge.engine.runtime.platform.graphics.GLShader;
+import br.fosge.engine.runtime.platform.graphics.GLTexture2D;
 import org.joml.Vector4fc;
 import org.lwjgl.opengl.GL;
 import org.lwjgl.opengl.GLCapabilities;
@@ -82,13 +82,18 @@ public final class PlatformGraphics implements Lifecycle {
 
         MessageBus.subscribe(this);
 
-        boolean swapInterval = true;
+        if (RT.yaml.contains("fosge.engine.graphics")) {
+            final var yaml = RT.yaml.subtree("fosge.engine.graphics");
 
-        final var engine = RT.yaml.subtree("fosge.engine");
-        if (engine != null) { swapInterval = engine.asBoolean("graphics.vsync"); }
+            RT.Graphics.vsync = yaml.contains("vsync") ? yaml.asBoolean("vsync") : false;
+            Logger.debug("VSYNC: %s", RT.Graphics.vsync);
 
-        Logger.debug("VSYNC: %s", swapInterval);
-        glfw.glfwSwapInterval(swapInterval ? 1 : 0);
+            RT.Graphics.wireframe = yaml.contains("wireframe") ? yaml.asBoolean("wireframe") : false;
+            Logger.debug("WIREFRAME: %s", RT.Graphics.wireframe);
+        }
+
+        glfw.glfwSwapInterval(RT.Graphics.vsync ? 1 : 0);
+        opengl.glPolygonMode(GL_FRONT_AND_BACK, RT.Graphics.wireframe ? GL_LINE : GL_FILL);
 
         return true;
     }

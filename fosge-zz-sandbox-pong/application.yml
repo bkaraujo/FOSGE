@@ -2,9 +2,10 @@
 fosge:
   engine:
     debug: true
-    trace: true
+    trace: false
     graphics:
       vsync: false
+      wireframe: false
     renderer:
       modelMatrix: "un_model"
       viewProjectionMatrix: "un_viewProjection"
@@ -15,7 +16,7 @@ fosge:
       rev: 0
     window:
       title: "Pong"
-      resolution: "FHD"
+      resolution: "qHD"
     firstScene: "default"
     scenes:
     - name: "default"
@@ -30,11 +31,19 @@ fosge:
         - type: "TRANSFORM_COMPONENT"
           properties:
           - name: "position"
-            value: "0, 0, 0"
+            value: "0, 0, -1"
           - name: "rotation"
             value: "0, 0, 0"
           - name: "scale"
-            value: "0, 0, 0"
+            value: "42, 42, 0"
+        - type: "MESH_COMPONENT"
+          properties:
+          - name: "shader"
+            value: "shader/default.glsl"
+          - name: "texture.0.asset"
+            value: "texture/background.jpg"
+          - name: "geometry.primitive"
+            value: "quadrilateral"
         - type: "AUDIO_SOURCE_COMPONENT"
           properties:
           - name: "path"
@@ -53,17 +62,17 @@ fosge:
         - type: "TRANSFORM_COMPONENT"
           properties:
           - name: "position"
-            value: "0, 0, 0"
+            value: "-0.35, -0.98, 0"
           - name: "rotation"
             value: "0, 0, 0"
           - name: "scale"
-            value: "1, 1, 1"
+            value: "3, 1, 1"
         - type: "MESH_COMPONENT"
           properties:
           - name: "shader"
             value: "shader/default.glsl"
           - name: "texture.0.asset"
-            value: "texture/container.jpg"
+            value: "texture/paddle.png"
           - name: "geometry.primitive"
             value: "quadrilateral"
         - type: "BEHAVIOUR_COMPONENT"
@@ -71,4 +80,4 @@ fosge:
           - name: "target"
             value: "br.fosge.sandbox.pong.PlayerController"
           - name: "target.speed"
-            value: "2.2"
+            value: "1.2"

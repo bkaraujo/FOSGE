@@ -4,9 +4,11 @@ import br.fosge.commons.Meta;
 import br.fosge.commons.Tuple;
 import br.fosge.engine.renderer.OnFrame;
 import br.fosge.engine.runtime.ecs.ComponentType;
+import br.fosge.engine.runtime.ecs.component.TransformComponent;
 
 public abstract class BehaviourComponent extends Component implements OnFrame {
     public static final ComponentType type = ComponentType.BEHAVIOUR_COMPONENT;
+    protected final TransformComponent transform = TransformComponent.create();
 
     public static BehaviourComponent create(Tuple... properties) {
         final var instance = Meta.instance(BehaviourComponent.class, find("target", properties));

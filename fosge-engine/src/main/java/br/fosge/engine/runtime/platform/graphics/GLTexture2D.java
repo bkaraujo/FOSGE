@@ -1,4 +1,4 @@
-package br.fosge.engine.runtime.platform.binding.opengl.objects;
+package br.fosge.engine.runtime.platform.graphics;
 
 import br.fosge.RT;
 import br.fosge.commons.Logger;

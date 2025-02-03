@@ -13,6 +13,8 @@ import br.fosge.engine.runtime.ecs.component.TransformComponent;
 import com.github.f4b6a3.ulid.Ulid;
 import com.github.f4b6a3.ulid.UlidCreator;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.List;
@@ -29,7 +31,7 @@ public abstract class ECS implements Facade {
         return ulid;
     }
 
-    public static void prepare(Ulid ulid) {
+    public static void prepare(@Nonnull Ulid ulid) {
         entities.add(ulid);
         ofEntities.put(ulid, new ConcurrentLinkedQueue<>());
     }
@@ -38,7 +40,7 @@ public abstract class ECS implements Facade {
         return entities.stream().toList();
     }
 
-    public static void destroy(Ulid entity) {
+    public static void destroy(@Nonnull Ulid entity) {
         if (RT.debug && !entities.contains(entity)) {
             Logger.fatal("Unknown entity %s", entity);
         }
@@ -64,7 +66,8 @@ public abstract class ECS implements Facade {
         });
     }
 
-    public static Component attach(Ulid entity, ComponentType type, Tuple... properties) {
+    @Nullable
+    public static Component attach(@Nonnull Ulid entity, @Nonnull ComponentType type, Tuple... properties) {
         if (RT.debug && !entities.contains(entity)) { Logger.fatal("Unknown entity %s", entity); }
         Logger.debug("Entity %s :: attaching %s", entity, type);
 
@@ -84,7 +87,22 @@ public abstract class ECS implements Facade {
         return instance;
     }
 
-    public static Component get(Ulid entity, ComponentType type) {
+    public static boolean contains(@Nonnull Ulid entity, @Nonnull ComponentType type) {
+        if (RT.debug && !entities.contains(entity)) {
+            Logger.fatal("Unknown entity %s", entity);
+        }
+
+        for (final var component : ofEntities.get(entity)) {
+            if (Meta.assignable(component, type.klass)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    @Nullable
+    public static Component get(@Nonnull Ulid entity, @Nonnull ComponentType type) {
         if (RT.debug && !entities.contains(entity)) {
             Logger.fatal("Unknown entity %s", entity);
         }
@@ -98,7 +116,8 @@ public abstract class ECS implements Facade {
         return null;
     }
 
-    public static <T> T get(Ulid entity, Class<T> type) {
+    @Nullable
+    public static <T> T get(@Nonnull Ulid entity, @Nonnull Class<T> type) {
         if (RT.debug && !entities.contains(entity)) {
             Logger.fatal("Unknown entity %s", entity);
         }
@@ -112,7 +131,8 @@ public abstract class ECS implements Facade {
         return null;
     }
 
-    public static List<Component> list(Ulid entity) {
+    @Nonnull
+    public static List<Component> list(@Nonnull Ulid entity) {
         if (RT.debug && !entities.contains(entity)) {
             Logger.fatal("Unknown entity %s", entity);
         }
@@ -120,7 +140,7 @@ public abstract class ECS implements Facade {
         return ofEntities.get(entity).stream().toList();
     }
 
-    public static void detach(Ulid entity, ComponentType type) {
+    public static void detach(@Nonnull Ulid entity, @Nonnull ComponentType type) {
         if (RT.debug && !entities.contains(entity)) {
             Logger.fatal("Unknown entity %s", entity);
         }
@@ -145,7 +165,8 @@ public abstract class ECS implements Facade {
         }
     }
 
-    public static <T> List<T> list(Class<T> type) {
+    @Nonnull
+    public static <T> List<T> list(@Nonnull Class<T> type) {
         for (final var entry : ComponentType.values()) {
             if (Meta.assignable(type, entry.klass)) {
                 return (List<T>) ofComponents.getOrDefault(entry, new ArrayDeque<>()).stream().toList();
@@ -156,11 +177,11 @@ public abstract class ECS implements Facade {
         return new ArrayList<>();
     }
 
-    public static void attach(System system) {
+    public static void attach(@Nonnull System system) {
         systems.add(system);
     }
 
-    public static void detach(System system) {
+    public static void detach(@Nonnull System system) {
         systems.remove(system);
     }
 }

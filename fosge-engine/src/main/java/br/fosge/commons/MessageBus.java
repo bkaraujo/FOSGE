@@ -6,6 +6,7 @@ import br.fosge.commons.message.MessageListener;
 import br.fosge.commons.message.MessagePipeline;
 import br.fosge.commons.message.MessageProcessor;
 
+import javax.annotation.Nonnull;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -17,12 +18,12 @@ public abstract class MessageBus implements Facade {
     private static final Map<Class<?>, List<MessageProcessor>> processors = new HashMap<>();
     private static final Map<Class<?>, List<Class<?>>> hierarchy = new HashMap<>();
 
-    public static int subscribe(Object container) {
+    public static int subscribe(@Nonnull Class<?> container) {
+        return subscribe(Meta.instance(container));
+    }
+
+    public static int subscribe(@Nonnull Object container) {
         int subscribed = 0;
-        if (container == null) {
-            Logger.warn("Object container is null");
-            return subscribed;
-        }
 
         for (final var method : container.getClass().getMethods()) {
             final var annotation = method.getAnnotation(MessageListener.class);
@@ -80,7 +81,7 @@ public abstract class MessageBus implements Facade {
         return subscribed;
     }
 
-    public static <T extends Message> void submit(T message) {
+    public static <T extends Message> void submit(@Nonnull T message) {
         if (!hierarchy.containsKey(message.getClass())) {
             Logger.trace("Creating message hierarchy: %s", Meta.fqn(message));
             final var list = new ArrayList<Class<?>>();

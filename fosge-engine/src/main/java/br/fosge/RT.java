@@ -11,6 +11,7 @@ import br.fosge.engine.input.Mouse;
 import br.fosge.engine.runtime.ecs.ComponentType;
 import br.fosge.engine.runtime.scene.Scene;
 import com.github.f4b6a3.ulid.Ulid;
+import org.joml.Matrix4f;
 import org.joml.Vector2i;
 
 import java.nio.ByteBuffer;
@@ -72,6 +73,9 @@ public abstract class RT implements State {
     public static abstract class Graphics {
         private Graphics() {}
 
+        public static boolean vsync;
+        public static boolean wireframe;
+
         public static int boundTexture;
         public static int boundTextureUnit;
         public static final int textureUnitLimit = 16;
@@ -83,6 +87,8 @@ public abstract class RT implements State {
         public static int shaderStages;
         public static int shaderPrograms;
         public static int boundShaderProgram;
+
+        public static Matrix4f projectionMatrix;
 
         public static final Queue<GraphicsObject> shaders = new ConcurrentLinkedQueue<>();
         public static final Queue<GraphicsObject> textures = new ConcurrentLinkedQueue<>();
@@ -119,4 +125,5 @@ public abstract class RT implements State {
 
         public static final Queue<ByteBuffer> buffers = new ConcurrentLinkedQueue<>();
     }
+
 }

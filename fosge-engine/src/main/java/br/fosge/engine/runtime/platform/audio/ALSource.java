@@ -1,4 +1,4 @@
-package br.fosge.engine.runtime.platform.binding.openal.objects;
+package br.fosge.engine.runtime.platform.audio;
 
 import br.fosge.commons.Logger;
 import br.fosge.commons.logger.LogLevel;

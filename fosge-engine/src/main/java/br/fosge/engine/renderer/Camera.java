@@ -31,6 +31,8 @@ public interface Camera extends Lifecycle, Configurable {
         // ########################################################################
         if (yaml.contains("rectangle") && yaml.contains("depth")) {
             final var camera = new Camera2D();
+            if (!camera.initialize()) { Logger.fatal("Failed to initialize camera"); }
+
             final var rectangle = yaml.asFloats("rectangle");
             if (rectangle.length != 4) {
                 Logger.warn("Invalid camera rectangle: Expected 4 elements, got %d", rectangle.length);

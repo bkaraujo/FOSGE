@@ -14,15 +14,21 @@ public abstract class Meta {
     private Meta() { /* Private constructor */  }
 
     @Nonnull
-    public static <T> T instance(@Nonnull Class<T> type, @Nullable String property) {
-        if (type == null) { Logger.fatal("type is null"); return null; }
-        if (property == null) { Logger.fatal("property is null"); return cast(new Object(), type); }
-
+    public static <T> T instance(@Nonnull Class<T> type, @Nonnull String property) {
         try {
-            final var klass = Class.forName(property);
-            return cast(klass.getConstructor().newInstance(), type);
+            final var instance = instance(Class.forName(property));
+            return cast(instance, type);
         } catch (Throwable throwable) {
             Logger.fatal("Failed to create %s: %s", property, throwable);
+            return cast(new Object(), type);
+        }
+    }
+    @Nonnull
+    public static <T> T instance(@Nonnull Class<T> type) {
+        try {
+            return cast(type.getConstructor().newInstance(), type);
+        } catch (Throwable throwable) {
+            Logger.fatal("Failed to create %s: %s", type, throwable);
             return cast(new Object(), type);
         }
     }

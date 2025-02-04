@@ -21,10 +21,13 @@ public final class Yaml {
     private Path source;
     private final Map<String, Object> raw;
 
-    public static Yaml from(Path path) {
+    @Nonnull
+    public static Yaml from(@Nullable Path path) {
+        if (path == null || !Files.exists(path)) { return empty(); }
+
+        final Yaml yaml;
         try {
-            Yaml yaml;
-            if (!Files.exists(path) || Files.size(path) == 0) {
+            if ( Files.size(path) == 0) {
                 yaml = empty();
             } else {
                 final var mapper = new ObjectMapper(new YAMLFactory());
@@ -35,7 +38,7 @@ public final class Yaml {
             return yaml;
         } catch (Throwable throwable) {
             Logger.error("Failed to read %s: %s", path, throwable);
-            return null;
+            return empty();
         }
     }
 
@@ -62,10 +65,6 @@ public final class Yaml {
     public Path folder() {
         if (source == null) return null;
         return source.getParent();
-    }
-
-    public Map<String, Object> raw() {
-        return Collections.unmodifiableMap(raw);
     }
 
     public boolean contains(final String key) {

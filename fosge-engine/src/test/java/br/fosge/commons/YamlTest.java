@@ -1,5 +1,6 @@
 package br.fosge.commons;
 
+import br.fosge.FSTest;
 import br.fosge.commons.graphics.Resolution;
 import br.fosge.commons.serializer.Yaml;
 import br.fosge.commons.serializer.YamlEntry;
@@ -10,8 +11,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 class YamlTest {
 
@@ -19,20 +19,41 @@ class YamlTest {
     public void testYamlFactories() {
         var yaml = Yaml.empty();
         assertTrue(yaml.isEmpty());
+        assertNull(yaml.folder());
 
         yaml = Yaml.from(new HashMap<>());
         assertTrue(yaml.isEmpty());
+        assertNull(yaml.folder());
 
-        yaml = Yaml.from(Path.of(System.getProperty("user.dir"), "fosge.application.yaml"));
+        yaml = Yaml.from(Path.of(System.getProperty("user.dir"), "application.yaml"));
         assertTrue(yaml.isEmpty());
+        assertNull(yaml.folder());
 
-        yaml = Yaml.from(Path.of(System.getProperty("user.dir"), "src/test/resources/empty.yaml"));
+        yaml = Yaml.from(FSTest.resFS.resolve("empty.yml"));
         assertTrue(yaml.isEmpty());
+        assertEquals(FSTest.resFS, yaml.folder());
+
+        yaml = Yaml.from(FSTest.resFS.resolve("fake.yml"));
+        assertTrue(yaml.isEmpty());
+        assertNull(yaml.folder());
+    }
+
+    @Test
+    public void testYamlClear() {
+        var yaml = Yaml.from(FSTest.resFS.resolve("pong.yml"));
+        assertFalse(yaml.isEmpty());
+        assertEquals(FSTest.resFS, yaml.folder());
+
+        yaml.clear();
+        assertTrue(yaml.isEmpty());
+        assertEquals(FSTest.resFS, yaml.folder());
     }
 
     @Test
     public void testQuery() {
         final var yaml = Yaml.from(yaml());
+        assertTrue(yaml.contains("project.version"));
+        assertFalse(yaml.contains("project.fafifo"));
         assertEquals("0.1.0", yaml.asString("project.version"));
         assertEquals("Brakeys", yaml.asString("project.window.title"));
         assertEquals(Resolution.nHD, yaml.asEnum("project.window.resolution", Resolution.class));
@@ -73,6 +94,7 @@ class YamlTest {
     @Test
     public void testYamlPutValue() {
         final var yaml = Yaml.empty();
+        yaml.put("schema", "1.0.0");
         yaml.put("project.version", "1.0.0");
         assertEquals("1.0.0", yaml.asString("project.version"));
 

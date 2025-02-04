@@ -6,6 +6,7 @@ import org.joml.Matrix4fc;
 import org.joml.Vector2ic;
 
 public abstract class Graphics implements Facade {
+    private Graphics(){}
 
     public static final Vector2ic windowSize = RT.Window.size;
     public static final Matrix4fc projectionMatrix = RT.Graphics.projectionMatrix;

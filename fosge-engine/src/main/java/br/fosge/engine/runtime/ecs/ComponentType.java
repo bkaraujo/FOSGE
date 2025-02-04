@@ -17,7 +17,7 @@ public enum ComponentType {
     SOFT_BODY_COMPONENT(SoftBodyComponent.class);
 
     public final Class<? extends Component> klass;
-    ComponentType(Class<? extends Component> klass) {
-        this.klass = klass;
+    ComponentType(Class<? extends Component> desired) {
+        klass = desired;
     }
 }

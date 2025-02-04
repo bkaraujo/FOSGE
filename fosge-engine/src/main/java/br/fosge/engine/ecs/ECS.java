@@ -6,6 +6,8 @@ import br.fosge.commons.Meta;
 import br.fosge.commons.Tasks;
 import br.fosge.commons.Tuple;
 import br.fosge.commons.annotation.Facade;
+import br.fosge.engine.physics.RigidBodyComponent;
+import br.fosge.engine.physics.SoftBodyComponent;
 import br.fosge.engine.runtime.ecs.ComponentType;
 import br.fosge.engine.runtime.ecs.component.AudioSourceComponent;
 import br.fosge.engine.runtime.ecs.component.MeshComponent;
@@ -45,13 +47,12 @@ public abstract class ECS implements Facade {
             Logger.fatal("Unknown entity %s", entity);
         }
 
-        Logger.debug("Entity %s :: Destroying", entity);
-        entities.remove(entity);
-        Tasks.concurrent(() -> {
-            Logger.debug("Background entity %s destruction", entity);
+        Tasks.concurrent("ECS", () -> {
+            Logger.debug("%s :: Destroying", entity);
+            entities.remove(entity);
             for (final Component component : ofEntities.get(entity)) {
                 if (!component.terminate()) {
-                    Logger.warn("Failed to terminate %s", Meta.fqn(component));
+                    Logger.warn("%s :: Failed to terminate %s", entity, Meta.fqn(component));
                 }
 
                 ofEntities.get(entity).remove(component);
@@ -68,18 +69,32 @@ public abstract class ECS implements Facade {
 
     @Nullable
     public static Component attach(@Nonnull Ulid entity, @Nonnull ComponentType type, Tuple... properties) {
-        if (RT.debug && !entities.contains(entity)) { Logger.fatal("Unknown entity %s", entity); }
-        Logger.debug("Entity %s :: attaching %s", entity, type);
+        if (RT.debug) {
+            if (!entities.contains(entity)) {
+                Logger.fatal("Unknown entity %s", entity);
+            }
 
+            for (final Component component : ofEntities.get(entity)) {
+                if (component.type == type) {
+                    Logger.warn("%s :: Component already attached: %s", entity, type);
+                    return component;
+                }
+            }
+        }
+
+        Logger.debug("%s :: attaching %s", entity, type);
         final var instance = switch (type) {
             case TRANSFORM_COMPONENT -> TransformComponent.create(properties);
             case MESH_COMPONENT -> MeshComponent.create(properties);
             case AUDIO_SOURCE_COMPONENT -> AudioSourceComponent.create(properties);
             case BEHAVIOUR_COMPONENT -> BehaviourComponent.create(properties);
+            case RIGID_BODY_COMPONENT -> RigidBodyComponent.create(properties);
+            case SOFT_BODY_COMPONENT -> SoftBodyComponent.create(properties);
         };
 
         if (instance == null) { return null; }
         Meta.set(instance, "owner", entity);
+        Meta.set(instance, "type", type);
 
         ofEntities.get(entity).add(instance);
         ofComponents.computeIfAbsent(type, ignored -> new ConcurrentLinkedQueue<>()).add(instance);
@@ -145,7 +160,7 @@ public abstract class ECS implements Facade {
             Logger.fatal("Unknown entity %s", entity);
         }
 
-        Logger.debug("Entity %s :: detaching %s", entity, type);
+        Logger.debug("%s :: detaching %s", entity, type);
         for (final var component : ofEntities.get(entity)) {
             if (Meta.assignable(component, type.klass)) {
                 ofEntities.get(entity).remove(component);

@@ -6,7 +6,10 @@ import br.fosge.engine.graphics.Shader;
 import br.fosge.engine.runtime.ecs.component.MeshComponent;
 import br.fosge.engine.runtime.ecs.component.TransformComponent;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.SortedSet;
+import java.util.TreeSet;
 
 import static br.fosge.RT.Application.scene;
 import static br.fosge.RT.yaml;

@@ -3,14 +3,11 @@ package br.fosge.engine.runtime.ecs.component;
 import br.fosge.commons.Strings;
 import br.fosge.commons.Tuple;
 import br.fosge.engine.ecs.Component;
-import br.fosge.engine.runtime.ecs.ComponentType;
 import org.joml.Matrix4f;
 import org.joml.Matrix4fc;
 import org.joml.Vector3f;
 
 public class TransformComponent  extends Component {
-    public static final ComponentType type = ComponentType.TRANSFORM_COMPONENT;
-
     public final Vector3f position = new Vector3f();
     public final Vector3f rotation = new Vector3f();
     public final Vector3f scale = new Vector3f(1, 1, 1);

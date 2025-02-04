@@ -61,7 +61,7 @@ public abstract class Meta {
     }
 
     @Nonnull
-    public static <T> T cast(@Nullable Object object, @Nullable Class<T> type) {
+    public static <T> T cast(@Nonnull Object object, @Nonnull Class<T> type) {
         if (!assignable(object, type)) { Logger.fatal("%s is not assignable to %s", type, object); }
         return type.cast(object);
     }

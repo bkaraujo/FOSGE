@@ -7,6 +7,8 @@ import br.fosge.commons.Tuple;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
@@ -212,26 +214,28 @@ public final class Yaml {
         }
     }
 
-    public Byte     asByte      (final String key) { return find(key, Byte      .class); }
-    public Short    asShort     (final String key) { return find(key, Short     .class); }
-    public Integer  asInt       (final String key) { return find(key, Integer   .class); }
-    public Long     asLong      (final String key) { return find(key, Long      .class); }
-    public Float    asFloat     (final String key) { return find(key, Float     .class); }
-    public Boolean  asBoolean   (final String key) { return find(key, Boolean   .class); }
-    public Double   asDouble    (final String key) { return find(key, Double    .class); }
+    @Nullable public Byte     asByte      (final @Nonnull String key) { return find(key, Byte      .class); }
+    @Nullable public Short    asShort     (final @Nonnull String key) { return find(key, Short     .class); }
+    @Nullable public Integer  asInt       (final @Nonnull String key) { return find(key, Integer   .class); }
+    @Nullable public Long     asLong      (final @Nonnull String key) { return find(key, Long      .class); }
+    @Nullable public Float    asFloat     (final @Nonnull String key) { return find(key, Float     .class); }
+    @Nullable public Boolean  asBoolean   (final @Nonnull String key) { return find(key, Boolean   .class); }
+    @Nullable public Double   asDouble    (final @Nonnull String key) { return find(key, Double    .class); }
 
-    public byte[]   asBytes     (String name) { return Strings.bytes    (asString(name)); }
-    public short[]  asShorts    (String name) { return Strings.shorts   (asString(name)); }
-    public int[]    asInts      (String name) { return Strings.ints     (asString(name)); }
-    public long[]   asLongs     (String name) { return Strings.longs    (asString(name)); }
-    public float[]  asFloats    (String name) { return Strings.floats   (asString(name)); }
-    public double[] asDoubles   (String name) { return Strings.doubles  (asString(name)); }
+    @Nullable public byte[]   asBytes     (final @Nonnull String name) { return Strings.bytes    (asString(name)); }
+    @Nullable public short[]  asShorts    (final @Nonnull String name) { return Strings.shorts   (asString(name)); }
+    @Nullable public int[]    asInts      (final @Nonnull String name) { return Strings.ints     (asString(name)); }
+    @Nullable public long[]   asLongs     (final @Nonnull String name) { return Strings.longs    (asString(name)); }
+    @Nullable public float[]  asFloats    (final @Nonnull String name) { return Strings.floats   (asString(name)); }
+    @Nullable public double[] asDoubles   (final @Nonnull String name) { return Strings.doubles  (asString(name)); }
 
-    public String asString(final String key) {
+    @Nullable
+    public String asString(@Nonnull final String key) {
         final var string = find(key, String.class);
         return string != null ? string.trim() : null;
     }
 
+    @Nullable
     public <T extends Enum<T>> T asEnum(final String key, Class<T> klass) {
         final var value = asString(key);
         for (final var constant : klass.getEnumConstants()) {
@@ -243,19 +247,23 @@ public final class Yaml {
         return null;
     }
 
-    public Tuple[] asTuples(String key) {
+    @Nonnull
+    public Tuple[] asTuples(@Nonnull String key) {
         final var properties = new ArrayList<Tuple>();
 
-        for (final var property : list(key)) {
-            final var name = property.asString("name");
-            final var value = property.asString("value");
-            properties.add(new Tuple(name, value));
+        if (contains(key)) {
+            for (final var property : list(key)) {
+                final var name = property.asString("name");
+                final var value = property.asString("value");
+                properties.add(new Tuple(name, value));
+            }
         }
 
         return properties.toArray(Tuple[]::new);
     }
 
-    public List<Yaml> list(final String key) {
+    @Nonnull
+    public List<Yaml> list(@Nonnull final String key) {
         final var result = new ArrayList<Yaml>();
         if (Strings.isNumeric(key.substring(key.lastIndexOf('.') + 1))) {
             Logger.warn("Key must relate to a yaml array");
@@ -282,7 +290,8 @@ public final class Yaml {
      *
      * <p>The subset is dependent of the original yaml, any modification done in the subset alters the original set.</p>
      */
-    public Yaml subtree(final String key) {
+    @Nullable
+    public Yaml subtree(@Nonnull final String key) {
         final var result = find(key);
         if (result == null) { return null; }
 

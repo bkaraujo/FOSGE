@@ -9,9 +9,9 @@ import org.joml.Matrix4f;
 import org.joml.Matrix4fc;
 import org.joml.Vector3f;
 
-import static br.fosge.RT.Graphics.projectionMatrix;
-
 import javax.annotation.Nonnull;
+
+import static br.fosge.RT.Graphics.projectionMatrix;
 
 public final class Camera2D implements Camera {
     private final TransformComponent transform = TransformComponent.create();

@@ -7,14 +7,17 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 public final class TaskSupervisor implements Runnable {
     private final Runnable task;
+    private final String name;
     public static AtomicInteger taskCounter = new AtomicInteger(0);
 
-    public TaskSupervisor(Runnable desired) {
+    public TaskSupervisor(String name, Runnable desired) {
+        this.name = name;
         task = desired;
     }
 
     @Override
     public void run() {
+        Thread.currentThread().setName("FOSGE::" + name);
         try {
             taskCounter.getAndIncrement();
             task.run();

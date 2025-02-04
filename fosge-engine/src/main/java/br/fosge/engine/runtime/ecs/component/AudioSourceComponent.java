@@ -4,11 +4,8 @@ import br.fosge.commons.Tuple;
 import br.fosge.engine.Resources;
 import br.fosge.engine.audio.AudioSource;
 import br.fosge.engine.ecs.Component;
-import br.fosge.engine.runtime.ecs.ComponentType;
 
 public final class AudioSourceComponent extends Component {
-    public static final ComponentType type = ComponentType.AUDIO_SOURCE_COMPONENT;
-
     public final AudioSource source = Resources.audioSource();
     public boolean loop;
     public float gain;

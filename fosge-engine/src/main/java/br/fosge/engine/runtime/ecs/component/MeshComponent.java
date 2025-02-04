@@ -9,15 +9,16 @@ import br.fosge.engine.graphics.*;
 import br.fosge.engine.graphics.geometry.BufferLayout;
 import br.fosge.engine.graphics.geometry.BufferType;
 import br.fosge.engine.graphics.geometry.GeometrySpec;
-import br.fosge.engine.runtime.ecs.ComponentType;
+import br.fosge.engine.graphics.texture.PixelFormat;
+import br.fosge.engine.graphics.texture.TextureSpec;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import static br.fosge.RT.Graphics.textureUnitLimit;
+import static br.fosge.engine.runtime.Platform.filesystem;
 
 public final class MeshComponent extends Component {
-    public static final ComponentType type = ComponentType.MESH_COMPONENT;
 
     public Shader shader;
     public Geometry geometry;
@@ -27,7 +28,11 @@ public final class MeshComponent extends Component {
 
     public static MeshComponent create(Tuple... properties) {
         final var instance = new MeshComponent();
-
+        // ###################################################################
+        //
+        // SHADER
+        //
+        // ###################################################################
         instance.shader = Resources.shader(find("shader", properties));
         if (instance.shader == null) {
             Logger.error("Failed to configure shader");
@@ -36,13 +41,44 @@ public final class MeshComponent extends Component {
         }
 
         Logger.trace("Attaching shader: %s", instance.shader);
-
+        // ###################################################################
+        //
+        // TEXTURE
+        //
+        // ###################################################################
         for (int i = 0; i < textureUnitLimit; i++) {
-            final var candidate = find("texture." + i + ".asset", properties);
             // Expect bind unit to be contiguous
-            if (candidate == null) { break; }
+            if (!contains("texture." + i + ".asset", properties)) { break; }
 
-            final var texture = Resources.texture2d(candidate);
+            final var texturePath = find("texture." + i + ".asset", properties);
+            if (texturePath == null) {
+                Logger.error("Missing property [texture.<id>.asset].");
+                instance.terminate();
+                return null;
+            }
+
+            final var textureMips = find("texture." + i + ".mips", properties);
+            final var textureFormat = find("texture." + i + ".format", properties);
+            if (textureFormat == null) {
+                Logger.error("Missing property [texture.<id>.format]: %s.", texturePath);
+                instance.terminate();
+                return null;
+            }
+
+            final var textureStorageFormat = find("texture." + i + ".storageFormat", properties);
+            if (textureStorageFormat == null) {
+                Logger.error("Missing property [texture.<id>.storageFormat]: %s.", texturePath);
+                instance.terminate();
+                return null;
+            }
+
+            final var texture = Resources.texture2d(new TextureSpec(
+                    filesystem.assets.resolve(texturePath),
+                    textureMips != null ? Integer.parseInt(textureMips) : 1,
+                    PixelFormat.valueOf(textureFormat),
+                    PixelFormat.valueOf(textureStorageFormat)
+            ));
+
             if (texture == null) {
                 Logger.error("Failed to configure texture");
                 instance.terminate();
@@ -52,7 +88,11 @@ public final class MeshComponent extends Component {
             Logger.trace("Attaching texture: %s", texture);
             instance.textures.add(texture);
         }
-
+        // ###################################################################
+        //
+        // GEOMETRY
+        //
+        // ###################################################################
         final var primitive = find("geometry.primitive", properties);
         if (instance.geometry == null && primitive == null) {
             final var layouts = new ArrayList<BufferLayout>();
@@ -81,7 +121,6 @@ public final class MeshComponent extends Component {
             instance.geometry.elements(Strings.ints(find("geometry.elements", properties)));
             instance.geometry.vertices(Strings.floats(find("geometry.vertices", properties)));
         }
-
 
         if (instance.geometry == null && "quadrilateral".equals(primitive)) {
             instance.geometry = Primitives.quadrilateral();

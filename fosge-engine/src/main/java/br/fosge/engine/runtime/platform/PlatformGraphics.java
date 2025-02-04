@@ -10,6 +10,7 @@ import br.fosge.engine.graphics.Geometry;
 import br.fosge.engine.graphics.Shader;
 import br.fosge.engine.graphics.Texture;
 import br.fosge.engine.graphics.Texture2D;
+import br.fosge.engine.graphics.texture.TextureSpec;
 import br.fosge.engine.platform.window.WindowResizedEvent;
 import br.fosge.engine.runtime.platform.graphics.GLGeometry;
 import br.fosge.engine.runtime.platform.graphics.GLParser;
@@ -19,8 +20,6 @@ import org.joml.Vector4fc;
 import org.lwjgl.opengl.GL;
 import org.lwjgl.opengl.GLCapabilities;
 import org.lwjgl.opengl.GLDebugMessageCallback;
-
-import java.nio.file.Path;
 
 import static br.fosge.engine.runtime.platform.Bindings.glfw;
 import static br.fosge.engine.runtime.platform.Bindings.opengl;
@@ -118,14 +117,14 @@ public final class PlatformGraphics implements Lifecycle {
         }
     }
 
-    public Texture2D texture2d(Path absolute, int mips) {
+    public Texture2D texture2d(TextureSpec spec) {
         final var texture = new GLTexture2D();
         if (!texture.initialize()) {
             Logger.error("Failed to initialize texture");
             return null;
         }
 
-        if (!texture.load(absolute, mips)) {
+        if (!texture.load(spec)) {
             Logger.error("Failed to load texture");
             texture.terminate();
             return null;

@@ -32,7 +32,6 @@ public final class Application implements Lifecycle {
 
     @Override
     public boolean initialize() {
-
         MessageBus.subscribe(this);
 
         final var engine = yaml.subtree("fosge.engine");
@@ -44,10 +43,8 @@ public final class Application implements Lifecycle {
 
         final var firstScene = yaml.asString("fosge.application.firstScene");
         scene = Scene.of(firstScene);
-        if (scene == null) {
-            Logger.error("Failed to load scene: %s", firstScene);
-            return false;
-        }
+        if (scene == null) { Logger.error("Failed to load scene: %s", firstScene); return false; }
+        if (!scene.initialize()) { Logger.error("Failed to initialize scene: %s", scene); return false; }
 
         graphics.clearColor(scene.clearColor());
 
@@ -129,6 +126,9 @@ public final class Application implements Lifecycle {
 
     @Override
     public boolean terminate() {
+        if (!scene.terminate()) {
+            Logger.fatal("Failed to terminate scene %s: ", scene);
+        }
         Resources.free();
 
         return true;

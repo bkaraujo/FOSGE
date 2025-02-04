@@ -1,10 +1,15 @@
 package br.fosge.engine.graphics;
 
 import br.fosge.commons.annotation.Configurable;
-import br.fosge.commons.annotation.Reference;
 import org.joml.*;
 
-public interface Shader extends GraphicsObject, Configurable, Reference {
+import javax.annotation.Nonnull;
+import java.nio.file.Path;
+
+public interface Shader extends GraphicsObject, Configurable {
+
+    @Nonnull
+    Path script();
 
     boolean uniform(String name, int ... values);
     boolean uniform(String name, float ... values);

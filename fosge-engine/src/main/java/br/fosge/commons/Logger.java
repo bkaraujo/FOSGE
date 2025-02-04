@@ -7,6 +7,8 @@ import br.fosge.commons.logger.LogLevel;
 import br.fosge.commons.logger.channel.ConsoleChannel;
 import br.fosge.commons.logger.forwarder.*;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -28,26 +30,26 @@ public abstract class Logger implements Facade {
     }
 
     private static LogLevel level;
+    @Nonnull
     public static LogLevel level() { return level; }
-    public static void level(LogLevel desired) {
-        if (desired == null) { Meta.exit(99, "Invalid log level: %s", desired); }
-
+    public static void level(@Nonnull LogLevel desired) {
         level = desired;
         forwarder = forwarders.get(desired);
     }
 
     private static LogChannel channel = new ConsoleChannel();
+    @Nonnull
     public static LogChannel channel() { return channel; }
-    public static void channel(LogChannel desired) {
+    public static void channel(@Nonnull LogChannel desired) {
         channel = desired;
     }
 
-    public static void trace(String message, Object... args) { forwarder.trace(message, args); }
-    public static void debug(String message, Object... args) { forwarder.debug(message, args); }
-    public static void info (String message, Object... args) { forwarder.info (message, args); }
-    public static void warn (String message, Object... args) { forwarder.warn (message, args); }
-    public static void error(String message, Object... args) { forwarder.error(message, args); }
-    public static void fatal(String message, Object... args) {
+    public static void trace(@Nonnull String message, @Nullable Object... args) { forwarder.trace(message, args); }
+    public static void debug(@Nonnull String message, @Nullable Object... args) { forwarder.debug(message, args); }
+    public static void info (@Nonnull String message, @Nullable Object... args) { forwarder.info (message, args); }
+    public static void warn (@Nonnull String message, @Nullable Object... args) { forwarder.warn (message, args); }
+    public static void error(@Nonnull String message, @Nullable Object... args) { forwarder.error(message, args); }
+    public static void fatal(@Nonnull String message, @Nullable Object... args) {
         final var local = new StringBuilder(message.formatted(args));
         local.append("\n");
 
@@ -59,7 +61,7 @@ public abstract class Logger implements Facade {
         forwarder.fatal(local.toString());
     }
 
-    public static void stackTrace(LogLevel level) {
+    public static void stackTrace(@Nonnull LogLevel level) {
         final var message = new StringBuilder("\n\n");
         final var stackTrace = Meta.stackTrace();
         for (final var entry : stackTrace.subList(1, stackTrace.size())) {

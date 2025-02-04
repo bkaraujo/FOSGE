@@ -11,6 +11,7 @@ import br.fosge.engine.graphics.Geometry;
 import br.fosge.engine.graphics.geometry.GeometrySpec;
 import br.fosge.engine.runtime.platform.binding.opengl.api.GL11;
 
+import javax.annotation.Nonnull;
 import java.nio.ByteBuffer;
 
 import static br.fosge.engine.runtime.platform.Bindings.opengl;
@@ -114,12 +115,8 @@ public final class GLGeometry implements Geometry {
         if (VAO == GL11.GL_NONE) { Logger.fatal("Geometry not initialized"); }
 
         if (length > maximum) {
-            Logger.trace(
-                    "[Geometry %d] resizing %s from %d to %d elements",
-                    VAO,
-                    target == VBO ? "VBO" : "EBO",
-                    maximum,
-                    length
+            Logger.trace("[Geometry %d] resizing %s from %d to %d elements",
+                    VAO, target == VBO ? "VBO" : "EBO", maximum, length
             );
 
             opengl.glNamedBufferData(target, buffer, GL_STATIC_DRAW);

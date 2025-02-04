@@ -1,13 +1,17 @@
 package br.fosge.commons;
 
+import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.text.DecimalFormatSymbols;
 
 public abstract class Strings {
 
-    @Nullable
+    @Nonnull
     public static String toTitleCase(@Nullable final String text) {
-        if (text == null || text.isEmpty()) { return text; }
+        if (text == null || text.isEmpty()) {
+            Logger.fatal("Null or empty string passed to toTitleCase");
+            return "";
+        }
 
         boolean next = true;
         final var result = new StringBuilder();
@@ -45,11 +49,14 @@ public abstract class Strings {
         return true;
     }
 
-    @Nullable
+    @Nonnull
     public static byte[] bytes(@Nullable String name) {
-        if (name == null || name.isEmpty()) { return null; }
-        final var tokens = name.split(",");
+        if (name == null || name.isEmpty()) {
+            Logger.fatal("null or empty string passed to bytes");
+            return new byte[]{0};
+        }
 
+        final var tokens = name.split(",");
         final var values = new byte[tokens.length];
         for (int i = 0; i < values.length; i++) {
             values[i] = Byte.parseByte(tokens[i].trim());
@@ -58,11 +65,14 @@ public abstract class Strings {
         return values;
     }
 
-    @Nullable
+    @Nonnull
     public static short[] shorts(@Nullable String name) {
-        if (name == null || name.isEmpty()) { return null; }
-        final var tokens = name.split(",");
+        if (name == null || name.isEmpty()) {
+            Logger.fatal("null or empty string passed to shorts");
+            return new short[]{0};
+        }
 
+        final var tokens = name.split(",");
         final var values = new short[tokens.length];
         for (int i = 0; i < values.length; i++) {
             values[i] = Short.parseShort(tokens[i].trim());
@@ -71,11 +81,14 @@ public abstract class Strings {
         return values;
     }
 
-    @Nullable
+    @Nonnull
     public static int[] ints(@Nullable String name) {
-        if (name == null || name.isEmpty()) { return null; }
-        final var tokens = name.split(",");
+        if (name == null || name.isEmpty()) {
+            Logger.fatal("null or empty string passed to ints");
+            return new int[]{0};
+        }
 
+        final var tokens = name.split(",");
         final var values = new int[tokens.length];
         for (int i = 0; i < values.length; i++) {
             values[i] = Integer.parseInt(tokens[i].trim());
@@ -84,11 +97,14 @@ public abstract class Strings {
         return values;
     }
 
-    @Nullable
+    @Nonnull
     public static long[] longs(@Nullable String name) {
-        if (name == null || name.isEmpty()) { return null; }
-        final var tokens = name.split(",");
+        if (name == null || name.isEmpty()) {
+            Logger.fatal("null or empty string passed to long");
+            return new long[]{0};
+        }
 
+        final var tokens = name.split(",");
         final var values = new long[tokens.length];
         for (int i = 0; i < values.length; i++) {
             values[i] = Long.parseLong(tokens[i].trim());
@@ -97,11 +113,14 @@ public abstract class Strings {
         return values;
     }
 
-    @Nullable
+    @Nonnull
     public static float[] floats(@Nullable String name) {
-        if (name == null || name.isEmpty()) { return null; }
-        final var tokens = name.split(",");
+        if (name == null || name.isEmpty()) {
+            Logger.fatal("null or empty string passed to floats");
+            return new float[]{0};
+        }
 
+        final var tokens = name.split(",");
         final var values = new float[tokens.length];
         for (int i = 0; i < values.length; i++) {
             values[i] = Float.parseFloat(tokens[i].trim());
@@ -110,11 +129,14 @@ public abstract class Strings {
         return values;
     }
 
-    @Nullable
+    @Nonnull
     public static double[] doubles(@Nullable String name) {
-        if (name == null || name.isEmpty()) { return null; }
-        final var tokens = name.split(",");
+        if (name == null || name.isEmpty()) {
+            Logger.fatal("null or empty string passed to doubles");
+            return new double[]{0};
+        }
 
+        final var tokens = name.split(",");
         final var values = new double[tokens.length];
         for (int i = 0; i < values.length; i++) {
             values[i] = Double.parseDouble(tokens[i].trim());

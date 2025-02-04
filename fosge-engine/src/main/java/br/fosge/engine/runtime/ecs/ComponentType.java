@@ -6,6 +6,7 @@ import br.fosge.engine.physics.RigidBodyComponent;
 import br.fosge.engine.physics.SoftBodyComponent;
 import br.fosge.engine.runtime.ecs.component.AudioSourceComponent;
 import br.fosge.engine.runtime.ecs.component.MeshComponent;
+import br.fosge.engine.runtime.ecs.component.NameComponent;
 import br.fosge.engine.runtime.ecs.component.TransformComponent;
 
 public enum ComponentType {
@@ -14,7 +15,8 @@ public enum ComponentType {
     AUDIO_SOURCE_COMPONENT(AudioSourceComponent.class),
     BEHAVIOUR_COMPONENT(BehaviourComponent.class),
     RIGID_BODY_COMPONENT(RigidBodyComponent.class),
-    SOFT_BODY_COMPONENT(SoftBodyComponent.class);
+    SOFT_BODY_COMPONENT(SoftBodyComponent.class),
+    NAME_COMPONENT(NameComponent.class);
 
     public final Class<? extends Component> klass;
     ComponentType(Class<? extends Component> desired) {

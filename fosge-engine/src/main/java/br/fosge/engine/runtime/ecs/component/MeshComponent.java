@@ -47,36 +47,46 @@ public final class MeshComponent extends Component {
         //
         // ###################################################################
         for (int i = 0; i < textureUnitLimit; i++) {
-            // Expect bind unit to be contiguous
-            if (!contains("texture." + i + ".asset", properties)) { break; }
+            final var predicate = "texture." + i;
 
-            final var texturePath = find("texture." + i + ".asset", properties);
-            if (texturePath == null) {
+            // Expect bind unit to be contiguous
+            if (!contains( predicate+ ".asset", properties)) { break; }
+
+            final var path = find(predicate + ".asset", properties);
+            if (path == null) {
                 Logger.error("Missing property [texture.<id>.asset].");
                 instance.terminate();
                 return null;
             }
 
-            final var textureMips = find("texture." + i + ".mips", properties);
-            final var textureFormat = find("texture." + i + ".format", properties);
-            if (textureFormat == null) {
-                Logger.error("Missing property [texture.<id>.format]: %s.", texturePath);
+            final var txMips = find(predicate+ ".mips", properties);
+            final var txFormat = find(predicate + ".format", properties);
+            if (txFormat == null) {
+                Logger.error("Missing property [texture.<id>.format]: %s.", path);
                 instance.terminate();
                 return null;
             }
 
-            final var textureStorageFormat = find("texture." + i + ".storageFormat", properties);
-            if (textureStorageFormat == null) {
-                Logger.error("Missing property [texture.<id>.storageFormat]: %s.", texturePath);
+            final var txStorageFormat = find(predicate + ".storageFormat", properties);
+            if (txStorageFormat == null) {
+                Logger.error("Missing property [texture.<id>.storageFormat]: %s.", path);
+                instance.terminate();
+                return null;
+            }
+
+            final var txDataType = find(predicate + ".dataType", properties);
+            if (txDataType == null) {
+                Logger.error("Missing property [texture.<id>.dataType]: %s.", path);
                 instance.terminate();
                 return null;
             }
 
             final var texture = Resources.texture2d(new TextureSpec(
-                    filesystem.assets.resolve(texturePath),
-                    textureMips != null ? Integer.parseInt(textureMips) : 1,
-                    PixelFormat.valueOf(textureFormat),
-                    PixelFormat.valueOf(textureStorageFormat)
+                    filesystem.assets.resolve(path),
+                    txMips != null ? Integer.parseInt(txMips) : 1,
+                    PixelFormat.valueOf(txFormat),
+                    PixelFormat.valueOf(txStorageFormat),
+                    DataType.valueOf(txDataType)
             ));
 
             if (texture == null) {
@@ -94,38 +104,43 @@ public final class MeshComponent extends Component {
         //
         // ###################################################################
         final var primitive = find("geometry.primitive", properties);
-        if (instance.geometry == null && primitive == null) {
-            final var layouts = new ArrayList<BufferLayout>();
-            for (final var tuple : properties) {
-                if (tuple.name().startsWith("geometry.layout")) {
-                    layouts.add(new BufferLayout(
-                            tuple.name().substring(tuple.name().lastIndexOf('.') + 1),
-                            BufferType.valueOf(tuple.value())
-                    ));
+        switch (primitive) {
+            case "quadrilateral": { instance.geometry = Primitives.quadrilateral(); } break;
+            default: {
+                final var layouts = new ArrayList<BufferLayout>();
+                for (final var tuple : properties) {
+                    if (tuple.name().startsWith("geometry.layout")) {
+                        layouts.add(new BufferLayout(
+                                tuple.name().substring(tuple.name().lastIndexOf('.') + 1),
+                                BufferType.valueOf(tuple.value())
+                        ));
+                    }
                 }
+
+                instance.geometry = Resources.geometry(new GeometrySpec(
+                        DrawMode.valueOf(find("geometry.mode", properties)),
+                        DataType.valueOf(find("geometry.type", properties)),
+                        layouts.toArray(new BufferLayout[0])
+                ));
+
+                if (instance.geometry == null) {
+                    Logger.error("Failed to configure texture");
+                    instance.terminate();
+                    return null;
+                }
+
+                instance.geometry.elements(Strings.ints(find("geometry.elements", properties)));
+                instance.geometry.vertices(Strings.floats(find("geometry.vertices", properties)));
             }
-
-            instance.geometry = Resources.geometry(new GeometrySpec(
-                    DrawMode.valueOf(find("geometry.mode", properties)),
-                    DataType.valueOf(find("geometry.type", properties)),
-                    layouts.toArray(new BufferLayout[0])
-            ));
-
-            if (instance.geometry == null) {
-                Logger.error("Failed to configure texture");
-                instance.terminate();
-                return null;
-            }
-
-            Logger.trace("Attaching geometry: %s", instance.geometry);
-            instance.geometry.elements(Strings.ints(find("geometry.elements", properties)));
-            instance.geometry.vertices(Strings.floats(find("geometry.vertices", properties)));
         }
 
-        if (instance.geometry == null && "quadrilateral".equals(primitive)) {
-            instance.geometry = Primitives.quadrilateral();
+        if (instance.geometry == null) {
+            Logger.error("Failed to configure geometry");
+            instance.terminate();
+            return null;
         }
 
+        Logger.trace("Attaching geometry: %s", instance.geometry);
         return instance;
     }
 

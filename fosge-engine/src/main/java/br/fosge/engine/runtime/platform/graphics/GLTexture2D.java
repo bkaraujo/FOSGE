@@ -87,7 +87,7 @@ public final class GLTexture2D extends GLTexture implements Texture2D {
 //                        case 3 -> GL11.GL_RGB;
 //                        case 4 -> GL11.GL_RGBA;
 //                    },
-                    GL11.GL_UNSIGNED_BYTE,
+                    GLParser.parse(spec.dataType()),
                     pixels
             );
 

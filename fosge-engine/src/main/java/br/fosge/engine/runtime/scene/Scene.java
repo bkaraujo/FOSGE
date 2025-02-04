@@ -39,11 +39,12 @@ public record Scene(
         }
 
         if (yaml == null) { Logger.error("Scene not found: %s", name); return null; }
-        return new Scene(name, Camera.from(yaml.subtree("camera")), yaml);
-    }
 
-    private Scene(String name, Camera camera, Yaml yaml) {
-        this(UlidCreator.getMonotonicUlid(), name, yaml, camera, new ArrayList<>());
+        Ulid identity;
+        if (!yaml.contains("identity")) { identity = UlidCreator.getMonotonicUlid(); }
+        else { identity = Ulid.from(yaml.asString("identity")); }
+
+        return new Scene(identity, name, yaml, Camera.from(yaml.subtree("camera")), new ArrayList<>());
     }
 
     @Override

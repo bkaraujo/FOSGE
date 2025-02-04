@@ -10,8 +10,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public record ShaderSpec (
-        Path file,
-    List<ShaderSource> sources
+        Path script,
+        List<ShaderSource> sources
 ) implements Specification {
 
     public ShaderSpec() {
@@ -23,13 +23,13 @@ public record ShaderSpec (
 
         final String payload;
         try {
-            payload = Files.readString(file);
+            payload = Files.readString(script);
             if (payload == null || payload.isEmpty()) {
-                Logger.warn("Shader script is empty: %s", file);
+                Logger.warn("Shader script is empty: %s", script);
                 return;
             }
         } catch (Throwable throwable) {
-            Logger.error("Failed to read %s", file.toString());
+            Logger.error("Failed to read %s", script.toString());
             return;
         }
 
@@ -51,6 +51,6 @@ public record ShaderSpec (
 
     public String toString() {
         if (sources.isEmpty()) return "ShaderSpec: empty";
-        return file.toString();
+        return script.toString();
     }
 }

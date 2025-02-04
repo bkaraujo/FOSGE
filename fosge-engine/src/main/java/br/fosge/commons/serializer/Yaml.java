@@ -75,6 +75,7 @@ public final class Yaml {
     public void append(String key, String value) {
         append(new YamlEntry(key, value));
     }
+
     /** Attach a key-value pair into the current map position */
     public void append(final YamlEntry ... values) {
         for (final var entry : values) {
@@ -221,12 +222,12 @@ public final class Yaml {
     @Nullable public Boolean  asBoolean   (final @Nonnull String key) { return find(key, Boolean   .class); }
     @Nullable public Double   asDouble    (final @Nonnull String key) { return find(key, Double    .class); }
 
-    @Nullable public byte[]   asBytes     (final @Nonnull String name) { return Strings.bytes    (asString(name)); }
-    @Nullable public short[]  asShorts    (final @Nonnull String name) { return Strings.shorts   (asString(name)); }
-    @Nullable public int[]    asInts      (final @Nonnull String name) { return Strings.ints     (asString(name)); }
-    @Nullable public long[]   asLongs     (final @Nonnull String name) { return Strings.longs    (asString(name)); }
-    @Nullable public float[]  asFloats    (final @Nonnull String name) { return Strings.floats   (asString(name)); }
-    @Nullable public double[] asDoubles   (final @Nonnull String name) { return Strings.doubles  (asString(name)); }
+    @Nonnull public byte[]   asBytes     (final @Nonnull String name) { return Strings.bytes    (asString(name)); }
+    @Nonnull public short[]  asShorts    (final @Nonnull String name) { return Strings.shorts   (asString(name)); }
+    @Nonnull public int[]    asInts      (final @Nonnull String name) { return Strings.ints     (asString(name)); }
+    @Nonnull public long[]   asLongs     (final @Nonnull String name) { return Strings.longs    (asString(name)); }
+    @Nonnull public float[]  asFloats    (final @Nonnull String name) { return Strings.floats   (asString(name)); }
+    @Nonnull public double[] asDoubles   (final @Nonnull String name) { return Strings.doubles  (asString(name)); }
 
     @Nullable
     public String asString(@Nonnull final String key) {

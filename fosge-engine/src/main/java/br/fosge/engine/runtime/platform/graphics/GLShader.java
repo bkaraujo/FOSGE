@@ -4,13 +4,14 @@ import br.fosge.RT;
 import br.fosge.commons.Logger;
 import br.fosge.commons.Meta;
 import br.fosge.commons.annotation.Specification;
-import br.fosge.engine.Resources;
 import br.fosge.engine.graphics.Shader;
 import br.fosge.engine.graphics.shader.ShaderSpec;
 import br.fosge.engine.runtime.platform.binding.opengl.api.GL11;
 import org.joml.*;
 import org.lwjgl.system.MemoryStack;
 
+import javax.annotation.Nonnull;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -27,8 +28,7 @@ public final class GLShader implements Shader {
     private final Map<String, Object> unValue = new HashMap<>();
 
     private int program = GL11.GL_NONE;
-    private int references;
-    private String fileName;
+    private Path script;
 
     @Override
     public int handle() {
@@ -43,15 +43,9 @@ public final class GLShader implements Shader {
     }
 
     @Override
-    public void refIncrease() {
-        references++;
-    }
-
-    @Override
-    public void refDecrease() {
-        references--;
-
-        if (references == 0) { Resources.free(this); }
+    @Nonnull
+    public Path script() {
+        return script;
     }
 
     @Override
@@ -77,11 +71,10 @@ public final class GLShader implements Shader {
             return false;
         }
 
-        fileName = spec.file().toString();
+        script = spec.script();
         // ##################################################
         // Compile shader
         // ##################################################
-//        opengl.glPushDebugGroup(GL_DEBUG_SOURCE_THIRD_PARTY, 0, "GLShader::configure(" + spec + ")");
         final var stages = new ArrayList<Integer>();
 
         try {
@@ -104,7 +97,6 @@ public final class GLShader implements Shader {
                 stages.add(stage);
                 opengl.glAttachShader(program, stage);
             }
-
             // ##################################################
             // Link program
             // ##################################################
@@ -117,7 +109,6 @@ public final class GLShader implements Shader {
                 Logger.warn("Failed to link shader program");
                 return false;
             }
-
             // ##################################################
             // Validate program
             // ##################################################
@@ -152,8 +143,6 @@ public final class GLShader implements Shader {
                 opengl.glDetachShader(program, stage);
                 RT.Graphics.shaderStages--;
             });
-
-//            opengl.glPopDebugGroup();
         }
 
         return true;
@@ -295,15 +284,15 @@ public final class GLShader implements Shader {
 
     @Override
     public int hashCode() {
-        return fileName.hashCode();
+        return script.hashCode();
     }
 
     @Override
     public boolean equals(Object obj) {
         if (obj == null) return false;
         if (!Meta.assignable(obj, GLShader.class)) return false;
-        if (fileName == null) return false;
-        return fileName.equals(Meta.cast(obj, GLShader.class).fileName);
+        if (script == null) return false;
+        return script.equals(Meta.cast(obj, GLShader.class).script);
     }
 
     @Override
@@ -324,6 +313,6 @@ public final class GLShader implements Shader {
 
     @Override
     public String toString() {
-        return fileName;
+        return script.toString();
     }
 }

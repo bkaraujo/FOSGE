@@ -143,7 +143,7 @@ public abstract class Resources implements Facade {
         if (RT.debug) {
             for (final var texture : RT.Graphics.textures) {
                 if (((Texture) texture).path().equals(absolute)) {
-                    Logger.warn("Already loaded: %s", absolute);
+                    Logger.warn("Utilizing loaded: %s", absolute);
                     Logger.stackTrace(LogLevel.WARN);
                     return Meta.cast(texture, Texture2D.class);
                 }
@@ -167,8 +167,17 @@ public abstract class Resources implements Facade {
     }
 
     public static Shader shader(ShaderSpec specification) {
-        final var shader = graphics.shader();
+        if (RT.debug) {
+            for (final var object : RT.Graphics.shaders) {
+                final var shader = (Shader) object;
+                if (shader.script().equals(specification.script())) {
+                    Logger.warn("Utilizing loaded: %s", specification.script());
+                    return shader;
+                }
+            }
+        }
 
+        final var shader = graphics.shader();
         if (!shader.initialize()) {
             Logger.error("Failed to initialize shader");
             shader.terminate();
@@ -196,15 +205,14 @@ public abstract class Resources implements Facade {
         Logger.debug("Freeing resources");
 
         final var graphics = new QueueGroup<>(RT.Graphics.textures, RT.Graphics.shaders, RT.Graphics.geometries);
-        graphics.forEach(element -> { Logger.warn("Removing dangling %s: %s", Meta.fqn(element), element); element.terminate(); });
+        graphics.forEach(Lifecycle::terminate);
         graphics.clear();
 
         final var audio = new QueueGroup<>(RT.Audio.monoSources, RT.Audio.buffers);
-        audio.forEach(element -> { Logger.warn("Removing dangling %s: %s", Meta.fqn(element), element); element.terminate(); });
+        audio.forEach(Lifecycle::terminate);
         audio.clear();
 
         for (final var object : RT.Memory.buffers) {
-            Logger.warn("Removing dangling %s of %d bytes", Meta.fqn(object), object.capacity());
             Memory.free(object);
         }
 

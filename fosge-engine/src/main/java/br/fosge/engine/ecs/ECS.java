@@ -11,6 +11,7 @@ import br.fosge.engine.physics.SoftBodyComponent;
 import br.fosge.engine.runtime.ecs.ComponentType;
 import br.fosge.engine.runtime.ecs.component.AudioSourceComponent;
 import br.fosge.engine.runtime.ecs.component.MeshComponent;
+import br.fosge.engine.runtime.ecs.component.NameComponent;
 import br.fosge.engine.runtime.ecs.component.TransformComponent;
 import com.github.f4b6a3.ulid.Ulid;
 import com.github.f4b6a3.ulid.UlidCreator;
@@ -38,6 +39,11 @@ public abstract class ECS implements Facade {
         ofEntities.put(ulid, new ConcurrentLinkedQueue<>());
     }
 
+    public static void prepare(@Nonnull Ulid ulid, @Nonnull final String name) {
+        prepare(ulid);
+        attach(ulid, ComponentType.NAME_COMPONENT, new Tuple("name", name));
+    }
+
     public static List<Ulid> entities() {
         return entities.stream().toList();
     }
@@ -48,7 +54,7 @@ public abstract class ECS implements Facade {
         }
 
         Tasks.concurrent("ECS", () -> {
-            Logger.debug("%s :: Destroying", entity);
+            Logger.debug("%s :: %s :: Destroying", entity, get(entity, NameComponent.class).name);
             entities.remove(entity);
             for (final Component component : ofEntities.get(entity)) {
                 if (!component.terminate()) {
@@ -90,6 +96,7 @@ public abstract class ECS implements Facade {
             case BEHAVIOUR_COMPONENT -> BehaviourComponent.create(properties);
             case RIGID_BODY_COMPONENT -> RigidBodyComponent.create(properties);
             case SOFT_BODY_COMPONENT -> SoftBodyComponent.create(properties);
+            case NAME_COMPONENT -> NameComponent.create(properties);
         };
 
         if (instance == null) { return null; }

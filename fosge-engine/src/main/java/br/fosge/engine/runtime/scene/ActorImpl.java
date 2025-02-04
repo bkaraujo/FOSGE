@@ -29,7 +29,8 @@ record ActorImpl(
 
     @Override
     public boolean initialize() {
-        ECS.prepare(identity);
+        Logger.debug("%s :: Initializing %s", identity, name());
+        ECS.prepare(identity, name());
         for (final var component : yaml.list("components")) {
 
             ComponentType type;
@@ -60,6 +61,11 @@ record ActorImpl(
         return true;
     }
 
+    public String name() {
+        final var name = yaml.asString("name");
+        return name != null ? name : "Actor";
+    }
+
     @Override
     public boolean terminate() {
         ECS.destroy(identity);
@@ -68,6 +74,6 @@ record ActorImpl(
 
     @Override
     public String toString() {
-        return  identity.toString() + ": <" + yaml.asString("name") + ">";
+        return  identity.toString() + ": <" + name() + ">";
     }
 }

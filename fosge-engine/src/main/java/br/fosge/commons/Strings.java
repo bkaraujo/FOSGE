@@ -1,10 +1,12 @@
 package br.fosge.commons;
 
+import javax.annotation.Nullable;
 import java.text.DecimalFormatSymbols;
 
 public abstract class Strings {
 
-    public static String toTitleCase(final String text) {
+    @Nullable
+    public static String toTitleCase(@Nullable final String text) {
         if (text == null || text.isEmpty()) { return text; }
 
         boolean next = true;
@@ -21,7 +23,7 @@ public abstract class Strings {
         return result.toString();
     }
 
-    public static boolean isNumeric(String input) {
+    public static boolean isNumeric(@Nullable String input) {
         if(input == null || input.trim().isBlank()) return false;
 
         final var isNegative = input.charAt(0) == DecimalFormatSymbols.getInstance().getMinusSign();
@@ -43,7 +45,8 @@ public abstract class Strings {
         return true;
     }
 
-    public static byte[] bytes(String name) {
+    @Nullable
+    public static byte[] bytes(@Nullable String name) {
         if (name == null || name.isEmpty()) { return null; }
         final var tokens = name.split(",");
 
@@ -55,7 +58,8 @@ public abstract class Strings {
         return values;
     }
 
-    public static short[] shorts(String name) {
+    @Nullable
+    public static short[] shorts(@Nullable String name) {
         if (name == null || name.isEmpty()) { return null; }
         final var tokens = name.split(",");
 
@@ -67,7 +71,8 @@ public abstract class Strings {
         return values;
     }
 
-    public static int[] ints(String name) {
+    @Nullable
+    public static int[] ints(@Nullable String name) {
         if (name == null || name.isEmpty()) { return null; }
         final var tokens = name.split(",");
 
@@ -79,7 +84,8 @@ public abstract class Strings {
         return values;
     }
 
-    public static long[] longs(String name) {
+    @Nullable
+    public static long[] longs(@Nullable String name) {
         if (name == null || name.isEmpty()) { return null; }
         final var tokens = name.split(",");
 
@@ -91,7 +97,8 @@ public abstract class Strings {
         return values;
     }
 
-    public static float[] floats(String name) {
+    @Nullable
+    public static float[] floats(@Nullable String name) {
         if (name == null || name.isEmpty()) { return null; }
         final var tokens = name.split(",");
 
@@ -103,7 +110,8 @@ public abstract class Strings {
         return values;
     }
 
-    public static double[] doubles(String name) {
+    @Nullable
+    public static double[] doubles(@Nullable String name) {
         if (name == null || name.isEmpty()) { return null; }
         final var tokens = name.split(",");
 

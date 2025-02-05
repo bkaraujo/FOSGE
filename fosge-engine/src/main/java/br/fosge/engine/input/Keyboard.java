@@ -1,6 +1,6 @@
 package br.fosge.engine.input;
 
-import static br.fosge.engine.runtime.platform.binding.glfw.GLFWConstants.*;
+import static br.fosge.runtime.platform.binding.glfw.GLFWConstants.*;
 
 public enum Keyboard {
     KEY_UNKNOWN,

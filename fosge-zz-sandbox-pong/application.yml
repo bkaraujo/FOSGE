@@ -21,6 +21,15 @@ fosge:
     scenes:
     - name: "default"
       clearColor: ".25, .33, .18"
+      depth:
+        enabled: "true"
+        function: "LEQUAL"
+      blend:
+        enabled: "true"
+        equation: "FUNC_ADD"
+        function:
+          source: "SRC_ALPHA"
+          target: "ONE_MINUS_SRC_ALPHA"
       camera:
         depth: "-1.0, 1.0"
         rectangle: "-21.0, 21.0, -21.0, 21.0"

@@ -1,6 +1,7 @@
 package br.fosge.commons;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.util.ArrayList;
 
 public abstract class Tuples {
@@ -15,6 +16,27 @@ public abstract class Tuples {
         }
 
         return list.toArray(Tuple[]::new);
+    }
+
+    public static boolean contains(@Nonnull String name, @Nonnull Tuple... tuples) {
+        for (final Tuple tuple : tuples) {
+            if (name.equals(tuple.name())) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    @Nullable
+    public static String find(@Nonnull String name, @Nonnull Tuple... tuples) {
+        for (final Tuple tuple : tuples) {
+            if (name.equals(tuple.name())) {
+                return tuple.value();
+            }
+        }
+
+        return null;
     }
 
 }

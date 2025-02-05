@@ -8,7 +8,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.atomic.AtomicInteger;
 
 public abstract class Meta {
     private Meta() { /* Private constructor */  }
@@ -23,6 +22,7 @@ public abstract class Meta {
             return cast(new Object(), type);
         }
     }
+
     @Nonnull
     public static <T> T instance(@Nonnull Class<T> type) {
         try {
@@ -132,14 +132,9 @@ public abstract class Meta {
         return fields(container.getClass());
     }
 
-    private static final Map<Class<?>, AtomicInteger> knownFieldsCount = new ConcurrentHashMap<>();
     private static final Map<Class<?>, Set<Field>> knownFields = new ConcurrentHashMap<>();
     private static Set<Field> fields(Class<?> container) {
         if (knownFields.containsKey(container)) { return knownFields.get(container); }
-
-        knownFieldsCount
-                .computeIfAbsent(container, k -> new AtomicInteger(0))
-                .incrementAndGet();
 
         final var fields = new HashSet<Field>();
 
@@ -155,11 +150,9 @@ public abstract class Meta {
             klass = klass.getSuperclass();
         }
 
-        if (knownFieldsCount.get(container).getAcquire() >= 3) {
-            if (!knownFields.containsKey(container)) {
-                Logger.trace("Creating Set<Field> for %s", container);
-                knownFields.put(container, fields);
-            }
+        if (!knownFields.containsKey(container)) {
+            Logger.trace("Creating Set<Field> for %s", container);
+            knownFields.put(container, fields);
         }
 
         return fields;

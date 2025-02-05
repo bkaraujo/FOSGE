@@ -6,13 +6,6 @@ import br.fosge.commons.Meta;
 import br.fosge.commons.Tasks;
 import br.fosge.commons.Tuple;
 import br.fosge.commons.annotation.Facade;
-import br.fosge.engine.physics.RigidBodyComponent;
-import br.fosge.engine.physics.SoftBodyComponent;
-import br.fosge.engine.runtime.ecs.ComponentType;
-import br.fosge.engine.runtime.ecs.component.AudioSourceComponent;
-import br.fosge.engine.runtime.ecs.component.MeshComponent;
-import br.fosge.engine.runtime.ecs.component.NameComponent;
-import br.fosge.engine.runtime.ecs.component.TransformComponent;
 import com.github.f4b6a3.ulid.Ulid;
 import com.github.f4b6a3.ulid.UlidCreator;
 
@@ -90,13 +83,13 @@ public abstract class ECS implements Facade {
 
         Logger.debug("%s :: attaching %s", entity, type);
         final var instance = switch (type) {
-            case TRANSFORM_COMPONENT -> TransformComponent.create(properties);
-            case MESH_COMPONENT -> MeshComponent.create(properties);
-            case AUDIO_SOURCE_COMPONENT -> AudioSourceComponent.create(properties);
-            case BEHAVIOUR_COMPONENT -> BehaviourComponent.create(properties);
-            case RIGID_BODY_COMPONENT -> RigidBodyComponent.create(properties);
-            case SOFT_BODY_COMPONENT -> SoftBodyComponent.create(properties);
-            case NAME_COMPONENT -> NameComponent.create(properties);
+            case TRANSFORM_COMPONENT -> RT.Factory.component.transform(properties);
+            case MESH_COMPONENT -> RT.Factory.component.mesh(properties);
+            case AUDIO_SOURCE_COMPONENT -> RT.Factory.component.audioSource(properties);
+            case BEHAVIOUR_COMPONENT -> RT.Factory.component.behaviour(properties);
+            case RIGID_BODY_COMPONENT -> RT.Factory.component.rigidBody(properties);
+            case SOFT_BODY_COMPONENT -> RT.Factory.component.softBody(properties);
+            case NAME_COMPONENT -> RT.Factory.component.name(properties);
         };
 
         if (instance == null) { return null; }

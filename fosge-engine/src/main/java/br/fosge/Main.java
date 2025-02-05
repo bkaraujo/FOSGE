@@ -6,7 +6,7 @@ import br.fosge.commons.annotation.Facade;
 import br.fosge.commons.filesystem.Directories;
 import br.fosge.commons.logger.LogLevel;
 import br.fosge.editor.EditorLauncher;
-import br.fosge.engine.EngineLauncher;
+import br.fosge.runtime.EngineLauncher;
 
 public abstract class Main implements Facade {
     private Main() {}

@@ -4,12 +4,15 @@ import br.fosge.commons.annotation.State;
 import br.fosge.commons.serializer.Yaml;
 import br.fosge.engine.audio.AudioObject;
 import br.fosge.engine.ecs.Component;
+import br.fosge.engine.ecs.ComponentFactory;
+import br.fosge.engine.ecs.ComponentType;
 import br.fosge.engine.ecs.System;
 import br.fosge.engine.graphics.GraphicsObject;
 import br.fosge.engine.input.Keyboard;
 import br.fosge.engine.input.Mouse;
-import br.fosge.engine.runtime.ecs.ComponentType;
-import br.fosge.engine.runtime.scene.Scene;
+import br.fosge.runtime.ecs.ComponentFactoryImpl;
+import br.fosge.runtime.platform.*;
+import br.fosge.runtime.scene.Scene;
 import com.github.f4b6a3.ulid.Ulid;
 import org.joml.Matrix4f;
 import org.joml.Vector2i;
@@ -40,6 +43,12 @@ public abstract class RT implements State {
 
     /** Main settings of the running application */
     public static Yaml yaml;
+
+    public static abstract class Factory {
+
+        public static final ComponentFactory component = new ComponentFactoryImpl();;
+
+    }
 
     public static abstract class Application {
         private Application(){}
@@ -126,4 +135,13 @@ public abstract class RT implements State {
         public static final Queue<ByteBuffer> buffers = new ConcurrentLinkedQueue<>();
     }
 
+    public static abstract class Platform {
+        private Platform(){}
+
+        public static final PlatformWindow window = new PlatformWindow();
+        public static final PlatformGraphics graphics = new PlatformGraphics();
+        public static final PlatformAudio audio = new PlatformAudio();
+        public static final PlatformInput input = new PlatformInput();
+        public static final PlatformFilesystem filesystem = new PlatformFilesystem();
+    }
 }

@@ -12,7 +12,6 @@ import javax.annotation.Nullable;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentSkipListMap;
@@ -352,6 +351,10 @@ public final class Yaml {
                 try { return Meta.cast(Double.parseDouble(value.toString()), type); }
                 catch (final NumberFormatException ignored) { Logger.fatal("Expected a number, got %s", value); }
             }
+        }
+
+        if (Meta.assignable(type, Boolean.class)) {
+            return Meta.cast(Boolean.parseBoolean(value.toString()), type);
         }
 
         return Meta.cast(value, type);

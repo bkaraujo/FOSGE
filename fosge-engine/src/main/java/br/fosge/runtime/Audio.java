@@ -4,7 +4,7 @@ import br.fosge.commons.annotation.Facade;
 import br.fosge.engine.audio.AudioBuffer;
 import br.fosge.engine.audio.AudioSource;
 
-import static br.fosge.RT.Platform.*;
+import static br.fosge.RT.Platform.audio;
 
 public abstract class Audio implements Facade {
     private Audio() { /* Private constructor */ }

@@ -4,11 +4,11 @@ import br.fosge.RT;
 import br.fosge.commons.Logger;
 import br.fosge.commons.Meta;
 import br.fosge.commons.annotation.Specification;
-import br.fosge.runtime.Resources;
 import br.fosge.engine.graphics.DataType;
 import br.fosge.engine.graphics.DrawMode;
 import br.fosge.engine.graphics.Geometry;
 import br.fosge.engine.graphics.geometry.GeometrySpec;
+import br.fosge.runtime.Resources;
 import br.fosge.runtime.platform.binding.opengl.api.GL11;
 
 import java.nio.ByteBuffer;

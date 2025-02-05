@@ -10,8 +10,10 @@ import br.fosge.engine.ecs.System;
 import br.fosge.engine.graphics.GraphicsObject;
 import br.fosge.engine.input.Keyboard;
 import br.fosge.engine.input.Mouse;
+import br.fosge.engine.renderer.CameraFactory;
 import br.fosge.runtime.ecs.ComponentFactoryImpl;
 import br.fosge.runtime.platform.*;
+import br.fosge.runtime.renderer.CameraFactoryImpl;
 import br.fosge.runtime.scene.Scene;
 import com.github.f4b6a3.ulid.Ulid;
 import org.joml.Matrix4f;
@@ -46,7 +48,8 @@ public abstract class RT implements State {
 
     public static abstract class Factory {
 
-        public static final ComponentFactory component = new ComponentFactoryImpl();;
+        public static final ComponentFactory component = new ComponentFactoryImpl();
+        public static final CameraFactory camera = new CameraFactoryImpl();
 
     }
 

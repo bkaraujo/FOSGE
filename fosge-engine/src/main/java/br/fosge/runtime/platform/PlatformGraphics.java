@@ -43,6 +43,9 @@ public final class PlatformGraphics implements Lifecycle {
             opengl.glEnable(GL_DEBUG_OUTPUT_SYNCHRONOUS);
 
             debugCallback = GLDebugMessageCallback.create((source, type, id, severity, length, message, ignored) -> {
+                // ignore non-significant error/warning codes
+                if(id == 131169 || id == 131185 || id == 131218 || id == 131204) return;
+
                 Logger.debug(
                         "\nID      : 0x%s\nSource  : %s\nType    : %s\nSeverity: %s\nMessage : %s",
                         Integer.toHexString(id).toUpperCase(),

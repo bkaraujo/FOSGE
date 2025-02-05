@@ -3,11 +3,7 @@ package br.fosge.runtime.scene;
 import br.fosge.commons.Logger;
 import br.fosge.commons.Meta;
 import br.fosge.commons.serializer.Yaml;
-import br.fosge.engine.ecs.Actor;
-import br.fosge.engine.ecs.BehaviourComponent;
-import br.fosge.engine.ecs.Component;
-import br.fosge.engine.ecs.ECS;
-import br.fosge.engine.ecs.ComponentType;
+import br.fosge.engine.ecs.*;
 import br.fosge.engine.renderer.TransformComponent;
 import com.github.f4b6a3.ulid.Ulid;
 

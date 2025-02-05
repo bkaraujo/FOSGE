@@ -1,16 +1,12 @@
 package br.fosge.runtime.ecs;
 
 import br.fosge.commons.*;
-import br.fosge.commons.serializer.Yaml;
-import br.fosge.engine.renderer.frontend.Camera;
-import br.fosge.runtime.Resources;
 import br.fosge.engine.audio.AudioSourceComponent;
 import br.fosge.engine.ecs.BehaviourComponent;
 import br.fosge.engine.ecs.ComponentFactory;
 import br.fosge.engine.ecs.NameComponent;
 import br.fosge.engine.graphics.DataType;
 import br.fosge.engine.graphics.DrawMode;
-import br.fosge.runtime.graphics.Primitives;
 import br.fosge.engine.graphics.geometry.BufferLayout;
 import br.fosge.engine.graphics.geometry.BufferType;
 import br.fosge.engine.graphics.geometry.GeometrySpec;
@@ -20,8 +16,8 @@ import br.fosge.engine.physics.RigidBodyComponent;
 import br.fosge.engine.physics.SoftBodyComponent;
 import br.fosge.engine.renderer.MeshComponent;
 import br.fosge.engine.renderer.TransformComponent;
-import br.fosge.runtime.renderer.dd.Camera2D;
-import br.fosge.runtime.renderer.dd.Camera2DSpec;
+import br.fosge.runtime.Resources;
+import br.fosge.runtime.graphics.Primitives;
 
 import java.util.ArrayList;
 
@@ -29,53 +25,6 @@ import static br.fosge.RT.Graphics.textureUnitLimit;
 import static br.fosge.RT.Platform.filesystem;
 
 public final class ComponentFactoryImpl implements ComponentFactory {
-
-    @Override
-    public Camera camera(Yaml yaml) {
-        if (yaml == null) {
-            final var camera = new Camera2D();
-            camera.configure(new Camera2DSpec(3f, 1f));
-            return camera;
-        }
-        // ########################################################################
-        // Logger.debug("Checking for 2D Camera");
-        // ########################################################################
-        if (yaml.contains("rectangle") && yaml.contains("depth")) {
-            final var camera = new Camera2D();
-            if (!camera.initialize()) { Logger.fatal("Failed to initialize camera"); }
-
-            final var rectangle = yaml.asFloats("rectangle");
-            if (rectangle.length != 4) {
-                Logger.warn("Invalid camera rectangle: Expected 4 elements, got %d", rectangle.length);
-                return null;
-            }
-
-            final var depth = yaml.asFloats("depth");
-            if (depth.length != 2) {
-                Logger.warn("Invalid camera depth: Expected 2 elements, got %d", rectangle.length);
-                return null;
-            }
-
-            camera.configure(new Camera2DSpec(
-                    rectangle[0], rectangle[1], rectangle[2], rectangle[3],
-                    depth[0], depth[1]
-            ));
-
-            return camera;
-        }
-        // ########################################################################
-        // Logger.debug("Checking for 3D Camera");
-        // ########################################################################
-        if (yaml.contains("frustum")) {
-            final var camera = new Camera2D();
-            camera.configure(new Camera2DSpec(3f, 1f));
-
-            return camera;
-        }
-
-        Logger.error("Failed to determine if scene is 2D or 3D");
-        return null;
-    }
 
     @Override
     public NameComponent name(Tuple... properties) {

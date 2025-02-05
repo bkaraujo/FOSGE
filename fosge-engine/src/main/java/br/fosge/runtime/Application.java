@@ -23,8 +23,8 @@ import br.fosge.runtime.scene.Scene;
 
 import static br.fosge.RT.Application.scene;
 import static br.fosge.RT.Application.systems;
-import static br.fosge.RT.yaml;
 import static br.fosge.RT.Platform.*;
+import static br.fosge.RT.yaml;
 
 public final class Application implements Lifecycle {
     private double STEP;

@@ -1,9 +1,9 @@
 package br.fosge.runtime.ecs.system;
 
 import br.fosge.commons.Logger;
+import br.fosge.engine.audio.AudioSourceComponent;
 import br.fosge.engine.ecs.ECS;
 import br.fosge.engine.ecs.System;
-import br.fosge.engine.audio.AudioSourceComponent;
 
 import java.util.ArrayList;
 import java.util.List;

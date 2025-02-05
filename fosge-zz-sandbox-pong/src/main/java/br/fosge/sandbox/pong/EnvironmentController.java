@@ -1,9 +1,9 @@
 package br.fosge.sandbox.pong;
 
 import br.fosge.RT;
-import br.fosge.runtime.Input;
 import br.fosge.engine.ecs.BehaviourComponent;
 import br.fosge.engine.input.Keyboard;
+import br.fosge.runtime.Input;
 
 public final class EnvironmentController extends BehaviourComponent {
 

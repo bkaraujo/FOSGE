@@ -51,40 +51,33 @@ public record Scene(
         if (!yaml.contains("identity")) { identity = UlidCreator.getMonotonicUlid(); }
         else { identity = Ulid.from(yaml.asString("identity")); }
 
-        return new Scene(identity, name, yaml, RT.Factory.component.camera(yaml.subtree("camera")), new ArrayList<>());
+        return new Scene(identity, name, yaml, RT.Factory.camera.create(yaml.subtree("camera")), new ArrayList<>());
     }
 
     @Override
     public boolean initialize() {
 
         if (yaml.contains("depth")){
-            if (yaml.asBoolean("depth.enabled")) {
-                opengl.glEnable(GL11.GL_DEPTH_TEST);
-            }
+            Logger.debug("Setting scene depth options");
+            final var enabled = yaml.asBoolean("depth.enabled");
+            if (enabled != null && enabled) { opengl.glEnable(GL11.GL_DEPTH_TEST); }
 
-            if (yaml.contains("depth.function")) {
-                opengl.glDepthFunc(
-                        GLParser.parse(yaml.asEnum("depth.function", DepthFunction.class))
-                );
-            }
+            final var function = yaml.asEnum("depth.function", DepthFunction.class);
+            if (function != null) { opengl.glDepthFunc(GLParser.parse(function)); }
         }
 
         if (yaml.contains("blend")) {
-            if (yaml.asBoolean("blend.enabled")) {
-                opengl.glEnable(GL11.GL_BLEND);
-            }
+            Logger.debug("Setting scene blend options");
+            final var enabled = yaml.asBoolean("blend.enabled");
+            if (enabled != null && enabled) { opengl.glEnable(GL11.GL_BLEND); }
 
-            if (yaml.contains("blend.equation")) {
-                opengl.glBlendEquation(
-                        GLParser.parse(yaml.asEnum("blend.equation", BlendEquation.class))
-                );
-            }
+            final var equation = yaml.asEnum("blend.equation", BlendEquation.class);
+            if (equation != null) { opengl.glBlendEquation(GLParser.parse(equation)); }
 
-            if (yaml.contains("blend.function")) {
-                opengl.glBlendFunc(
-                        GLParser.parse(yaml.asEnum("blend.function.source", BlendFunction.class)),
-                        GLParser.parse(yaml.asEnum("blend.function.target", BlendFunction.class))
-                );
+            final var srcFunction = yaml.asEnum("blend.function.source", BlendFunction.class);
+            final var tgtFunction = yaml.asEnum("blend.function.target", BlendFunction.class);
+            if (srcFunction != null && tgtFunction != null) {
+                opengl.glBlendFunc(GLParser.parse(srcFunction), GLParser.parse(tgtFunction));
             }
         }
 

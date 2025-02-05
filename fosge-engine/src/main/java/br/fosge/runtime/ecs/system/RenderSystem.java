@@ -12,9 +12,8 @@ import java.util.SortedSet;
 import java.util.TreeSet;
 
 import static br.fosge.RT.Application.scene;
-import static br.fosge.RT.yaml;
-
 import static br.fosge.RT.Platform.graphics;
+import static br.fosge.RT.yaml;
 
 public final class RenderSystem implements System {
     private final Map<Shader, SortedSet<MeshComponent>> ofShaders = new HashMap<>();

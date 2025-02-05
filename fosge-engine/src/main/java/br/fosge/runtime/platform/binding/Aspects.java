@@ -9,15 +9,15 @@ public abstract class Aspects {
     private Aspects(){}
 
     public static Object timed(ProceedingJoinPoint pjp) throws Throwable {
-        final var name = new StringBuilder(pjp.getSignature().getName());
-        name.append("(");
-        Arrays.stream(pjp.getArgs()).forEach(arg -> name.append(arg).append(", "));
+        final var functionSignature = new StringBuilder(pjp.getSignature().getName());
+        functionSignature.append("(");
+        Arrays.stream(pjp.getArgs()).forEach(arg -> functionSignature.append(arg).append(", "));
 
         final var start = System.nanoTime();
         try { return pjp.proceed(); }
         finally {
-            name.append(")");
-            Logger.trace("%s ## %.4f millis", name, (System.nanoTime() - start) * 1e-6);
+            functionSignature.append(")");
+            Logger.trace("%s ## %.4f millis", functionSignature, (System.nanoTime() - start) * 1e-6);
         }
     }
 }

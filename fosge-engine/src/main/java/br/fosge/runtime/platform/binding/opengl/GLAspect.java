@@ -1,6 +1,7 @@
 package br.fosge.runtime.platform.binding.opengl;
 
 import br.fosge.RT;
+import br.fosge.commons.Logger;
 import br.fosge.runtime.platform.binding.Aspects;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
@@ -13,6 +14,8 @@ import java.util.List;
 @Aspect
 public class GLAspect {
     private static final List<String> skip = new ArrayList<>();
+    private static final List<String> legacy = new ArrayList<>();
+    private static final List<String> nondsa = new ArrayList<>();
 
     static {
 
@@ -27,6 +30,26 @@ public class GLAspect {
                 "glBind"
         ));
 
+        legacy.addAll(Arrays.asList(
+                "glVertex2",
+                "glVertex3",
+                "glVertex4",
+                "glVertexPointer",
+                "glRotate",
+                "glScale",
+                "glMaterial",
+                "glLoad",
+                "glLight",
+                "glColor"
+        ));
+
+        nondsa.addAll(Arrays.asList(
+                "glGenBuffer",
+                "glBufferData",
+                "glBufferSubData",
+                "glGenTexture",
+                "glTexSubImage"
+                ));
     }
 
     @Around("execution(* br.fosge.runtime.platform.binding.opengl.impl..*.*(..))")
@@ -36,6 +59,20 @@ public class GLAspect {
         final var methodName = pjp.getSignature().getName();
         for (final var predicate : skip) {
             if (methodName.startsWith(predicate)) {
+                return pjp.proceed();
+            }
+        }
+
+        for (final var predicate : legacy) {
+            if (methodName.startsWith(predicate)) {
+                Logger.fatal("Do not user legacy functions");
+                return pjp.proceed();
+            }
+        }
+
+        for (final var predicate : nondsa) {
+            if (methodName.startsWith(predicate)) {
+                Logger.fatal("Please use the DSA version");
                 return pjp.proceed();
             }
         }

@@ -1,5 +1,6 @@
 package br.fosge.runtime.platform.binding.opengl.impl;
 
+import br.fosge.RT;
 import br.fosge.commons.Logger;
 import br.fosge.commons.logger.LogLevel;
 import br.fosge.runtime.platform.binding.opengl.api.*;
@@ -13,7 +14,7 @@ import static br.fosge.runtime.platform.binding.opengl.GLState.enabled;
 public class GL1x implements GL11, GL12, GL13, GL14, GL15 {
 
     public final void glEnable(int target) {
-        if (enabled.containsKey(target) && enabled.get(target)) {
+        if (RT.debug && enabled.containsKey(target) && enabled.get(target)) {
             Logger.warn("Unnecessary glEnable(%d)", target);
             Logger.stackTrace(LogLevel.WARN);
             return;
@@ -24,7 +25,7 @@ public class GL1x implements GL11, GL12, GL13, GL14, GL15 {
     }
 
     public final void glDisable(int target) {
-        if (enabled.containsKey(target) && !enabled.get(target)) {
+        if (RT.debug && enabled.containsKey(target) && !enabled.get(target)) {
             Logger.warn("Unnecessary glDisable(%d)", target);
             Logger.stackTrace(LogLevel.WARN);
             return;
@@ -71,7 +72,7 @@ public class GL1x implements GL11, GL12, GL13, GL14, GL15 {
     }
 
     public final void glBlendFunc(int sfactor, int dfactor) {
-        if (blendFunctions[0] == sfactor && blendFunctions[1] == dfactor) {
+        if (RT.debug && blendFunctions[0] == sfactor && blendFunctions[1] == dfactor) {
             Logger.warn("Unnecessary glBlendFunc(%d, %d)", sfactor, dfactor);
             Logger.stackTrace(LogLevel.WARN);
             return;
@@ -823,42 +824,34 @@ public class GL1x implements GL11, GL12, GL13, GL14, GL15 {
     }
 
     public final void glLightModeli(int pname, int param) {
-        Logger.fatal("Legacy OpenGL");
         org.lwjgl.opengl.GL11.glLightModeli(pname, param);
     }
 
     public final void glLightModelf(int pname, float param) {
-        Logger.fatal("Legacy OpenGL");
         org.lwjgl.opengl.GL11.glLightModelf(pname, param);
     }
 
     public final void glLightModeliv(int pname, IntBuffer params) {
-        Logger.fatal("Legacy OpenGL");
         org.lwjgl.opengl.GL11.glLightModeliv(pname, params);
     }
 
     public final void glLightModelfv(int pname, FloatBuffer params) {
-        Logger.fatal("Legacy OpenGL");
         org.lwjgl.opengl.GL11.glLightModelfv(pname, params);
     }
 
     public final void glLighti(int light, int pname, int param) {
-        Logger.fatal("Legacy OpenGL");
         org.lwjgl.opengl.GL11.glLighti(light, pname, param);
     }
 
     public final void glLightf(int light, int pname, float param) {
-        Logger.fatal("Legacy OpenGL");
         org.lwjgl.opengl.GL11.glLightf(light, pname, param);
     }
 
     public final void glLightiv(int light, int pname, IntBuffer params) {
-        Logger.fatal("Legacy OpenGL");
         org.lwjgl.opengl.GL11.glLightiv(light, pname, params);
     }
 
     public final void glLightfv(int light, int pname, FloatBuffer params) {
-        Logger.fatal("Legacy OpenGL");
         org.lwjgl.opengl.GL11.glLightfv(light, pname, params);
     }
 
@@ -883,7 +876,6 @@ public class GL1x implements GL11, GL12, GL13, GL14, GL15 {
     }
 
     public final void glLoadIdentity() {
-        Logger.fatal("Legacy OpenGL");
         org.lwjgl.opengl.GL11.glLoadIdentity();
     }
 
@@ -928,27 +920,22 @@ public class GL1x implements GL11, GL12, GL13, GL14, GL15 {
     }
 
     public final void glMateriali(int face, int pname, int param) {
-        Logger.fatal("Legacy OpenGL");
         org.lwjgl.opengl.GL11.glMateriali(face, pname, param);
     }
 
     public final void glMaterialf(int face, int pname, float param) {
-        Logger.fatal("Legacy OpenGL");
         org.lwjgl.opengl.GL11.glMaterialf(face, pname, param);
     }
 
     public final void glMaterialiv(int face, int pname, IntBuffer params) {
-        Logger.fatal("Legacy OpenGL");
         org.lwjgl.opengl.GL11.glMaterialiv(face, pname, params);
     }
 
     public final void glMaterialfv(int face, int pname, FloatBuffer params) {
-        Logger.fatal("Legacy OpenGL");
         org.lwjgl.opengl.GL11.glMaterialfv(face, pname, params);
     }
 
     public final void glMatrixMode(int mode) {
-        Logger.fatal("Legacy OpenGL");
         org.lwjgl.opengl.GL11.glMatrixMode(mode);
     }
 
@@ -1297,7 +1284,6 @@ public class GL1x implements GL11, GL12, GL13, GL14, GL15 {
     }
 
     public final void glRotatef(float angle, float x, float y, float z) {
-        Logger.fatal("Legacy OpenGL");
         org.lwjgl.opengl.GL11.glRotatef(angle, x, y, z);
     }
 
@@ -1666,132 +1652,106 @@ public class GL1x implements GL11, GL12, GL13, GL14, GL15 {
     }
 
     public final void glTranslatef(float x, float y, float z) {
-        Logger.fatal("Legacy OpenGL");
         org.lwjgl.opengl.GL11.glTranslatef(x, y, z);
     }
 
     public final void glTranslated(double x, double y, double z) {
-        Logger.fatal("Legacy OpenGL");
         org.lwjgl.opengl.GL11.glTranslated(x, y, z);
     }
 
     public final void glVertex2f(float x, float y) {
-        Logger.fatal("Legacy OpenGL");
         org.lwjgl.opengl.GL11.glVertex2f(x, y);
     }
 
     public final void glVertex2s(short x, short y) {
-        Logger.fatal("Legacy OpenGL");
         org.lwjgl.opengl.GL11.glVertex2s(x, y);
     }
 
     public final void glVertex2i(int x, int y) {
-        Logger.fatal("Legacy OpenGL");
         org.lwjgl.opengl.GL11.glVertex2i(x, y);
     }
 
     public final void glVertex2d(double x, double y) {
-        Logger.fatal("Legacy OpenGL");
         org.lwjgl.opengl.GL11.glVertex2d(x, y);
     }
 
     public final void glVertex2fv(FloatBuffer coords) {
-        Logger.fatal("Legacy OpenGL");
         org.lwjgl.opengl.GL11.glVertex2fv(coords);
     }
 
     public final void glVertex2sv(ShortBuffer coords) {
-        Logger.fatal("Legacy OpenGL");
         org.lwjgl.opengl.GL11.glVertex2sv(coords);
     }
 
     public final void glVertex2iv(IntBuffer coords) {
-        Logger.fatal("Legacy OpenGL");
         org.lwjgl.opengl.GL11.glVertex2iv(coords);
     }
 
     public final void glVertex2dv(DoubleBuffer coords) {
-        Logger.fatal("Legacy OpenGL");
         org.lwjgl.opengl.GL11.glVertex2dv(coords);
     }
 
     public final void glVertex3f(float x, float y, float z) {
-        Logger.fatal("Legacy OpenGL");
         org.lwjgl.opengl.GL11.glVertex3f(x, y, z);
     }
 
     public final void glVertex3s(short x, short y, short z) {
-        Logger.fatal("Legacy OpenGL");
         org.lwjgl.opengl.GL11.glVertex3s(x, y, z);
     }
 
     public final void glVertex3i(int x, int y, int z) {
-        Logger.fatal("Legacy OpenGL");
         org.lwjgl.opengl.GL11.glVertex3i(x, y, z);
     }
 
     public final void glVertex3d(double x, double y, double z) {
-        Logger.fatal("Legacy OpenGL");
         org.lwjgl.opengl.GL11.glVertex3d(x, y, z);
     }
 
     public final void glVertex3fv(FloatBuffer coords) {
-        Logger.fatal("Legacy OpenGL");
         org.lwjgl.opengl.GL11.glVertex3fv(coords);
     }
 
     public final void glVertex3sv(ShortBuffer coords) {
-        Logger.fatal("Legacy OpenGL");
         org.lwjgl.opengl.GL11.glVertex3sv(coords);
     }
 
     public final void glVertex3iv(IntBuffer coords) {
-        Logger.fatal("Legacy OpenGL");
         org.lwjgl.opengl.GL11.glVertex3iv(coords);
     }
 
     public final void glVertex3dv(DoubleBuffer coords) {
-        Logger.fatal("Legacy OpenGL");
         org.lwjgl.opengl.GL11.glVertex3dv(coords);
     }
 
     public final void glVertex4f(float x, float y, float z, float w) {
-        Logger.fatal("Legacy OpenGL");
         org.lwjgl.opengl.GL11.glVertex4f(x, y, z, w);
     }
 
     public final void glVertex4s(short x, short y, short z, short w) {
-        Logger.fatal("Legacy OpenGL");
         org.lwjgl.opengl.GL11.glVertex4s(x, y, z, w);
     }
 
     public final void glVertex4i(int x, int y, int z, int w) {
-        Logger.fatal("Legacy OpenGL");
         org.lwjgl.opengl.GL11.glVertex4i(x, y, z, w);
     }
 
     public final void glVertex4d(double x, double y, double z, double w) {
-        Logger.fatal("Legacy OpenGL");
         org.lwjgl.opengl.GL11.glVertex4d(x, y, z, w);
     }
 
     public final void glVertex4fv(FloatBuffer coords) {
-        Logger.fatal("Legacy OpenGL");
         org.lwjgl.opengl.GL11.glVertex4fv(coords);
     }
 
     public final void glVertex4sv(ShortBuffer coords) {
-        Logger.fatal("Legacy OpenGL");
         org.lwjgl.opengl.GL11.glVertex4sv(coords);
     }
 
     public final void glVertex4iv(IntBuffer coords) {
-        Logger.fatal("Legacy OpenGL");
         org.lwjgl.opengl.GL11.glVertex4iv(coords);
     }
 
     public final void glVertex4dv(DoubleBuffer coords) {
-        Logger.fatal("Legacy OpenGL");
         org.lwjgl.opengl.GL11.glVertex4dv(coords);
     }
 
@@ -2064,22 +2024,18 @@ public class GL1x implements GL11, GL12, GL13, GL14, GL15 {
     }
 
     public final void glLightModeliv(int pname, int[] params) {
-        Logger.fatal("Legacy OpenGL");
         org.lwjgl.opengl.GL11.glLightModeliv(pname, params);
     }
 
     public final void glLightModelfv(int pname, float[] params) {
-        Logger.fatal("Legacy OpenGL");
         org.lwjgl.opengl.GL11.glLightModelfv(pname, params);
     }
 
     public final void glLightiv(int light, int pname, int[] params) {
-        Logger.fatal("Legacy OpenGL");
         org.lwjgl.opengl.GL11.glLightiv(light, pname, params);
     }
 
     public final void glLightfv(int light, int pname, float[] params) {
-        Logger.fatal("Legacy OpenGL");
         org.lwjgl.opengl.GL11.glLightfv(light, pname, params);
     }
 
@@ -2108,12 +2064,10 @@ public class GL1x implements GL11, GL12, GL13, GL14, GL15 {
     }
 
     public final void glMaterialiv(int face, int pname, int[] params) {
-        Logger.fatal("Legacy OpenGL");
         org.lwjgl.opengl.GL11.glMaterialiv(face, pname, params);
     }
 
     public final void glMaterialfv(int face, int pname, float[] params) {
-        Logger.fatal("Legacy OpenGL");
         org.lwjgl.opengl.GL11.glMaterialfv(face, pname, params);
     }
 
@@ -3330,32 +3284,26 @@ public class GL1x implements GL11, GL12, GL13, GL14, GL15 {
     }
 
     public final void glGenBuffers(int[] buffers) {
-        Logger.fatal("Use DSA GL45.glCreateBuffers");
         org.lwjgl.opengl.GL15.glGenBuffers(buffers);
     }
 
     public final void glBufferData(int target, short[] data, int usage) {
-        Logger.fatal("Use DSA GL45.glNamedBufferData");
         org.lwjgl.opengl.GL15.glBufferData(target, data, usage);
     }
 
     public final void glBufferData(int target, int[] data, int usage) {
-        Logger.fatal("Use DSA GL45.glNamedBufferData");
         org.lwjgl.opengl.GL15.glBufferData(target, data, usage);
     }
 
     public final void glBufferData(int target, long[] data, int usage) {
-        Logger.fatal("Use DSA GL45.glNamedBufferData");
         org.lwjgl.opengl.GL15.glBufferData(target, data, usage);
     }
 
     public final void glBufferData(int target, float[] data, int usage) {
-        Logger.fatal("Use DSA GL45.glNamedBufferData");
         org.lwjgl.opengl.GL15.glBufferData(target, data, usage);
     }
 
     public final void glBufferData(int target, double[] data, int usage) {
-        Logger.fatal("Use DSA GL45.glNamedBufferData");
         org.lwjgl.opengl.GL15.glBufferData(target, data, usage);
     }
 

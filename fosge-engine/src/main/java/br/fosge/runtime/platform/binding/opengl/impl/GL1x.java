@@ -1606,50 +1606,62 @@ public class GL1x implements GL11, GL12, GL13, GL14, GL15 {
     }
 
     public final void glTexSubImage1D(int target, int level, int xoffset, int width, int format, int type, ByteBuffer pixels) {
+        Logger.fatal("Use DSA GL45.glTextureSubImage1D");
         org.lwjgl.opengl.GL11.glTexSubImage1D(target, level, xoffset, width, format, type, pixels);
     }
 
     public final void glTexSubImage1D(int target, int level, int xoffset, int width, int format, int type, long pixels) {
+        Logger.fatal("Use DSA GL45.glTextureSubImage1D");
         org.lwjgl.opengl.GL11.glTexSubImage1D(target, level, xoffset, width, format, type, pixels);
     }
 
     public final void glTexSubImage1D(int target, int level, int xoffset, int width, int format, int type, ShortBuffer pixels) {
+        Logger.fatal("Use DSA GL45.glTextureSubImage1D");
         org.lwjgl.opengl.GL11.glTexSubImage1D(target, level, xoffset, width, format, type, pixels);
     }
 
     public final void glTexSubImage1D(int target, int level, int xoffset, int width, int format, int type, IntBuffer pixels) {
+        Logger.fatal("Use DSA GL45.glTextureSubImage1D");
         org.lwjgl.opengl.GL11.glTexSubImage1D(target, level, xoffset, width, format, type, pixels);
     }
 
     public final void glTexSubImage1D(int target, int level, int xoffset, int width, int format, int type, FloatBuffer pixels) {
+        Logger.fatal("Use DSA GL45.glTextureSubImage1D");
         org.lwjgl.opengl.GL11.glTexSubImage1D(target, level, xoffset, width, format, type, pixels);
     }
 
     public final void glTexSubImage1D(int target, int level, int xoffset, int width, int format, int type, DoubleBuffer pixels) {
+        Logger.fatal("Use DSA GL45.glTextureSubImage1D");
         org.lwjgl.opengl.GL11.glTexSubImage1D(target, level, xoffset, width, format, type, pixels);
     }
 
     public final void glTexSubImage2D(int target, int level, int xoffset, int yoffset, int width, int height, int format, int type, ByteBuffer pixels) {
+        Logger.fatal("Use DSA GL45.glTextureSubImage2D");
         org.lwjgl.opengl.GL11.glTexSubImage2D(target, level, xoffset, yoffset, width, height, format, type, pixels);
     }
 
     public final void glTexSubImage2D(int target, int level, int xoffset, int yoffset, int width, int height, int format, int type, long pixels) {
+        Logger.fatal("Use DSA GL45.glTextureSubImage2D");
         org.lwjgl.opengl.GL11.glTexSubImage2D(target, level, xoffset, yoffset, width, height, format, type, pixels);
     }
 
     public final void glTexSubImage2D(int target, int level, int xoffset, int yoffset, int width, int height, int format, int type, ShortBuffer pixels) {
+        Logger.fatal("Use DSA GL45.glTextureSubImage2D");
         org.lwjgl.opengl.GL11.glTexSubImage2D(target, level, xoffset, yoffset, width, height, format, type, pixels);
     }
 
     public final void glTexSubImage2D(int target, int level, int xoffset, int yoffset, int width, int height, int format, int type, IntBuffer pixels) {
+        Logger.fatal("Use DSA GL45.glTextureSubImage2D");
         org.lwjgl.opengl.GL11.glTexSubImage2D(target, level, xoffset, yoffset, width, height, format, type, pixels);
     }
 
     public final void glTexSubImage2D(int target, int level, int xoffset, int yoffset, int width, int height, int format, int type, FloatBuffer pixels) {
+        Logger.fatal("Use DSA GL45.glTextureSubImage2D");
         org.lwjgl.opengl.GL11.glTexSubImage2D(target, level, xoffset, yoffset, width, height, format, type, pixels);
     }
 
     public final void glTexSubImage2D(int target, int level, int xoffset, int yoffset, int width, int height, int format, int type, DoubleBuffer pixels) {
+        Logger.fatal("Use DSA GL45.glTextureSubImage2D");
         org.lwjgl.opengl.GL11.glTexSubImage2D(target, level, xoffset, yoffset, width, height, format, type, pixels);
     }
 
@@ -1659,102 +1671,127 @@ public class GL1x implements GL11, GL12, GL13, GL14, GL15 {
     }
 
     public final void glTranslated(double x, double y, double z) {
+        Logger.fatal("Legacy OpenGL");
         org.lwjgl.opengl.GL11.glTranslated(x, y, z);
     }
 
     public final void glVertex2f(float x, float y) {
+        Logger.fatal("Legacy OpenGL");
         org.lwjgl.opengl.GL11.glVertex2f(x, y);
     }
 
     public final void glVertex2s(short x, short y) {
+        Logger.fatal("Legacy OpenGL");
         org.lwjgl.opengl.GL11.glVertex2s(x, y);
     }
 
     public final void glVertex2i(int x, int y) {
+        Logger.fatal("Legacy OpenGL");
         org.lwjgl.opengl.GL11.glVertex2i(x, y);
     }
 
     public final void glVertex2d(double x, double y) {
+        Logger.fatal("Legacy OpenGL");
         org.lwjgl.opengl.GL11.glVertex2d(x, y);
     }
 
     public final void glVertex2fv(FloatBuffer coords) {
+        Logger.fatal("Legacy OpenGL");
         org.lwjgl.opengl.GL11.glVertex2fv(coords);
     }
 
     public final void glVertex2sv(ShortBuffer coords) {
+        Logger.fatal("Legacy OpenGL");
         org.lwjgl.opengl.GL11.glVertex2sv(coords);
     }
 
     public final void glVertex2iv(IntBuffer coords) {
+        Logger.fatal("Legacy OpenGL");
         org.lwjgl.opengl.GL11.glVertex2iv(coords);
     }
 
     public final void glVertex2dv(DoubleBuffer coords) {
+        Logger.fatal("Legacy OpenGL");
         org.lwjgl.opengl.GL11.glVertex2dv(coords);
     }
 
     public final void glVertex3f(float x, float y, float z) {
+        Logger.fatal("Legacy OpenGL");
         org.lwjgl.opengl.GL11.glVertex3f(x, y, z);
     }
 
     public final void glVertex3s(short x, short y, short z) {
+        Logger.fatal("Legacy OpenGL");
         org.lwjgl.opengl.GL11.glVertex3s(x, y, z);
     }
 
     public final void glVertex3i(int x, int y, int z) {
+        Logger.fatal("Legacy OpenGL");
         org.lwjgl.opengl.GL11.glVertex3i(x, y, z);
     }
 
     public final void glVertex3d(double x, double y, double z) {
+        Logger.fatal("Legacy OpenGL");
         org.lwjgl.opengl.GL11.glVertex3d(x, y, z);
     }
 
     public final void glVertex3fv(FloatBuffer coords) {
+        Logger.fatal("Legacy OpenGL");
         org.lwjgl.opengl.GL11.glVertex3fv(coords);
     }
 
     public final void glVertex3sv(ShortBuffer coords) {
+        Logger.fatal("Legacy OpenGL");
         org.lwjgl.opengl.GL11.glVertex3sv(coords);
     }
 
     public final void glVertex3iv(IntBuffer coords) {
+        Logger.fatal("Legacy OpenGL");
         org.lwjgl.opengl.GL11.glVertex3iv(coords);
     }
 
     public final void glVertex3dv(DoubleBuffer coords) {
+        Logger.fatal("Legacy OpenGL");
         org.lwjgl.opengl.GL11.glVertex3dv(coords);
     }
 
     public final void glVertex4f(float x, float y, float z, float w) {
+        Logger.fatal("Legacy OpenGL");
         org.lwjgl.opengl.GL11.glVertex4f(x, y, z, w);
     }
 
     public final void glVertex4s(short x, short y, short z, short w) {
+        Logger.fatal("Legacy OpenGL");
         org.lwjgl.opengl.GL11.glVertex4s(x, y, z, w);
     }
 
     public final void glVertex4i(int x, int y, int z, int w) {
+        Logger.fatal("Legacy OpenGL");
         org.lwjgl.opengl.GL11.glVertex4i(x, y, z, w);
     }
 
     public final void glVertex4d(double x, double y, double z, double w) {
+        Logger.fatal("Legacy OpenGL");
         org.lwjgl.opengl.GL11.glVertex4d(x, y, z, w);
     }
 
     public final void glVertex4fv(FloatBuffer coords) {
+        Logger.fatal("Legacy OpenGL");
         org.lwjgl.opengl.GL11.glVertex4fv(coords);
     }
 
     public final void glVertex4sv(ShortBuffer coords) {
+        Logger.fatal("Legacy OpenGL");
         org.lwjgl.opengl.GL11.glVertex4sv(coords);
     }
 
     public final void glVertex4iv(IntBuffer coords) {
+        Logger.fatal("Legacy OpenGL");
         org.lwjgl.opengl.GL11.glVertex4iv(coords);
     }
 
     public final void glVertex4dv(DoubleBuffer coords) {
+        Logger.fatal("Legacy OpenGL");
         org.lwjgl.opengl.GL11.glVertex4dv(coords);
     }
 

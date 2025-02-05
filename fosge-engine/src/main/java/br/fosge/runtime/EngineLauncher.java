@@ -73,6 +73,8 @@ public final class EngineLauncher extends Launcher {
             return false;
         }
 
+        Resources.free();
+
         if (!Platform.terminate()) {
             Logger.error("Platform failed to terminate");
             return false;

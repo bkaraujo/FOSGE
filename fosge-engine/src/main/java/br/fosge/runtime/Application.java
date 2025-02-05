@@ -128,7 +128,6 @@ public final class Application implements Lifecycle {
         if (!scene.terminate()) {
             Logger.fatal("Failed to terminate scene %s: ", scene);
         }
-        Resources.free();
 
         return true;
     }

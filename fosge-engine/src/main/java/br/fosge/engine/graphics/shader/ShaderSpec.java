@@ -14,23 +14,24 @@ public record ShaderSpec (
         List<ShaderSource> sources
 ) implements Specification {
 
-    public ShaderSpec() {
-        this(null, new ArrayList<>());
-    }
-
     public ShaderSpec(@Nonnull Path desired) {
         this(desired, new ArrayList<>());
+   }
+
+    public List<ShaderSource> sources() {
+        if (!sources.isEmpty()) return sources;
 
         final String payload;
         try {
+            Logger.trace("Reading %s", script);
             payload = Files.readString(script);
             if (payload == null || payload.isEmpty()) {
                 Logger.warn("Shader script is empty: %s", script);
-                return;
+                return sources;
             }
         } catch (Throwable throwable) {
             Logger.error("Failed to read %s", script.toString());
-            return;
+            return sources;
         }
 
         final var tokens = payload.split("#shader");
@@ -47,10 +48,11 @@ public record ShaderSpec (
                 }
             }
         }
+
+        return sources;
     }
 
     public String toString() {
-        if (sources.isEmpty()) return "ShaderSpec: empty";
         return script.toString();
     }
 }

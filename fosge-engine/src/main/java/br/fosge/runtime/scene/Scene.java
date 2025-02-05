@@ -82,7 +82,8 @@ public record Scene(
         }
 
         for (final var found : yaml.list("actors")) {
-            final var actor = new ActorImpl(Ulid.from(found.asString("identity")), found);
+            final var identity = found.asString("identity");
+            final var actor = new ActorImpl(identity != null ? Ulid.from(identity) : UlidCreator.getMonotonicUlid(), found);
             if (!actor.initialize()) { Logger.error("Failed to initialize actor: %s", actor); return false; }
             actors.add(actor);
         }

@@ -2,7 +2,7 @@
 fosge:
   engine:
     debug: true
-    trace: false
+    trace: true
     graphics:
       vsync: false
       wireframe: false
@@ -74,7 +74,7 @@ fosge:
           - name: "target"
             value: "br.fosge.sandbox.pong.EnvironmentController"
       - name: "player"
-        identity: "01JJPMGHGR5T5C3KBVGP2TZWC0"
+        identity: "01JKB8JWHSGKBJHMSFSE4Z19EX"
         components:
         - type: "RIGID_BODY_COMPONENT"
         - type: "TRANSFORM_COMPONENT"
@@ -84,7 +84,7 @@ fosge:
           - name: "rotation"
             value: "0, 0, 0"
           - name: "scale"
-            value: "4.5, 1, 1"
+            value: "4.5, 1, 0"
         - type: "MESH_COMPONENT"
           properties:
           - name: "shader"
@@ -108,10 +108,17 @@ fosge:
           - name: "target.speed"
             value: "1.2"
       - name: "ball"
-        identity: "01JK6K1GJFDBHWBMS0K2Z5WE7C"
+        identity: "01JKB8JWJWYKTSPXG9AT6V6ZDV"
         components:
-        - type: "TRANSFORM_COMPONENT"
         - type: "RIGID_BODY_COMPONENT"
+        - type: "TRANSFORM_COMPONENT"
+          properties:
+          - name: "position"
+            value: "0, 0, 0"
+          - name: "rotation"
+            value: "0, 0, 0"
+          - name: "scale"
+            value: "1, 1, 0"
         - type: "MESH_COMPONENT"
           properties:
           - name: "shader"
@@ -121,9 +128,9 @@ fosge:
           - name: "texture.0.dataType"
             value: "UBYTE"
           - name: "texture.0.storageFormat"
-            value: "RGB"
+            value: "RGBA8"
           - name: "texture.0.format"
-            value: "RGBA"
+            value: "RGB"
           - name: "texture.0.mips"
             value: "1"
           - name: "geometry.primitive"

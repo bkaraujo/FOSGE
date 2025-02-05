@@ -82,9 +82,10 @@ public final class GLShader implements Shader {
                 final var stage = opengl.glCreateShader(switch (source.stage()) {
                     case VERTEX -> GL_VERTEX_SHADER;
                     case FRAGMENT -> GL_FRAGMENT_SHADER;
+                    case COMPUTE -> GL_COMPUTE_SHADER;
                 });
-                RT.Graphics.shaderStages++;
 
+                RT.Graphics.shaderStages++;
                 opengl.glShaderSource(stage, source.script());
                 opengl.glCompileShader(stage);
                 if (opengl.glGetShaderi(stage, GL_COMPILE_STATUS) == GL11.GL_FALSE) {

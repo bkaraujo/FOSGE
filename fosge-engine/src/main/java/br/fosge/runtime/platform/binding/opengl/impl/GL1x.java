@@ -1,12 +1,14 @@
-package br.fosge.engine.runtime.platform.binding.opengl.impl;
+package br.fosge.runtime.platform.binding.opengl.impl;
 
-import br.fosge.engine.runtime.platform.binding.opengl.api.*;
+import br.fosge.commons.Logger;
+import br.fosge.commons.logger.LogLevel;
+import br.fosge.runtime.platform.binding.opengl.api.*;
 import org.lwjgl.PointerBuffer;
 
 import java.nio.*;
 
-import static br.fosge.engine.runtime.platform.binding.opengl.GLState.blendFunctions;
-import static br.fosge.engine.runtime.platform.binding.opengl.GLState.enabled;
+import static br.fosge.runtime.platform.binding.opengl.GLState.blendFunctions;
+import static br.fosge.runtime.platform.binding.opengl.GLState.enabled;
 
 public class GL1x implements GL11, GL12, GL13, GL14, GL15 {
 

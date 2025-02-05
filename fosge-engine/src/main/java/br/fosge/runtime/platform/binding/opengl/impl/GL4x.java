@@ -1,6 +1,7 @@
-package br.fosge.engine.runtime.platform.binding.opengl.impl;
+package br.fosge.runtime.platform.binding.opengl.impl;
 
-import br.fosge.engine.runtime.platform.binding.opengl.api.*;
+import br.fosge.commons.Logger;
+import br.fosge.runtime.platform.binding.opengl.api.*;
 import org.lwjgl.PointerBuffer;
 import org.lwjgl.opengl.GLDebugMessageCallbackI;
 

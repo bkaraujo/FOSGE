@@ -1,4 +1,4 @@
-package br.fosge.engine.runtime.platform.binding.opengl;
+package br.fosge.runtime.platform.binding.opengl;
 
 import br.fosge.commons.annotation.State;
 

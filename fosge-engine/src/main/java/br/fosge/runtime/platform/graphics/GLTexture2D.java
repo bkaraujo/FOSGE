@@ -50,6 +50,7 @@ public final class GLTexture2D extends GLTexture implements Texture2D {
             final var pHeight = stack.mallocInt(1);
             final var pChannel = stack.mallocInt(1);
 
+            STBImage.stbi_set_flip_vertically_on_load(spec.verticalFlip());
             pixels = STBImage.stbi_load(spec.path().toString(), pWidth, pHeight, pChannel, 0);
             if (pixels == null) { Logger.error("Failed to load image %s", spec.path()); return false; }
 
@@ -61,13 +62,6 @@ public final class GLTexture2D extends GLTexture implements Texture2D {
                     handle,
                     spec.mip(),
                     GLParser.parse(spec.storageFormat()),
-//                    switch (channels) {
-//                        default -> { Logger.fatal("Unsupported image channels: %d", channels); yield GL11.GL_NONE; }
-//                        case 1 -> GL11.GL_RED;
-//                        case 2 -> GL30.GL_RG8;
-//                        case 3 -> GL11.GL_RGB8;
-//                        case 4 -> GL11.GL_RGBA8;
-//                    },
                     width,
                     height
             );
@@ -80,13 +74,6 @@ public final class GLTexture2D extends GLTexture implements Texture2D {
                     width,
                     height,
                     GLParser.parse(spec.format()),
-//                    switch (channels) {
-//                        default -> { Logger.fatal("Unsupported image channels: %d", channels); yield GL11.GL_NONE; }
-//                        case 1 -> GL11.GL_RED;
-//                        case 2 -> GL30.GL_RG;
-//                        case 3 -> GL11.GL_RGB;
-//                        case 4 -> GL11.GL_RGBA;
-//                    },
                     GLParser.parse(spec.dataType()),
                     pixels
             );

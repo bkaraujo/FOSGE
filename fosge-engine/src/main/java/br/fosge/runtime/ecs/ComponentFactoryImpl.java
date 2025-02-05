@@ -95,7 +95,8 @@ public final class ComponentFactoryImpl implements ComponentFactory {
                     txMips != null ? Integer.parseInt(txMips) : 1,
                     PixelFormat.valueOf(txFormat),
                     PixelFormat.valueOf(txStorageFormat),
-                    DataType.valueOf(txDataType)
+                    DataType.valueOf(txDataType),
+                    Boolean.parseBoolean(Tuples.find(predicate + ".verticalFlip", properties))
             ));
 
             if (texture == null) {

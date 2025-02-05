@@ -10,6 +10,7 @@ public record TextureSpec (
         int mip,
         PixelFormat format,
         PixelFormat storageFormat,
-        DataType dataType
+        DataType dataType,
+        boolean verticalFlip
 ) implements Specification {
 }

@@ -52,9 +52,6 @@ public class BindingAspect {
 
         final var args = pjp.getArgs();
         if (args != null && args.length > 0) {
-            if (methodName.startsWith("glfw")) {
-
-            }
             // ===============================================================
             // GLFW Validations
             // ===============================================================

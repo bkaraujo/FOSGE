@@ -1,5 +1,6 @@
 package br.fosge.engine.runtime.platform.binding.opengl.impl;
 
+import br.fosge.commons.Logger;
 import br.fosge.engine.runtime.platform.binding.opengl.api.*;
 import org.lwjgl.PointerBuffer;
 import org.lwjgl.opengl.GLDebugMessageCallbackI;
@@ -2593,6 +2594,7 @@ public class GL4x extends GL3x implements GL40, GL41, GL42, GL43, GL44, GL45, GL
     }
 
     public final void glCreateBuffers(int[] buffers) {
+        Logger.warn("Consider using GL45.glCreateBuffers");
         org.lwjgl.opengl.GL45.glCreateBuffers(buffers);
     }
 

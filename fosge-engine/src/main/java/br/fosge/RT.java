@@ -5,18 +5,14 @@ import br.fosge.commons.serializer.Yaml;
 import br.fosge.engine.audio.AudioObject;
 import br.fosge.engine.ecs.Component;
 import br.fosge.engine.ecs.ComponentFactory;
-import br.fosge.engine.ecs.ComponentType;
 import br.fosge.engine.ecs.System;
 import br.fosge.engine.graphics.GraphicsObject;
 import br.fosge.engine.input.Keyboard;
 import br.fosge.engine.input.Mouse;
-import br.fosge.engine.renderer.CameraFactory;
 import br.fosge.runtime.ecs.ComponentFactoryImpl;
 import br.fosge.runtime.platform.*;
-import br.fosge.runtime.renderer.CameraFactoryImpl;
 import br.fosge.runtime.scene.Scene;
 import com.github.f4b6a3.ulid.Ulid;
-import org.joml.Matrix4f;
 import org.joml.Vector2i;
 
 import java.nio.ByteBuffer;
@@ -49,7 +45,6 @@ public abstract class RT implements State {
     public static abstract class Factory {
 
         public static final ComponentFactory component = new ComponentFactoryImpl();
-        public static final CameraFactory camera = new CameraFactoryImpl();
 
     }
 
@@ -61,7 +56,7 @@ public abstract class RT implements State {
         public static final Queue<System> systems = new ConcurrentLinkedQueue<>();
         public static final Queue<Ulid> entities = new ConcurrentLinkedQueue<>();
         public static final Map<Ulid, Queue<Component>> ofEntities = new ConcurrentHashMap<>();
-        public static final Map<ComponentType, Queue<Component>> ofComponents = new ConcurrentHashMap<>();
+        public static final Map<Class<?>, Queue<Component>> ofComponents = new ConcurrentHashMap<>();
     }
 
     public static abstract class Window {
@@ -99,8 +94,6 @@ public abstract class RT implements State {
         public static int shaderStages;
         public static int shaderPrograms;
         public static int boundShaderProgram;
-
-        public static Matrix4f projectionMatrix;
 
         public static final Queue<GraphicsObject> shaders = new ConcurrentLinkedQueue<>();
         public static final Queue<GraphicsObject> textures = new ConcurrentLinkedQueue<>();

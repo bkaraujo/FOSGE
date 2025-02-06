@@ -4,8 +4,8 @@ import br.fosge.commons.Logger;
 import br.fosge.commons.Meta;
 import br.fosge.commons.filesystem.Files;
 import br.fosge.commons.logger.LogLevel;
+import br.fosge.engine.Resources;
 import br.fosge.engine.audio.AudioBuffer;
-import br.fosge.runtime.Resources;
 import org.lwjgl.system.MemoryStack;
 import org.lwjgl.system.libc.LibCStdlib;
 

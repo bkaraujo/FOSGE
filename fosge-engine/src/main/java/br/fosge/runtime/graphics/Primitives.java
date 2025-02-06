@@ -1,13 +1,13 @@
 package br.fosge.runtime.graphics;
 
 import br.fosge.commons.Logger;
+import br.fosge.engine.Resources;
 import br.fosge.engine.graphics.DataType;
 import br.fosge.engine.graphics.DrawMode;
 import br.fosge.engine.graphics.Geometry;
 import br.fosge.engine.graphics.geometry.BufferLayout;
 import br.fosge.engine.graphics.geometry.BufferType;
 import br.fosge.engine.graphics.geometry.GeometrySpec;
-import br.fosge.runtime.Resources;
 
 public abstract class Primitives {
     private Primitives(){}

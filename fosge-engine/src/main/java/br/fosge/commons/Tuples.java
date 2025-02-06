@@ -18,7 +18,9 @@ public abstract class Tuples {
         return list.toArray(Tuple[]::new);
     }
 
-    public static boolean contains(@Nonnull String name, @Nonnull Tuple... tuples) {
+    public static boolean contains(@Nonnull String name, @Nullable Tuple... tuples) {
+        if (tuples == null) return false;
+
         for (final Tuple tuple : tuples) {
             if (name.equals(tuple.name())) {
                 return true;
@@ -29,7 +31,9 @@ public abstract class Tuples {
     }
 
     @Nullable
-    public static String find(@Nonnull String name, @Nonnull Tuple... tuples) {
+    public static String find(@Nonnull String name, @Nullable Tuple... tuples) {
+        if (tuples == null) return null;
+
         for (final Tuple tuple : tuples) {
             if (name.equals(tuple.name())) {
                 return tuple.value();

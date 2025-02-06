@@ -1,4 +1,4 @@
-package br.fosge.runtime;
+package br.fosge.engine;
 
 import br.fosge.commons.annotation.Facade;
 import br.fosge.engine.audio.AudioBuffer;

@@ -2,14 +2,19 @@ package br.fosge.runtime.scene;
 
 import br.fosge.RT;
 import br.fosge.commons.Logger;
+import br.fosge.commons.Meta;
 import br.fosge.commons.Strings;
+import br.fosge.commons.Tuples;
 import br.fosge.commons.annotation.Lifecycle;
 import br.fosge.commons.serializer.Yaml;
 import br.fosge.engine.ecs.Actor;
+import br.fosge.engine.ecs.ComponentType;
+import br.fosge.engine.ecs.ECS;
+import br.fosge.engine.renderer.TransformComponent;
 import br.fosge.engine.renderer.backend.BlendEquation;
 import br.fosge.engine.renderer.backend.BlendFunction;
 import br.fosge.engine.renderer.backend.DepthFunction;
-import br.fosge.engine.renderer.frontend.Camera;
+import br.fosge.engine.renderer.frontend.CameraComponent;
 import br.fosge.runtime.platform.binding.opengl.api.GL11;
 import br.fosge.runtime.platform.graphics.GLParser;
 import com.github.f4b6a3.ulid.Ulid;
@@ -26,23 +31,16 @@ public record Scene(
         Ulid identity,
         String name,
         Yaml yaml,
-        Camera camera,
         List<Actor> actors
 ) implements Lifecycle {
 
     public static Scene of (String name) {
         Yaml yaml = null;
+
         for (final var candidate : RT.yaml.list("fosge.application.scenes")) {
             final var candidateName = candidate.asString("name");
-            if (candidateName == null) {
-                Logger.warn("Ignoring malformed scene, name property not found");
-                continue;
-            }
-
-            if (candidateName.equals(name)) {
-                yaml = candidate;
-                break;
-            }
+            if (candidateName == null) { Logger.warn("Ignoring malformed scene, name property not found"); continue; }
+            if (candidateName.equals(name)) { yaml = candidate; break; }
         }
 
         if (yaml == null) { Logger.error("Scene not found: %s", name); return null; }
@@ -51,12 +49,14 @@ public record Scene(
         if (!yaml.contains("identity")) { identity = UlidCreator.getMonotonicUlid(); }
         else { identity = Ulid.from(yaml.asString("identity")); }
 
-        return new Scene(identity, name, yaml, RT.Factory.camera.create(yaml.subtree("camera")), new ArrayList<>());
+        return new Scene(identity, name, yaml, new ArrayList<>());
     }
 
     @Override
     public boolean initialize() {
-
+        // #############################################################
+        // Setup scene-wide configurations
+        // #############################################################
         if (yaml.contains("depth")){
             Logger.debug("Setting scene depth options");
             final var enabled = yaml.asBoolean("depth.enabled");
@@ -81,14 +81,76 @@ public record Scene(
             }
         }
 
+        final var camera = Actor.create("Camera");
+        camera.attach(CameraComponent.class, yaml.asTuples("camera"));
+        actors.add(camera);
+        // #############################################################
+        // Create the actors
+        // #############################################################
         for (final var found : yaml.list("actors")) {
-            final var identity = found.asString("identity");
-            final var actor = new ActorImpl(identity != null ? Ulid.from(identity) : UlidCreator.getMonotonicUlid(), found);
-            if (!actor.initialize()) { Logger.error("Failed to initialize actor: %s", actor); return false; }
+            // -------------------------------------------------
+            // Create the actor in the ECS database
+            // -------------------------------------------------
+            final var sIdentity = found.asString("identity");
+
+            Actor actor;
+            if (sIdentity == null) {
+                actor = Actor.from(UlidCreator.getMonotonicUlid());
+                found.put("identity", actor.identity().toString());
+            } else {
+                actor = Actor.from(Ulid.from(sIdentity));
+            }
+
+            ECS.prepare(actor.identity());
+            // -------------------------------------------------
+            // Create the actor's components
+            // -------------------------------------------------
+            for (final var candidate : found.list("components")) {
+                ComponentType type;
+                try { type = ComponentType.valueOf(candidate.asString("type")); }
+                catch (IllegalArgumentException ignored) {
+                    Logger.error("Invalid component type: " + candidate.asString("type"));
+                    continue;
+                }
+
+                switch (type) {
+                    case NAME_COMPONENT: {
+                        final var name = Tuples.find("name", candidate.asTuples("properties"));
+                        if (name != null) { actor.name().name = name; }
+                    } break;
+                    case TRANSFORM_COMPONENT: {
+                        final var desired = RT.Factory.component.transform(candidate.asTuples("properties"));
+                        actor.transform().scale.set(desired.scale);
+                        actor.transform().rotation.set(desired.rotation);
+                        actor.transform().position.set(desired.position);
+                    } break;
+                    default: {
+                        final var instance = actor.attach(type.klass, candidate.asTuples("properties"));
+                        if (instance == null) { return false; }
+
+                        if (type == ComponentType.BEHAVIOUR_COMPONENT) {
+                            Meta.set(instance, "transform", actor.get(TransformComponent.class));
+                        }
+                    }
+                }
+            }
+
             actors.add(actor);
         }
 
+        for (final var actor : actors) {
+            if(!actor.initialize()) {
+                Logger.error("%s :: Failed to initialize.", identity);
+                if (!terminate()) { Logger.fatal("What?!?!"); }
+                return false;
+            }
+        }
+
         return true;
+    }
+
+    public Actor camera() {
+        return actors.getFirst();
     }
 
     public Vector4fc clearColor() {

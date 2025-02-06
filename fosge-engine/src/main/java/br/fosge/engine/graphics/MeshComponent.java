@@ -1,10 +1,7 @@
-package br.fosge.engine.renderer;
+package br.fosge.engine.graphics;
 
 import br.fosge.RT;
 import br.fosge.engine.ecs.Component;
-import br.fosge.engine.graphics.Geometry;
-import br.fosge.engine.graphics.Shader;
-import br.fosge.engine.graphics.Texture;
 
 import java.util.ArrayList;
 import java.util.List;

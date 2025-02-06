@@ -116,6 +116,7 @@ public final class ComponentFactoryImpl implements ComponentFactory {
         final var primitive = Tuples.find("geometry.primitive", properties);
         switch (primitive) {
             case "quadrilateral": { component.geometry = Primitives.quadrilateral(); } break;
+            case null:
             default: {
                 final var layouts = new ArrayList<BufferLayout>();
                 for (final var tuple : properties) {
@@ -163,11 +164,14 @@ public final class ComponentFactoryImpl implements ComponentFactory {
     public TransformComponent transform(Tuple... properties) {
         final var component = new TransformComponent();
 
-        if (properties != null && properties.length > 0) {
-            component.position.set(Strings.floats(Tuples.find("position", properties)));
-            component.rotation.set(Strings.floats(Tuples.find("rotation", properties)));
-            component.scale.set(Strings.floats(Tuples.find("scale", properties)));
-        }
+        final var position = Tuples.find("position", properties);
+        if (position != null) { component.position.set(Strings.floats(position)); }
+
+        final var rotation = Tuples.find("rotation", properties);
+        if (rotation != null) { component.rotation.set(Strings.floats(rotation)); }
+
+        final var scale = Tuples.find("scale", properties);
+        if (scale != null) { component.scale.set(Strings.floats(scale)); }
 
         return component;
     }
@@ -179,7 +183,10 @@ public final class ComponentFactoryImpl implements ComponentFactory {
 
     @Override
     public BehaviourComponent behaviour(Tuple... properties) {
-        final var component = Meta.instance(BehaviourComponent.class, Tuples.find("target", properties));
+        final var target = Tuples.find("target", properties);
+        if (target == null) { return null; }
+
+        final var component = Meta.instance(BehaviourComponent.class, target);
         for (final var property : properties) {
             if (!property.name().contains(".")) continue;
 

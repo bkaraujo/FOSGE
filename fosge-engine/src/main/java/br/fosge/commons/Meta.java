@@ -92,6 +92,8 @@ public abstract class Meta {
     public static void set(@Nonnull Object object, @Nonnull String fieldName, @Nullable Object fieldValue) {
         try {
             final var field = field(object, fieldName);
+            if (field == null) { Logger.warn("Field [%s] not found in %s", fieldName, fqn(object)); return; }
+
             field.setAccessible(true);
 
             if (fieldValue == null) { field.set(object, null); return; }

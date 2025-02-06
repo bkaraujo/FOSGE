@@ -1,5 +1,6 @@
 package br.fosge.engine.ecs;
 
+import br.fosge.commons.Meta;
 import br.fosge.engine.audio.AudioSourceComponent;
 import br.fosge.engine.physics.RigidBodyComponent;
 import br.fosge.engine.physics.SoftBodyComponent;
@@ -18,5 +19,15 @@ public enum ComponentType {
     public final Class<? extends Component> klass;
     ComponentType(Class<? extends Component> desired) {
         klass = desired;
+    }
+
+    public static ComponentType valueOf(Class<? extends Component> klass) {
+        for (final var type : ComponentType.values()) {
+            if (Meta.assignable(klass, type.klass)) {
+                return type;
+            }
+        }
+
+        return null;
     }
 }

@@ -114,11 +114,11 @@ fosge:
         - type: "TRANSFORM_COMPONENT"
           properties:
           - name: "position"
-            value: "0, 0, 0"
+            value: "-0.2, 0, 0"
           - name: "rotation"
             value: "0, 0, 0"
           - name: "scale"
-            value: "2, 2, 0"
+            value: "2, 02, 0"
         - type: "MESH_COMPONENT"
           properties:
           - name: "shader"
@@ -137,3 +137,9 @@ fosge:
             value: "1"
           - name: "geometry.primitive"
             value: "quadrilateral"
+        - type: "BEHAVIOUR_COMPONENT"
+          properties:
+          - name: "target"
+            value: "br.fosge.sandbox.pong.BallController"
+          - name: "target.speed"
+            value: "1.2"

@@ -67,39 +67,45 @@ public abstract class ECS implements Facade {
     }
 
     @Nullable
-    public static Component attach(@Nonnull Ulid entity, @Nonnull ComponentType type, Tuple... properties) {
+    public static Component attach(@Nonnull Ulid entity, @Nonnull ComponentType type,  @Nullable Tuple... properties) {
+        return attach(entity, type.klass, properties);
+    }
+
+    @Nullable
+    public static <T extends Component> T attach(@Nonnull Ulid entity, @Nonnull Class<T> type, @Nullable Tuple... properties) {
         if (RT.debug) {
             if (!entities.contains(entity)) {
                 Logger.fatal("Unknown entity %s", entity);
             }
 
             for (final Component component : ofEntities.get(entity)) {
-                if (component.type == type) {
+                if (Meta.assignable(component, type)) {
                     Logger.warn("%s :: Component already attached: %s", entity, type);
-                    return component;
+                    return Meta.cast(component, type);
                 }
             }
         }
 
         Logger.debug("%s :: attaching %s", entity, type);
-        final var instance = switch (type) {
-            case TRANSFORM_COMPONENT -> RT.Factory.component.transform(properties);
-            case MESH_COMPONENT -> RT.Factory.component.mesh(properties);
-            case AUDIO_SOURCE_COMPONENT -> RT.Factory.component.audioSource(properties);
-            case BEHAVIOUR_COMPONENT -> RT.Factory.component.behaviour(properties);
-            case RIGID_BODY_COMPONENT -> RT.Factory.component.rigidBody(properties);
-            case SOFT_BODY_COMPONENT -> RT.Factory.component.softBody(properties);
-            case NAME_COMPONENT -> RT.Factory.component.name(properties);
+        final var instance = switch (type.getSimpleName()) {
+            case "TransformComponent" -> RT.Factory.component.transform(properties);
+            case "MeshComponent" -> RT.Factory.component.mesh(properties);
+            case "AudioSourceComponent" -> RT.Factory.component.audioSource(properties);
+            case "BehaviourComponent" -> RT.Factory.component.behaviour(properties);
+            case "RigidBodyComponent" -> RT.Factory.component.rigidBody(properties);
+            case "SoftBodyComponent" -> RT.Factory.component.softBody(properties);
+            case "NameComponent" -> RT.Factory.component.name(properties);
+            default -> null;
         };
 
         if (instance == null) { return null; }
         Meta.set(instance, "owner", entity);
-        Meta.set(instance, "type", type);
+        Meta.set(instance, "type", ComponentType.valueOf(type));
 
         ofEntities.get(entity).add(instance);
-        ofComponents.computeIfAbsent(type, ignored -> new ConcurrentLinkedQueue<>()).add(instance);
+        ofComponents.computeIfAbsent(instance.type, ignored -> new ConcurrentLinkedQueue<>()).add(instance);
 
-        return instance;
+        return Meta.cast(instance, type);
     }
 
     public static boolean contains(@Nonnull Ulid entity, @Nonnull ComponentType type) {

@@ -33,16 +33,20 @@ public final class EngineLauncher extends Launcher {
             Logger.info("Initializing Application");
         }
 
-        final var settings = RT.yaml.subtree("fosge.engine");
-        if (settings != null) {
-            if (settings.contains("debug")) {
-                RT.debug = settings.asBoolean("debug");
-                if (RT.debug) { Logger.level(LogLevel.DEBUG); }
-            }
+        final var trace = RT.yaml.asBoolean("fosge.engine.trace");
+        if (trace != null && trace) {
+            RT.debug = RT.trace = true;
+            Logger.level(LogLevel.TRACE);
 
-            if (settings.contains("trace")) {
-                RT.trace = settings.asBoolean("trace");
-                if (RT.trace) { Logger.level(LogLevel.TRACE); }
+            final var debug = RT.yaml.asBoolean("fosge.engine.debug");
+            if (debug != null && !debug) {
+                Logger.warn("Because fosge.engine.trace is enabled, fosge.engine.debug is also enabled");
+            }
+        } else {
+            final var debug = RT.yaml.asBoolean("fosge.engine.debug");
+            if (debug != null && debug) {
+                RT.debug = true;
+                Logger.level(LogLevel.DEBUG);
             }
         }
 

@@ -2,7 +2,7 @@
 fosge:
   engine:
     debug: true
-    trace: true
+    trace: false
     graphics:
       vsync: false
       wireframe: false

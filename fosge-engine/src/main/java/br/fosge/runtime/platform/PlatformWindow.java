@@ -72,6 +72,25 @@ public final class PlatformWindow implements Lifecycle {
 
         glfw.glfwSetKeyCallback(RT.Window.handle, (window, key, scancode, action, mods) -> MessageBus.submit(action != GLFW_RELEASE ? new InputKeyboardPressedEvent(Keyboard.from(key)) : new InputKeyboardReleasedEvent(Keyboard.from(key))));
 
+        // Submit events without listener so the EventBus
+        // can create internal cache ahead of time
+        MessageBus.submit(new WindowClosedEvent());
+        MessageBus.submit(new WindowMovedEvent(0, 0));
+        MessageBus.submit(new WindowResizedEvent(0, 0));
+        MessageBus.submit(new WindowFocusGainedEvent());
+        MessageBus.submit(new WindowsFocusLostEvent());
+        MessageBus.submit(new WindowMaximizedEvent());
+        MessageBus.submit(new WindowMinimizedEvent());
+
+        MessageBus.submit(new InputMouseScrolledEvent((byte) 0));
+        MessageBus.submit(new InputMouseMovedEvent(0, 0));
+        MessageBus.submit(new InputMouseEnteredEvent());
+        MessageBus.submit(new InputMouseLeftEvent());
+        MessageBus.submit(new InputMousePressedEvent(null));
+        MessageBus.submit(new InputMouseReleasedEvent(null));
+        MessageBus.submit(new InputKeyboardPressedEvent(null));
+        MessageBus.submit(new InputKeyboardReleasedEvent(null));
+
         MessageBus.subscribe(this);
         return true;
     }

@@ -73,7 +73,7 @@ public abstract class Resources implements Facade {
         source.buffer(null);
 
         // Release the audio buffer if not source is using it
-        Tasks.concurrent(() -> free(buffer));
+        Tasks.virtual(() -> free(buffer));
     }
 
     public static AudioBuffer audioBuffer(String path) {

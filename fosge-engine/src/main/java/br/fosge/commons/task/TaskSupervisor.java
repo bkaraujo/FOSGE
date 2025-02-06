@@ -8,11 +8,12 @@ import java.util.concurrent.atomic.AtomicInteger;
 public final class TaskSupervisor implements Runnable {
     private final Runnable task;
     private final String name;
-    public static AtomicInteger taskCounter = new AtomicInteger(0);
+    private final AtomicInteger taskCounter;
 
-    public TaskSupervisor(String name, Runnable desired) {
+    public TaskSupervisor(String name, Runnable desired, AtomicInteger taskCounter) {
         this.name = name;
         task = desired;
+        this.taskCounter = taskCounter;
     }
 
     @Override

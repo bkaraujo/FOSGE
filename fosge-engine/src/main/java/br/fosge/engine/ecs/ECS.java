@@ -46,7 +46,7 @@ public abstract class ECS implements Facade {
             Logger.fatal("Unknown entity %s", entity);
         }
 
-        Tasks.concurrent("ECS", () -> {
+        Tasks.virtual("ECS", () -> {
             Logger.debug("%s :: %s :: Destroying", entity, get(entity, NameComponent.class).name);
             entities.remove(entity);
             for (final Component component : ofEntities.get(entity)) {

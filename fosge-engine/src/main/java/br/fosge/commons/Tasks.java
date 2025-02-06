@@ -6,37 +6,35 @@ import br.fosge.commons.task.TaskSupervisor;
 import javax.annotation.Nonnull;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public abstract class Tasks implements Facade {
     private Tasks() {}
 
+    public static final AtomicInteger onPlatform = new AtomicInteger(0);
+    public static final AtomicInteger onVirtual = new AtomicInteger(0);
+
     private static final ExecutorService virtual = Executors.newVirtualThreadPerTaskExecutor();
-    private static final ExecutorService system = Executors.newFixedThreadPool((Runtime.getRuntime().availableProcessors() / 2) + 1);
+    private static final ExecutorService platform = Executors.newFixedThreadPool((Runtime.getRuntime().availableProcessors() / 2) + 1);
 
-    public static void system(final @Nonnull Runnable task) {
-        system(task.getClass().getSimpleName(), task);
+    /** Best fit for tasks that without IO */
+    public static void platform(final @Nonnull Runnable task) {
+        platform(task.getClass().getSimpleName(), task);
     }
 
-    public static void system(final @Nonnull String name, final @Nonnull Runnable task) {
-        final var thread = new Thread(new TaskSupervisor(name, task));
-        thread.setDaemon(false);
-        thread.start();
+    /** Best fit for tasks that without IO */
+    public static void platform(final @Nonnull String name, final @Nonnull Runnable task) {
+        platform.execute(new TaskSupervisor(name, task, onPlatform));
     }
 
-    public static void parallel(final @Nonnull Runnable task) {
-        parallel(task.getClass().getSimpleName(), task);
+    /** Best fit for tasks that execute IO */
+    public static void virtual(final @Nonnull Runnable task) {
+        virtual(task.getClass().getSimpleName(), task);
     }
 
-    public static void parallel(final @Nonnull String name, final @Nonnull Runnable task) {
-        system.execute(new TaskSupervisor(name, task));
-    }
-
-    public static void concurrent(final @Nonnull Runnable task) {
-        concurrent(task.getClass().getSimpleName(), task);
-    }
-
-    public static void concurrent(final @Nonnull String name, final @Nonnull Runnable task) {
-        virtual.execute(new TaskSupervisor(name, task));
+    /** Best fit for tasks that execute IO */
+    public static void virtual(final @Nonnull String name, final @Nonnull Runnable task) {
+        virtual.execute(new TaskSupervisor(name, task, onVirtual));
     }
 
     public static void sleep(final long millis) {

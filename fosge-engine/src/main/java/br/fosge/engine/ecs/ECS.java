@@ -3,7 +3,6 @@ package br.fosge.engine.ecs;
 import br.fosge.RT;
 import br.fosge.commons.Logger;
 import br.fosge.commons.Meta;
-import br.fosge.commons.Tasks;
 import br.fosge.commons.Tuple;
 import br.fosge.commons.annotation.Facade;
 import br.fosge.engine.renderer.TransformComponent;
@@ -41,24 +40,22 @@ public abstract class ECS implements Facade {
             Logger.fatal("Unknown entity %s", identity);
         }
 
-        Tasks.virtual("ECS", () -> {
-            Logger.debug("%s :: %s :: Destroying", identity, get(identity, NameComponent.class).name);
-            entities.remove(identity);
-            for (final Component component : ofEntities.get(identity)) {
-                if (!component.terminate()) {
-                    Logger.warn("%s :: Failed to terminate %s", identity, Meta.fqn(component));
-                }
-
-                ofEntities.get(identity).remove(component);
-                for (final ComponentType type : ComponentType.values()) {
-                    if (Meta.assignable(component, type.klass)) {
-                        ofComponents.get(type.klass).remove(component);
-                    }
-                }
-
-                break;
+        Logger.debug("%s :: %s :: Destroying", identity, get(identity, NameComponent.class).name);
+        entities.remove(identity);
+        for (final Component component : ofEntities.get(identity)) {
+            if (!component.terminate()) {
+                Logger.warn("%s :: Failed to terminate %s", identity, Meta.fqn(component));
             }
-        });
+
+            ofEntities.get(identity).remove(component);
+            for (final ComponentType type : ComponentType.values()) {
+                if (Meta.assignable(component, type.klass)) {
+                    ofComponents.get(type.klass).remove(component);
+                }
+            }
+
+            break;
+        }
     }
 
     @Nullable

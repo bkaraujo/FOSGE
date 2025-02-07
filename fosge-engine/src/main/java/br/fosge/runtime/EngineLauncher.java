@@ -3,11 +3,9 @@ package br.fosge.runtime;
 import br.fosge.RT;
 import br.fosge.commons.Launcher;
 import br.fosge.commons.Logger;
-import br.fosge.commons.Tasks;
 import br.fosge.commons.filesystem.Directories;
 import br.fosge.commons.logger.LogLevel;
 import br.fosge.commons.serializer.Yaml;
-import br.fosge.engine.Resources;
 
 import static br.fosge.RT.yaml;
 
@@ -67,8 +65,6 @@ public final class EngineLauncher extends Launcher {
             return application.run();
         } finally {
             RT.Platform.window.hide();
-            Logger.trace("Tasks.onVirtual : %d", Tasks.onVirtual.getAcquire());
-            Logger.trace("Tasks.onPlatform: %d", Tasks.onPlatform.getAcquire());
         }
     }
 

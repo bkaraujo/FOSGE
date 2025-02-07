@@ -1,6 +1,5 @@
 package br.fosge.runtime.ecs.system;
 
-import br.fosge.commons.Tasks;
 import br.fosge.engine.ecs.ECS;
 import br.fosge.engine.ecs.System;
 import br.fosge.engine.graphics.MeshComponent;
@@ -41,22 +40,20 @@ public final class RenderSystem implements System {
 
     @Override
     public void onAwake() {
-        Tasks.platform(() ->{
-            final var camera = scene.camera();
-            if (!camera.transform().position.equals(cameraPos) || !camera.transform().rotation.equals(cameraRot)) {
-                cameraPos.set(camera.transform().position);
-                cameraRot.set(camera.transform().rotation);
+        final var camera = scene.camera();
+        if (!camera.transform().position.equals(cameraPos) || !camera.transform().rotation.equals(cameraRot)) {
+            cameraPos.set(camera.transform().position);
+            cameraRot.set(camera.transform().rotation);
 
-                final var component = camera.get(CameraComponent.class);
-                viewProjectionMatrix
-                        .set(component.projection)
-                        .mul(component.view
-                                .translate(cameraPos)
-                                .rotateZ(cameraRot.z)
-                                .invert()
-                        );
-            }
-        });
+            final var component = camera.get(CameraComponent.class);
+            viewProjectionMatrix
+                    .set(component.projection)
+                    .mul(component.view
+                            .translate(cameraPos)
+                            .rotateZ(cameraRot.z)
+                            .invert()
+                    );
+        }
 
         ofShaders.clear();
         // 1 - Sort by Shader

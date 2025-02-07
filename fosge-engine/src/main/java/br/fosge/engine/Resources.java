@@ -1,7 +1,10 @@
 package br.fosge.engine;
 
 import br.fosge.RT;
-import br.fosge.commons.*;
+import br.fosge.commons.Logger;
+import br.fosge.commons.Memory;
+import br.fosge.commons.Meta;
+import br.fosge.commons.QueueGroup;
 import br.fosge.commons.annotation.Facade;
 import br.fosge.commons.annotation.Lifecycle;
 import br.fosge.commons.logger.LogLevel;
@@ -73,7 +76,7 @@ public abstract class Resources implements Facade {
         source.buffer(null);
 
         // Release the audio buffer if not source is using it
-        Tasks.virtual(() -> free(buffer));
+        free(buffer);
     }
 
     public static AudioBuffer audioBuffer(String path) {

@@ -11,9 +11,7 @@ import br.fosge.engine.ecs.Actor;
 import br.fosge.engine.ecs.ComponentType;
 import br.fosge.engine.ecs.ECS;
 import br.fosge.engine.renderer.TransformComponent;
-import br.fosge.engine.renderer.backend.BlendEquation;
-import br.fosge.engine.renderer.backend.BlendFunction;
-import br.fosge.engine.renderer.backend.DepthFunction;
+import br.fosge.engine.renderer.backend.*;
 import br.fosge.engine.renderer.frontend.CameraComponent;
 import br.fosge.runtime.platform.binding.opengl.api.GL11;
 import br.fosge.runtime.platform.graphics.GLParser;
@@ -54,35 +52,39 @@ public record Scene(
 
     @Override
     public boolean initialize() {
+        Logger.debug("%s :: Initializing", identity);
         // #############################################################
         // Setup scene-wide configurations
         // #############################################################
-        if (yaml.contains("depth")){
-            Logger.debug("Setting scene depth options");
-            final var enabled = yaml.asBoolean("depth.enabled");
-            if (enabled != null && enabled) { opengl.glEnable(GL11.GL_DEPTH_TEST); }
+        var enabled = yaml.asBoolean("depth.enabled");
+        if (enabled != null && enabled) { opengl.glEnable(GL11.GL_DEPTH_TEST); }
+        final var function = yaml.asEnum("depth.function", DepthFunction.class);
+        opengl.glDepthFunc(GLParser.parse(function != null ? function : DepthFunction.LEQUAL));
 
-            final var function = yaml.asEnum("depth.function", DepthFunction.class);
-            if (function != null) { opengl.glDepthFunc(GLParser.parse(function)); }
-        }
+        enabled = yaml.asBoolean("blend.enabled");
+        if (enabled != null && enabled) { opengl.glEnable(GL11.GL_BLEND); }
+        final var equation = yaml.asEnum("blend.equation", BlendEquation.class);
+        opengl.glBlendEquation(GLParser.parse(equation != null ? equation : BlendEquation.FUNC_ADD));
+        final var srcFunction = yaml.asEnum("blend.function.source", BlendFunction.class);
+        final var tgtFunction = yaml.asEnum("blend.function.target", BlendFunction.class);
+        opengl.glBlendFunc(
+                GLParser.parse(srcFunction != null ? srcFunction : BlendFunction.SRC_ALPHA),
+                GLParser.parse(tgtFunction != null ? tgtFunction : BlendFunction.ONE_MINUS_SRC_ALPHA)
+        );
 
-        if (yaml.contains("blend")) {
-            Logger.debug("Setting scene blend options");
-            final var enabled = yaml.asBoolean("blend.enabled");
-            if (enabled != null && enabled) { opengl.glEnable(GL11.GL_BLEND); }
+        enabled = yaml.asBoolean("cullface.enabled");
+        if (enabled != null && enabled) { opengl.glEnable(GL11.GL_CULL_FACE); }
+        final var cullMode = yaml.asEnum("cullface.mode", CullFaceMode.class);
+        opengl.glCullFace(GLParser.parse(cullMode != null ? cullMode : CullFaceMode.BACK));
 
-            final var equation = yaml.asEnum("blend.equation", BlendEquation.class);
-            if (equation != null) { opengl.glBlendEquation(GLParser.parse(equation)); }
-
-            final var srcFunction = yaml.asEnum("blend.function.source", BlendFunction.class);
-            final var tgtFunction = yaml.asEnum("blend.function.target", BlendFunction.class);
-            if (srcFunction != null && tgtFunction != null) {
-                opengl.glBlendFunc(GLParser.parse(srcFunction), GLParser.parse(tgtFunction));
-            }
+        var hint = yaml.asEnum("line.smooth", SmoothHints.class);
+        if (hint != null) {
+            opengl.glEnable(GL11.GL_LINE_SMOOTH);
+            opengl.glHint(GL11.GL_LINE_SMOOTH_HINT, GLParser.parse(hint));
         }
 
         final var camera = Actor.create("Camera");
-        camera.attach(CameraComponent.class, yaml.asTuples("camera"));
+        camera.attach(CameraComponent.class, yaml.asTuples("camera.properties"));
         actors.add(camera);
         // #############################################################
         // Create the actors
@@ -135,6 +137,7 @@ public record Scene(
                 }
             }
 
+            Logger.debug("%s :: attaching actor %s", identity, actor.identity());
             actors.add(actor);
         }
 

@@ -21,7 +21,7 @@ public final class EnvironmentController extends BehaviourComponent {
                 final var enemy = Actor.create();
                 enemies.add(enemy);
 
-//                enemy.transform().scale.set(4, 2, 0);
+                enemy.transform().scale.set(4, 2, 0);
 
                 enemy.attach(ComponentType.MESH_COMPONENT,
                         new Tuple("shader", "shader/default.glsl"),

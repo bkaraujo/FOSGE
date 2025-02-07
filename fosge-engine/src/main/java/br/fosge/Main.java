@@ -27,5 +27,7 @@ public abstract class Main implements Facade {
         if (!launcher.terminate()) {
             Logger.fatal("Failed to terminate: %s", RT.yaml);
         }
+
+        Logger.trace("Exiting");
     }
 }

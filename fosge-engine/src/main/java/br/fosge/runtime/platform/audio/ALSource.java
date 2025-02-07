@@ -93,6 +93,6 @@ public final class ALSource implements AudioSource {
 
     @Override
     public String toString() {
-        return handle + ", " + buffer;
+        return "AudioSource (" + handle + ") :: " + buffer;
     }
 }

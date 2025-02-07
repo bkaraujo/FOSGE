@@ -207,6 +207,7 @@ public final class Yaml {
         final var file = path.toFile();
         try {
             if (!file.exists()) { Files.createFile(path); }
+            Logger.debug("Writing %s", file);
             new ObjectMapper(new YAMLFactory()).writeValue(file, raw);
         } catch (Throwable throwable) {
             Logger.error("Failed to write %s: %s", path, throwable);

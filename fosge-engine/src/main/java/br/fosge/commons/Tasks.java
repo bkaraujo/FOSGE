@@ -1,5 +1,6 @@
 package br.fosge.commons;
 
+import br.fosge.RT;
 import br.fosge.commons.annotation.Facade;
 import br.fosge.commons.task.TaskSupervisor;
 
@@ -24,6 +25,7 @@ public abstract class Tasks implements Facade {
 
     /** Best fit for tasks that without IO */
     public static void platform(final @Nonnull String name, final @Nonnull Runnable task) {
+        if (RT.trace) { task.run(); return; }
         platform.execute(new TaskSupervisor(name, task, onPlatform));
     }
 
@@ -34,6 +36,7 @@ public abstract class Tasks implements Facade {
 
     /** Best fit for tasks that execute IO */
     public static void virtual(final @Nonnull String name, final @Nonnull Runnable task) {
+        if (RT.trace) { task.run(); return; }
         virtual.execute(new TaskSupervisor(name, task, onVirtual));
     }
 

@@ -21,8 +21,8 @@ public class AudioSystem implements System {
     public void onRest() {
         for (final var component : components) {
             if (component.loop && !component.source.isPlaying()) {
+                Logger.debug(component.source.toString());
                 component.source.play();
-                Logger.debug("Playing: %s", component.source);
             }
         }
     }

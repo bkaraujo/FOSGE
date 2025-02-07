@@ -5,9 +5,7 @@ import br.fosge.engine.graphics.DrawMode;
 import br.fosge.engine.graphics.texture.PixelFormat;
 import br.fosge.engine.graphics.texture.TextureFiltering;
 import br.fosge.engine.graphics.texture.TextureWrapping;
-import br.fosge.engine.renderer.backend.BlendEquation;
-import br.fosge.engine.renderer.backend.BlendFunction;
-import br.fosge.engine.renderer.backend.DepthFunction;
+import br.fosge.engine.renderer.backend.*;
 import br.fosge.runtime.platform.binding.opengl.api.*;
 
 import javax.annotation.Nonnull;
@@ -113,6 +111,22 @@ public abstract class GLParser {
             case NOTEQUAL -> GL11.GL_NOTEQUAL;
             case GEQUAL -> GL11.GL_GEQUAL;
             case ALWAYS -> GL11.GL_ALWAYS;
+        };
+    }
+
+    public static int parse(@Nonnull CullFaceMode mode) {
+        return switch (mode) {
+            case FRONT -> GL11.GL_FRONT;
+            case BACK -> GL11.GL_BACK;
+            case FRONT_AND_BACK -> GL11.GL_FRONT_AND_BACK;
+        };
+    }
+
+    public static int parse(@Nonnull SmoothHints hint) {
+        return switch (hint) {
+            case FASTEST -> GL11.GL_FASTEST;
+            case NICEST -> GL11.GL_NICEST;
+            case DONT_CARE -> GL11.GL_DONT_CARE;
         };
     }
 }

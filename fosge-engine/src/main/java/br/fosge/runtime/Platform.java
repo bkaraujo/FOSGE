@@ -2,6 +2,7 @@ package br.fosge.runtime;
 
 import br.fosge.commons.Logger;
 import br.fosge.commons.annotation.Facade;
+import br.fosge.engine.Resources;
 import org.lwjgl.glfw.GLFW;
 import org.lwjgl.glfw.GLFWErrorCallback;
 import org.lwjgl.system.APIUtil;
@@ -47,10 +48,12 @@ public abstract class Platform implements Facade {
     }
 
     public static boolean terminate() {
-        if (!window.terminate()) { return false; }
-        if (!graphics.terminate()) { return false; }
-        if (!audio.terminate()) { return false; }
+        Resources.free();
+
         if (!input.terminate()) { return false; }
+        if (!audio.terminate()) { return false; }
+        if (!graphics.terminate()) { return false; }
+        if (!window.terminate()) { return false; }
 
         glfw.glfwTerminate();
         if (glfwErrorCallback != null) {

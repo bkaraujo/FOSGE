@@ -31,8 +31,11 @@ fosge:
           source: "SRC_ALPHA"
           target: "ONE_MINUS_SRC_ALPHA"
       camera:
-        depth: "-1.0, 1.0"
-        rectangle: "-21.0, 21.0, -21.0, 21.0"
+        properties:
+        - name: "depth"
+          value: "-1.0, 1.0"
+        - name: "rectangle"
+          value: "-21.0, 21.0, -21.0, 21.0"
       actors:
       - name: "environment"
         identity: "01JJPF8ZPC6ZZ7ZJVC9VVTYHS2"
@@ -68,7 +71,7 @@ fosge:
           - name: "loop"
             value: "true"
           - name: "gain"
-            value: "0.3"
+            value: "0.0"
         - type: "BEHAVIOUR_COMPONENT"
           properties:
           - name: "target"
@@ -118,7 +121,7 @@ fosge:
           - name: "rotation"
             value: "0, 0, 0"
           - name: "scale"
-            value: "2, 02, 0"
+            value: "1, 1, 0"
         - type: "MESH_COMPONENT"
           properties:
           - name: "shader"

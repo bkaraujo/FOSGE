@@ -3,6 +3,7 @@ package br.fosge.runtime;
 import br.fosge.RT;
 import br.fosge.commons.Launcher;
 import br.fosge.commons.Logger;
+import br.fosge.commons.Tasks;
 import br.fosge.commons.filesystem.Directories;
 import br.fosge.commons.logger.LogLevel;
 import br.fosge.commons.serializer.Yaml;
@@ -66,6 +67,8 @@ public final class EngineLauncher extends Launcher {
             return application.run();
         } finally {
             RT.Platform.window.hide();
+            Logger.trace("Tasks.onVirtual : %d", Tasks.onVirtual.getAcquire());
+            Logger.trace("Tasks.onPlatform: %d", Tasks.onPlatform.getAcquire());
         }
     }
 
@@ -73,17 +76,11 @@ public final class EngineLauncher extends Launcher {
     public boolean terminate() {
         RT.yaml.save();
 
-        if (!application.terminate()) {
-            Logger.error("Application failed to terminate");
-            return false;
-        }
+        if (!application.terminate()) { Logger.error("Application failed to terminate"); return false; }
+        Logger.info("Application Terminated");
 
-        Resources.free();
-
-        if (!Platform.terminate()) {
-            Logger.error("Platform failed to terminate");
-            return false;
-        }
+        if (!Platform.terminate()) { Logger.error("Platform failed to terminate"); return false; }
+        Logger.info("Platform Terminated");
 
         return true;
     }

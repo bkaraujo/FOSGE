@@ -23,7 +23,7 @@ public record ShaderSpec (
 
         final String payload;
         try {
-            Logger.trace("Reading %s", script);
+            Logger.debug("Reading %s", script);
             payload = Files.readString(script);
             if (payload == null || payload.isEmpty()) {
                 Logger.warn("Shader script is empty: %s", script);
@@ -40,7 +40,6 @@ public record ShaderSpec (
 
             for (final var constant : ShaderStage.values()) {
                 if (trimmed.startsWith(constant.name().toLowerCase())) {
-                    Logger.trace("ShaderSource :: %s :: %s", constant, trimmed);
                     sources.add(new ShaderSource(
                             constant,
                             trimmed.substring(constant.name().length() + 1)

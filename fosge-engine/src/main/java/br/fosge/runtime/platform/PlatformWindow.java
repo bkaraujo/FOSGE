@@ -13,6 +13,7 @@ import br.fosge.engine.input.Mouse;
 import br.fosge.engine.platform.input.*;
 import br.fosge.engine.platform.window.*;
 import org.lwjgl.glfw.Callbacks;
+import org.lwjgl.opengl.GL;
 import org.lwjgl.system.MemoryUtil;
 
 import static br.fosge.runtime.platform.Bindings.glfw;
@@ -30,12 +31,24 @@ public final class PlatformWindow implements Lifecycle {
         glfw.glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 6);
 //        glfwWindowHint(GLFW_OPENGL_DEBUG_CONTEXT, GLFW_TRUE);
         glfw.glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+        glfw.glfwWindowHint(GLFW_CONTEXT_RELEASE_BEHAVIOR, GLFW_RELEASE_BEHAVIOR_FLUSH);
+
+        /*
+         * Disable window framebuffer bits we don't need, because we render into offscreen FBO and blit to
+         * window.
+         */
+//        glfw.glfwWindowHint(GLFW_DEPTH_BITS, 0);
+//        glfw.glfwWindowHint(GLFW_STENCIL_BITS, 0);
+//        glfw.glfwWindowHint(GLFW_ALPHA_BITS, 0);
 
         final var spec = RT.yaml.subtree("fosge.application.window");
         final var resolution = spec.asEnum("resolution", Resolution.class);
 
         // Create the window
         RT.Window.handle = glfw.glfwCreateWindow(resolution.width, resolution.height, spec.asString("title"), MemoryUtil.NULL, MemoryUtil.NULL);
+        glfw.glfwMakeContextCurrent(MemoryUtil.NULL);
+        GL.setCapabilities(null);
+
         if (RT.Window.handle == MemoryUtil.NULL) {
             Logger.error("Failed to create the GLFW window");
             return false;
@@ -92,6 +105,7 @@ public final class PlatformWindow implements Lifecycle {
         MessageBus.submit(new InputKeyboardReleasedEvent(null));
 
         MessageBus.subscribe(this);
+
         return true;
     }
 

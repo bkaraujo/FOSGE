@@ -6,6 +6,7 @@ import br.fosge.commons.Logger;
 import br.fosge.commons.filesystem.Directories;
 import br.fosge.commons.logger.LogLevel;
 import br.fosge.commons.serializer.Yaml;
+import br.fosge.runtime.renderer.RenderThread;
 
 import static br.fosge.RT.yaml;
 
@@ -55,6 +56,8 @@ public final class EngineLauncher extends Launcher {
             return false;
         }
 
+        RT.running = true;
+        Thread.ofPlatform().daemon().start(new RenderThread());
         return application.initialize();
     }
 

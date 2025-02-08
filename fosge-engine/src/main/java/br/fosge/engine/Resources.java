@@ -10,17 +10,20 @@ import br.fosge.commons.annotation.Lifecycle;
 import br.fosge.commons.logger.LogLevel;
 import br.fosge.engine.audio.AudioBuffer;
 import br.fosge.engine.audio.AudioSource;
-import br.fosge.engine.graphics.Geometry;
-import br.fosge.engine.graphics.Shader;
-import br.fosge.engine.graphics.Texture;
-import br.fosge.engine.graphics.Texture2D;
-import br.fosge.engine.graphics.geometry.GeometrySpec;
-import br.fosge.engine.graphics.shader.ShaderSpec;
-import br.fosge.engine.graphics.texture.TextureSpec;
+import br.fosge.engine.renderer.backend.Geometry;
+import br.fosge.engine.renderer.backend.Shader;
+import br.fosge.engine.renderer.backend.Texture;
+import br.fosge.engine.renderer.backend.Texture2D;
+import br.fosge.engine.renderer.backend.geometry.GeometrySpec;
+import br.fosge.engine.renderer.backend.shader.ShaderSpec;
+import br.fosge.engine.renderer.backend.texture.TextureSpec;
+import br.fosge.runtime.renderer.RenderThread;
 
 import java.nio.ByteBuffer;
+import java.util.concurrent.Callable;
 
-import static br.fosge.RT.Platform.*;
+import static br.fosge.RT.Platform.audio;
+import static br.fosge.RT.Platform.filesystem;
 
 /**
  * <p>Entrypoint of all content creation inside the engine.</p>
@@ -119,20 +122,17 @@ public abstract class Resources implements Facade {
     }
 
     public static Geometry geometry(GeometrySpec spec) {
-        final var geometry = graphics.geometry();
-        if (!geometry.initialize()) {
-            Logger.fatal("Failed to initialize geometry");
-            return null;
-        }
+        return RenderThread.submit(() -> {
+            final var geometry = RenderThread.context.geometry();
+            if (!geometry.configure(spec)) {
+                Logger.warn("Failed to configure geometry");
+                Logger.stackTrace(LogLevel.WARN);
+                return null;
+            }
 
-        if (!geometry.configure(spec)) {
-            Logger.warn("Failed to configure geometry");
-            Logger.stackTrace(LogLevel.WARN);
-            return null;
-        }
-
-        RT.Graphics.geometries.add(geometry);
-        return geometry;
+            RT.Graphics.geometries.add(geometry);
+            return geometry;
+        });
     }
 
     public static void free(Geometry geometry) {
@@ -153,16 +153,26 @@ public abstract class Resources implements Facade {
             }
         }
 
-        final var texture = graphics.texture2d(spec);
-        RT.Graphics.textures.add(texture);
-        return texture;
+        return RenderThread.submit(() -> {
+            final var texture = RenderThread.context.texture2d();
+            if (!texture.load(spec)) {
+                Logger.error("Failed to load texture");
+                texture.terminate();
+                return null;
+            }
+
+            RT.Graphics.textures.add(texture);
+            return texture;
+        });
     }
 
     public static void free(Texture texture) {
         if (RT.debug && texture == null) { Logger.fatal("Texture is null"); return; }
-
-        graphics.textureDestroy(texture);
-        RT.Graphics.textures.remove(texture);
+        RenderThread.submit((Callable<Void>) () -> {
+            if (!texture.terminate()) { Logger.error("Failed to terminate texture"); }
+            RT.Graphics.textures.remove(texture);
+            return null;
+        });
     }
 
     public static Shader shader(String fileName) {
@@ -180,21 +190,17 @@ public abstract class Resources implements Facade {
             }
         }
 
-        final var shader = graphics.shader();
-        if (!shader.initialize()) {
-            Logger.error("Failed to initialize shader");
-            shader.terminate();
-            return null;
-        }
+        return RenderThread.submit(() -> {
+            final var shader = RenderThread.context.shader();
+            if (!shader.configure(specification)) {
+                Logger.error("Failed to configure shader %s", specification);
+                shader.terminate();
+                return null;
+            }
 
-        if (!shader.configure(specification)) {
-            Logger.error("Failed to configure shader %s", specification);
-            shader.terminate();
-            return null;
-        }
-
-        RT.Graphics.shaders.add(shader);
-        return shader;
+            RT.Graphics.shaders.add(shader);
+            return shader;
+        });
     }
 
     public static void free(Shader shader) {
@@ -208,8 +214,11 @@ public abstract class Resources implements Facade {
         Logger.debug("Freeing resources");
 
         final var graphics = new QueueGroup<>(RT.Graphics.textures, RT.Graphics.shaders, RT.Graphics.geometries);
-        graphics.forEach(Lifecycle::terminate);
-        graphics.clear();
+        RenderThread.submit((Callable<Void>) () -> {
+            graphics.forEach(Lifecycle::terminate);
+            graphics.clear();
+            return null;
+        });
 
         final var audio = new QueueGroup<>(RT.Audio.monoSources, RT.Audio.buffers);
         audio.forEach(Lifecycle::terminate);

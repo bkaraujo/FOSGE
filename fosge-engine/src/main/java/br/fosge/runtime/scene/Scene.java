@@ -14,7 +14,8 @@ import br.fosge.engine.renderer.TransformComponent;
 import br.fosge.engine.renderer.backend.*;
 import br.fosge.engine.renderer.frontend.CameraComponent;
 import br.fosge.runtime.platform.binding.opengl.api.GL11;
-import br.fosge.runtime.platform.graphics.GLParser;
+import br.fosge.runtime.renderer.RenderThread;
+import br.fosge.runtime.renderer.backend.opengl.GLParser;
 import com.github.f4b6a3.ulid.Ulid;
 import com.github.f4b6a3.ulid.UlidCreator;
 import org.joml.Vector4f;
@@ -22,6 +23,7 @@ import org.joml.Vector4fc;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.Callable;
 
 import static br.fosge.runtime.platform.Bindings.opengl;
 
@@ -56,32 +58,43 @@ public record Scene(
         // #############################################################
         // Setup scene-wide configurations
         // #############################################################
-        var enabled = yaml.asBoolean("depth.enabled");
-        if (enabled != null && enabled) { opengl.glEnable(GL11.GL_DEPTH_TEST); }
-        final var function = yaml.asEnum("depth.function", DepthFunction.class);
-        opengl.glDepthFunc(GLParser.parse(function != null ? function : DepthFunction.LEQUAL));
+        RenderThread.submit((Callable<Void>) () -> {
+            var enabled = yaml.asBoolean("depth.enabled");
+            if (enabled != null && enabled) {
+                opengl.glEnable(GL11.GL_DEPTH_TEST);
+            }
+            final var function = yaml.asEnum("depth.function", DepthFunction.class);
 
-        enabled = yaml.asBoolean("blend.enabled");
-        if (enabled != null && enabled) { opengl.glEnable(GL11.GL_BLEND); }
-        final var equation = yaml.asEnum("blend.equation", BlendEquation.class);
-        opengl.glBlendEquation(GLParser.parse(equation != null ? equation : BlendEquation.FUNC_ADD));
-        final var srcFunction = yaml.asEnum("blend.function.source", BlendFunction.class);
-        final var tgtFunction = yaml.asEnum("blend.function.target", BlendFunction.class);
-        opengl.glBlendFunc(
-                GLParser.parse(srcFunction != null ? srcFunction : BlendFunction.SRC_ALPHA),
-                GLParser.parse(tgtFunction != null ? tgtFunction : BlendFunction.ONE_MINUS_SRC_ALPHA)
-        );
+            opengl.glDepthFunc(GLParser.parse(function != null ? function : DepthFunction.LEQUAL));
 
-        enabled = yaml.asBoolean("cullface.enabled");
-        if (enabled != null && enabled) { opengl.glEnable(GL11.GL_CULL_FACE); }
-        final var cullMode = yaml.asEnum("cullface.mode", CullFaceMode.class);
-        opengl.glCullFace(GLParser.parse(cullMode != null ? cullMode : CullFaceMode.BACK));
+            enabled = yaml.asBoolean("blend.enabled");
+            if (enabled != null && enabled) {
+                opengl.glEnable(GL11.GL_BLEND);
+            }
+            final var equation = yaml.asEnum("blend.equation", BlendEquation.class);
+            opengl.glBlendEquation(GLParser.parse(equation != null ? equation : BlendEquation.FUNC_ADD));
+            final var srcFunction = yaml.asEnum("blend.function.source", BlendFunction.class);
+            final var tgtFunction = yaml.asEnum("blend.function.target", BlendFunction.class);
+            opengl.glBlendFunc(
+                    GLParser.parse(srcFunction != null ? srcFunction : BlendFunction.SRC_ALPHA),
+                    GLParser.parse(tgtFunction != null ? tgtFunction : BlendFunction.ONE_MINUS_SRC_ALPHA)
+            );
 
-        var hint = yaml.asEnum("line.smooth", SmoothHints.class);
-        if (hint != null) {
-            opengl.glEnable(GL11.GL_LINE_SMOOTH);
-            opengl.glHint(GL11.GL_LINE_SMOOTH_HINT, GLParser.parse(hint));
-        }
+            enabled = yaml.asBoolean("cullface.enabled");
+            if (enabled != null && enabled) {
+                opengl.glEnable(GL11.GL_CULL_FACE);
+            }
+            final var cullMode = yaml.asEnum("cullface.mode", CullFaceMode.class);
+            opengl.glCullFace(GLParser.parse(cullMode != null ? cullMode : CullFaceMode.BACK));
+
+            var hint = yaml.asEnum("line.smooth", SmoothHints.class);
+            if (hint != null) {
+                opengl.glEnable(GL11.GL_LINE_SMOOTH);
+                opengl.glHint(GL11.GL_LINE_SMOOTH_HINT, GLParser.parse(hint));
+            }
+
+            return null;
+        });
 
         final var camera = Actor.create("Camera");
         camera.attach(CameraComponent.class, yaml.asTuples("camera.properties"));

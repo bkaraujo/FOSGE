@@ -87,7 +87,7 @@ fosge:
           - name: "rotation"
             value: "0, 0, 0"
           - name: "scale"
-            value: "4.5, 1, 0"
+            value: "3, 0.75, 0"
         - type: "MESH_COMPONENT"
           properties:
           - name: "shader"

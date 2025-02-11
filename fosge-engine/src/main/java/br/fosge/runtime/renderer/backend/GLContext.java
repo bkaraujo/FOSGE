@@ -3,10 +3,8 @@ package br.fosge.runtime.renderer.backend;
 import br.fosge.RT;
 import br.fosge.commons.Logger;
 import br.fosge.commons.MessageBus;
-import br.fosge.engine.renderer.backend.Geometry;
-import br.fosge.engine.renderer.backend.RenderContext;
-import br.fosge.engine.renderer.backend.Shader;
-import br.fosge.engine.renderer.backend.Texture2D;
+import br.fosge.engine.renderer.backend.*;
+import br.fosge.runtime.renderer.backend.opengl.GLFrameBuffer;
 import br.fosge.runtime.renderer.backend.opengl.GLGeometry;
 import br.fosge.runtime.renderer.backend.opengl.GLShader;
 import br.fosge.runtime.renderer.backend.opengl.GLTexture2D;
@@ -90,10 +88,20 @@ public final class GLContext implements RenderContext {
     }
 
     @Override
+    public FrameBuffer frameBuffer() {
+        final var framebuffer = new GLFrameBuffer();
+        if (!framebuffer.initialize()) {
+            Logger.fatal("Failed to initialize FrameBuffer");
+            return null;
+        }
+        return framebuffer;
+    }
+
+    @Override
     public Shader shader() {
         final var shader = new GLShader();
         if (!shader.initialize()) {
-            Logger.error("Failed to initialize shader");
+            Logger.fatal("Failed to initialize Shader");
             return null;
         }
 
@@ -104,7 +112,7 @@ public final class GLContext implements RenderContext {
     public Geometry geometry() {
         final var geometry = new GLGeometry();
         if (!geometry.initialize()) {
-            Logger.error("Failed to initialize shader");
+            Logger.fatal("Failed to initialize Geometry");
             return null;
         }
 
@@ -115,7 +123,7 @@ public final class GLContext implements RenderContext {
     public Texture2D texture2d() {
         final var texture = new GLTexture2D();
         if (!texture.initialize()) {
-            Logger.error("Failed to initialize texture");
+            Logger.fatal("Failed to initialize Texture2D");
             return null;
         }
 

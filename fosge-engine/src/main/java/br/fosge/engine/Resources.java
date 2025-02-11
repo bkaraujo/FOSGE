@@ -18,6 +18,7 @@ import br.fosge.engine.renderer.backend.geometry.GeometrySpec;
 import br.fosge.engine.renderer.backend.shader.ShaderSpec;
 import br.fosge.engine.renderer.backend.texture.TextureSpec;
 import br.fosge.runtime.renderer.RenderThread;
+import br.fosge.runtime.renderer.Renderer;
 
 import java.nio.ByteBuffer;
 import java.util.concurrent.Callable;
@@ -122,7 +123,7 @@ public abstract class Resources implements Facade {
     }
 
     public static Geometry geometry(GeometrySpec spec) {
-        return RenderThread.submit(() -> {
+        return Renderer.submit(() -> {
             final var geometry = RenderThread.context.geometry();
             if (!geometry.configure(spec)) {
                 Logger.warn("Failed to configure geometry");
@@ -153,7 +154,7 @@ public abstract class Resources implements Facade {
             }
         }
 
-        return RenderThread.submit(() -> {
+        return Renderer.submit(() -> {
             final var texture = RenderThread.context.texture2d();
             if (!texture.load(spec)) {
                 Logger.error("Failed to load texture");
@@ -168,7 +169,7 @@ public abstract class Resources implements Facade {
 
     public static void free(Texture texture) {
         if (RT.debug && texture == null) { Logger.fatal("Texture is null"); return; }
-        RenderThread.submit((Callable<Void>) () -> {
+        Renderer.submit((Callable<Void>) () -> {
             if (!texture.terminate()) { Logger.error("Failed to terminate texture"); }
             RT.Graphics.textures.remove(texture);
             return null;
@@ -190,7 +191,7 @@ public abstract class Resources implements Facade {
             }
         }
 
-        return RenderThread.submit(() -> {
+        return Renderer.submit(() -> {
             final var shader = RenderThread.context.shader();
             if (!shader.configure(specification)) {
                 Logger.error("Failed to configure shader %s", specification);
@@ -214,7 +215,7 @@ public abstract class Resources implements Facade {
         Logger.debug("Freeing resources");
 
         final var graphics = new QueueGroup<>(RT.Graphics.textures, RT.Graphics.shaders, RT.Graphics.geometries);
-        RenderThread.submit((Callable<Void>) () -> {
+        Renderer.submit((Callable<Void>) () -> {
             graphics.forEach(Lifecycle::terminate);
             graphics.clear();
             return null;

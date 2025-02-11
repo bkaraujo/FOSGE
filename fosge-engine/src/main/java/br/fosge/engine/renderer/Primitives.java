@@ -1,4 +1,4 @@
-package br.fosge.runtime.graphics;
+package br.fosge.engine.renderer;
 
 import br.fosge.commons.Logger;
 import br.fosge.engine.Resources;
@@ -31,10 +31,10 @@ public abstract class Primitives {
         );
 
         geometry.vertices(
-                 0.5f,  0.5f, 0.0f, 1.0f, 1.0f,
-                 0.5f, -0.5f, 0.0f, 1.0f, 0.0f,
-                -0.5f, -0.5f, 0.0f, 0.0f, 0.0f,
-                -0.5f,  0.5f, 0.0f, 0.0f, 1.0f
+                 1.0f,  1.0f, 0.0f, 1.0f, 1.0f,
+                 1.0f, -1.0f, 0.0f, 1.0f, 0.0f,
+                -1.0f, -1.0f, 0.0f, 0.0f, 0.0f,
+                -1.0f,  1.0f, 0.0f, 0.0f, 1.0f
         );
 
         return geometry;

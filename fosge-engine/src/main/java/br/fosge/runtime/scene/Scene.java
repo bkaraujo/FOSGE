@@ -14,7 +14,7 @@ import br.fosge.engine.renderer.TransformComponent;
 import br.fosge.engine.renderer.backend.*;
 import br.fosge.engine.renderer.frontend.CameraComponent;
 import br.fosge.runtime.platform.binding.opengl.api.GL11;
-import br.fosge.runtime.renderer.RenderThread;
+import br.fosge.runtime.renderer.Renderer;
 import br.fosge.runtime.renderer.backend.opengl.GLParser;
 import com.github.f4b6a3.ulid.Ulid;
 import com.github.f4b6a3.ulid.UlidCreator;
@@ -58,7 +58,7 @@ public record Scene(
         // #############################################################
         // Setup scene-wide configurations
         // #############################################################
-        RenderThread.submit((Callable<Void>) () -> {
+        Renderer.submit((Callable<Void>) () -> {
             var enabled = yaml.asBoolean("depth.enabled");
             if (enabled != null && enabled) {
                 opengl.glEnable(GL11.GL_DEPTH_TEST);

@@ -27,7 +27,8 @@ public class GLAspect {
                 "glClear",
                 "glDraw",
                 "glProgramUniform",
-                "glBind"
+                "glBind",
+                "glBlitNamedFramebuffer"
         ));
 
         legacy.addAll(Arrays.asList(
@@ -48,7 +49,8 @@ public class GLAspect {
                 "glBufferData",
                 "glBufferSubData",
                 "glGenTexture",
-                "glTexSubImage"
+                "glTexSubImage",
+                "glGenFramebuffers"
                 ));
     }
 

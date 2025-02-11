@@ -21,7 +21,7 @@ public sealed class FatalForwarder implements LogForwarder permits ErrorForwarde
                 args
         ));
 
-        System.exit(99);
+        Meta.exit(99);
     }
 
     protected final void forward(LogRecord record) {

@@ -19,7 +19,7 @@ import br.fosge.engine.platform.window.WindowRestoredEvent;
 import br.fosge.runtime.ecs.system.AudioSystem;
 import br.fosge.runtime.ecs.system.BehaviourSystem;
 import br.fosge.runtime.ecs.system.RenderSystem;
-import br.fosge.runtime.renderer.RenderThread;
+import br.fosge.runtime.renderer.Renderer;
 import br.fosge.runtime.scene.Scene;
 
 import static br.fosge.RT.Application.scene;
@@ -68,7 +68,7 @@ public final class Application implements Lifecycle {
             RT.frame++;
 
             if (!RT.suspended) {
-                RenderThread.beginFrame(scene);
+                Renderer.beginFrame(scene);
                 RT.framePerSecond++;
                 final var delta = Time.seconds() - lastTime;
 
@@ -87,7 +87,7 @@ public final class Application implements Lifecycle {
                 systems.forEach(System::onRest);
                 systems.forEach(System::onGui);
 
-                RenderThread.endFrame();
+                Renderer.endFrame();
             }
 
             long elapsed = Time.millis() - timer;

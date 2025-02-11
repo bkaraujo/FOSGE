@@ -10,7 +10,7 @@ import br.fosge.engine.renderer.backend.DrawMode;
 import br.fosge.engine.renderer.backend.Geometry;
 import br.fosge.engine.renderer.backend.geometry.GeometrySpec;
 import br.fosge.runtime.platform.binding.opengl.api.GL11;
-import br.fosge.runtime.renderer.RenderThread;
+import br.fosge.runtime.renderer.Renderer;
 
 import java.nio.ByteBuffer;
 
@@ -113,7 +113,7 @@ public final class GLGeometry implements Geometry {
 
     private int upload(int target, int length, int maximum, ByteBuffer buffer) {
         if (VAO == GL11.GL_NONE) { Logger.fatal("Geometry not initialized"); }
-        return RenderThread.submit(() -> {
+        return Renderer.submit(() -> {
             if (length > maximum) {
                 Logger.trace("[Geometry %d] resizing %s from %d to %d elements",
                         VAO, target == VBO ? "VBO" : "EBO", maximum, length

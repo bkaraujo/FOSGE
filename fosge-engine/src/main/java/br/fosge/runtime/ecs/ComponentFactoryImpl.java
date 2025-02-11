@@ -8,6 +8,7 @@ import br.fosge.engine.ecs.ComponentFactory;
 import br.fosge.engine.ecs.NameComponent;
 import br.fosge.engine.physics.RigidBodyComponent;
 import br.fosge.engine.physics.SoftBodyComponent;
+import br.fosge.engine.renderer.Primitives;
 import br.fosge.engine.renderer.TransformComponent;
 import br.fosge.engine.renderer.backend.DataType;
 import br.fosge.engine.renderer.backend.DrawMode;
@@ -18,7 +19,6 @@ import br.fosge.engine.renderer.backend.texture.PixelFormat;
 import br.fosge.engine.renderer.backend.texture.TextureSpec;
 import br.fosge.engine.renderer.frontend.CameraComponent;
 import br.fosge.engine.renderer.frontend.MeshComponent;
-import br.fosge.runtime.graphics.Primitives;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;

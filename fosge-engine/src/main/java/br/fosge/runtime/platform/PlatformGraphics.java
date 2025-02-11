@@ -4,7 +4,7 @@ import br.fosge.commons.annotation.Lifecycle;
 import br.fosge.commons.message.MessageListener;
 import br.fosge.commons.message.MessagePipeline;
 import br.fosge.engine.platform.window.WindowResizedEvent;
-import br.fosge.runtime.renderer.RenderThread;
+import br.fosge.runtime.renderer.Renderer;
 import org.joml.Vector4fc;
 import org.lwjgl.opengl.GLCapabilities;
 import org.lwjgl.opengl.GLDebugMessageCallback;
@@ -19,24 +19,22 @@ public final class PlatformGraphics implements Lifecycle {
     private GLCapabilities capabilities;
     private GLDebugMessageCallback debugCallback;
 
-
-
     @MessageListener
     public MessagePipeline handle(WindowResizedEvent event) {
-        return RenderThread.submit(() -> {
+        return Renderer.submit(() -> {
             opengl.glViewport(0, 0, event.width, event.height);
             return MessagePipeline.CONSUMED;
         });
     }
     public void clear() {
-        RenderThread.submit((Callable<Void>) () -> {
+        Renderer.submit((Callable<Void>) () -> {
             opengl.glClear(GL_DEPTH_BUFFER_BIT | GL_COLOR_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
             return null;
         });
     }
 
     public void clearColor(Vector4fc color) {
-        RenderThread.submit((Callable<Void>) () -> {
+        Renderer.submit((Callable<Void>) () -> {
             opengl.glClearColor(color.x(), color.y(), color.z(), color.w());
             return null;
         });

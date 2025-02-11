@@ -37,9 +37,9 @@ public final class PlatformWindow implements Lifecycle {
          * Disable window framebuffer bits we don't need, because we render into offscreen FBO and blit to
          * window.
          */
-//        glfw.glfwWindowHint(GLFW_DEPTH_BITS, 0);
-//        glfw.glfwWindowHint(GLFW_STENCIL_BITS, 0);
-//        glfw.glfwWindowHint(GLFW_ALPHA_BITS, 0);
+        glfw.glfwWindowHint(GLFW_DEPTH_BITS, 0);
+        glfw.glfwWindowHint(GLFW_STENCIL_BITS, 0);
+        glfw.glfwWindowHint(GLFW_ALPHA_BITS, 0);
 
         final var spec = RT.yaml.subtree("fosge.application.window");
         final var resolution = spec.asEnum("resolution", Resolution.class);

@@ -9,6 +9,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
+/** Meta-programming nonsense */
 public abstract class Meta {
     private Meta() { /* Private constructor */  }
 

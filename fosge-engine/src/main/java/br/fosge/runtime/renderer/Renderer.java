@@ -42,7 +42,6 @@ public abstract class Renderer implements Facade {
     }
 
     public static <T> T submit(Callable<T> callable) {
-        // Awaits for the lock
         while (!semaphore.tryAcquire()) ;
 
         try {

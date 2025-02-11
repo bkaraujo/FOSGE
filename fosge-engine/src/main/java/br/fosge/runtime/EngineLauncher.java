@@ -73,14 +73,13 @@ public final class EngineLauncher extends Launcher {
 
     @Override
     public boolean terminate() {
-        RT.yaml.save();
-
         if (!application.terminate()) { Logger.error("Application failed to terminate"); return false; }
         Logger.info("Application Terminated");
 
         if (!Platform.terminate()) { Logger.error("Platform failed to terminate"); return false; }
         Logger.info("Platform Terminated");
 
+        RT.yaml.save();
         return true;
     }
 }

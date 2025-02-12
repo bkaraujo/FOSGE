@@ -2,7 +2,7 @@
 fosge:
   engine:
     debug: true
-    trace: true
+    trace: false
     graphics:
       vsync: false
       wireframe: false
@@ -83,7 +83,7 @@ fosge:
         - type: "TRANSFORM_COMPONENT"
           properties:
           - name: "position"
-            value: "0, -0.95, 0"
+            value: "0, -1.25, 0"
           - name: "rotation"
             value: "0, 0, 0"
           - name: "scale"

@@ -15,7 +15,7 @@ public final class EnvironmentController extends BehaviourComponent {
     final List<Actor> enemies = new ArrayList<>();
 
     @Override
-    public boolean doInitialize() {
+    public boolean initialize() {
         for (int i = 0 ; i < 1 ; ++i) {
             for (int j = 0 ; j < 1 ; ++j) {
                 final var enemy = Actor.create();

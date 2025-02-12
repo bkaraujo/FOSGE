@@ -14,20 +14,23 @@ public abstract class Main implements Facade {
     public static void main(String ... args) {
         Thread.currentThread().setName("FOSGE::Launcher");
         Logger.level(LogLevel.INFO);
+        RT.threadMain = true;
+        try {
+            if (args.length == 0) { Meta.exit(0, "usage: java -jar fosge.jar <application path>"); }
+            System.setProperty("br.fosge.rootfs", args[0]);
 
-        if (args.length == 0) { Meta.exit(0, "usage: java -jar fosge.jar <application path>"); }
-        System.setProperty("br.fosge.rootfs", args[0]);
+            final var isEditor = Directories.contains(Directories.rootfs(), "editor.yml");
+            final var launcher = isEditor ? new EditorLauncher() : new EngineLauncher();
 
-        final var isEditor = Directories.contains(Directories.rootfs(), "editor.yml");
-        final var launcher = isEditor ? new EditorLauncher() : new EngineLauncher();
+            if (!launcher.initialize()) { Logger.error("Failed to initialize: %s", RT.yaml); }
+            else { if (!launcher.run()) { Logger.error("Failed to run: %s", RT.yaml); } }
 
-        if (!launcher.initialize()) { Logger.error("Failed to initialize: %s", RT.yaml); }
-        else { if (!launcher.run()) { Logger.error("Failed to run: %s", RT.yaml); } }
-
-        if (!launcher.terminate()) {
-            Logger.fatal("Failed to terminate: %s", RT.yaml);
+            if (!launcher.terminate()) {
+                Logger.fatal("Failed to terminate: %s", RT.yaml);
+            }
+        } finally {
+            Logger.trace("Exiting");
+            RT.threadMain = false;
         }
-
-        Logger.trace("Exiting");
     }
 }

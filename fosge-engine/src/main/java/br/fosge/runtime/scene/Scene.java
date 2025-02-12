@@ -6,6 +6,7 @@ import br.fosge.commons.Meta;
 import br.fosge.commons.Strings;
 import br.fosge.commons.Tuples;
 import br.fosge.commons.annotation.Lifecycle;
+import br.fosge.commons.concurrent.Threads;
 import br.fosge.commons.serializer.Yaml;
 import br.fosge.engine.ecs.Actor;
 import br.fosge.engine.ecs.ComponentType;
@@ -24,10 +25,11 @@ import org.joml.Vector4fc;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Callable;
+import java.util.concurrent.Future;
 
 import static br.fosge.runtime.platform.Bindings.opengl;
 
-public record Scene(
+public record Scene (
         Ulid identity,
         String name,
         Yaml yaml,
@@ -60,17 +62,13 @@ public record Scene(
         // #############################################################
         Renderer.submit((Callable<Void>) () -> {
             var enabled = yaml.asBoolean("depth.enabled");
-            if (enabled != null && enabled) {
-                opengl.glEnable(GL11.GL_DEPTH_TEST);
-            }
-            final var function = yaml.asEnum("depth.function", DepthFunction.class);
+            if (enabled != null && enabled) { opengl.glEnable(GL11.GL_DEPTH_TEST); }
 
+            final var function = yaml.asEnum("depth.function", DepthFunction.class);
             opengl.glDepthFunc(GLParser.parse(function != null ? function : DepthFunction.LEQUAL));
 
             enabled = yaml.asBoolean("blend.enabled");
-            if (enabled != null && enabled) {
-                opengl.glEnable(GL11.GL_BLEND);
-            }
+            if (enabled != null && enabled) { opengl.glEnable(GL11.GL_BLEND); }
             final var equation = yaml.asEnum("blend.equation", BlendEquation.class);
             opengl.glBlendEquation(GLParser.parse(equation != null ? equation : BlendEquation.FUNC_ADD));
             final var srcFunction = yaml.asEnum("blend.function.source", BlendFunction.class);
@@ -81,9 +79,7 @@ public record Scene(
             );
 
             enabled = yaml.asBoolean("cullface.enabled");
-            if (enabled != null && enabled) {
-                opengl.glEnable(GL11.GL_CULL_FACE);
-            }
+            if (enabled != null && enabled) { opengl.glEnable(GL11.GL_CULL_FACE); }
             final var cullMode = yaml.asEnum("cullface.mode", CullFaceMode.class);
             opengl.glCullFace(GLParser.parse(cullMode != null ? cullMode : CullFaceMode.BACK));
 
@@ -102,67 +98,78 @@ public record Scene(
         // #############################################################
         // Create the actors
         // #############################################################
-        for (final var found : yaml.list("actors")) {
-            // -------------------------------------------------
-            // Create the actor in the ECS database
-            // -------------------------------------------------
-            final var sIdentity = found.asString("identity");
-
-            Actor actor;
-            if (sIdentity == null) {
-                actor = Actor.from(UlidCreator.getMonotonicUlid());
-                found.put("identity", actor.identity().toString());
-            } else {
-                actor = Actor.from(Ulid.from(sIdentity));
-            }
-
-            ECS.prepare(actor.identity());
-            // -------------------------------------------------
-            // Create the actor's components
-            // -------------------------------------------------
-            for (final var candidate : found.list("components")) {
-                ComponentType type;
-                try { type = ComponentType.valueOf(candidate.asString("type")); }
-                catch (IllegalArgumentException ignored) {
-                    Logger.error("Invalid component type: " + candidate.asString("type"));
-                    continue;
-                }
-
-                switch (type) {
-                    case NAME_COMPONENT: {
-                        final var name = Tuples.find("name", candidate.asTuples("properties"));
-                        if (name != null) { actor.name().name = name; }
-                    } break;
-                    case TRANSFORM_COMPONENT: {
-                        final var desired = RT.Factory.component.transform(candidate.asTuples("properties"));
-                        actor.transform().scale.set(desired.scale);
-                        actor.transform().rotation.set(desired.rotation);
-                        actor.transform().position.set(desired.position);
-                    } break;
-                    default: {
-                        final var instance = actor.attach(type.klass, candidate.asTuples("properties"));
-                        if (instance == null) { return false; }
-
-                        if (type == ComponentType.BEHAVIOUR_COMPONENT) {
-                            Meta.set(instance, "transform", actor.get(TransformComponent.class));
-                        }
-                    }
-                }
-            }
-
-            Logger.debug("%s :: attaching actor %s", identity, actor.identity());
-            actors.add(actor);
+        final List<Future<Actor>> tasks = new ArrayList<>();
+        for (final var candidate : yaml.list("actors")) {
+            tasks.add(Threads.submit(() -> {
+                Thread.currentThread().setName("FOSGE::Virtual");
+                return attach(candidate);
+            }));
         }
 
-        for (final var actor : actors) {
-            if(!actor.initialize()) {
+        for (final var future : tasks) { try {
+            final var actor = future.get();
+            if (!actor.initialize()) {
                 Logger.error("%s :: Failed to initialize.", identity);
                 if (!terminate()) { Logger.fatal("What?!?!"); }
                 return false;
             }
-        }
+
+            actors.add(actor);
+        } catch (Throwable ignored) {} }
 
         return true;
+    }
+
+    private Actor attach(final Yaml candidate) {
+        // -------------------------------------------------
+        // Create the actor in the ECS database
+        // -------------------------------------------------
+        final var sIdentity = candidate.asString("identity");
+
+        Actor actor;
+        if (sIdentity == null) {
+            actor = Actor.from(UlidCreator.getMonotonicUlid());
+            candidate.put("identity", actor.identity().toString());
+        } else {
+            actor = Actor.from(Ulid.from(sIdentity));
+        }
+
+        ECS.prepare(actor.identity());
+        // -------------------------------------------------
+        // Create the actor's components
+        // -------------------------------------------------
+        for (final var component : candidate.list("components")) {
+            ComponentType type;
+            try { type = ComponentType.valueOf(component.asString("type")); }
+            catch (IllegalArgumentException ignored) {
+                Logger.error("Invalid component type: " + component.asString("type"));
+                return null;
+            }
+
+            switch (type) {
+                case NAME_COMPONENT: {
+                    final var name = Tuples.find("name", component.asTuples("properties"));
+                    if (name != null) { actor.name().name = name; }
+                } break;
+                case TRANSFORM_COMPONENT: {
+                    final var desired = RT.Factory.component.transform(component.asTuples("properties"));
+                    actor.transform().scale.set(desired.scale);
+                    actor.transform().rotation.set(desired.rotation);
+                    actor.transform().position.set(desired.position);
+                } break;
+                default: {
+                    final var instance = actor.attach(type.klass, component.asTuples("properties"));
+                    if (instance == null) { continue; }
+
+                    if (type == ComponentType.BEHAVIOUR_COMPONENT) {
+                        Meta.set(instance, "transform", actor.get(TransformComponent.class));
+                    }
+                }
+            }
+        }
+
+        Logger.debug("%s :: attaching actor %s", identity, actor.identity());
+        return actor;
     }
 
     public Actor camera() {
@@ -188,14 +195,25 @@ public record Scene(
 
     @Override
     public boolean terminate() {
+        final var tasks = new ArrayList<Future<Boolean>>();
+
         for (final var actor : actors) {
-            if (!actor.terminate()) {
-                Logger.error("Failed to terminate actor: %s", actor);
-                return false;
-            }
+            tasks.add(Threads.submit(() -> {
+                Thread.currentThread().setName("FOSGE::Virtual");
+
+                if (!actor.terminate()) {
+                    Logger.error("Failed to terminate actor: %s", actor);
+                    return false;
+                }
+                return true;
+            }));
         }
 
-        return true;
+        return Boolean.TRUE == tasks.stream().allMatch(future -> {
+            try { return future.get(); }
+            catch (Throwable ignored){}
+            return false;
+        });
     }
 
     @Override

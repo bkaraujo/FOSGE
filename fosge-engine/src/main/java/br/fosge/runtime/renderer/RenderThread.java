@@ -72,45 +72,52 @@ public final class RenderThread implements Runnable {
 
     @Override
     public void run() {
-        Thread.currentThread().setName("FOSGE::Renderer");
-        if (glfw.glfwGetCurrentContext() == MemoryUtil.NULL) {
-            glfw.glfwMakeContextCurrent(RT.Window.handle);
-            GL.createCapabilities();
-        }
+        RT.threadRenderer = true;
 
-        if (!context.initialize()) {
-            Logger.error("Failed to initialize Render API");
-        }
-
-        MessageBus.subscribe(this);
-
-        frameBuffer = context.frameBuffer();
-        final var spec = new FrameBufferSpec(RT.Window.size, false);
-
-        if (!frameBuffer.configure(spec)) {
-            Logger.fatal("Failed to configure frame buffer");
-        }
-
-        while (true) {
-            performRenderTasks();
-            if (RendererShared.renderGraph == null) continue;
-
-            try {
-                RendererShared.lock.lock();
-                performRenderPass(frameBuffer);
-
-                opengl.glBlitNamedFramebuffer(frameBuffer.handle(), 0,
-                        0, 0, frameBuffer.size().x(), frameBuffer.size().y(),
-                        0, 0, RT.Window.size.x(), RT.Window.size.y(),
-                        GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT,
-                        GL_NEAREST
-                );
-            } finally {
-                RendererShared.renderGraph = null;
-
-                glfw.glfwSwapBuffers(RT.Window.handle);
-                RendererShared.lock.unlock();
+        try {
+            Thread.currentThread().setName("FOSGE::Renderer");
+            if (glfw.glfwGetCurrentContext() == MemoryUtil.NULL) {
+                glfw.glfwMakeContextCurrent(RT.Window.handle);
+                GL.createCapabilities();
             }
+
+            if (!context.initialize()) {
+                Logger.error("Failed to initialize Render API");
+            }
+
+            MessageBus.subscribe(this);
+
+            frameBuffer = context.frameBuffer();
+            final var spec = new FrameBufferSpec(RT.Window.size, false);
+
+            if (!frameBuffer.configure(spec)) {
+                Logger.fatal("Failed to configure frame buffer");
+            }
+
+            while (RT.threadMain) {
+                performRenderTasks();
+                if (RendererShared.renderGraph == null) continue;
+
+                try {
+                    RendererShared.lock.lock();
+                    performRenderPass(frameBuffer);
+
+                    opengl.glBlitNamedFramebuffer(frameBuffer.handle(), 0,
+                            0, 0, frameBuffer.size().x(), frameBuffer.size().y(),
+                            0, 0, RT.Window.size.x(), RT.Window.size.y(),
+                            GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT,
+                            GL_NEAREST
+                    );
+                } finally {
+                    RendererShared.renderGraph = null;
+
+                    glfw.glfwSwapBuffers(RT.Window.handle);
+                    RendererShared.lock.unlock();
+                }
+            }
+        } finally {
+            Logger.trace("Exiting");
+            RT.threadRenderer = false;
         }
     }
 

@@ -32,14 +32,10 @@ public abstract class RT implements State {
     public static int framePerSecond;
     public static boolean debug;
     public static boolean trace;
-
-    /** Application fully initialized and running */
     public static boolean running;
-
-    /** Application running but simulation is suspended */
     public static boolean suspended;
-
-    /** Main settings of the running application */
+    public static boolean threadMain;
+    public static boolean threadRenderer;
     public static Yaml yaml;
 
     public static abstract class Factory {

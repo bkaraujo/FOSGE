@@ -9,11 +9,9 @@ import br.fosge.commons.annotation.Facade;
 import br.fosge.commons.annotation.Lifecycle;
 import br.fosge.commons.logger.LogLevel;
 import br.fosge.engine.audio.AudioBuffer;
+import br.fosge.engine.audio.AudioObject;
 import br.fosge.engine.audio.AudioSource;
-import br.fosge.engine.renderer.backend.Geometry;
-import br.fosge.engine.renderer.backend.Shader;
-import br.fosge.engine.renderer.backend.Texture;
-import br.fosge.engine.renderer.backend.Texture2D;
+import br.fosge.engine.renderer.backend.*;
 import br.fosge.engine.renderer.backend.geometry.GeometrySpec;
 import br.fosge.engine.renderer.backend.shader.ShaderSpec;
 import br.fosge.engine.renderer.backend.texture.TextureSpec;
@@ -213,22 +211,41 @@ public abstract class Resources implements Facade {
 
     public static void free() {
         Logger.debug("Freeing resources");
+        // ##################################################
+        // Clear all graphics resources
+        // ##################################################
+        final var graphics = new QueueGroup<GraphicsObject>();
+        if (!RT.Graphics.shaders.isEmpty()) graphics.attach(RT.Graphics.shaders);
+        if (!RT.Graphics.textures.isEmpty()) graphics.attach(RT.Graphics.textures);
+        if (!RT.Graphics.geometries.isEmpty()) graphics.attach(RT.Graphics.geometries);
 
-        final var graphics = new QueueGroup<>(RT.Graphics.textures, RT.Graphics.shaders, RT.Graphics.geometries);
-        Renderer.submit((Callable<Void>) () -> {
-            graphics.forEach(Lifecycle::terminate);
-            graphics.clear();
-            return null;
-        });
-
-        final var audio = new QueueGroup<>(RT.Audio.monoSources, RT.Audio.buffers);
-        audio.forEach(Lifecycle::terminate);
-        audio.clear();
-
-        for (final var object : RT.Memory.buffers) {
-            Memory.free(object);
+        if (!graphics.isEmpty()) {
+            Renderer.submit((Callable<Void>) () -> {
+                graphics.forEach(Lifecycle::terminate);
+                graphics.clear();
+                return null;
+            });
         }
+        // ##################################################
+        // Clear all audio resources
+        // ##################################################
+        final var audio = new QueueGroup<AudioObject>();
+        if (!RT.Audio.monoSources.isEmpty()) audio.attach(RT.Audio.monoSources);
+        if (!RT.Audio.buffers.isEmpty()) audio.attach(RT.Audio.buffers);
 
-        RT.Memory.buffers.clear();
+        if (!audio.isEmpty()) {
+            audio.forEach(Lifecycle::terminate);
+            audio.clear();
+        }
+        // ##################################################
+        // Clear all off-heap memory
+        // ##################################################
+        if (!RT.Memory.buffers.isEmpty()) {
+            for (final var object : RT.Memory.buffers) {
+                Memory.free(object);
+            }
+
+            RT.Memory.buffers.clear();
+        }
     }
 }

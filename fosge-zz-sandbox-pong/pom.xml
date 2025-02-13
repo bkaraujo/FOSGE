@@ -94,7 +94,7 @@
                         </executions>
                         <configuration>
                             <mainClass>${fosge.launcher}</mainClass>
-                            <arguments>X:\java\FOSGE\fosge-zz-sandbox-pong</arguments>
+                            <arguments>${project.basedir}/application.yml</arguments>
                         </configuration>
                     </plugin>
                 </plugins>

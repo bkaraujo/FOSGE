@@ -8,9 +8,8 @@ import java.util.Queue;
 public final class QueueGroup<T> {
     private final List<Queue<T>> queues = new ArrayList<>();
 
-    @SafeVarargs
-    public QueueGroup(Queue<T> ... desired) {
-        queues.addAll(Arrays.asList(desired));
+    public void attach(Queue<T> queue) {
+        queues.add(queue);
     }
 
     /** Visit every element of all queues */
@@ -20,6 +19,10 @@ public final class QueueGroup<T> {
                 visitor.visit(element);
             }
         }
+    }
+
+    public boolean isEmpty() {
+        return queues.isEmpty();
     }
 
     /** Clear all underlying queues */

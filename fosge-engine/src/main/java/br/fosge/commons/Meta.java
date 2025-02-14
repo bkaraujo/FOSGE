@@ -85,7 +85,7 @@ public abstract class Meta {
     }
 
     public static void exit(int code, @Nullable String message, @Nullable Object ... args) {
-        Logger.info(message, args);
+        if (message != null) Logger.info(message, args);
         System.exit(code);
     }
 

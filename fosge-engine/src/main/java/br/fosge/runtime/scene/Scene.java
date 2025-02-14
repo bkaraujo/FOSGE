@@ -6,7 +6,6 @@ import br.fosge.commons.Meta;
 import br.fosge.commons.Strings;
 import br.fosge.commons.Tuples;
 import br.fosge.commons.annotation.Lifecycle;
-import br.fosge.commons.concurrent.Threads;
 import br.fosge.commons.serializer.Yaml;
 import br.fosge.engine.ecs.Actor;
 import br.fosge.engine.ecs.ComponentType;
@@ -25,7 +24,6 @@ import org.joml.Vector4fc;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Callable;
-import java.util.concurrent.Future;
 
 import static br.fosge.runtime.platform.Bindings.opengl;
 
@@ -98,24 +96,12 @@ public record Scene (
         // #############################################################
         // Create the actors
         // #############################################################
-        final List<Future<Actor>> tasks = new ArrayList<>();
         for (final var candidate : yaml.list("actors")) {
-            tasks.add(Threads.submit(() -> {
-                Thread.currentThread().setName("FOSGE::Virtual");
-                return attach(candidate);
-            }));
-        }
-
-        for (final var future : tasks) { try {
-            final var actor = future.get();
-            if (!actor.initialize()) {
-                Logger.error("%s :: Failed to initialize.", identity);
-                if (!terminate()) { Logger.fatal("What?!?!"); }
-                return false;
-            }
-
+            final var actor = attach(candidate);
+            if (actor == null) { continue; }
+            if (!actor.initialize()) { return false; }
             actors.add(actor);
-        } catch (Throwable ignored) {} }
+        }
 
         return true;
     }
@@ -195,29 +181,18 @@ public record Scene (
 
     @Override
     public boolean terminate() {
-        final var tasks = new ArrayList<Future<Boolean>>();
-
         for (final var actor : actors) {
-            tasks.add(Threads.submit(() -> {
-                Thread.currentThread().setName("FOSGE::Virtual");
-
-                if (!actor.terminate()) {
-                    Logger.error("Failed to terminate actor: %s", actor);
-                    return false;
-                }
-                return true;
-            }));
+            if (!actor.terminate()) {
+                Logger.error("Failed to terminate actor: %s", actor);
+                return false;
+            }
         }
 
-        return Boolean.TRUE == tasks.stream().allMatch(future -> {
-            try { return future.get(); }
-            catch (Throwable ignored){}
-            return false;
-        });
+        return true;
     }
 
     @Override
     public String toString() {
-        return identity + ": <" + name + ">";
+        return identity.toString();
     }
 }

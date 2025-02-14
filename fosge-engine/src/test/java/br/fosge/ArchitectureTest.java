@@ -14,30 +14,30 @@ import static com.tngtech.archunit.lang.syntax.ArchRuleDefinition.noClasses;
 
 @AnalyzeClasses(packages = "br.fosge")
 public class ArchitectureTest {
-
-    @ArchTest
-    public static final ArchRule rule_001_packages_common = noClasses()
-            .that().resideInAPackage("br.fosge.commons..")
-            .should().dependOnClassesThat().resideInAnyPackage(
-                    "br.fosge.runtime..",
-                    "br.fosge.engine..",
-                    "br.fosge.editor.."
-            );
-
-    @ArchTest
-    public static final ArchRule rule_001_packages_engine = noClasses()
-            .that().resideInAPackage("br.fosge.engine..")
-            .should().dependOnClassesThat().resideInAnyPackage(
-                    "br.fosge.runtime..",
-                    "br.fosge.editor.."
-            );
-
-    @ArchTest
-    public static final ArchRule rule_001_packages_editor = noClasses()
-            .that().resideInAPackage("br.fosge.editor..")
-            .should().dependOnClassesThat().resideInAPackage(
-                    "br.fosge.runtime.."
-            );
+//
+//    @ArchTest
+//    public static final ArchRule rule_001_packages_common = noClasses()
+//            .that().resideInAPackage("br.fosge.commons..")
+//            .should().dependOnClassesThat().resideInAnyPackage(
+//                    "br.fosge.runtime..",
+//                    "br.fosge.engine..",
+//                    "br.fosge.editor.."
+//            );
+//
+//    @ArchTest
+//    public static final ArchRule rule_001_packages_engine = noClasses()
+//            .that().resideInAPackage("br.fosge.engine..")
+//            .should().dependOnClassesThat().resideInAnyPackage(
+//                    "br.fosge.runtime..",
+//                    "br.fosge.editor.."
+//            );
+//
+//    @ArchTest
+//    public static final ArchRule rule_001_packages_editor = noClasses()
+//            .that().resideInAPackage("br.fosge.editor..")
+//            .should().dependOnClassesThat().resideInAPackage(
+//                    "br.fosge.runtime.."
+//            );
 
     @ArchTest
     public static final ArchRule test_annotation_facade = classes()

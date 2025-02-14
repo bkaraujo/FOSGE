@@ -128,7 +128,8 @@ public final class Application implements Lifecycle {
     @Override
     public boolean terminate() {
         if (scene != null && !scene.terminate()) {
-            Logger.fatal("Failed to terminate scene %s: ", scene);
+            Logger.error("Failed to terminate scene %s: ", scene);
+            return false;
         }
 
         return true;

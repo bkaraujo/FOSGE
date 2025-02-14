@@ -229,7 +229,7 @@ public class OpenGLTests {
                 final var pChannel = stack.mallocInt(1);
 
                 stbi_set_flip_vertically_on_load(false);
-                final var path = "X:/java/FOSGE/fosge-engine/src/main/resources/container.jpg";
+                final var path = "/home/baraujo/trabalho/bkraujo/FOSGE/fosge-engine/src/test/resources/container.jpg";
                 pixels = stbi_load(path, pWidth, pHeight, pChannel, 0);
                 tryOrExit(pixels != null, "Failed to load image");
 
@@ -354,7 +354,7 @@ public class OpenGLTests {
         //
         // ########################################################
         glfwShowWindow(window);
-        glfwSwapInterval(1);
+        glfwSwapInterval(0);
 
 
         long fps = 0;

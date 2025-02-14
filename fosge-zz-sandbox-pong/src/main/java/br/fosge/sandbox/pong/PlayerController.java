@@ -1,6 +1,5 @@
 package br.fosge.sandbox.pong;
 
-import br.fosge.commons.Logger;
 import br.fosge.engine.Input;
 import br.fosge.engine.ecs.BehaviourComponent;
 import br.fosge.engine.input.Keyboard;
@@ -15,18 +14,11 @@ public final class PlayerController extends BehaviourComponent {
         if (Input.active(Keyboard.KEY_D)) {
             transform.position.x += (float) (speed * delta);
             if (transform.position.x >= offset) { transform.position.x = -offset; }
-            Logger.info(transform.position.toString());
         }
 
         if (Input.active(Keyboard.KEY_A)) {
             transform.position.x -= (float) (speed * delta);
             if (transform.position.x < -offset) { transform.position.x = offset; }
-            Logger.info(transform.position.toString());
-        }
-
-        if (Input.active(Keyboard.KEY_S)) {
-            transform.position.y -= (float) (speed * delta);
-            Logger.info(transform.position.toString());
         }
     }
 }

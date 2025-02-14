@@ -94,7 +94,7 @@
                         </executions>
                         <configuration>
                             <mainClass>${fosge.launcher}</mainClass>
-                            <arguments>${project.basedir}/application.yml</arguments>
+                            <arguments>${project.basedir}</arguments>
                         </configuration>
                     </plugin>
                 </plugins>

@@ -14,7 +14,7 @@ import static br.fosge.runtime.platform.binding.opengl.GLState.enabled;
 public class GL1x implements GL11, GL12, GL13, GL14, GL15 {
 
     public final void glEnable(int target) {
-        if (RT.debug && enabled.containsKey(target) && enabled.get(target)) {
+        if (enabled.containsKey(target) && enabled.get(target)) {
             Logger.warn("Unnecessary glEnable(%d)", target);
             Logger.stackTrace(LogLevel.WARN);
             return;
@@ -25,7 +25,7 @@ public class GL1x implements GL11, GL12, GL13, GL14, GL15 {
     }
 
     public final void glDisable(int target) {
-        if (RT.debug && enabled.containsKey(target) && !enabled.get(target)) {
+        if (enabled.containsKey(target) && !enabled.get(target)) {
             Logger.warn("Unnecessary glDisable(%d)", target);
             Logger.stackTrace(LogLevel.WARN);
             return;
@@ -72,7 +72,7 @@ public class GL1x implements GL11, GL12, GL13, GL14, GL15 {
     }
 
     public final void glBlendFunc(int sfactor, int dfactor) {
-        if (RT.debug && blendFunctions[0] == sfactor && blendFunctions[1] == dfactor) {
+        if (blendFunctions[0] == sfactor && blendFunctions[1] == dfactor) {
             Logger.warn("Unnecessary glBlendFunc(%d, %d)", sfactor, dfactor);
             Logger.stackTrace(LogLevel.WARN);
             return;

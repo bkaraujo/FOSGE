@@ -36,7 +36,7 @@ public abstract class ECS implements Facade {
     }
 
     public static void destroy(@Nonnull Ulid identity) {
-        if (RT.debug && !entities.contains(identity)) {
+        if (!entities.contains(identity)) {
             Logger.fatal("Unknown entity %s", identity);
         }
 
@@ -60,16 +60,14 @@ public abstract class ECS implements Facade {
 
     @Nullable
     public static <T extends Component> T attach(@Nonnull Ulid identity, @Nonnull Class<T> type, @Nullable Tuple... properties) {
-        if (RT.debug) {
-            if (!entities.contains(identity)) {
-                Logger.fatal("Unknown entity %s", identity);
-            }
+        if (!entities.contains(identity)) {
+            Logger.fatal("Unknown entity %s", identity);
+        }
 
-            for (final Component component : ofEntities.get(identity)) {
-                if (Meta.assignable(component, type)) {
-                    Logger.warn("%s :: Component already attached: %s", identity, type);
-                    return Meta.cast(component, type);
-                }
+        for (final Component component : ofEntities.get(identity)) {
+            if (Meta.assignable(component, type)) {
+                Logger.warn("%s :: Component already attached: %s", identity, type);
+                return Meta.cast(component, type);
             }
         }
 
@@ -101,7 +99,7 @@ public abstract class ECS implements Facade {
     }
 
     public static boolean contains(@Nonnull Ulid identity, @Nonnull ComponentType type) {
-        if (RT.debug && !entities.contains(identity)) {
+        if (!entities.contains(identity)) {
             Logger.fatal("Unknown entity %s", identity);
         }
 
@@ -116,7 +114,7 @@ public abstract class ECS implements Facade {
 
     @Nullable
     public static Component get(@Nonnull Ulid identity, @Nonnull ComponentType type) {
-        if (RT.debug && !entities.contains(identity)) {
+        if (!entities.contains(identity)) {
             Logger.fatal("Unknown entity %s", identity);
         }
 
@@ -131,7 +129,7 @@ public abstract class ECS implements Facade {
 
     @Nullable
     public static <T> T get(@Nonnull Ulid identity, @Nonnull Class<T> type) {
-        if (RT.debug && !entities.contains(identity)) {
+        if (!entities.contains(identity)) {
             Logger.fatal("Unknown entity %s", identity);
         }
 
@@ -146,7 +144,7 @@ public abstract class ECS implements Facade {
 
     @Nonnull
     public static List<Component> list(@Nonnull Ulid identity) {
-        if (RT.debug && !entities.contains(identity)) {
+        if (!entities.contains(identity)) {
             Logger.fatal("Unknown entity %s", identity);
         }
 
@@ -158,7 +156,7 @@ public abstract class ECS implements Facade {
     }
 
     public static <T extends Component> void detach(@Nonnull Ulid identity, @Nonnull Class<T> type) {
-        if (RT.debug && !entities.contains(identity)) {
+        if (!entities.contains(identity)) {
             Logger.fatal("Unknown entity %s", identity);
         }
 

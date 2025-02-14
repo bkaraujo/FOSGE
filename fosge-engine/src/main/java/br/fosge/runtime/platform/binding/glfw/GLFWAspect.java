@@ -38,7 +38,7 @@ public class GLFWAspect {
 
     @Around("execution(* br.fosge.runtime.platform.binding.glfw.impl..*.*(..))")
     public Object intercept(ProceedingJoinPoint pjp) throws Throwable{
-        if (!RT.debug) return pjp.proceed();
+//        if (!RT.debug) return pjp.proceed();
 
         final var methodName = pjp.getSignature().getName();
         if (skip.contains(methodName)) return pjp.proceed();

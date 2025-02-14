@@ -25,49 +25,47 @@ public final class GLContext implements RenderContext {
 
         Logger.debug("OpenGL: %s", opengl.glGetString(GL_VERSION));
 
-        if (RT.debug) {
-            opengl.glEnable(GL_DEBUG_OUTPUT);
-            opengl.glEnable(GL_DEBUG_OUTPUT_SYNCHRONOUS);
+        opengl.glEnable(GL_DEBUG_OUTPUT);
+        opengl.glEnable(GL_DEBUG_OUTPUT_SYNCHRONOUS);
 
-            debugCallback = GLDebugMessageCallback.create((source, type, id, severity, length, message, ignored) -> {
-                // ignore non-significant error/warning codes
-                if(id == 131169 || id == 131185 || id == 131218 || id == 131204) return;
+        debugCallback = GLDebugMessageCallback.create((source, type, id, severity, length, message, ignored) -> {
+            // ignore non-significant error/warning codes
+            if(id == 131169 || id == 131185 || id == 131218 || id == 131204) return;
 
-                Logger.debug(
-                        "\nID      : 0x%s\nSource  : %s\nType    : %s\nSeverity: %s\nMessage : %s",
-                        Integer.toHexString(id).toUpperCase(),
-                        switch (source) {
-                            default -> "???";
-                            case GL_DEBUG_SOURCE_API -> "API";
-                            case GL_DEBUG_SOURCE_OTHER -> "OTHER";
-                            case GL_DEBUG_SOURCE_THIRD_PARTY -> "THIRD PARTY";
-                            case GL_DEBUG_SOURCE_APPLICATION -> "APPLICATION";
-                            case GL_DEBUG_SOURCE_SHADER_COMPILER -> "SHADER COMPILER";
-                            case GL_DEBUG_SOURCE_WINDOW_SYSTEM -> "WINDOW SYSTEM";
-                        },
-                        switch (type) {
-                            default -> "???";
-                            case GL_DEBUG_TYPE_ERROR -> "ERROR";
-                            case GL_DEBUG_TYPE_OTHER -> "OTHER";
-                            case GL_DEBUG_TYPE_MARKER -> "MARKER";
-                            case GL_DEBUG_TYPE_PORTABILITY -> "PORTABILITY";
-                            case GL_DEBUG_TYPE_PERFORMANCE -> "PERFORMANCE";
-                            case GL_DEBUG_TYPE_UNDEFINED_BEHAVIOR -> "UNDEFINED BEHAVIOR";
-                            case GL_DEBUG_TYPE_DEPRECATED_BEHAVIOR -> "DEPRECATED BEHAVIOR";
-                        },
-                        switch (severity) {
-                            default -> "???";
-                            case GL_DEBUG_SEVERITY_LOW -> "LOW";
-                            case GL_DEBUG_SEVERITY_HIGH -> "HIGH";
-                            case GL_DEBUG_SEVERITY_MEDIUM -> "MEDIUM";
-                            case GL_DEBUG_SEVERITY_NOTIFICATION -> "NOTIFICATION";
-                        },
-                        GLDebugMessageCallback.getMessage(length, message)
-                );
-            });
+            Logger.debug(
+                    "\nID      : 0x%s\nSource  : %s\nType    : %s\nSeverity: %s\nMessage : %s",
+                    Integer.toHexString(id).toUpperCase(),
+                    switch (source) {
+                        default -> "???";
+                        case GL_DEBUG_SOURCE_API -> "API";
+                        case GL_DEBUG_SOURCE_OTHER -> "OTHER";
+                        case GL_DEBUG_SOURCE_THIRD_PARTY -> "THIRD PARTY";
+                        case GL_DEBUG_SOURCE_APPLICATION -> "APPLICATION";
+                        case GL_DEBUG_SOURCE_SHADER_COMPILER -> "SHADER COMPILER";
+                        case GL_DEBUG_SOURCE_WINDOW_SYSTEM -> "WINDOW SYSTEM";
+                    },
+                    switch (type) {
+                        default -> "???";
+                        case GL_DEBUG_TYPE_ERROR -> "ERROR";
+                        case GL_DEBUG_TYPE_OTHER -> "OTHER";
+                        case GL_DEBUG_TYPE_MARKER -> "MARKER";
+                        case GL_DEBUG_TYPE_PORTABILITY -> "PORTABILITY";
+                        case GL_DEBUG_TYPE_PERFORMANCE -> "PERFORMANCE";
+                        case GL_DEBUG_TYPE_UNDEFINED_BEHAVIOR -> "UNDEFINED BEHAVIOR";
+                        case GL_DEBUG_TYPE_DEPRECATED_BEHAVIOR -> "DEPRECATED BEHAVIOR";
+                    },
+                    switch (severity) {
+                        default -> "???";
+                        case GL_DEBUG_SEVERITY_LOW -> "LOW";
+                        case GL_DEBUG_SEVERITY_HIGH -> "HIGH";
+                        case GL_DEBUG_SEVERITY_MEDIUM -> "MEDIUM";
+                        case GL_DEBUG_SEVERITY_NOTIFICATION -> "NOTIFICATION";
+                    },
+                    GLDebugMessageCallback.getMessage(length, message)
+            );
+        });
 
-            opengl.glDebugMessageCallback(debugCallback, NULL);
-        }
+        opengl.glDebugMessageCallback(debugCallback, NULL);
 
         MessageBus.subscribe(this);
 

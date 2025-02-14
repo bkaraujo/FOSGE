@@ -38,7 +38,7 @@ public final class Application implements Lifecycle {
         if (engine != null && engine.contains("simulation.step")) {
             STEP = 1 / engine.asDouble("simulation.step");
         } else {
-            STEP = 1 / 100d;
+            STEP = 1 / 25d;
         }
 
         final var firstScene = yaml.asString("fosge.application.firstScene");

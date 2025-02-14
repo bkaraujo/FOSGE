@@ -28,7 +28,7 @@ public class ALAspect {
 
     @Around("execution(* br.fosge.runtime.platform.binding.openal.impl..*.*(..))")
     public Object intercept(ProceedingJoinPoint pjp) throws Throwable {
-        if (!RT.debug) return pjp.proceed();
+//        if (!RT.debug) return pjp.proceed();
 
         final var methodName = pjp.getSignature().getName();
         for (final var predicate : skip) {

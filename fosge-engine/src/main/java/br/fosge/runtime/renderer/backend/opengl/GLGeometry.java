@@ -54,27 +54,25 @@ public final class GLGeometry implements Geometry {
 
     @Override
     public boolean configure(Specification specification) {
-        if (RT.debug && !Meta.assignable(specification, GeometrySpec.class)) {
+        if (!Meta.assignable(specification, GeometrySpec.class)) {
             Logger.error("Expecting %s got %s", Meta.fqn(GeometrySpec.class), Meta.fqn(specification));
             return false;
         }
 
         final var spec = Meta.cast(specification, GeometrySpec.class);
-        if (RT.debug) {
-            if (VAO == GL11.GL_NONE) {
-                Logger.warn("Geometry not initialized");
-                return false;
-            }
+        if (VAO == GL11.GL_NONE) {
+            Logger.warn("Geometry not initialized");
+            return false;
+        }
 
-            if (spec.layouts().length == 0) {
-                Logger.error("Expecting at least a 1 buffer layout, got %d", spec.layouts().length);
-                return false;
-            }
+        if (spec.layouts().length == 0) {
+            Logger.error("Expecting at least a 1 buffer layout, got %d", spec.layouts().length);
+            return false;
+        }
 
-            if (!spec.indexType().unsigned) {
-                Logger.error("Expected a unsigned type as index type, got %s", spec.indexType());
-                return false;
-            }
+        if (!spec.indexType().unsigned) {
+            Logger.error("Expected a unsigned type as index type, got %s", spec.indexType());
+            return false;
         }
 
         drawMode = spec.mode();

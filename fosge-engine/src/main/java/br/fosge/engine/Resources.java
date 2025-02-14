@@ -44,7 +44,7 @@ public abstract class Resources implements Facade {
     }
 
     public static void free(ByteBuffer buffer) {
-        if (RT.debug && buffer == null) { Logger.fatal("ByteBuffer is null"); return; }
+        if (buffer == null) { Logger.fatal("ByteBuffer is null"); return; }
         if (!RT.Memory.buffers.remove(buffer)) { Logger.warn("Unknown buffer"); return;}
         RT.Memory.offHeap += buffer.capacity();
         Memory.free(buffer);
@@ -54,14 +54,12 @@ public abstract class Resources implements Facade {
      * @see RT.Audio#monoSourceLimit
      */
     public static AudioSource audioSource() {
-        if (RT.debug) {
-            if (RT.Audio.monoSources.size() >= RT.Audio.monoSourceLimit * 0.8f) {
-                Logger.warn("80% mono sources utilization [curr %d, limit %d]", RT.Audio.monoSources.size(), RT.Audio.monoSourceLimit);
-            }
+        if (RT.Audio.monoSources.size() >= RT.Audio.monoSourceLimit * 0.8f) {
+            Logger.warn("80% mono sources utilization [curr %d, limit %d]", RT.Audio.monoSources.size(), RT.Audio.monoSourceLimit);
+        }
 
-            if (RT.Audio.monoSources.size() == RT.Audio.monoSourceLimit) {
-                Logger.fatal("100% mono sources utilization");
-            }
+        if (RT.Audio.monoSources.size() == RT.Audio.monoSourceLimit) {
+            Logger.fatal("100% mono sources utilization");
         }
 
         final var source = audio.source();
@@ -70,7 +68,7 @@ public abstract class Resources implements Facade {
     }
 
     public static void free(AudioSource source) {
-        if (RT.debug && source == null) { Logger.fatal("AudioSource is null"); return; }
+        if (source == null) { Logger.fatal("AudioSource is null"); return; }
         RT.Audio.monoSources.remove(source);
         source.terminate();
 
@@ -83,13 +81,11 @@ public abstract class Resources implements Facade {
 
     public static AudioBuffer audioBuffer(String path) {
         final var absolute = filesystem.assets.resolve(path);
-        if (RT.debug) {
-            for (final var buffer : RT.Audio.buffers) {
-                if (((AudioBuffer) buffer).path().equals(absolute)) {
-                    Logger.warn("Already loaded: %s", absolute);
-                    Logger.stackTrace(LogLevel.WARN);
-                    return Meta.cast(buffer, AudioBuffer.class);
-                }
+        for (final var buffer : RT.Audio.buffers) {
+            if (((AudioBuffer) buffer).path().equals(absolute)) {
+                Logger.warn("Already loaded: %s", absolute);
+                Logger.stackTrace(LogLevel.WARN);
+                return Meta.cast(buffer, AudioBuffer.class);
             }
         }
 
@@ -105,14 +101,12 @@ public abstract class Resources implements Facade {
     }
 
     public static void free(AudioBuffer buffer) {
-        if (RT.debug) {
-            if(buffer == null) { Logger.fatal("AudioBuffer is null"); return; }
-            for (final var source : RT.Audio.monoSources) {
-                if (((AudioSource)source).buffer().equals(buffer)) {
-                    Logger.warn("Audio buffer still in use: %s", buffer);
-                    Logger.stackTrace(LogLevel.WARN);
-                    return;
-                }
+        if(buffer == null) { Logger.fatal("AudioBuffer is null"); return; }
+        for (final var source : RT.Audio.monoSources) {
+            if (((AudioSource)source).buffer().equals(buffer)) {
+                Logger.warn("Audio buffer still in use: %s", buffer);
+                Logger.stackTrace(LogLevel.WARN);
+                return;
             }
         }
 
@@ -135,20 +129,18 @@ public abstract class Resources implements Facade {
     }
 
     public static void free(Geometry geometry) {
-        if (RT.debug && geometry == null) { Logger.fatal("Geometry is null"); return; }
+        if (geometry == null) { Logger.fatal("Geometry is null"); return; }
         if (!geometry.terminate()) { Logger.error("Failed to terminate geometry"); }
         RT.Graphics.geometries.remove(geometry);
     }
 
     public static Texture2D texture2d(TextureSpec spec) {
         final var absolute = filesystem.assets.resolve(spec.path());
-        if (RT.debug) {
-            for (final var texture : RT.Graphics.textures) {
-                if (((Texture) texture).path().equals(absolute)) {
-                    Logger.warn("Utilizing loaded: %s", absolute);
-                    Logger.stackTrace(LogLevel.WARN);
-                    return Meta.cast(texture, Texture2D.class);
-                }
+        for (final var texture : RT.Graphics.textures) {
+            if (((Texture) texture).path().equals(absolute)) {
+                Logger.warn("Utilizing loaded: %s", absolute);
+                Logger.stackTrace(LogLevel.WARN);
+                return Meta.cast(texture, Texture2D.class);
             }
         }
 
@@ -166,7 +158,7 @@ public abstract class Resources implements Facade {
     }
 
     public static void free(Texture texture) {
-        if (RT.debug && texture == null) { Logger.fatal("Texture is null"); return; }
+        if (texture == null) { Logger.fatal("Texture is null"); return; }
         Renderer.submit((Callable<Void>) () -> {
             if (!texture.terminate()) { Logger.error("Failed to terminate texture"); }
             RT.Graphics.textures.remove(texture);
@@ -179,13 +171,11 @@ public abstract class Resources implements Facade {
     }
 
     public static Shader shader(ShaderSpec specification) {
-        if (RT.debug) {
-            for (final var object : RT.Graphics.shaders) {
-                final var shader = (Shader) object;
-                if (shader.script().equals(specification.script())) {
-                    Logger.warn("Utilizing loaded: %s", specification.script());
-                    return shader;
-                }
+        for (final var object : RT.Graphics.shaders) {
+            final var shader = (Shader) object;
+            if (shader.script().equals(specification.script())) {
+                Logger.warn("Utilizing loaded: %s", specification.script());
+                return shader;
             }
         }
 
@@ -203,7 +193,7 @@ public abstract class Resources implements Facade {
     }
 
     public static void free(Shader shader) {
-        if (RT.debug && shader == null) { Logger.fatal("Shader is null"); return; }
+        if (shader == null) { Logger.fatal("Shader is null"); return; }
 
         if (!shader.terminate()) { Logger.error("Failed to terminate shader: %s", shader); }
         RT.Graphics.shaders.remove(shader);

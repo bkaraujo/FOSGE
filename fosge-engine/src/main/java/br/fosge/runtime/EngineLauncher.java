@@ -4,7 +4,6 @@ import br.fosge.RT;
 import br.fosge.commons.Launcher;
 import br.fosge.commons.Logger;
 import br.fosge.commons.filesystem.Directories;
-import br.fosge.commons.logger.LogLevel;
 import br.fosge.commons.serializer.Yaml;
 import br.fosge.runtime.renderer.RenderThread;
 
@@ -34,22 +33,22 @@ public final class EngineLauncher extends Launcher {
             Logger.info("Initializing Application");
         }
 
-        final var trace = RT.yaml.asBoolean("fosge.engine.trace");
-        if (trace != null && trace) {
-            RT.debug = RT.trace = true;
-            Logger.level(LogLevel.TRACE);
-
-            final var debug = RT.yaml.asBoolean("fosge.engine.debug");
-            if (debug != null && !debug) {
-                Logger.warn("Because fosge.engine.trace is enabled, fosge.engine.debug is also enabled");
-            }
-        } else {
-            final var debug = RT.yaml.asBoolean("fosge.engine.debug");
-            if (debug != null && debug) {
-                RT.debug = true;
-                Logger.level(LogLevel.DEBUG);
-            }
-        }
+//        final var trace = RT.yaml.asBoolean("fosge.engine.trace");
+//        if (trace != null && trace) {
+//            RT.debug = RT.trace = true;
+//            Logger.level(LogLevel.TRACE);
+//
+//            final var debug = RT.yaml.asBoolean("fosge.engine.debug");
+//            if (debug != null && !debug) {
+//                Logger.warn("Because fosge.engine.trace is enabled, fosge.engine.debug is also enabled");
+//            }
+//        } else {
+//            final var debug = RT.yaml.asBoolean("fosge.engine.debug");
+//            if (debug != null && debug) {
+//                RT.debug = true;
+//                Logger.level(LogLevel.DEBUG);
+//            }
+//        }
 
         if (!Platform.initialize()) {
             Logger.error("Platform failed to initialize");

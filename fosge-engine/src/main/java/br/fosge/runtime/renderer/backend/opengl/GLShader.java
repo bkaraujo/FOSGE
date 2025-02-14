@@ -61,13 +61,13 @@ public final class GLShader implements Shader {
 
     @Override
     public boolean configure(Specification specification) {
-        if (RT.debug && program == GL11.GL_NONE) {
+        if (program == GL11.GL_NONE) {
             Logger.warn("Shader not initialized");
             return false;
         }
 
         final var spec = Meta.cast(specification, ShaderSpec.class);
-        if (RT.debug && spec.sources().size() < 2) {
+        if (spec.sources().size() < 2) {
             Logger.error("Expecting at least a 2 stages shader, got %d", spec.sources().size());
             return false;
         }

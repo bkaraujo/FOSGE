@@ -30,12 +30,9 @@ public abstract class RT implements State {
 
     public static int frame;
     public static int framePerSecond;
-    public static boolean debug;
-    public static boolean trace;
     public static boolean running;
     public static boolean suspended;
     public static boolean threadMain;
-    public static boolean threadRenderer;
     public static Yaml yaml;
 
     public static abstract class Factory {

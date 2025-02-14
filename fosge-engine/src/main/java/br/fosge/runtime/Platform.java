@@ -39,7 +39,6 @@ public abstract class Platform implements Facade {
         }
 
         if (!window.initialize()) { return false; }
-        if (!graphics.initialize()) { return false; }
         if (!audio.initialize()) { return false; }
         if (!input.initialize()) { return false; }
 
@@ -52,7 +51,6 @@ public abstract class Platform implements Facade {
 
         if (!input.terminate()) { return false; }
         if (!audio.terminate()) { return false; }
-        if (!graphics.terminate()) { return false; }
         if (!window.terminate()) { return false; }
 
         glfw.glfwTerminate();

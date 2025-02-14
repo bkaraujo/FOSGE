@@ -1,23 +1,17 @@
 package br.fosge.runtime.platform;
 
-import br.fosge.commons.annotation.Lifecycle;
 import br.fosge.commons.message.MessageListener;
 import br.fosge.commons.message.MessagePipeline;
 import br.fosge.engine.platform.window.WindowResizedEvent;
 import br.fosge.runtime.renderer.Renderer;
 import org.joml.Vector4fc;
-import org.lwjgl.opengl.GLCapabilities;
-import org.lwjgl.opengl.GLDebugMessageCallback;
 
 import java.util.concurrent.Callable;
 
 import static br.fosge.runtime.platform.Bindings.opengl;
 import static br.fosge.runtime.platform.binding.OpenGL.*;
 
-public final class PlatformGraphics implements Lifecycle {
-
-    private GLCapabilities capabilities;
-    private GLDebugMessageCallback debugCallback;
+public final class PlatformGraphics {
 
     @MessageListener
     public MessagePipeline handle(WindowResizedEvent event) {

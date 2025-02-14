@@ -1,6 +1,5 @@
 package br.fosge.runtime.platform.binding.opengl.impl;
 
-import br.fosge.RT;
 import br.fosge.commons.Logger;
 import br.fosge.commons.logger.LogLevel;
 import br.fosge.runtime.platform.binding.opengl.api.*;

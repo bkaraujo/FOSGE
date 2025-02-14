@@ -1,6 +1,5 @@
 package br.fosge.runtime.platform.binding.opengl;
 
-import br.fosge.RT;
 import br.fosge.commons.Logger;
 import br.fosge.runtime.platform.binding.Aspects;
 import org.aspectj.lang.ProceedingJoinPoint;

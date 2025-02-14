@@ -1,6 +1,5 @@
 package br.fosge.runtime.platform.binding.openal;
 
-import br.fosge.RT;
 import br.fosge.runtime.platform.binding.Aspects;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
